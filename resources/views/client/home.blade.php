@@ -676,6 +676,1032 @@
     transform: rotate(30deg);
     transition: all 0.3s ease;
 }
+
+/* New Counters Section */
+.counters-section {
+    background-color: #F8F4F8; /* Light peachy background */
+    padding: 4rem 1.5rem;
+    text-align: center;
+}
+
+.counters-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.counter-card {
+    background-color: white;
+    padding: 2rem 1.5rem;
+    border-radius: 1.5rem; /* More rounded corners */
+    border: 1px solid #f0e6db; /* Light border matching background */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08); /* Soft shadow */
+    min-width: 220px;
+    max-width: 280px; /* Limit width on larger screens */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.counter-card:hover {
+    transform: translateY(-8px); /* Lift effect on hover */
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.12);
+}
+
+.counter-number {
+    font-size: 4rem; /* Large font size */
+    font-weight: 900; /* Extra bold */
+    color: #1a237e; /* Deep blue for number */
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.counter-number span.plus {
+    color: #ff9800; /* Orange for plus sign */
+    font-size: 0.8em; /* Slightly smaller plus */
+    vertical-align: top;
+}
+
+.counter-label {
+    font-size: 1.1rem; /* Slightly larger label */
+    font-weight: 600;
+    color: #546e7a; /* Greyish blue for label */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Responsive Adjustments for Counters */
+@media (max-width: 768px) {
+    .counters-section {
+        padding: 3rem 1rem;
+    }
+
+    .counters-container {
+        gap: 1.5rem;
+    }
+
+    .counter-card {
+        min-width: 180px;
+        padding: 1.5rem 1rem;
+    }
+
+    .counter-number {
+        font-size: 3.5rem;
+    }
+
+    .counter-label {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .counters-section {
+        padding: 2rem 0.5rem;
+    }
+
+    .counters-container {
+        gap: 1rem;
+    }
+
+    .counter-card {
+        min-width: 140px;
+        padding: 1rem 0.75rem;
+        border-radius: 1rem;
+    }
+
+    .counter-number {
+        font-size: 3rem;
+    }
+
+    .counter-label {
+        font-size: 0.9rem;
+    }
+}
+
+/* Event Detail Section */
+.event-detail-section {
+    background-color: #000; /* Black background */
+    padding: 5rem 1.5rem;
+}
+
+.event-section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.event-section-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: white;
+    margin-bottom: 0.75rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+.event-section-subtitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #ff9800; /* Orange color */
+    margin-bottom: 0;
+}
+
+.event-detail-card {
+    background-color: #1a1a1a; /* Dark background for the card */
+    border-radius: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column; /* Stack on small screens */
+    margin-bottom: 2rem; /* Add space below each card */
+}
+
+.event-image-container {
+    flex-shrink: 0;
+}
+
+.event-image-container img {
+    display: block;
+    width: 100%;
+    height: auto; /* Default height auto */
+    object-fit: cover;
+}
+
+.event-content-container {
+    padding: 2rem;
+    color: white;
+    flex-grow: 1;
+}
+
+.event-meta {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap; /* Allow wrapping */
+}
+
+.event-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    color: #b0bec5; /* Light grey for meta info */
+}
+
+.event-meta-item i {
+    color: #ff9800; /* Orange icon color */
+}
+
+.event-detail-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.event-detail-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #b0bec5;
+    margin-bottom: 2rem;
+}
+
+.event-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap; /* Allow buttons to wrap */
+}
+
+.btn-view-more, .btn-get-ticket {
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-view-more {
+    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); /* Orange gradient */
+    color: white !important;
+    border: none;
+    box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
+}
+
+.btn-view-more:hover {
+    background: linear-gradient(135deg, #f57c00 0%, #ef6c00 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(255, 152, 0, 0.4);
+}
+
+.btn-get-ticket {
+    background-color: white;
+    color: #1a1a1a !important; /* Dark text */
+    border: 2px solid #b0bec5; /* Light grey border */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-get-ticket:hover {
+    background-color: #e0e0e0;
+    border-color: #90a4ae;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive adjustments for Event Detail */
+@media (min-width: 768px) {
+    .event-detail-card {
+        flex-direction: row;
+        align-items: stretch; /* Ensure children stretch to fill height */
+    }
+
+    .event-image-container {
+        flex-basis: 32%; /* Reduced size on larger screens */
+        height: 100%; /* Ensure container takes full height of flex item */
+    }
+
+    .event-image-container img {
+        width: 100%;
+        height: 100%; /* Make image take full height of its container */
+        object-fit: cover;
+    }
+
+    .event-content-container {
+        flex-basis: 70%; /* Increased size for content */
+    }
+}
+
+@media (max-width: 768px) {
+    .event-detail-card {
+        flex-direction: column; /* Stack vertically on small screens */
+    }
+
+    .event-image-container img {
+        height: 250px; /* Fixed height for images on small screens */
+        object-fit: cover;
+    }
+
+    .event-content-container {
+        padding: 1.5rem;
+    }
+
+    .event-detail-title {
+        font-size: 1.5rem;
+    }
+
+    .event-detail-description {
+        font-size: 0.95rem;
+    }
+
+    .event-meta {
+        gap: 1rem;
+    }
+
+    .event-buttons {
+        flex-direction: column; /* Stack buttons on extra small screens */
+        gap: 0.75rem;
+    }
+
+     .btn-view-more, .btn-get-ticket {
+        width: 100%; /* Full width buttons */
+     }
+}
+
+/* New Offering Section */
+.offering-section {
+    background-color: white;
+    padding: 5rem 1.5rem;
+    text-align: center;
+}
+
+.offering-header {
+    margin-bottom: 3rem;
+}
+
+.offering-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #1a1a1a; /* Dark text */
+    margin-bottom: 0;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.offering-cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.offering-card {
+    background-color: #ffffff;
+    padding: 2rem 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid #e0e0e0; /* Light grey border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    min-width: 220px;
+    max-width: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.offering-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.offering-icon {
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ff9800; /* Orange background */
+    border-radius: 0.75rem;
+    color: white;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.offering-label {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a1a1a; /* Dark text */
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/* Responsive adjustments for Offering Section */
+@media (max-width: 768px) {
+    .offering-section {
+        padding: 3rem 1rem;
+    }
+
+    .offering-header {
+        margin-bottom: 2rem;
+    }
+
+    .offering-title {
+        font-size: 2rem;
+    }
+
+    .offering-cards-container {
+        gap: 1.5rem;
+    }
+
+    .offering-card {
+        min-width: 180px;
+        padding: 1.5rem 1rem;
+    }
+
+    .offering-icon {
+        width: 3.5rem;
+        height: 3.5rem;
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .offering-label {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .offering-section {
+        padding: 2rem 0.5rem;
+    }
+
+    .offering-title {
+        font-size: 1.75rem;
+    }
+
+    .offering-cards-container {
+        gap: 1rem;
+    }
+
+    .offering-card {
+        min-width: 140px;
+        padding: 1rem 0.75rem;
+    }
+
+    .offering-icon {
+        width: 3rem;
+        height: 3rem;
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .offering-label {
+        font-size: 0.9rem;
+    }
+}
+
+/* New Why Should Attend Section */
+.why-attend-section {
+    background-color: #f8f4f8; /* Light background */
+    padding: 5rem 1.5rem;
+    text-align: center;
+}
+
+.why-attend-header {
+    margin-bottom: 3rem;
+}
+
+.why-attend-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #1a1a1a; /* Dark text */
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.why-attend-subtitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ff9800; /* Orange color */
+    margin-bottom: 0;
+}
+
+.why-attend-cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.why-attend-card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    max-width: 400px; /* Limit card width */
+    text-align: left;
+}
+
+.why-attend-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a1a1a; /* Dark text */
+    margin-bottom: 1rem;
+}
+
+.why-attend-card-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #546e7a; /* Greyish blue text */
+    margin-bottom: 0;
+}
+
+/* Responsive adjustments for Why Should Attend Section */
+@media (max-width: 768px) {
+    .why-attend-section {
+        padding: 3rem 1rem;
+    }
+
+    .why-attend-header {
+        margin-bottom: 2rem;
+    }
+
+    .why-attend-title {
+        font-size: 2rem;
+    }
+
+    .why-attend-subtitle {
+        font-size: 1rem;
+    }
+
+    .why-attend-cards-container {
+        gap: 1.5rem;
+    }
+
+    .why-attend-card {
+        padding: 1.5rem;
+    }
+
+    .why-attend-card-title {
+        font-size: 1.1rem;
+    }
+
+    .why-attend-card-description {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .why-attend-section {
+        padding: 2rem 0.5rem;
+    }
+
+    .why-attend-title {
+        font-size: 1.75rem;
+    }
+
+    .why-attend-cards-container {
+        gap: 1rem;
+    }
+
+    .why-attend-card {
+        padding: 1rem;
+    }
+
+    .why-attend-card-title {
+        font-size: 1rem;
+    }
+
+    .why-attend-card-description {
+        font-size: 0.9rem;
+    }
+}
+
+/* New Event Highlight Section */
+.event-highlight-section {
+    background-color: #fff4ec; /* Light peachy background */
+    padding: 5rem 1.5rem;
+}
+
+.event-highlight-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 1rem; /* Space between title/subtitle and button */
+}
+
+.event-highlight-title-container {
+    text-align: left;
+    flex-grow: 1;
+}
+
+.event-highlight-subtitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ff9800; /* Orange color */
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.event-highlight-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #1a1a1a; /* Dark text */
+    margin-bottom: 0;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.btn-see-more {
+    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); /* Orange gradient */
+    color: white !important;
+    border: none;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+.btn-see-more:hover {
+     background: linear-gradient(135deg, #f57c00 0%, #ef6c00 100%);
+     transform: translateY(-2px);
+     box-shadow: 0 6px 12px rgba(255, 152, 0, 0.4);
+}
+
+.event-highlight-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+    gap: 1.5rem;
+}
+
+.event-highlight-card {
+    background-color: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event-highlight-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.event-highlight-card img {
+    width: 100%;
+    height: 200px; /* Fixed height for images */
+    object-fit: cover;
+    display: block;
+}
+
+/* Responsive adjustments for Event Highlight Section */
+@media (max-width: 768px) {
+    .event-highlight-section {
+        padding: 3rem 1rem;
+    }
+
+    .event-highlight-header {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+    }
+
+    .event-highlight-title-container {
+        text-align: center; /* Center title on small screens */
+        width: 100%;
+    }
+
+    .event-highlight-subtitle {
+        text-align: center;
+    }
+
+    .event-highlight-title {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .btn-see-more {
+        width: 100%; /* Full width button on small screens */
+        margin-top: 1rem; /* Add space above button */
+    }
+
+    .event-highlight-cards-container {
+         gap: 1rem;
+    }
+
+    .event-highlight-card img {
+        height: 180px;
+    }
+}
+
+@media (max-width: 480px) {
+    .event-highlight-section {
+        padding: 2rem 0.5rem;
+    }
+
+    .event-highlight-title {
+        font-size: 1.75rem;
+    }
+
+    .event-highlight-subtitle {
+         font-size: 1rem;
+    }
+
+    .event-highlight-cards-container {
+         grid-template-columns: 1fr; /* Stack cards on extra small screens */
+         gap: 1rem;
+    }
+
+    .event-highlight-card img {
+        height: 160px;
+    }
+}
+
+/* New Speaker Section */
+.speaker-section {
+    background-color: #f8f8f8; /* Light background */
+    padding: 5rem 1.5rem;
+}
+
+.speaker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.speaker-title-container {
+    text-align: left;
+    flex-grow: 1;
+}
+
+.speaker-subtitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ff9800; /* Orange color */
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.speaker-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #1a1a1a; /* Dark text */
+    margin-bottom: 0;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.btn-speaker-see-more {
+    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); /* Orange gradient */
+    color: white !important;
+    border: none;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.btn-speaker-see-more:hover {
+     background: linear-gradient(135deg, #f57c00 0%, #ef6c00 100%);
+     transform: translateY(-2px);
+     box-shadow: 0 6px 12px rgba(255, 152, 0, 0.4);
+}
+
+.speaker-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid for cards */
+    gap: 2rem;
+}
+
+.speaker-card {
+    background-color: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1.5rem; /* Space below content */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.speaker-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.speaker-image-container {
+    background-color: #e0e0e0; /* Grey background for placeholder */
+    border-radius: 50%; /* Circular image */
+    width: 150px; /* Size of the circle */
+    height: 150px; /* Size of the circle */
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+
+ .speaker-image-container img {
+     display: block;
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+ }
+
+.speaker-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a1a1a; /* Dark text */
+    margin-bottom: 0.25rem;
+    text-align: center;
+}
+
+.speaker-position {
+    font-size: 1rem;
+    color: #ff9800; /* Orange color */
+    margin-bottom: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.speaker-social {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.speaker-social a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    background-color: #ff9800; /* Orange background */
+    border-radius: 50%;
+    color: white; /* White icon */
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.speaker-social a:hover {
+    background-color: #f57c00; /* Darker orange on hover */
+}
+
+/* Responsive adjustments for Speaker Section */
+ @media (max-width: 768px) {
+    .speaker-section {
+        padding: 3rem 1rem;
+    }
+
+    .speaker-header {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+    }
+
+    .speaker-title-container {
+        text-align: center;
+        width: 100%;
+    }
+
+    .speaker-subtitle {
+        text-align: center;
+    }
+
+    .speaker-title {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .btn-speaker-see-more {
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .speaker-cards-container {
+        gap: 1.5rem;
+    }
+
+    .speaker-image-container {
+        width: 120px;
+        height: 120px;
+         margin-top: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .speaker-name {
+        font-size: 1.1rem;
+    }
+
+    .speaker-position {
+        font-size: 0.9rem;
+         margin-bottom: 0.75rem;
+    }
+
+     .speaker-social a {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+     }
+}
+
+@media (max-width: 480px) {
+     .speaker-section {
+        padding: 2rem 0.5rem;
+    }
+
+    .speaker-title {
+        font-size: 1.75rem;
+    }
+
+    .speaker-subtitle {
+        font-size: 1rem;
+    }
+
+    .speaker-cards-container {
+         grid-template-columns: 1fr; /* Stack cards */
+         gap: 1rem;
+    }
+
+    .speaker-image-container {
+        width: 100px;
+        height: 100px;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+     .speaker-name {
+        font-size: 1rem;
+    }
+
+    .speaker-position {
+        font-size: 0.8rem;
+         margin-bottom: 0.5rem;
+    }
+
+    .speaker-social a {
+        width: 25px;
+        height: 25px;
+        font-size: 0.8rem;
+     }
+}
+
+/* New Location Section */
+.location-section {
+    background-color: white;
+    padding: 5rem 1.5rem;
+}
+
+.location-content {
+    display: flex;
+    flex-direction: column; /* Stack on small screens */
+    gap: 2rem;
+}
+
+.location-text {
+    flex: 1;
+}
+
+.location-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #1a1a1a; /* Dark text */
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.location-description {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: #546e7a; /* Greyish blue text */
+    margin-bottom: 0;
+}
+
+.location-map {
+    flex: 1;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.location-map iframe {
+    width: 100%;
+    height: 100%; /* Fixed height for the map */
+    border: 0;
+}
+
+/* Responsive adjustments for Location Section */
+@media (min-width: 768px) {
+    .location-content {
+        flex-direction: row; /* Row layout on larger screens */
+    }
+
+    .location-text {
+        flex-basis: 50%; /* Adjust as needed */
+    }
+
+    .location-map {
+        flex-basis: 50%; /* Adjust as needed */
+    }
+}
+
+@media (max-width: 768px) {
+    .location-section {
+        padding: 3rem 1rem;
+    }
+
+    .location-title {
+        font-size: 2rem;
+    }
+
+    .location-description {
+        font-size: 1rem;
+    }
+
+    .location-map iframe {
+        height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .location-section {
+        padding: 2rem 0.5rem;
+    }
+
+    .location-title {
+        font-size: 1.75rem;
+    }
+
+    .location-description {
+        font-size: 0.9rem;
+    }
+
+    .location-map iframe {
+        height: 250px;
+    }
+}
 </style>
 @endpush
 
@@ -821,6 +1847,284 @@
                         </a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Counters Section -->
+<div class="counters-section">
+    <div class="container">
+        <div class="counters-container">
+            <div class="counter-card">
+                <div class="counter-number">16<span class="plus">+</span></div>
+                <div class="counter-label">Our Speaker</div>
+            </div>
+            <div class="counter-card">
+                <div class="counter-number">3<span class="plus">+</span></div>
+                <div class="counter-label">Our Session</div>
+            </div>
+            <div class="counter-card">
+                <div class="counter-number">20<span class="plus">+</span></div>
+                <div class="counter-label">Our Sponsors</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Event Detail Section -->
+<div class="event-detail-section">
+    <div class="container">
+        <div class="event-section-header">
+            <h2 class="event-section-title">OUR EVENTS</h2>
+            <p class="event-section-subtitle">THIS YEAR WE BRINGS YOU INDUSTRY LEADERS, INNOVATORS AND DECISION-MAKERS AT THE PREMIER EVENT OF THE YEAR!</p>
+        </div>
+        <div class="event-detail-card">
+            <div class="event-image-container">
+                <img src="{{ asset('images/event-home-1.jpg') }}" alt="Event Image">
+            </div>
+            <div class="event-content-container">
+                <div class="event-meta">
+                    <div class="event-meta-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>MITEC, Kuala Lumpur</span>
+                    </div>
+                    <div class="event-meta-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>29 Oct 2025</span>
+                    </div>
+                    <div class="event-meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>08 AM - 04 PM</span>
+                    </div>
+                </div>
+                <h3 class="event-detail-title">TRANSFORMING ASEAN'S CONSTRUCTION LANDSCAPE</h3>
+                <p class="event-detail-description">
+                    As part of BINA Conference at ICW 2025, MODULAR ASIA is a premier forum and exhibition dedicated to advancing Modular 
+                    Technology, Modern Methods of Construction (MMC), and Industrialised Building Systems (IBS).
+                </p>
+                <p class="event-detail-description">
+                    by MODULAR ASIA FORUM & EXHIBITION
+                </p>
+                <div class="event-buttons">
+                    <a href="#" class="btn-view-more">VIEW MORE</a>
+                    <a href="#" class="btn-get-ticket">GET TICKET</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Duplicate the event-detail-card structure -->
+    <div class="container">
+        <div class="event-detail-card">
+            <div class="event-image-container">
+                <img src="{{ asset('images/event-home-2.jpg') }}" alt="Another Event Image">
+            </div>
+            <div class="event-content-container">
+                <div class="event-meta">
+                    <div class="event-meta-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>MITEC, Kuala Lumpur</span>
+                    </div>
+                    <div class="event-meta-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>30 Oct 2025</span>
+                    </div>
+                    <div class="event-meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>08 AM - 04 PM</span>
+                    </div>
+                </div>
+                <h3 class="event-detail-title">WHERE EXPERTISE MEETS BUSINESS GROWTH!</h3>
+                <p class="event-detail-description">
+                    As part of BINA 2025 at ICW, Facility Management Engagement Day goes beyond a traditional conference—it's a dynamic platform for industry leaders, innovators, and businesses to exchange expertise, explore best practices, and unlock new opportunities in facility management.
+                </p>
+                <p class="event-detail-description">
+                    by FACILITY MANAGEMENT ENGAGEMENT DAY 2025
+                </p>
+                <div class="event-buttons">
+                    <a href="#" class="btn-view-more">VIEW MORE</a>
+                    <a href="#" class="btn-get-ticket">GET TICKET</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Offering Section -->
+<div class="offering-section">
+    <div class="container">
+        <div class="offering-header">
+            <h2 class="offering-title">EXPERIENCE OUR OFFERING</h2>
+        </div>
+        <div class="offering-cards-container">
+            <div class="offering-card">
+                <div class="offering-icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <div class="offering-label">DELIVERING OUR INSIGHT</div>
+            </div>
+            <div class="offering-card">
+                <div class="offering-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <div class="offering-label">NETWORKING POTENTIAL</div>
+            </div>
+            <div class="offering-card">
+                <div class="offering-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="offering-label">SHAPING THE DIALOGUE</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Why Should Attend Section -->
+<div class="why-attend-section">
+    <div class="container">
+        <div class="why-attend-header">
+            <h2 class="why-attend-title">WHY SHOULD ATTEND?</h2>
+            <p class="why-attend-subtitle">THIS YEAR WE BRINGS YOU INDUSTRY LEADERS, INNOVATORS, AND DECISION-MAKERS AT THE PREMIER EVENT OF THE YEAR!</p>
+        </div>
+        <div class="why-attend-cards-container">
+            <div class="why-attend-card">
+                <h3 class="why-attend-card-title">CONSTRUCTION PROFESSIONALS</h3>
+                <p class="why-attend-card-description">
+                    Architects, engineers, contractors, and developers looking to stay ahead with cutting-edge technologies
+                </p>
+            </div>
+            <div class="why-attend-card">
+                <h3 class="why-attend-card-title">TECHNOLOGY PROVIDERS</h3>
+                <p class="why-attend-card-description">
+                    Explore innovations like modular, IBS, BIM, 3D printing, facility, maintenance and automation
+                </p>
+            </div>
+            <div class="why-attend-card">
+                <h3 class="why-attend-card-title">ARE THESE RESOURCES AVAILABLE FOR REMOTE PARTICIPATION IN EVENTS?</h3>
+                <p class="why-attend-card-description">
+                    Explore new innovation and opportunities in current construction technology
+                </p>
+            </div>
+            <div class="why-attend-card">
+                <h3 class="why-attend-card-title">ARE THESE RESOURCES AVAILABLE FOR REMOTE PARTICIPATION IN EVENTS?</h3>
+                <p class="why-attend-card-description">
+                    Learn about the economic and social impacts of advanced building technologies
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Event Highlight Section -->
+<div class="event-highlight-section">
+    <div class="container">
+        <div class="event-highlight-header">
+            <div class="event-highlight-title-container">
+                <p class="event-highlight-subtitle">OUR BLOG</p>
+                <h2 class="event-highlight-title">EVENT AND HIGHLIGHT</h2>
+            </div>
+            <a href="#" class="btn-see-more">SEE MORE</a>
+        </div>
+        <div class="event-highlight-cards-container">
+            <div class="event-highlight-card">
+                <img src="{{ asset('images/event-hightlight-1.jpg') }}" alt="Event Highlight Image 1">
+            </div>
+             <div class="event-highlight-card">
+                <img src="{{ asset('images/event-hightlight-2.jpg') }}" alt="Event Highlight Image 2">
+            </div>
+             <div class="event-highlight-card">
+                <img src="{{ asset('images/event-hightlight-3.jpg') }}" alt="Event Highlight Image 3">
+            </div>
+             <div class="event-highlight-card">
+                <img src="{{ asset('images/event-hightlight-4.jpg') }}" alt="Event Highlight Image 4">
+            </div>
+            <div class="event-highlight-card">
+                <img src="{{ asset('images/event-hightlight-5.jpg') }}" alt="Event Highlight Image 5">
+            </div>
+            <div class="event-highlight-card">
+                <img src="{{ asset('images/event-hightlight-6.jpg') }}" alt="Event Highlight Image 6">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Speaker Section -->
+<div class="speaker-section">
+    <div class="container">
+        <div class="speaker-header">
+            <div class="speaker-title-container">
+                <p class="speaker-subtitle">OUR SPEAKER</p>
+                <h2 class="speaker-title">MEET OUR SPEAKERS</h2>
+            </div>
+            <a href="#" class="btn-speaker-see-more">SEE MORE</a>
+        </div>
+        <div class="speaker-cards-container">
+            <div class="speaker-card">
+                <div class="speaker-image-container">
+                    <img src="{{ asset('https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg') }}" alt="Speaker Name">
+                </div>
+                <div class="speaker-name">SPEAKER NAME</div>
+                <div class="speaker-position">POSITION</div>
+                <div class="speaker-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="speaker-card">
+                <div class="speaker-image-container">
+                    <img src="{{ asset('https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg') }}" alt="Speaker Name">
+                </div>
+                <div class="speaker-name">SPEAKER NAME</div>
+                <div class="speaker-position">POSITION</div>
+                <div class="speaker-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="speaker-card">
+                <div class="speaker-image-container">
+                    <img src="{{ asset('https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg') }}" alt="Speaker Name">
+                </div>
+                <div class="speaker-name">SPEAKER NAME</div>
+                <div class="speaker-position">POSITION</div>
+                <div class="speaker-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+             <div class="speaker-card">
+                <div class="speaker-image-container">
+                    <img src="{{ asset('https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg') }}" alt="Speaker Name">
+                </div>
+                <div class="speaker-name">SPEAKER NAME</div>
+                <div class="speaker-position">POSITION</div>
+                <div class="speaker-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Location Section -->
+<div class="location-section">
+    <div class="container">
+        <div class="location-content">
+            <div class="location-text">
+                <h2 class="location-title">MALAYSIA INTERNATIONAL TRADE AND EXHIBITION</h2>
+                <p class="location-description">
+                    The Malaysia International Trade and Exhibition Centre (MITEC) is the country's largest exhibition centre with 1 million square feet of gross exhibition space. The first component and flagship of KL Metropolis, a city within a city where trade, commerce, living and transport converge over 75.5 acres of prime land development, MITEC is poised to be the exhibition venue of choice in the Southeast Asia region. The 12,960 sqm of column-free space on level 3 providing an unobstructed and expansive view, making it the largest pillar-less exhibition hall in Malaysia. The entire combined exhibition halls are able to accommodate up to 47,700 visitors in theatre style seating and 28,300 guests in the banquet arrangement at any one time.
+                </p>
+            </div>
+            <div class="location-map">
+                <iframe
+                    src="https://www.google.com/maps?q=3.1763952,101.6642961&hl=en&z=16&output=embed"
+                    allowfullscreen
+                    loading="lazy"
+                    style="width: 100%; height: 100%; border: 0;">
+                </iframe>            
             </div>
         </div>
     </div>
