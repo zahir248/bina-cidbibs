@@ -218,6 +218,15 @@
         height: 100%;
     }
 
+    .intro-subtitle {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #ff9800; /* Orange color */
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        line-height: 1.2;
+    }
+
     .intro-title {
         font-size: 2.5rem;
         font-weight: 800;
@@ -1833,6 +1842,170 @@
         grid-template-columns: 1fr; /* Stack logos on very small screens */
     }
 }
+
+/* New Feedback Section */
+.feedback-section {
+    background-color: #0d1117; /* Dark background */
+    padding: 5rem 1.5rem;
+    text-align: center;
+}
+
+.feedback-header {
+    margin-bottom: 3rem;
+}
+
+.feedback-subtitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ff9800; /* Orange color */
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.feedback-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: white; /* White text */
+    margin-bottom: 0;
+    line-height: 1.2;
+}
+
+.feedback-cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem; /* Space between cards */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.feedback-card {
+    background-color: #161b22; /* Slightly lighter dark background for cards */
+    border-radius: 1rem; /* Rounded corners */
+    padding: 2rem;
+    max-width: 450px; /* Max width for cards */
+    color: #c9d1d9; /* Light text color */
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content vertically within the card */
+}
+
+.feedback-text {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    font-style: italic; /* Italicize the quote text */
+}
+
+.feedback-avatar {
+    width: 80px; /* Avatar size */
+    height: 80px;
+    border-radius: 50%; /* Circular avatar */
+    background-color: #e0e0e0; /* Placeholder background */
+    margin-bottom: 1rem;
+    overflow: hidden; /* Hide overflow for the circular image */
+}
+
+.feedback-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the container */
+}
+
+.feedback-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white; /* White name color */
+    text-align: center;
+}
+
+.feedback-position {
+    font-size: 0.9rem; /* Smaller font size for position */
+    color: #b0bec5; /* Light grey color for position */
+    text-align: center;
+    margin-top: 0.25rem; /* Space above the position */
+}
+
+/* Responsive adjustments for Feedback Section */
+@media (max-width: 768px) {
+    .feedback-section {
+        padding: 3rem 1rem;
+    }
+
+    .feedback-header {
+        margin-bottom: 2rem;
+    }
+
+    .feedback-title {
+        font-size: 2rem;
+    }
+
+    .feedback-subtitle {
+        font-size: 1rem;
+    }
+
+    .feedback-cards-container {
+        gap: 1.5rem;
+    }
+
+    .feedback-card {
+        padding: 1.5rem;
+    }
+
+    .feedback-text {
+        font-size: 1rem;
+    }
+
+    .feedback-avatar {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 0.75rem;
+    }
+
+    .feedback-name {
+        font-size: 1.1rem;
+    }
+
+    .feedback-position {
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .feedback-section {
+        padding: 2rem 0.5rem;
+    }
+
+    .feedback-title {
+        font-size: 1.75rem;
+    }
+
+    .feedback-cards-container {
+        gap: 1rem;
+    }
+
+    .feedback-card {
+        padding: 1rem;
+    }
+
+    .feedback-text {
+        font-size: 0.9rem;
+    }
+
+    .feedback-avatar {
+        width: 50px;
+        height: 50px;
+    }
+
+    .feedback-name {
+        font-size: 1rem;
+    }
+
+    .feedback-position {
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+    }
+}
 </style>
 @endpush
 
@@ -1935,7 +2108,8 @@
             <!-- Right Side - Content -->
             <div class="col-lg-6">
                 <div class="intro-content">
-                    <h2 class="intro-title">Introduction About <span>BINA 2025</span></h2>
+                    <p class="intro-subtitle">Introduction About</p>
+                    <h2 class="intro-title">BINA 2025</h2>
                     <p class="intro-description">
                         BINA 2025 will showcase breakthrough solutions, foster high-impact discussions, and shape the next era of construction. Join us in celebrating five years of innovation—here industry meets transformation!
                     </p>
@@ -2298,6 +2472,34 @@
                 <div class="partner-logo-item">
                     <img src="{{ asset('images/partners.png') }}" alt="Partner Logo">
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Feedback Section -->
+<div class="feedback-section">
+    <div class="container">
+        <div class="feedback-header">
+            <p class="feedback-subtitle">Feedback</p>
+            <h2 class="feedback-title">WHAT DO VISITORS SAY?</h2>
+        </div>
+        <div class="feedback-cards-container">
+            <div class="feedback-card">
+                <div class="feedback-text">"Bina 2025 was a game-changer for our team. The insights we gained were invaluable and the networking opportunities were fantastic."</div>
+                <div class="feedback-avatar">
+                    <img src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg" alt="Avatar">
+                </div>
+                <div class="feedback-name">Tommy Yeoh</div>
+                <div class="feedback-position">Area Sales Manager (South East Asia mbk Maschinenbau GmBH)</div>
+            </div>
+            <div class="feedback-card">
+                <div class="feedback-text">"The event exceeded all our expectations. The speakers were knowledgeable and the discussions were insightful."</div>
+                <div class="feedback-avatar">
+                    <img src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg" alt="Avatar">
+                </div>
+                <div class="feedback-name">Zuliza Zulkifli</div>
+                <div class="feedback-position">Project Director Summercube Sdn Bhd</div>
             </div>
         </div>
     </div>
