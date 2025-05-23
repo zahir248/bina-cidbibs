@@ -713,7 +713,7 @@
 .counter-number {
     font-size: 4rem; /* Large font size */
     font-weight: 900; /* Extra bold */
-    color: #1a237e; /* Deep blue for number */
+    color: black; /* Black for number */
     line-height: 1;
     margin-bottom: 0.5rem;
 }
