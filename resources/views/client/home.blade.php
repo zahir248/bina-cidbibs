@@ -117,13 +117,13 @@
     .countdown-item:hover {
         transform: translateY(-5px);
         box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        border-color: var(--primary-blue);
+        border-color: #ff9800;
     }
 
     .countdown-number {
         font-size: 2.5rem;
         font-weight: 800;
-        color: var(--primary-blue);
+        color: #ff9800;
         line-height: 1;
         margin-bottom: 0.5rem;
         display: block;
@@ -227,7 +227,7 @@
     }
 
     .intro-title span {
-        color: var(--primary-blue);
+        color: #ff9800;
         position: relative;
     }
 
@@ -2171,10 +2171,10 @@ countdownElements.forEach(id => {
     const observer = new MutationObserver(() => {
         if (element.textContent !== previousValue) {
             element.style.transform = 'scale(1.1)';
-            element.style.color = '#1e40af'; // Use primary-dark color
+            element.style.color = '#ff9800'; // Use primary-dark color
             setTimeout(() => {
                 element.style.transform = 'scale(1)';
-                element.style.color = '#2563eb'; // Back to primary-blue
+                element.style.color = '#b36b00'; // Back to primary-blue
             }, 200);
             previousValue = element.textContent;
         }
