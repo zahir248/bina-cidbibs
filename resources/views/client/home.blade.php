@@ -1221,9 +1221,8 @@
     }
 }
 
-/* New Event Highlight Section */
 .event-highlight-section {
-    background-color: #fff4ec; /* Light peachy background */
+    background-color: white; /* Light peachy background */
     padding: 5rem 1.5rem;
 }
 
@@ -1370,7 +1369,6 @@
     }
 }
 
-/* New Speaker Section */
 .speaker-section {
     background-color: #f8f8f8; /* Light background */
     padding: 5rem 1.5rem;
@@ -1700,6 +1698,139 @@
 
     .location-map iframe {
         height: 250px;
+    }
+}
+
+/* New Partners Section */
+.partners-section {
+    background-color: #F8F8F8; /* White background */
+    padding: 5rem 1.5rem;
+}
+
+.partners-header {
+    margin-bottom: 3rem;
+}
+
+.partners-subtitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ff9800; /* Orange color */
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.partners-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #1a1a1a; /* Dark text */
+    margin-bottom: 0;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.partners-content {
+    display: flex;
+    gap: 3rem; /* Space between text and images */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.partners-text-container {
+    flex: 1;
+    min-width: 300px; /* Ensure text has a minimum width */
+}
+
+.partners-description {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: #546e7a; /* Greyish blue text */
+    margin-bottom: 2rem;
+}
+
+.partners-logo-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid for logos */
+    gap: 1.5rem;
+    align-items: center; /* Vertically center logos */
+    justify-items: center; /* Horizontally center logos */
+}
+
+.partner-logo-item {
+    background-color: white; /* Light peachy background for logo container */
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.partner-logo-item:hover {
+    transform: translateY(-5px);
+}
+
+.partner-logo-item img {
+    max-width: 100%;
+    height: auto;
+    max-height: 80px; /* Limit logo height */
+}
+
+/* Responsive adjustments for Partners Section */
+@media (max-width: 992px) {
+    .partners-content {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .partners-header {
+        text-align: center; /* Center header text on smaller screens */
+    }
+
+    .partners-text-container {
+        min-width: unset; /* Remove min-width for stacking */
+        text-align: center;
+    }
+
+    .partners-logo-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Adjust grid for smaller screens */
+        gap: 1rem;
+    }
+
+    .partner-logo-item {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .partners-section {
+        padding: 3rem 1rem;
+    }
+
+    .partners-header {
+        margin-bottom: 2rem;
+    }
+
+    .partners-subtitle {
+        font-size: 1rem;
+    }
+
+    .partners-title {
+        font-size: 2rem;
+    }
+
+    .partners-logo-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Adjust grid for even smaller screens */
+    }
+
+    .partner-logo-item img {
+        max-height: 60px;
+    }
+}
+
+@media (max-width: 400px) {
+    .partners-logo-grid {
+        grid-template-columns: 1fr; /* Stack logos on very small screens */
     }
 }
 </style>
@@ -2125,6 +2256,48 @@
                     loading="lazy"
                     style="width: 100%; height: 100%; border: 0;">
                 </iframe>            
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Partners Section -->
+<div class="partners-section">
+    <div class="container">
+        <div class="partners-header">
+            <p class="partners-subtitle">SPONSORS & PARTNERS</p>
+            <h2 class="partners-title">OUR OFFICIAL PARTNERS</h2>
+        </div>
+        <div class="partners-content">
+            <div class="partners-text-container">
+                <p class="partners-description">
+                    Now, it's your turn to be part of something bigger! Join us at BINA 2025 and
+                    be a driving force in shaping the future of ASEAN's construction industry.
+                </p>
+                <p class="partners-description">
+                    Together, let's innovate, collaborate, and build a smarter, more sustainable
+                    future! Partner with us. Lead the change. Construct the future!
+                </p>
+            </div>
+            <div class="partners-logo-grid">
+                <div class="partner-logo-item">
+                    <img src="{{ asset('images/partners.png') }}" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-item">
+                    <img src="{{ asset('images/partners.png') }}" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-item">
+                    <img src="{{ asset('images/partners.png') }}" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-item">
+                    <img src="{{ asset('images/partners.png') }}" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-item">
+                    <img src="{{ asset('images/partners.png') }}" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-item">
+                    <img src="{{ asset('images/partners.png') }}" alt="Partner Logo">
+                </div>
             </div>
         </div>
     </div>
