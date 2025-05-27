@@ -1,0 +1,154 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller; 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log; 
+use App\Models\User;
+use App\Models\Order;
+use App\Models\Ticket;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+
+class AuthController extends Controller
+{
+    public function loginPage()
+    {
+        if (auth()->check()) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return view('admin.auth.login');
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            
+            // Check if user is admin or superadmin
+            if ($user->role === 'admin' || $user->role === 'superadmin') {
+                $request->session()->regenerate();
+                return redirect()->intended(route('admin.dashboard'));
+            }
+            
+            // If not admin or superadmin, logout and redirect back
+            Auth::logout();
+            return back()->withErrors([
+                'email' => 'You do not have permission to access the admin area.',
+            ]);
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
+    }
+
+    public function dashboard()
+    {
+        // Get total users
+        $totalUsers = User::count();
+
+        // Get total orders and calculate revenue
+        $totalOrders = Order::count();
+        $totalRevenue = Order::where('status', 'paid')->sum('total_amount');
+
+        // Calculate success rate (percentage of paid orders)
+        $successRate = $totalOrders > 0 
+            ? (Order::where('status', 'paid')->count() / $totalOrders) * 100 
+            : 0;
+
+        // Get recent orders with billing details
+        $recentOrders = Order::with('billingDetail')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        // Get ticket statistics
+        $totalTickets = Ticket::count();
+        $lowStockTickets = Ticket::where('stock', '<', 10)->count();
+
+        // Calculate revenue for today and this month
+        $todayRevenue = Order::where('status', 'paid')
+            ->whereDate('created_at', Carbon::today())
+            ->sum('total_amount');
+
+        $monthlyRevenue = Order::where('status', 'paid')
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->sum('total_amount');
+
+        // Calculate sold quantity for every ticket
+        $tickets = \App\Models\Ticket::all();
+        $ticketNames = [];
+        $soldQuantities = [];
+        $ticketRevenues = [];
+        foreach ($tickets as $ticket) {
+            $sold = \App\Models\Order::where('status', 'paid')
+                ->get()
+                ->sum(function($order) use ($ticket) {
+                    $items = $order->cart_items;
+                    $qty = 0;
+                    foreach ($items as $item) {
+                        if (isset($item['ticket_id']) && $item['ticket_id'] == $ticket->id) {
+                            $qty += $item['quantity'];
+                        }
+                    }
+                    return $qty;
+                });
+            $ticketNames[] = $ticket->name;
+            $soldQuantities[] = $sold;
+
+            // Calculate revenue for each ticket (using discounted price)
+            $revenue = \App\Models\Order::where('status', 'paid')
+                ->get()
+                ->sum(function($order) use ($ticket) {
+                    $items = $order->cart_items;
+                    $amount = 0;
+                    foreach ($items as $item) {
+                        if (isset($item['ticket_id']) && $item['ticket_id'] == $ticket->id) {
+                            // Use discounted price if available, else use ticket price
+                            $price = isset($item['discounted_price']) ? $item['discounted_price'] : $ticket->price;
+                            $amount += $item['quantity'] * $price;
+                        }
+                    }
+                    return $amount;
+                });
+            $ticketRevenues[] = $revenue;
+        }
+
+        return view('admin.dashboard', compact(
+            'totalUsers',
+            'totalOrders',
+            'totalRevenue',
+            'successRate',
+            'recentOrders',
+            'totalTickets',
+            'lowStockTickets',
+            'todayRevenue',
+            'monthlyRevenue',
+            'ticketNames',
+            'soldQuantities',
+            'ticketRevenues'
+        ));
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
+    }
+
+}
