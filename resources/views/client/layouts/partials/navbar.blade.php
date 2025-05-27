@@ -21,8 +21,8 @@
                         </span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
-                        <li><a class="dropdown-item {{ request()->is('about') ? 'active' : '' }}" href="/about">About</a></li>
-                        <li><a class="dropdown-item {{ request()->is('terms') ? 'active' : '' }}" href="/terms">Terms of Service</a></li>
+                        <li><a class="dropdown-item {{ request()->is('about') ? 'active' : '' }}" href="{{ route('client.about') }}">About</a></li>
+                        <li><a class="dropdown-item {{ request()->is('terms') ? 'active' : '' }}" href="{{ route('client.terms') }}">Terms of Service</a></li>
                         <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle d-flex align-items-center gap-1" href="#">
                                 <span>Account</span>
@@ -87,8 +87,8 @@
                     <span class="chevron"><i class="fas fa-chevron-down"></i></span>
                 </a>
                 <ul class="collapse sidebar-submenu" id="aboutSidebarSubmenu">
-                    <li><a class="sidebar-link" href="/about">Go to About</a></li>
-                    <li><a class="sidebar-link" href="/terms">Terms of Service</a></li>
+                    <li><a class="sidebar-link" href="{{ route('client.about') }}">Go to About</a></li>
+                    <li><a class="sidebar-link" href="{{ route('client.terms') }}">Terms of Service</a></li>
                     <li>
                         <a class="sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#accountSidebarSubmenu" role="button" aria-expanded="false" aria-controls="accountSidebarSubmenu">
                             <span>Account</span>
