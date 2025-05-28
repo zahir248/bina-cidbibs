@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" href="{{ route('client.home') }}">
             <img src="{{ asset('images/bina-logo.png') }}" alt="BINA2025 Logo" class="navbar-logo">
         </a>
         <button class="navbar-toggler" type="button" id="sidebarToggle">
@@ -68,7 +68,7 @@
 <!-- Mobile Sidebar -->
 <div class="mobile-sidebar" id="mobileSidebar">
     <div class="sidebar-header">
-        <a class="sidebar-brand" href="/">
+        <a class="sidebar-brand" href="{{ route('client.home') }}">
             <img src="{{ asset('images/bina-logo.png') }}" alt="BINA2025 Logo" class="sidebar-logo">
         </a>
         <button class="sidebar-close" id="sidebarClose">
