@@ -121,62 +121,34 @@
         <div style="color:#ff9800;font-size:1.1rem;font-weight:600;letter-spacing:0.5px;">OUR TIMETABLE</div>
         <h2 style="font-size:2.7rem;font-weight:900;color:#181b2c;letter-spacing:1px;margin-bottom:0.5rem;">OUR SCHEDULE PLAN</h2>
     </div>
-    <div class="schedule-card d-flex flex-column flex-lg-row align-items-stretch p-3 p-md-4" style="background:#fff;border:1.5px solid #d1d5db;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);gap:2rem;max-width:1200px;margin:0 auto;">
+    
+    @foreach($events as $event)
+    <div class="schedule-card d-flex flex-column flex-lg-row align-items-stretch p-3 p-md-4" style="background:#fff;border:1.5px solid #d1d5db;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);gap:2rem;max-width:1200px;margin:0 auto;margin-bottom:2rem;">
         <!-- Left: Event Image -->
         <div class="flex-shrink-0 d-flex align-items-center justify-content-center" style="max-width:240px;width:100%;">
-            <img src="{{ asset('images/event-home-2.jpg') }}" alt="Event" style="width:100%;max-width:220px;aspect-ratio:1/1;object-fit:cover;border-radius:1.1rem;">
+            <img src="{{ asset($event->image ?? 'images/event-home-2.jpg') }}" alt="{{ $event->title }}" style="width:100%;max-width:220px;aspect-ratio:1/1;object-fit:cover;border-radius:1.1rem;">
         </div>
         <!-- Center: Event Info -->
         <div class="flex-grow-1 d-flex flex-column justify-content-center px-lg-3" style="min-width:0;border-left:1.5px solid #eee;border-right:1.5px solid #eee;">
             <div class="d-flex align-items-center gap-4 mb-2 flex-wrap" style="font-size:1.08rem;color:#ff9800;font-weight:600;">
-                <span><i class="fas fa-map-marker-alt me-1"></i> MITEC, Kuala Lumpur</span>
-                <span><i class="fas fa-calendar-alt me-1"></i> 29 Oct 2025</span>
-                <span><i class="fas fa-clock me-1"></i> 08 AM - 04.30 PM</span>
+                <span><i class="fas fa-map-marker-alt me-1"></i> {{ $event->location }}</span>
+                <span><i class="fas fa-calendar-alt me-1"></i> {{ $event->start_date->format('d M Y') }}</span>
+                <span><i class="fas fa-clock me-1"></i> {{ $event->start_date->format('h:i A') }} - {{ $event->end_date->format('h:i A') }}</span>
             </div>
             <div style="font-size:1.35rem;font-weight:900;color:#181b2c;line-height:1.3;margin-bottom:0.7rem;">
-                TRANSFORMING ASEAN'S CONSTRUCTION LANDSCAPE
+                {{ $event->title }}
             </div>
             <div style="font-size:1.08rem;color:#6b7280;line-height:1.7;margin-bottom:1.2rem;">
-                As part of BINA 2025 at ICW , Facility Management Engagement Day goes beyond a traditional conference—it's a dynamic platform for industry leaders, innovators, and businesses to exchange expertise, explore best practices, and unlock new opportunities in facility management.
+                {{ $event->description }}
             </div>
-            <div style="font-size:1.05rem;color:#181b2c;font-weight:600;">by FACILITY MANAGEMENT DAY 2025</div>
+            <div style="font-size:1.05rem;color:#181b2c;font-weight:600;">by {{ $event->organizer }}</div>
         </div>
         <!-- Right: Buttons -->
         <div class="d-flex flex-column align-items-center justify-content-center gap-3 py-3 px-lg-3" style="min-width:180px;">
-            <a href="/facility-management" class="btn" style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">VIEW MORE</a>
+            <a href="/events/{{ $event->slug }}" class="btn" style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">VIEW MORE</a>
             <a href="/store" class="btn" style="background:#181b2c;color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">GET TICKET</a>
         </div>
     </div>
+    @endforeach
 </div>
-
-<!-- Second Schedule Card -->
-<div class="container pb-5">
-    <div class="schedule-card d-flex flex-column flex-lg-row align-items-stretch p-3 p-md-4" style="background:#fff;border:1.5px solid #d1d5db;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);gap:2rem;max-width:1200px;margin:0 auto;">
-        <!-- Left: Event Image -->
-        <div class="flex-shrink-0 d-flex align-items-center justify-content-center" style="max-width:240px;width:100%;">
-            <img src="{{ asset('images/event-home-3.jpg') }}" alt="Event" style="width:100%;max-width:220px;aspect-ratio:1/1;object-fit:cover;border-radius:1.1rem;">
-        </div>
-        <!-- Center: Event Info -->
-        <div class="flex-grow-1 d-flex flex-column justify-content-center px-lg-3" style="min-width:0;border-left:1.5px solid #eee;border-right:1.5px solid #eee;">
-            <div class="d-flex align-items-center gap-4 mb-2 flex-wrap" style="font-size:1.08rem;color:#ff9800;font-weight:600;">
-                <span><i class="fas fa-map-marker-alt me-1"></i> MITEC, Kuala Lumpur</span>
-                <span><i class="fas fa-calendar-alt me-1"></i> 30 Oct 2025</span>
-                <span><i class="fas fa-clock me-1"></i> 08 AM - 05 PM</span>
-            </div>
-            <div style="font-size:1.35rem;font-weight:900;color:#181b2c;line-height:1.3;margin-bottom:0.7rem;">
-                WHERE EXPERTISE MEETS BUSINESS GROWTH!
-            </div>
-            <div style="font-size:1.08rem;color:#6b7280;line-height:1.7;margin-bottom:1.2rem;">
-                As part of BINA Conference at ICW 2025, MODULARASIA is a premier forum and exhibition dedicated to advancing Modular Technology, Modern Methods of Construction (MMC), and Industrialised Building Systems (IBS).
-            </div>
-            <div style="font-size:1.05rem;color:#181b2c;font-weight:600;">by MODULAR ASIA FORUM & EXHIBITION</div>
-        </div>
-        <!-- Right: Buttons -->
-        <div class="d-flex flex-column align-items-center justify-content-center gap-3 py-3 px-lg-3" style="min-width:180px;">
-            <a href="/modular-asia" class="btn" style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">VIEW MORE</a>
-            <a href="/store" class="btn" style="background:#181b2c;color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">GET TICKET</a>
-        </div>
-    </div>
-</div>
-
 @endsection 

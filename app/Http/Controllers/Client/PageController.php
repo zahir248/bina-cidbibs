@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
+use App\Models\Event;
 
 class PageController extends Controller
 {
@@ -76,7 +77,11 @@ class PageController extends Controller
 
     public function calendar()
     {
-        return view('client.calendar');
+        $events = Event::where('is_published', true)
+            ->orderBy('start_date', 'asc')
+            ->get();
+            
+        return view('client.calendar', compact('events'));
     }
 
     public function terms()

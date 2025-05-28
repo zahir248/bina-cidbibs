@@ -83,13 +83,13 @@
                                 {{ $user->created_at ? $user->created_at->format('M d, Y') : '-' }}
                             </td>
                             <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-primary" 
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-warning" 
                                             data-bs-toggle="modal" 
                                             data-bs-target="#editUserModal{{ $user->id }}">
                                         <i class="bi bi-pencil"></i>
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-outline-danger" 
+                                    <button type="button" class="btn btn-sm btn-danger" 
                                             data-bs-toggle="modal" 
                                             data-bs-target="#deleteUserModal{{ $user->id }}">
                                         <i class="bi bi-trash"></i>
@@ -246,20 +246,42 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Delete Admin</h5>
+                <h5 class="modal-title">
+                    <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
+                    Delete Confirmation
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <p>Are you sure you want to delete this admin user?</p>
-                <p class="mb-0"><strong>Name:</strong> {{ $user->name }}</p>
-                <p><strong>Email:</strong> {{ $user->email }}</p>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6 class="card-title">{{ $user->name }}</h6>
+                        <p class="card-text mb-1">
+                            <small class="text-muted">Email: {{ $user->email }}</small>
+                        </p>
+                        <p class="card-text mb-0">
+                            <small class="text-muted">Role: {{ ucfirst($user->role) }}</small>
+                        </p>
+                    </div>
+                </div>
+                <div class="alert alert-danger mb-0">
+                    <i class="bi bi-exclamation-circle-fill me-2"></i>
+                    This action cannot be undone. All associated data will be permanently deleted.
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle me-1"></i>
+                    Cancel
+                </button>
                 <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="d-inline">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Delete Admin</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash me-1"></i>
+                        Delete Admin
+                    </button>
                 </form>
             </div>
         </div>

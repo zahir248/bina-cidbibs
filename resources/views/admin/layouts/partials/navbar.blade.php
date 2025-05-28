@@ -57,9 +57,9 @@
                     <li><a class="dropdown-item" href="#">
                         <i class="bi bi-person me-2"></i>Profile
                     </a></li>
-                    <li><a class="dropdown-item" href="#">
+                    <!-- <li><a class="dropdown-item" href="#">
                         <i class="bi bi-gear me-2"></i>Settings
-                    </a></li>
+                    </a></li> -->
                     <li><hr class="dropdown-divider"></li>
                     <li>
                         <form method="POST" action="{{ route('admin.logout') }}">
