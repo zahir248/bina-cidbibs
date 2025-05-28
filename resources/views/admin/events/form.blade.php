@@ -29,6 +29,30 @@
                                 </div>
 
                                 <div class="mb-3">
+                                    <label for="slug" class="form-label">Path</label>
+                                    <select class="form-select @error('slug') is-invalid @enderror" 
+                                            id="slug" name="slug" required>
+                                        <option value="">Select a path</option>
+                                        @foreach($availableSlugs as $slug)
+                                            <option value="{{ $slug }}" {{ old('slug', $event->slug ?? '') == $slug ? 'selected' : '' }}>
+                                                @if($slug === '/')
+                                                    Home
+                                                @else
+                                                    {{ ucwords(str_replace('-', ' ', $slug)) }}
+                                                @endif
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <small class="form-text text-muted">
+                                        <i class="bi bi-info-circle me-1"></i>
+                                        Select the URL path where users will be redirected when clicking the "View More" button. This determines the destination page for the event link.
+                                    </small>
+                                    @error('slug')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
                                     <label for="location" class="form-label">Location</label>
                                     <input type="text" class="form-control @error('location') is-invalid @enderror" 
                                            id="location" name="location" value="{{ old('location', $event->location ?? '') }}" required>

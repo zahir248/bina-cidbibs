@@ -9,6 +9,11 @@ use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
+    private $availableSlugs = [
+        'modular-asia',
+        'facility-management'
+    ];
+
     public function index(Request $request)
     {
         $query = Event::query();
@@ -24,7 +29,8 @@ class EventController extends Controller
 
     public function create()
     {
-        return view('admin.events.create');
+        $availableSlugs = $this->availableSlugs;
+        return view('admin.events.create', compact('availableSlugs'));
     }
 
     public function store(Request $request)
@@ -38,7 +44,8 @@ class EventController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'organizer' => 'nullable|max:255',
             'is_featured' => 'boolean',
-            'is_published' => 'boolean'
+            'is_published' => 'boolean',
+            'slug' => 'required|in:' . implode(',', $this->availableSlugs)
         ]);
 
         // Ensure checkboxes are set to 0 if not checked
@@ -52,8 +59,6 @@ class EventController extends Controller
             $validated['image'] = 'images/events/' . $imageName;
         }
 
-        $validated['slug'] = Str::slug($validated['title']);
-
         Event::create($validated);
 
         return redirect()->route('admin.events.index')
@@ -62,7 +67,8 @@ class EventController extends Controller
 
     public function edit(Event $event)
     {
-        return view('admin.events.edit', compact('event'));
+        $availableSlugs = $this->availableSlugs;
+        return view('admin.events.edit', compact('event', 'availableSlugs'));
     }
 
     public function update(Request $request, Event $event)
@@ -76,7 +82,8 @@ class EventController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'organizer' => 'nullable|max:255',
             'is_featured' => 'boolean',
-            'is_published' => 'boolean'
+            'is_published' => 'boolean',
+            'slug' => 'required|in:' . implode(',', $this->availableSlugs)
         ]);
 
         // Ensure checkboxes are set to 0 if not checked
@@ -98,11 +105,6 @@ class EventController extends Controller
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images/events'), $imageName);
             $updateData['image'] = 'images/events/' . $imageName;
-        }
-
-        // Only update slug if title is provided
-        if (isset($updateData['title'])) {
-            $updateData['slug'] = Str::slug($updateData['title']);
         }
 
         $event->update($updateData);
