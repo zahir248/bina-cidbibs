@@ -1,5 +1,7 @@
 @extends('admin.layouts.app')
 
+@section('title', 'ADMIN | Orders')
+
 @section('content')
 <div class="container-fluid">
     <div class="row">
@@ -218,6 +220,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Fetch billing details
             fetch(`/admin/billing-details/${billingId}`)
+            // fetch({{ url('admin/billing-details') }}/${billingId})
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('billing-name').textContent = `${data.first_name} ${data.last_name}`;
@@ -248,6 +251,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Fetch cart items
             fetch(`/admin/orders/${orderId}/items`)
+            // fetch({{ url('admin/orders') }}/${orderId}/items)
                 .then(response => response.json())
                 .then(data => {
                     const tbody = document.getElementById('items-table-body');

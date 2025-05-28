@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\TicketController;
+use App\Http\Controllers\Admin\ReportsController;
 
 // client 
 Route::get('/', [PageController::class, 'home'])->name('client.home');
@@ -93,6 +94,10 @@ Route::middleware('auth')->group(function () {
 
         // Order routes
         Route::get('/orders/{order}/download-pdf', [OrderController::class, 'downloadPdf'])->name('orders.download-pdf');
+
+        // Reports Routes
+        Route::get('/reports', [ReportsController::class, 'index'])->name('reports.index');
+        Route::post('/reports/download', [ReportsController::class, 'downloadPDF'])->name('reports.download');
     });
 });
 

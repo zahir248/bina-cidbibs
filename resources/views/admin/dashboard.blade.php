@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Dashboard - Admin Panel')
+@section('title', 'ADMIN | Dashboard')
 
 @section('content')
 <!-- Welcome Header -->

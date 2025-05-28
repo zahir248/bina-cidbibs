@@ -15,7 +15,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('reports.*') ? 'active' : '' }}" href="#">
+                <a class="nav-link {{ request()->routeIs('admin.reports.index') ? 'active' : '' }}" href="{{ route('admin.reports.index') }}">
                     <i class="bi bi-file-earmark-text"></i>
                     Reports
                 </a>

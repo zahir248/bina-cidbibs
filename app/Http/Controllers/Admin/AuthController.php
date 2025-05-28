@@ -108,17 +108,28 @@ class AuthController extends Controller
             $ticketNames[] = $ticket->name;
             $soldQuantities[] = $sold;
 
-            // Calculate revenue for each ticket (using discounted price)
+            // Calculate revenue for each ticket (using discounted price logic)
             $revenue = \App\Models\Order::where('status', 'paid')
                 ->get()
                 ->sum(function($order) use ($ticket) {
                     $items = $order->cart_items;
                     $amount = 0;
                     foreach ($items as $item) {
-                        if (isset($item['ticket_id']) && $item['ticket_id'] == $ticket->id) {
-                            // Use discounted price if available, else use ticket price
-                            $price = isset($item['discounted_price']) ? $item['discounted_price'] : $ticket->price;
-                            $amount += $item['quantity'] * $price;
+                        if (isset($item['ticket_id']) && $item['ticket_id'] == $ticket->id && isset($item['quantity'])) {
+                            $quantity = (int)$item['quantity'];
+                            // Determine the price to use (with discount if available)
+                            $price = (float)$ticket->price;
+                            if (!empty($ticket->quantity_discounts) && is_array($ticket->quantity_discounts)) {
+                                foreach ($ticket->quantity_discounts as $discount) {
+                                    $min = isset($discount['min']) ? $discount['min'] : null;
+                                    $max = isset($discount['max']) ? $discount['max'] : null;
+                                    if ($min !== null && $quantity >= $min && ($max === null || $quantity <= $max)) {
+                                        $price = (float)$discount['price'];
+                                        break;
+                                    }
+                                }
+                            }
+                            $amount += $quantity * $price;
                         }
                     }
                     return $amount;
