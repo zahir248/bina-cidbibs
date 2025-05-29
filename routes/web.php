@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\TicketController;
 use App\Http\Controllers\Admin\ReportsController;
+use App\Http\Controllers\Admin\ProfileController;
 
 // client 
 Route::get('/', [PageController::class, 'home'])->name('client.home');
@@ -80,6 +81,10 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+        
+        // Profile Routes
+        Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+        Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
         
         // Users Management Routes
         Route::resource('users', UserController::class);

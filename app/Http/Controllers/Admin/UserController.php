@@ -36,6 +36,16 @@ class UserController extends Controller
         return view('admin.users.index', compact('adminUsers', 'clientUsers'));
     }
 
+    public function create()
+    {
+        return view('admin.users.create');
+    }
+
+    public function edit(User $user)
+    {
+        return view('admin.users.edit', compact('user'));
+    }
+
     public function store(Request $request)
     {
         try {

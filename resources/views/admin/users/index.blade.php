@@ -4,264 +4,197 @@
 
 @section('content')
 <div class="container-fluid">
-    <!-- Page Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Users Management</h1>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
-            <i class="bi bi-plus-circle me-2"></i>Add New Admin
-        </button>
-    </div>
-
-    <!-- Alert Messages -->
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle me-2"></i>
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="bi bi-exclamation-circle me-2"></i>
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-
-    <!-- Search and Filter Section -->
-    <div class="card shadow mb-4">
-        <div class="card-body">
-            <form action="{{ route('admin.users.index') }}" method="GET" class="row g-3">
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="search" placeholder="Search by name or email..." value="{{ request('search') }}">
-                        <button class="btn btn-primary" type="submit">
-                            <i class="bi bi-search"></i>
-                        </button>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="card-title">Users</h3>
+                        <a href="{{ route('admin.users.create') }}" class="btn btn-primary">
+                            <i class="bi bi-plus-circle me-1"></i>
+                            Add New Admin
+                        </a>
                     </div>
                 </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Admin Users Section -->
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-white">Admin Users</h6>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Created At</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($adminUsers as $user)
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="avatar-circle bg-primary text-white me-3">
-                                        {{ strtoupper(substr($user->name, 0, 1)) }}
-                                    </div>
-                                    <div>
-                                        <div class="fw-bold">{{ $user->name }}</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>{{ $user->email }}</td>
-                            <td>
-                                <span class="badge bg-primary">{{ ucfirst($user->role) }}</span>
-                            </td>
-                            <td>
-                                {{ $user->created_at ? $user->created_at->format('M d, Y') : '-' }}
-                            </td>
-                            <td>
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-sm btn-warning" 
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#editUserModal{{ $user->id }}">
-                                        <i class="bi bi-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-danger" 
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#deleteUserModal{{ $user->id }}">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="5" class="text-center py-4">
-                                <div class="text-muted">
-                                    <i class="bi bi-people fs-1 d-block mb-3"></i>
-                                    No admin users found
-                                </div>
-                            </td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- Client Users Section -->
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-white">Client Users</h6>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Created At</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($clientUsers as $user)
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="avatar-circle bg-success text-white me-3">
-                                        {{ strtoupper(substr($user->name, 0, 1)) }}
-                                    </div>
-                                    <div>
-                                        <div class="fw-bold">{{ $user->name }}</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>{{ $user->email }}</td>
-                            <td>
-                                <span class="badge bg-success">{{ ucfirst($user->role) }}</span>
-                            </td>
-                            <td>
-                                {{ $user->created_at ? $user->created_at->format('M d, Y') : '-' }}
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="4" class="text-center py-4">
-                                <div class="text-muted">
-                                    <i class="bi bi-people fs-1 d-block mb-3"></i>
-                                    No client users found
-                                </div>
-                            </td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Add User Modal -->
-<div class="modal fade" id="addUserModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add New Admin</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <form action="{{ route('admin.users.store') }}" method="POST">
-                @csrf
-                <div class="modal-body">
-                    @if($errors->any())
-                        <div class="alert alert-danger">
-                            <ul class="mb-0">
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
+                <div class="card-body">
+                    @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
-                    <div class="mb-3">
-                        <label class="form-label">Name</label>
-                        <input type="text" class="form-control" name="name" value="{{ old('name') }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Password</label>
-                        <input type="password" class="form-control" name="password" required>
-                        <small class="text-muted">Password must be at least 8 characters long</small>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Add Admin</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
-@foreach($adminUsers as $user)
-<!-- Edit User Modal -->
-<div class="modal fade" id="editUserModal{{ $user->id }}" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Admin</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    @if(session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('admin.users.index') }}" method="GET" class="mb-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search by name or email..." 
+                                   name="search" value="{{ request('search') }}" id="searchInput">
+                            <button class="btn btn-outline-secondary" type="submit">
+                                <i class="bi bi-search"></i>
+                            </button>
+                            @if(request('search'))
+                                <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary">
+                                    <i class="bi bi-x"></i>
+                                </a>
+                            @endif
+                        </div>
+                    </form>
+
+                    <div class="table-responsive">
+                        <h4 class="mb-3">Admin Users</h4>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px">No.</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Created At</th>
+                                    <th style="width: 150px">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($adminUsers as $index => $user)
+                                    <tr>
+                                        <td>{{ $adminUsers->firstItem() + $index }}</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                {{ $user->name }}
+                                            </div>
+                                        </td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>
+                                            <span class="badge bg-primary">{{ $user->role }}</span>
+                                        </td>
+                                        <td>{{ $user->created_at ? $user->created_at->format('d M Y H:i') : '-' }}</td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a href="{{ route('admin.users.edit', $user->id) }}" 
+                                                   class="btn btn-sm btn-warning">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                <button type="button" class="btn btn-sm btn-danger" 
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#deleteModal{{ $user->id }}">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4">
+                                            <i class="bi bi-people fs-1 text-muted"></i>
+                                            <p class="mt-2 mb-0">No admin users found</p>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-3">
+                        {{ $adminUsers->links() }}
+                    </div>
+
+                    <div class="table-responsive mt-4">
+                        <h4 class="mb-3">Client Users</h4>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px">No.</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Created At</th>
+                                    <th style="width: 150px">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($clientUsers as $index => $user)
+                                    <tr>
+                                        <td>{{ $clientUsers->firstItem() + $index }}</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar avatar-sm me-2">
+                                                    <span class="avatar-initial rounded-circle bg-success">
+                                                        {{ strtoupper(substr($user->name, 0, 1)) }}
+                                                    </span>
+                                                </div>
+                                                {{ $user->name }}
+                                            </div>
+                                        </td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>
+                                            <span class="badge bg-success">{{ $user->role }}</span>
+                                        </td>
+                                        <td>{{ $user->created_at ? $user->created_at->format('d M Y H:i') : '-' }}</td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a href="{{ route('admin.users.edit', $user->id) }}" 
+                                                   class="btn btn-sm btn-warning">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                <button type="button" class="btn btn-sm btn-danger" 
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#deleteModal{{ $user->id }}">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4">
+                                            <i class="bi bi-people fs-1 text-muted"></i>
+                                            <p class="mt-2 mb-0">No client users found</p>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-3">
+                        {{ $clientUsers->links() }}
+                    </div>
+                </div>
             </div>
-            <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Name</label>
-                        <input type="text" class="form-control" name="name" value="{{ $user->name }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email" value="{{ $user->email }}" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Update Admin</button>
-                </div>
-            </form>
         </div>
     </div>
 </div>
 
-<!-- Delete User Modal -->
-<div class="modal fade" id="deleteUserModal{{ $user->id }}" tabindex="-1">
+<!-- Delete Modals -->
+@foreach($adminUsers as $user)
+<div class="modal fade" id="deleteModal{{ $user->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $user->id }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">
+                <h5 class="modal-title" id="deleteModalLabel{{ $user->id }}">
                     <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
                     Delete Confirmation
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete this admin user?</p>
+                <p>Are you sure you want to delete this user?</p>
                 <div class="card mb-3">
                     <div class="card-body">
                         <h6 class="card-title">{{ $user->name }}</h6>
                         <p class="card-text mb-1">
                             <small class="text-muted">Email: {{ $user->email }}</small>
                         </p>
-                        <p class="card-text mb-0">
+                        <p class="card-text mb-1">
                             <small class="text-muted">Role: {{ ucfirst($user->role) }}</small>
+                        </p>
+                        <p class="card-text mb-0">
+                            <small class="text-muted">Created: {{ $user->created_at ? $user->created_at->format('d M Y H:i') : '-' }}</small>
                         </p>
                     </div>
                 </div>
@@ -280,7 +213,7 @@
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">
                         <i class="bi bi-trash me-1"></i>
-                        Delete Admin
+                        Delete User
                     </button>
                 </form>
             </div>
@@ -289,33 +222,81 @@
 </div>
 @endforeach
 
-@endsection
-
-@push('styles')
-<style>
-.avatar-circle {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-}
-</style>
-@endpush
+@foreach($clientUsers as $user)
+<div class="modal fade" id="deleteModal{{ $user->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $user->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel{{ $user->id }}">
+                    <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
+                    Delete Confirmation
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this user?</p>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6 class="card-title">{{ $user->name }}</h6>
+                        <p class="card-text mb-1">
+                            <small class="text-muted">Email: {{ $user->email }}</small>
+                        </p>
+                        <p class="card-text mb-1">
+                            <small class="text-muted">Role: {{ ucfirst($user->role) }}</small>
+                        </p>
+                        <p class="card-text mb-0">
+                            <small class="text-muted">Created: {{ $user->created_at ? $user->created_at->format('d M Y H:i') : '-' }}</small>
+                        </p>
+                    </div>
+                </div>
+                <div class="alert alert-danger mb-0">
+                    <i class="bi bi-exclamation-circle-fill me-2"></i>
+                    This action cannot be undone. All associated data will be permanently deleted.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle me-1"></i>
+                    Cancel
+                </button>
+                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash me-1"></i>
+                        Delete User
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
 
 @push('scripts')
 <script>
-    // Auto-hide alerts after 5 seconds
     document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(function() {
-            const alerts = document.querySelectorAll('.alert');
-            alerts.forEach(function(alert) {
-                const bsAlert = new bootstrap.Alert(alert);
-                bsAlert.close();
+        const searchForm = document.querySelector('form[action="{{ route('admin.users.index') }}"]');
+        const searchInput = document.getElementById('searchInput');
+        const clearButton = searchForm.querySelector('a[href="{{ route('admin.users.index') }}"]');
+
+        // Clear search when clicking the clear button
+        if (clearButton) {
+            clearButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                searchInput.value = '';
+                searchForm.submit();
             });
-        }, 5000);
+        }
+
+        // Submit form when pressing Enter in search input
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                searchForm.submit();
+            }
+        });
     });
 </script>
-@endpush 
+@endpush
+@endsection 

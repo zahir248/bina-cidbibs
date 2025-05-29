@@ -54,7 +54,7 @@
                     {{ Auth::user()->name }}
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                    <li><a class="dropdown-item" href="#">
+                    <li><a class="dropdown-item" href="{{ route('admin.profile.index') }}">
                         <i class="bi bi-person me-2"></i>Profile
                     </a></li>
                     <!-- <li><a class="dropdown-item" href="#">
@@ -62,15 +62,47 @@
                     </a></li> -->
                     <li><hr class="dropdown-divider"></li>
                     <li>
-                        <form method="POST" action="{{ route('admin.logout') }}">
-                            @csrf
-                            <button type="submit" class="dropdown-item">
-                                <i class="bi bi-box-arrow-right me-2"></i>Logout
-                            </button>
-                        </form>
+                        <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                            <i class="bi bi-box-arrow-right me-2"></i>Logout
+                        </button>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
 </nav>
+
+<!-- Logout Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">
+                    <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
+                    Logout Confirmation
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to logout?</p>
+                <div class="alert alert-warning mb-0">
+                    <i class="bi bi-exclamation-circle-fill me-2"></i>
+                    You will need to login again to access the admin panel.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle me-1"></i>
+                    Cancel
+                </button>
+                <form method="POST" action="{{ route('admin.logout') }}" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-box-arrow-right me-1"></i>
+                        Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
