@@ -1,13 +1,15 @@
 <!-- Top Navbar -->
 <nav class="navbar navbar-custom navbar-expand-lg fixed-top">
     <div class="container-fluid">
-        <button class="navbar-toggler mobile-toggle d-lg-none" type="button" id="sidebarToggle">
-            <i class="bi bi-list text-white"></i>
-        </button>
-        
-        <a class="navbar-brand" href="{{ route('admin.dashboard') }}">
-            <img src="{{ asset('images/bina-logo.png') }}" alt="BINA Logo" height="40">
-        </a>
+        <div class="d-flex align-items-center">
+            <button class="navbar-toggler mobile-toggle d-lg-none me-3" type="button" id="sidebarToggle">
+                <i class="bi bi-list text-white"></i>
+            </button>
+            
+            <a class="navbar-brand" href="{{ route('admin.dashboard') }}">
+                <img src="{{ asset('images/bina-logo.png') }}" alt="BINA Logo" height="30">
+            </a>
+        </div>
 
         <div class="ms-auto d-flex align-items-center">
             <!-- Notifications -->

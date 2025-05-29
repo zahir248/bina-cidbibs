@@ -363,13 +363,13 @@
 
 /* Logo Styles */
 .navbar-logo {
-    height: 40px;
+    height: 35px;
     width: auto;
     transition: all 0.3s ease;
 }
 
 .sidebar-logo {
-    height: 35px;
+    height: 25px;
     width: auto;
 }
 
