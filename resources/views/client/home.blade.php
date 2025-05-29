@@ -2667,7 +2667,7 @@
             </div>
             <div class="location-map">
                 <iframe
-                    src="https://www.google.com/maps?q=3.1763952,101.6642961&hl=en&z=16&output=embed"
+                    src="https://www.google.com/maps?q=Malaysia+International+Trade+and+Exhibition+Centre&hl=en&z=17&output=embed"
                     allowfullscreen
                     loading="lazy"
                     style="width: 100%; height: 100%; border: 0;">
