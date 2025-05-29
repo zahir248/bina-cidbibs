@@ -1,15 +1,15 @@
-<footer class="footer-section py-5">
+<footer class="footer-section py-2">
     <div class="container">
         <div class="row">
             <!-- Left Column: Logo, Tagline, Address, Social -->
-            <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-                <div class="footer-logo-container mb-3">
+            <div class="col-lg-4 col-md-6 mb-3 mb-lg-0">
+                <div class="footer-logo-container mb-2">
                     <a href="{{ route('client.home') }}">
                          <img src="{{ asset('images/bina-logo.png') }}" alt="BINA 2025 Logo" class="footer-logo">
                     </a>
                 </div>
-                <p class="footer-tagline mb-3">Beyond Limit, Build Tomorrow</p>
-                <div class="footer-address mb-4">
+                <p class="footer-tagline mb-2">Beyond Limit, Build Tomorrow</p>
+                <div class="footer-address mb-2">
                     <p>CIDB IBS SDN. BHD.</p>
                     <p>Lot 8, Jalan Chan So,</p>
                     <p>55200 Kuala Lumpur</p>
@@ -21,10 +21,10 @@
             </div>
 
             <!-- Middle Column: Contact Info -->
-            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-                <h5 class="footer-heading mb-4">CONTACT US</h5>
-                <div class="contact-info mb-3">
-                    <div class="contact-item mb-2">
+            <div class="col-lg-3 col-md-6 mb-3 mb-lg-0">
+                <h5 class="footer-heading mb-2">CONTACT US</h5>
+                <div class="contact-info mb-2">
+                    <div class="contact-item mb-1">
                         <div class="contact-icon"><i class="fas fa-envelope"></i></div>
                         <div class="contact-details">
                             <div class="contact-label">Our Email</div>
@@ -44,8 +44,8 @@
 
             <!-- Right Column: Newsletter & Partners -->
             <div class="col-lg-5">
-                <h5 class="footer-heading mb-4">SUBSCRIBE OUR NEWSLETTER</h5>
-                <form class="newsletter-form mb-4" action="#" method="POST">
+                <h5 class="footer-heading mb-2">SUBSCRIBE OUR NEWSLETTER</h5>
+                <form class="newsletter-form mb-2" action="#" method="POST">
                      @csrf
                     <div class="input-group">
                         <input type="email" class="form-control newsletter-input" placeholder="Your Email Address" name="email" required>
@@ -59,7 +59,7 @@
             </div>
         </div>
 
-        <hr class="footer-divider my-4">
+        <hr class="footer-divider my-2">
 
         <!-- Bottom Row: Copyright -->
         <div class="row">
@@ -74,31 +74,31 @@
 /* Footer Styles */
 .footer-section {
     color: #c9d1d9; /* Light text color */
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 .footer-logo-container img {
-    height: 80px; /* Adjust based on logo size */
+    height: 60px; /* Reduced logo size */
     width: auto;
 }
 
 .footer-tagline {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 500;
-    color: white; /* White tagline */
+    color: white;
 }
 
 .footer-address p {
-    margin-bottom: 0.2rem;
-    line-height: 1.5;
+    margin-bottom: 0.1rem;
+    line-height: 1.4;
 }
 
 .footer-social a {
-    color: #ff9800; /* Orange social icons */
-    font-size: 1.2rem;
-    margin-right: 1rem;
+    color: #ff9800;
+    font-size: 1.1rem;
+    margin-right: 0.8rem;
     transition: color 0.3s ease;
-    text-decoration: none; /* Prevent underline */
+    text-decoration: none;
 }
 
 .footer-social a:hover {
@@ -107,28 +107,28 @@
 }
 
 .footer-heading {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 700;
-    color: white; /* White heading */
-    margin-bottom: 1.5rem;
+    color: white;
+    margin-bottom: 1rem;
 }
 
 .contact-item {
     display: flex;
-    align-items: flex-start; /* Align icon to the top */
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    align-items: flex-start;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
 }
 
 .contact-icon {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #161b22; /* Dark background for icon circle */
+    background-color: #161b22;
     border-radius: 50%;
-    font-size: 1.1rem;
+    font-size: 1rem;
     flex-shrink: 0;
 }
 
@@ -141,17 +141,18 @@
 }
 
 .contact-label {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    color: white; /* White label */
-    margin-bottom: 0.2rem;
+    color: white;
+    margin-bottom: 0.1rem;
 }
 
 .contact-link, .contact-details p {
-    font-size: 1rem;
-    color: #c9d1d9; /* Light text color */
+    font-size: 0.9rem;
+    color: #c9d1d9;
     text-decoration: none;
-    line-height: 1.5;
+    line-height: 1.4;
+    margin-bottom: 0.1rem;
 }
 
 .contact-link:hover {
@@ -159,18 +160,18 @@
 }
 
 .newsletter-form .input-group {
-    border-radius: 0.5rem;
+    border-radius: 0.4rem;
     overflow: hidden;
-    background-color: #161b22; /* Dark input background */
-    border: 1px solid #30363d; /* Dark border */
+    background-color: #161b22;
+    border: 1px solid #30363d;
 }
 
 .newsletter-input {
     background-color: transparent !important;
     border: none !important;
     color: white !important;
-    font-size: 1rem;
-    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
     box-shadow: none !important;
 }
 
@@ -179,11 +180,11 @@
 }
 
 .btn-newsletter {
-    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); /* Orange gradient button */
+    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
     color: white !important;
     border: none;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
     transition: all 0.3s ease;
 }
@@ -202,10 +203,10 @@
 }
 
 .partner-logo {
-    height: auto; /* Allow height to adjust */
-    width: 100%; /* Make the logo take the full width of its container */
-    max-width: 100%; /* Ensure it doesn't exceed container width */
-    filter: brightness(0) invert(1); /* Make logos white */
+    height: auto;
+    width: 100%;
+    max-width: 100%;
+    filter: brightness(0) invert(1);
     opacity: 0.8;
     transition: opacity 0.3s ease;
 }
@@ -219,130 +220,56 @@
 }
 
 .footer-copyright {
-    font-size: 0.9rem;
-    color: #8b949e; /* Lighter copyright text */
+    font-size: 0.85rem;
+    color: #8b949e;
 }
 
 /* Responsive adjustments */
 @media (max-width: 767.98px) {
-    .footer-social {
-        text-align: left; /* Align social icons left */
+    .footer-section {
+        padding: 1.5rem 1rem;
     }
-
-    .social-icon {
-        margin-right: 1rem; /* Maintain space between icons */
-        margin-left: 0; /* Remove left margin if any */
+    
+    .footer-heading {
+        margin-bottom: 0.8rem;
     }
 
     .contact-item {
-        justify-content: flex-start; /* Align contact items left */
-        text-align: left;
+        margin-bottom: 0.8rem;
     }
 
-    .contact-details {
-         text-align: left;
-    }
-
-    .partner-logos {
-        justify-content: flex-start; /* Align partner logos left */
-        text-align: left; /* Ensure container text align is left */
+    .newsletter-form {
+        margin-bottom: 1rem;
     }
     
-    .footer-logo-container, .footer-tagline, .footer-address {
-        text-align: left; /* Align these left */
+    .partner-logo {
+        max-width: 120px;
     }
-
-     .footer-heading {
-        text-align: left; /* Align headings left */
-     }
-
-     .newsletter-form .input-group {
-         flex-direction: column; /* Stack input and button */
-         align-items: stretch; /* Stretch items to full width */
-     }
-
-     .newsletter-input,
-     .btn-newsletter {
-         width: 100% !important; /* Make input and button full width */
-         margin-bottom: 0.5rem; /* Add space between stacked items */
-     }
-
-     .input-group > .form-control:not(:last-child),
-     .input-group > .btn:not(:last-child) {
-         border-top-right-radius: 0.5rem;
-         border-bottom-right-radius: 0;
-     }
-
-      .input-group > .form-control:not(:first-child),
-      .input-group > .btn:not(:first-child) {
-         border-top-left-radius: 0;
-         border-bottom-left-radius: 0.5rem;
-     }
-
-     .input-group > .btn:last-child {
-          margin-bottom: 0; /* Remove bottom margin for the last item */
-     }
-
-     /* Mobile adjustments for the single logo-footer image */
-     .partner-logo {
-         width: auto; /* Revert width to auto */
-         max-width: 150px; /* Set a reasonable max width */
-         height: auto; /* Maintain aspect ratio */
-         filter: brightness(0) invert(1); /* Keep it white */
-         opacity: 1; /* Ensure full opacity */
-     }
-     
-     .partner-logos {
-         display: flex; /* Use flexbox again for alignment */
-         justify-content: flex-start; /* Align logos to the left */
-         align-items: center;
-         gap: 1rem;
-         flex-wrap: wrap;
-     }
-
-     .partner-logo-item {
-        padding: 0; /* Remove padding if present */
-        background-color: transparent; /* Remove background */
-        box-shadow: none; /* Remove shadow */
-     }
 }
 
 @media (max-width: 575.98px) {
     .footer-section {
-        padding: 2rem 1rem; /* Adjust padding */
+        padding: 1rem 0.8rem;
     }
     
     .footer-heading {
-         margin-bottom: 1rem;
+        margin-bottom: 0.8rem;
     }
 
-     .contact-item {
-        flex-direction: row; /* Revert to row for contact items */
-        align-items: flex-start; /* Align icon to top */
-        text-align: left;
-        gap: 1rem; /* Restore gap */
-        margin-bottom: 1rem; /* Adjust margin */
-     }
-
-     .contact-details {
-         text-align: left;
-     }
-
-    .contact-label {
-        margin-bottom: 0.2rem; /* Restore margin */
+    .contact-item {
+        margin-bottom: 0.8rem;
     }
 
     .newsletter-form {
-        margin-bottom: 1.5rem; /* Adjust margin */
+        margin-bottom: 1rem;
     }
     
-    /* Adjust partner logo size for very small screens */
     .partner-logo {
-        max-width: 120px; 
+        max-width: 100px;
     }
+}
 
-     .partner-logos {
-         gap: 0.5rem; /* Adjust gap for smaller screen */
-     }
+.footer-section .container {
+    padding-top: 1rem;
 }
 </style>
