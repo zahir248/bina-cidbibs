@@ -4,7 +4,7 @@
             <!-- Left Column: Logo, Tagline, Address, Social -->
             <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
                 <div class="footer-logo-container mb-3">
-                    <a href="/">
+                    <a href="{{ route('client.home') }}">
                          <img src="{{ asset('images/bina-logo.png') }}" alt="BINA 2025 Logo" class="footer-logo">
                     </a>
                 </div>

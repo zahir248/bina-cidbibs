@@ -405,7 +405,7 @@
 <div class="checkout-hero" id="heroSection">
     <h1 class="checkout-hero-title">CHECKOUT</h1>
     <div class="breadcrumb-checkout">
-        <a href="/">Home</a>
+        <a href="{{ route('client.home') }}">Home</a>
         <span class="breadcrumb-separator">&gt;</span>
         <a href="{{ route('client.store') }}">Store</a>
         <span class="breadcrumb-separator">&gt;</span>

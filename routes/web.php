@@ -101,6 +101,9 @@ Route::middleware('auth')->group(function () {
 
         // Event management routes
         Route::resource('events', \App\Http\Controllers\Admin\EventController::class);
+
+        // Schedule management routes
+        Route::resource('schedules', \App\Http\Controllers\Admin\ScheduleController::class);
     });
 });
 

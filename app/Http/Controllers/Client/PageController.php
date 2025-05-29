@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
 use App\Models\Event;
+use App\Models\Schedule;
 
 class PageController extends Controller
 {
@@ -47,12 +48,21 @@ class PageController extends Controller
 
     public function modularAsia()
     {
-        return view('client.modular-asia');
+        $schedules = \App\Models\Schedule::where('event_type', 'modular_asia')
+            ->orderBy('start_time')
+            ->get();
+
+        return view('client.modular-asia', compact('schedules'));
     }
 
     public function facilityManagement()
     {
-        return view('client.facility-management');
+        $schedules = Schedule::where('event_type', 'facility_management')
+            ->orderByRaw('CAST(session AS UNSIGNED) ASC')
+            ->orderBy('start_time')
+            ->get();
+
+        return view('client.facility-management', compact('schedules'));
     }
 
     public function nextgen()

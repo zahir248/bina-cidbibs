@@ -627,7 +627,7 @@
 <div class="hero-section-store" id="heroSection">
     <h1 class="hero-title-store">CART</h1>
     <div class="breadcrumb-store">
-        <a href="/">Home</a>
+        <a href="{{ route('client.home') }}">Home</a>
         <span class="breadcrumb-separator">&gt;</span>
         <a href="{{ route('client.store') }}">Store</a>
         <span class="breadcrumb-separator">&gt;</span>
@@ -693,7 +693,7 @@
             </table>
             <!-- Desktop: Return to Store button below table -->
             <div class="text-center">
-                <a href="/store" class="return-btn d-none d-sm-inline-block">RETURN TO STORE</a>
+                <a href="{{ route('client.store') }}" class="return-btn d-none d-sm-inline-block">RETURN TO STORE</a>
             </div>
             <!-- Mobile Card Layout -->
             <div class="cart-card-list">
@@ -730,7 +730,7 @@
                 @endif
                 <!-- Mobile: Return to Shop button below card list -->
                 <div class="text-center">
-                    <a href="/store" class="return-btn d-inline-block d-sm-none">RETURN TO SHOP</a>
+                    <a href="{{ route('client.store') }}" class="return-btn d-inline-block d-sm-none">RETURN TO SHOP</a>
                 </div>
             </div>
         </div>

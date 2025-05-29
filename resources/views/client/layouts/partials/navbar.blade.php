@@ -14,7 +14,7 @@
                 </li>
                 <!-- About Dropdown (Desktop) -->
                 <li class="nav-item dropdown position-relative">
-                    <a class="nav-link {{ request()->is('about') || request()->is('terms') || request()->is('login') || request()->is('register') ? 'active' : '' }} d-flex align-items-center gap-1" href="/about" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link {{ request()->is('about') || request()->is('terms') || request()->is('login') || request()->is('register') ? 'active' : '' }} d-flex align-items-center gap-1" href="{{ route('client.about') }}" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <span>About</span>
                         <span style="font-size:1rem;line-height:1;display:inline-block;vertical-align:middle;color:#fff;">
                             <i class="fas fa-angle-down"></i>

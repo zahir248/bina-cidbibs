@@ -104,7 +104,7 @@
 <div class="hero-section-store" id="heroSection">
     <h1 class="hero-title-store">TERMS OF SERVICE</h1>
     <div class="breadcrumb-store">
-        <a href="/">Home</a>
+        <a href="{{ route('client.home') }}">Home</a>
         <span class="breadcrumb-separator">&gt;</span>
         <span>Terms of Service</span>
     </div>

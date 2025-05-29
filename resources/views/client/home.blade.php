@@ -2245,7 +2245,7 @@
         </div>
         
         <div class="hero-buttons">
-            <a href="/store" class="btn-ticket">
+            <a href="{{ route('client.store') }}" class="btn-ticket">
                 <i class="fas fa-ticket-alt"></i>
                 Get Ticket
             </a>
@@ -2388,7 +2388,7 @@
 
                     <!-- Read More Button -->
                     <div class="read-more-container">
-                        <a href="/about" class="btn-read-more">
+                        <a href="{{ route('client.about') }}" class="btn-read-more">
                             <span>Read More</span>
                             <i class="fas fa-arrow-right"></i>
                         </a>
@@ -2454,8 +2454,8 @@
                     by MODULAR ASIA FORUM & EXHIBITION
                 </p>
                 <div class="event-buttons">
-                    <a href="/modular-asia" class="btn-view-more">VIEW MORE</a>
-                    <a href="/store" class="btn-get-ticket">GET TICKET</a>
+                    <a href="{{ route('client.modular-asia') }}" class="btn-view-more">VIEW MORE</a>
+                    <a href="{{ route('client.store') }}" class="btn-get-ticket">GET TICKET</a>
                 </div>
             </div>
         </div>
@@ -2490,8 +2490,8 @@
                     by FACILITY MANAGEMENT ENGAGEMENT DAY 2025
                 </p>
                 <div class="event-buttons">
-                    <a href="/facility-management" class="btn-view-more">VIEW MORE</a>
-                    <a href="/store" class="btn-get-ticket">GET TICKET</a>
+                    <a href="{{ route('client.facility-management') }}" class="btn-view-more">VIEW MORE</a>
+                    <a href="{{ route('client.store') }}" class="btn-get-ticket">GET TICKET</a>
                 </div>
             </div>
         </div>
@@ -2571,7 +2571,7 @@
                 <p class="event-highlight-subtitle">OUR BLOG</p>
                 <h2 class="event-highlight-title">EVENT AND HIGHLIGHT</h2>
             </div>
-            <a href="/gallery" class="btn-see-more">SEE MORE</a>
+            <a href="{{ route('client.gallery') }}" class="btn-see-more">SEE MORE</a>
         </div>
         <div class="event-highlight-cards-container">
             <div class="event-highlight-card">
@@ -2604,7 +2604,7 @@
                 <p class="speaker-subtitle">OUR SPEAKER</p>
                 <h2 class="speaker-title">MEET OUR SPEAKERS</h2>
             </div>
-            <a href="/" class="btn-speaker-see-more">SEE MORE</a>
+            <a href="{{ route('client.home') }}" class="btn-speaker-see-more">SEE MORE</a>
         </div>
         <div class="speaker-cards-container">
             <div class="speaker-card">

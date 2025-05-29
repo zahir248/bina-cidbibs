@@ -76,7 +76,7 @@
 <div class="hero-section-store" id="heroSection">
     <h1 class="hero-title-store">PODCAST</h1>
     <div class="breadcrumb-store">
-        <a href="/">Home</a>
+        <a href="{{ route('client.home') }}">Home</a>
         <span class="breadcrumb-separator">&gt;</span>
         <span>Podcast</span>
     </div>
@@ -163,7 +163,7 @@
         </div>
         <!-- Right: Buttons -->
         <div class="d-flex flex-column align-items-center justify-content-center gap-3 py-3 px-lg-3" style="min-width:180px;">
-            <a href="/facility-management" class="btn" style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">VIEW MORE</a>
+            <a href="{{ route('client.facility-management') }}" class="btn" style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">VIEW MORE</a>
             <a href="https://www.youtube.com/watch?v=Bjaj_ye_djQ&t=2022s" 
                class="btn" 
                style="background:#181b2c;color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;"
@@ -233,7 +233,7 @@
         </div>
         <!-- Right: Buttons -->
         <div class="d-flex flex-column align-items-center justify-content-center gap-3 py-3 px-lg-3" style="min-width:180px;">
-            <a href="/facility-management" class="btn" style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">VIEW MORE</a>
+            <a href="{{ route('client.facility-management') }}" class="btn" style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">VIEW MORE</a>
             <a href="https://www.youtube.com/watch?v=wY7fdrD4fkI&t=1887s" 
                 class="btn" 
                 style="background:#181b2c;color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;"

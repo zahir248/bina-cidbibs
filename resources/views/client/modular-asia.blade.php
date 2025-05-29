@@ -131,7 +131,7 @@
 <div class="hero-section-store" id="heroSection">
     <h1 class="hero-title-store">MODULAR ASIA</h1>
     <div class="breadcrumb-store">
-        <a href="/">Home</a>
+        <a href="{{ route('client.home') }}">Home</a>
         <span class="breadcrumb-separator">&gt;</span>
         <span>Modular Asia</span>
     </div>
@@ -179,56 +179,41 @@
                     <li>Interactive discussions with industry experts.</li>
                 </ul>
                 <div class="ma-schedule-list">
-                    <div class="ma-schedule-row" style="display:flex;align-items:center;margin-bottom:1.5rem;">
-                        <span style="font-weight:700;font-size:1.1rem;color:#22223b;min-width:170px;">8.00 AM - 9.00 AM</span>
-                        <span style="color:#ff9800;font-size:2rem;margin:0 18px 0 18px;">|</span>
-                        <span style="font-weight:800;font-size:1.1rem;color:#0a183d;letter-spacing:0.5px;">REGISTRATION</span>
-                    </div>
-                    <div class="ma-schedule-row" style="display:flex;align-items:center;margin-bottom:1.5rem;">
-                        <span style="font-weight:700;font-size:1.1rem;color:#22223b;min-width:170px;">9.15 AM - 9.45 AM</span>
-                        <span style="color:#ff9800;font-size:2rem;margin:0 18px 0 18px;">|</span>
-                        <span style="font-weight:800;font-size:1.1rem;color:#0a183d;letter-spacing:0.5px;">WELCOMING REMARKS</span>
-                    </div>
-                    <div class="ma-schedule-row" style="display:flex;align-items:center;margin-bottom:1.5rem;">
-                        <span style="font-weight:700;font-size:1.1rem;color:#22223b;min-width:170px;">9.45 AM - 10.15 AM</span>
-                        <span style="color:#ff9800;font-size:2rem;margin:0 18px 0 18px;">|</span>
-                        <span style="font-weight:800;font-size:1.1rem;color:#0a183d;letter-spacing:0.5px;">KEYNOTE SPEECH</span>
-                    </div>
-                    <div class="ma-schedule-row" style="display:flex;align-items:center;margin-bottom:1.5rem;">
-                        <span style="font-weight:700;font-size:1.1rem;color:#22223b;min-width:170px;">10.15 AM - 10.30 AM</span>
-                        <span style="color:#ff9800;font-size:2rem;margin:0 18px 0 18px;">|</span>
-                        <span style="font-weight:800;font-size:1.1rem;color:#0a183d;letter-spacing:0.5px;">NETWORKING SESSION</span>
-                    </div>
-                    <div class="ma-schedule-row" style="display:flex;align-items:center;margin-bottom:1.5rem;">
-                        <span style="font-weight:700;font-size:1.1rem;color:#22223b;min-width:170px;">10.30 AM - 12.30 PM</span>
-                        <span style="color:#ff9800;font-size:2rem;margin:0 18px 0 18px;">|</span>
-                        <span style="font-weight:800;font-size:1.1rem;color:#0a183d;letter-spacing:0.5px;">DIALOGUE SESSION 1</span>
-                    </div>
-                    <div class="ma-schedule-row" style="display:flex;align-items:center;margin-bottom:1.5rem;">
-                        <span style="font-weight:700;font-size:1.1rem;color:#22223b;min-width:170px;">12.30 PM - 1.00 PM</span>
-                        <span style="color:#ff9800;font-size:2rem;margin:0 18px 0 18px;">|</span>
-                        <span style="font-weight:800;font-size:1.1rem;color:#0a183d;letter-spacing:0.5px;">BOOTH TOUR & SPEED NETWORKING 1</span>
-                    </div>
-                    <div class="ma-schedule-row" style="display:flex;align-items:center;margin-bottom:1.5rem;">
-                        <span style="font-weight:700;font-size:1.1rem;color:#22223b;min-width:170px;">1.00 PM - 2.00 PM</span>
-                        <span style="color:#ff9800;font-size:2rem;margin:0 18px 0 18px;">|</span>
-                        <span style="font-weight:800;font-size:1.1rem;color:#0a183d;letter-spacing:0.5px;">LUNCH BREAK</span>
-                    </div>
-                    <div class="ma-schedule-row" style="display:flex;align-items:center;margin-bottom:1.5rem;">
-                        <span style="font-weight:700;font-size:1.1rem;color:#22223b;min-width:170px;">2.00 PM - 3.30 PM</span>
-                        <span style="color:#ff9800;font-size:2rem;margin:0 18px 0 18px;">|</span>
-                        <span style="font-weight:800;font-size:1.1rem;color:#0a183d;letter-spacing:0.5px;">DIALOGUE SESSION 2</span>
-                    </div>
-                    <div class="ma-schedule-row" style="display:flex;align-items:center;margin-bottom:1.5rem;">
-                        <span style="font-weight:700;font-size:1.1rem;color:#22223b;min-width:170px;">4.00 PM - 5.00 PM</span>
-                        <span style="color:#ff9800;font-size:2rem;margin:0 18px 0 18px;">|</span>
-                        <span style="font-weight:800;font-size:1.1rem;color:#0a183d;letter-spacing:0.5px;">BOOTH TOUR</span>
-                    </div>
-                    <div class="ma-schedule-row" style="display:flex;align-items:center;margin-bottom:2.5rem;">
-                        <span style="font-weight:700;font-size:1.1rem;color:#22223b;min-width:170px;">5.00 PM</span>
-                        <span style="color:#ff9800;font-size:2rem;margin:0 18px 0 18px;">|</span>
-                        <span style="font-weight:800;font-size:1.1rem;color:#0a183d;letter-spacing:0.5px;">END OF CONFERENCE</span>
-                    </div>
+                    @php
+                        $currentSession = null;
+                    @endphp
+                    
+                    @foreach($schedules as $schedule)
+                        @if($schedule->session && $schedule->session !== $currentSession)
+                            @php
+                                $currentSession = $schedule->session;
+                            @endphp
+                            <div style="background:#ff9800;color:#fff;display:inline-block;font-weight:700;font-size:1.1rem;padding:0.5rem 1.2rem 0.4rem 1.2rem;border-radius:0.15rem;margin-bottom:2rem;letter-spacing:0.5px;">
+                                SESSION {{ strtoupper($schedule->session) }}
+                            </div>
+                        @endif
+                        
+                        @if(!empty($schedule->description))
+                            <div class="ma-schedule-row" style="display:flex;align-items:flex-start;margin-bottom:1.5rem;">
+                                <span style="font-weight:700;font-size:1.1rem;color:#22223b;min-width:170px;">{{ $schedule->formatted_time }}</span>
+                                <span style="color:#ff9800;font-size:2rem;margin:0 18px 0 18px;">|</span>
+                                <div>
+                                    <div style="font-weight:800;font-size:1.1rem;color:#0a183d;letter-spacing:0.5px;">{{ $schedule->title }}</div>
+                                    <div style="margin-top:1rem;margin-bottom:0.5rem;color:#22223b;font-size:1.08rem;max-width:500px;">
+                                        {!! nl2br(e($schedule->description)) !!}
+                                    </div>
+                                </div>
+                            </div>
+                        @else
+                            <div class="ma-schedule-row" style="display:flex;align-items:center;margin-bottom:1.5rem;">
+                                <span style="font-weight:700;font-size:1.1rem;color:#22223b;min-width:170px;">{{ $schedule->formatted_time }}</span>
+                                <span style="color:#ff9800;font-size:2rem;margin:0 18px 0 18px;">|</span>
+                                <div style="font-weight:800;font-size:1.1rem;color:#0a183d;letter-spacing:0.5px;">
+                                    {{ $schedule->title }}
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
                 </div>
                 <div class="mt-4">
                     <a href="{{ route('client.store') }}" style="display:inline-block;padding:0.9rem 2.5rem;font-weight:700;letter-spacing:0.15em;font-size:1.1rem;border-radius:2.5rem;background:#ff9800;color:#fff;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,0.08);transition:background 0.2s;">GET TICKET</a>
