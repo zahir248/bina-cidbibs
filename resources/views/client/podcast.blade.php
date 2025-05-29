@@ -68,6 +68,86 @@
         opacity: 0.7;
         font-size: 1.2em;
     }
+    
+    /* Audio Player Styles */
+    .audio-player-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .play-button {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: linear-gradient(90deg,#ff9800 0%,#ffb347 100%);
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: transform 0.2s;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .play-button:hover {
+        transform: scale(1.05);
+    }
+    
+    .play-button i {
+        color: white;
+        font-size: 1.2rem;
+    }
+    
+    .audio-player {
+        display: none;
+    }
+    
+    .audio-progress {
+        flex-grow: 1;
+        height: 4px;
+        background: #e5e7eb;
+        border-radius: 2px;
+        position: relative;
+        cursor: pointer;
+    }
+    
+    .audio-progress-bar {
+        position: absolute;
+        height: 100%;
+        background: #ff9800;
+        border-radius: 2px;
+        width: 0%;
+    }
+    
+    .audio-time {
+        font-size: 0.9rem;
+        color: #64748b;
+        min-width: 100px;
+        text-align: right;
+    }
+    
+    /* YouTube Player Container */
+    .youtube-player-container {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 1px;
+        height: 1px;
+        z-index: -1;
+    }
+    
+    /* Loading State */
+    .play-button.loading i {
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 </style>
 @endpush
 
@@ -160,6 +240,17 @@
             <div style="font-size:1.35rem;font-weight:900;color:#181b2c;line-height:1.3;">
                 BINA - ICW BORNEO: BUILDING GREEN - HOW CONSTRUCTION TECHNOLOGY LEADS THE SUSTAINABLE CONSTRUCTION REVOLUTION
             </div>
+            <!-- Audio Player -->
+            <div class="audio-player-container mt-3">
+                <button class="play-button" id="playButton1" onclick="toggleAudio('audio1')">
+                    <i class="fas fa-play"></i>
+                </button>
+                <div class="audio-progress" onclick="seekAudio('audio1', event)">
+                    <div class="audio-progress-bar" id="progress1"></div>
+                </div>
+                <div class="audio-time" id="time1">0:00 / 0:00</div>
+                <div id="audio1" class="audio-player"></div>
+            </div>
         </div>
         <!-- Right: Buttons -->
         <div class="d-flex flex-column align-items-center justify-content-center gap-3 py-3 px-lg-3" style="min-width:180px;">
@@ -230,6 +321,17 @@
             <div style="font-size:1.35rem;font-weight:900;color:#181b2c;line-height:1.3;">
                 BINA - ICW BORNEO: CHALLENGES AND INNOVATIONS IN CONSTRUCTION TECHNOLOGY - OVERCOMING INDUSTRY CHALLENGES
             </div>
+            <!-- Audio Player -->
+            <div class="audio-player-container mt-3">
+                <button class="play-button" id="playButton2" onclick="toggleAudio('audio2')">
+                    <i class="fas fa-play"></i>
+                </button>
+                <div class="audio-progress" onclick="seekAudio('audio2', event)">
+                    <div class="audio-progress-bar" id="progress2"></div>
+                </div>
+                <div class="audio-time" id="time2">0:00 / 0:00</div>
+                <div id="audio2" class="audio-player"></div>
+            </div>
         </div>
         <!-- Right: Buttons -->
         <div class="d-flex flex-column align-items-center justify-content-center gap-3 py-3 px-lg-3" style="min-width:180px;">
@@ -283,4 +385,269 @@
         </div>
     </div>
 </div>
+
+<!-- Add YouTube Player Containers -->
+<div class="youtube-player-container">
+    <iframe id="player1" 
+            width="1" 
+            height="1" 
+            src="https://www.youtube.com/embed/Bjaj_ye_djQ?enablejsapi=1&controls=0&showinfo=0&rel=0&modestbranding=1" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+    </iframe>
+    <iframe id="player2" 
+            width="1" 
+            height="1" 
+            src="https://www.youtube.com/embed/wY7fdrD4fkI?enablejsapi=1&controls=0&showinfo=0&rel=0&modestbranding=1" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+    </iframe>
+</div>
 @endsection 
+
+@push('scripts')
+<script>
+// Load YouTube API with timeout
+let apiLoadTimeout;
+let isAPIReady = false;
+let playersReady = {
+    player1: false,
+    player2: false
+};
+let player1 = null;
+let player2 = null;
+let currentPlayer = null;
+
+function loadYouTubeAPI() {
+    // Create script element
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    tag.async = true;
+    
+    // Add timeout
+    apiLoadTimeout = setTimeout(() => {
+        console.log('YouTube API load timeout - using fallback');
+        initializeFallbackPlayers();
+    }, 5000); // 5 second timeout
+    
+    // Add to document
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+}
+
+function initializeFallbackPlayers() {
+    console.log('Initializing fallback players');
+    isAPIReady = true;
+    playersReady.player1 = true;
+    playersReady.player2 = true;
+    updateButtonState('playButton1', false, false);
+    updateButtonState('playButton2', false, false);
+}
+
+function onYouTubeIframeAPIReady() {
+    console.log('YouTube API Ready');
+    clearTimeout(apiLoadTimeout);
+    isAPIReady = true;
+    
+    // Initialize players with timeout
+    const playerInitTimeout = setTimeout(() => {
+        console.log('Player initialization timeout - using fallback');
+        initializeFallbackPlayers();
+    }, 3000); // 3 second timeout for player initialization
+    
+    try {
+        player1 = new YT.Player('player1', {
+            events: {
+                'onReady': (event) => {
+                    console.log('Player 1 Ready');
+                    playersReady.player1 = true;
+                    updateButtonState('playButton1', false, false);
+                    if (playersReady.player1 && playersReady.player2) {
+                        clearTimeout(playerInitTimeout);
+                    }
+                },
+                'onStateChange': onPlayerStateChange,
+                'onError': onPlayerError
+            }
+        });
+
+        player2 = new YT.Player('player2', {
+            events: {
+                'onReady': (event) => {
+                    console.log('Player 2 Ready');
+                    playersReady.player2 = true;
+                    updateButtonState('playButton2', false, false);
+                    if (playersReady.player1 && playersReady.player2) {
+                        clearTimeout(playerInitTimeout);
+                    }
+                },
+                'onStateChange': onPlayerStateChange,
+                'onError': onPlayerError
+            }
+        });
+    } catch (error) {
+        console.error('Error initializing players:', error);
+        initializeFallbackPlayers();
+    }
+}
+
+// Function to check if all players are ready
+function arePlayersReady() {
+    return playersReady.player1 && playersReady.player2;
+}
+
+// Function to update button state
+function updateButtonState(buttonId, isLoading = false, isPlaying = false) {
+    const button = document.getElementById(buttonId);
+    if (!button) return;
+    
+    const icon = button.querySelector('i');
+    if (!icon) return;
+    
+    button.classList.remove('loading');
+    icon.classList.remove('fa-spinner', 'fa-spin', 'fa-play', 'fa-pause');
+    
+    if (isLoading) {
+        button.classList.add('loading');
+        icon.classList.add('fa-spinner', 'fa-spin');
+    } else {
+        icon.classList.add(isPlaying ? 'fa-pause' : 'fa-play');
+    }
+}
+
+function onPlayerError(event) {
+    console.error('YouTube Player Error:', event.data);
+    const player = event.target;
+    const playerId = player.getIframe().id === 'player1' ? 'audio1' : 'audio2';
+    const buttonId = `playButton${playerId.slice(-1)}`;
+    updateButtonState(buttonId, false, false);
+    
+    const timeDisplay = document.querySelector(`#time${playerId.slice(-1)}`);
+    if (timeDisplay) {
+        timeDisplay.textContent = 'Error loading audio';
+        timeDisplay.style.color = '#ef4444';
+    }
+}
+
+function onPlayerStateChange(event) {
+    if (!event.target) return;
+    
+    const player = event.target;
+    const playerId = player.getIframe().id === 'player1' ? 'audio1' : 'audio2';
+    const buttonId = `playButton${playerId.slice(-1)}`;
+    const timeDisplay = document.querySelector(`#time${playerId.slice(-1)}`);
+    const progressBar = document.querySelector(`#progress${playerId.slice(-1)}`);
+
+    if (!timeDisplay || !progressBar) return;
+
+    if (event.data === YT.PlayerState.PLAYING) {
+        updateButtonState(buttonId, false, true);
+        updateProgress(player, progressBar, timeDisplay);
+    } else if (event.data === YT.PlayerState.PAUSED) {
+        updateButtonState(buttonId, false, false);
+    } else if (event.data === YT.PlayerState.ENDED) {
+        updateButtonState(buttonId, false, false);
+        progressBar.style.width = '0%';
+        timeDisplay.textContent = '0:00 / ' + formatTime(player.getDuration());
+    }
+}
+
+function updateProgress(player, progressBar, timeDisplay) {
+    if (!player || !progressBar || !timeDisplay) return;
+    
+    try {
+        const duration = player.getDuration();
+        const currentTime = player.getCurrentTime();
+        const progress = (currentTime / duration) * 100;
+        
+        progressBar.style.width = `${progress}%`;
+        timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
+        
+        if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+            requestAnimationFrame(() => updateProgress(player, progressBar, timeDisplay));
+        }
+    } catch (error) {
+        console.error('Error updating progress:', error);
+    }
+}
+
+function formatTime(seconds) {
+    if (!seconds) return '0:00';
+    const minutes = Math.floor(seconds / 60);
+    seconds = Math.floor(seconds % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
+
+function toggleAudio(audioId) {
+    console.log('Toggle Audio:', audioId);
+    
+    if (!isAPIReady || !arePlayersReady()) {
+        console.log('Players not ready yet, showing loading state');
+        const buttonId = `playButton${audioId.slice(-1)}`;
+        updateButtonState(buttonId, true, false);
+        return;
+    }
+    
+    const player = audioId === 'audio1' ? player1 : player2;
+    const buttonId = `playButton${audioId.slice(-1)}`;
+    
+    if (!player) {
+        console.error('Player not found:', audioId);
+        return;
+    }
+    
+    try {
+        if (currentPlayer && currentPlayer !== player) {
+            currentPlayer.pauseVideo();
+        }
+        
+        const state = player.getPlayerState();
+        if (state === YT.PlayerState.PLAYING) {
+            player.pauseVideo();
+        } else {
+            player.playVideo();
+            currentPlayer = player;
+        }
+    } catch (error) {
+        console.error('Error toggling audio:', error);
+        updateButtonState(buttonId, false, false);
+    }
+}
+
+function seekAudio(audioId, event) {
+    if (!isAPIReady || !arePlayersReady()) return;
+    
+    const player = audioId === 'audio1' ? player1 : player2;
+    if (!player) return;
+    
+    const progressBar = event.currentTarget;
+    const rect = progressBar.getBoundingClientRect();
+    const pos = (event.clientX - rect.left) / rect.width;
+    
+    try {
+        const duration = player.getDuration();
+        player.seekTo(pos * duration, true);
+    } catch (error) {
+        console.error('Error seeking audio:', error);
+    }
+}
+
+// Initialize time displays and button states
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Content Loaded');
+    const timeDisplay1 = document.querySelector('#time1');
+    const timeDisplay2 = document.querySelector('#time2');
+    if (timeDisplay1) timeDisplay1.textContent = '0:00 / 0:00';
+    if (timeDisplay2) timeDisplay2.textContent = '0:00 / 0:00';
+    
+    // Set initial button states
+    updateButtonState('playButton1', true, false);
+    updateButtonState('playButton2', true, false);
+    
+    // Load YouTube API
+    loadYouTubeAPI();
+});
+</script>
+@endpush 
