@@ -217,10 +217,98 @@
 
     /* Store Section */
     .store-section {
-        padding: 60px 0 60px;
-        background-color: var(--bg-light-gray);
+        padding: 60px 2rem 60px 2rem;
+        background-color: transparent;
         position: relative;
         z-index: 10;
+        margin-top: 0;
+    }
+
+    /* Announcement Section Styles */
+    .announcement-section {
+        background: #ffa000;
+        padding: 1.5rem;
+        margin: 0 auto 3.5rem;
+        max-width: 1400px;
+        box-shadow: 0 6px 24px 0 rgba(255, 152, 0, 0.12), 0 1.5px 6px 0 rgba(0,0,0,0.08);
+        border-radius: 16px;
+        border: 1.5px solid #ff9800;
+    }
+
+    .announcement-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        color: white;
+    }
+
+    .announcement-icon {
+        flex-shrink: 0;
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, #fff3cd 0%, #ffe082 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(255,193,7,0.10);
+    }
+
+    .announcement-icon i {
+        font-size: 1.7rem;
+        color: #ff9800;
+    }
+
+    .announcement-text {
+        flex-grow: 1;
+        font-size: 1.1rem;
+        line-height: 1.5;
+    }
+
+    .announcement-text strong {
+        font-weight: 600;
+    }
+
+    .announcement-contact {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+        font-size: 0.95rem;
+    }
+
+    .announcement-contact a {
+        color: white;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        transition: opacity 0.2s;
+    }
+
+    .announcement-contact a:hover {
+        opacity: 0.9;
+    }
+
+    .announcement-contact i {
+        width: 20px;
+        text-align: center;
+    }
+
+    @media (max-width: 768px) {
+        .announcement-section {
+            margin: 0 1rem 2rem;
+        }
+
+        .announcement-content {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .announcement-contact {
+            align-items: center;
+        }
     }
 
     .store-container {
@@ -486,6 +574,17 @@
         filter: invert(1) grayscale(1) brightness(2);
         opacity: 1;
     }
+
+    /* Add after existing styles */
+    .announcement-divider {
+        border: none;
+        height: 2px;
+        background: #e0e0e0;
+        border-radius: 1px;
+        margin: 0 auto 2.5rem auto;
+        max-width: 1400px;
+        width: 100%;
+    }
 </style>
 @endpush
 
@@ -502,6 +601,34 @@
 
 <!-- Store Section -->
 <div class="store-section">
+    <!-- Announcement Section -->
+    <div class="announcement-section">
+        <div class="announcement-content">
+            <div class="announcement-icon">
+                <i class="fas fa-info-circle"></i>
+            </div>
+            <div class="announcement-text">
+                <strong>Important Notice:</strong> For invoice requests or manual payment arrangements, please contact our support team.
+                <div class="announcement-contact">
+                    <a href="mailto:bina@cidbibs.com.my">
+                        <i class="fas fa-envelope"></i>
+                        bina@cidbibs.com.my
+                    </a>
+                    <a href="tel:+603-92242280">
+                        <i class="fas fa-phone"></i>
+                        +603-92242280
+                    </a>
+                    <a href="tel:+6012-6909457">
+                        <i class="fas fa-mobile-alt"></i>
+                        +6012-6909457
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Divider below announcement section -->
+    <hr class="announcement-divider">
+
     <div class="store-container">
         <!-- Sidebar -->
         <aside class="store-sidebar">
