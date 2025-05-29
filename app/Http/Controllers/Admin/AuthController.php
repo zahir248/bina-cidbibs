@@ -32,7 +32,7 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, $request->filled('remember'))) {
             $user = Auth::user();
             
             // Check if user is admin or superadmin

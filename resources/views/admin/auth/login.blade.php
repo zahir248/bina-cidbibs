@@ -168,6 +168,12 @@ body {
                    value="1234"
                    placeholder="Enter your password" required>
         </div>
+        <div class="form-group">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                <label class="form-check-label" for="remember">Remember me</label>
+            </div>
+        </div>
         <button type="submit" class="btn btn-login w-100">Login</button>
     </form>
 </div>
