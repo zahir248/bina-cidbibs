@@ -435,6 +435,27 @@
                     @error('last_name')<div class="error">Billing Last name is a required field.</div>@enderror
                 </div>
             </div>
+            <div class="form-row">
+                <div>
+                    <label for="gender">Gender <span class="required">*</span></label>
+                    <select class="form-control" id="gender" name="gender" required>
+                        <option value="" disabled selected>Select your gender</option>
+                        <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male</option>
+                        <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female</option>
+                    </select>
+                    @error('gender')<div class="error">Gender is a required field.</div>@enderror
+                </div>
+                <div>
+                    <label for="category">Category <span class="required">*</span></label>
+                    <select class="form-control" id="category" name="category" required>
+                        <option value="" disabled selected>Select your category</option>
+                        <option value="individual" {{ old('category') == 'individual' ? 'selected' : '' }}>Individual</option>
+                        <option value="academician" {{ old('category') == 'academician' ? 'selected' : '' }}>Academician</option>
+                        <option value="organization" {{ old('category') == 'organization' ? 'selected' : '' }}>Organization</option>
+                    </select>
+                    @error('category')<div class="error">Category is a required field.</div>@enderror
+                </div>
+            </div>
             <div>
                 <label for="country">Country / Region <span class="required">*</span></label>
                 <input type="text" class="form-control" id="country" name="country" value="{{ old('country') }}" placeholder="e.g. Malaysia" required pattern="[A-Za-z ]*">

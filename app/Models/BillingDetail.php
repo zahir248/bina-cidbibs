@@ -11,6 +11,8 @@ class BillingDetail extends Model
         'user_id',
         'first_name',
         'last_name',
+        'gender',
+        'category',
         'country',
         'address1',
         'address2',

@@ -111,6 +111,8 @@
             <div class="order-details">
                 <h3>Billing Information</h3>
                 <p><strong>Name:</strong> {{ $billingData['first_name'] }} {{ $billingData['last_name'] }}</p>
+                <p><strong>Gender:</strong> {{ ucfirst($billingData['gender']) }}</p>
+                <p><strong>Category:</strong> {{ ucfirst($billingData['category']) }}</p>
                 <p><strong>Email:</strong> {{ $billingData['email'] }}</p>
                 <p><strong>Phone:</strong> {{ $billingData['phone'] }}</p>
                 <p><strong>Address:</strong><br>

@@ -58,6 +58,14 @@
                 <td>{{ $billingDetail->first_name }} {{ $billingDetail->last_name }}</td>
             </tr>
             <tr>
+                <th>Gender</th>
+                <td>{{ ucfirst($billingDetail->gender) }}</td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td>{{ ucfirst($billingDetail->category) }}</td>
+            </tr>
+            <tr>
                 <th>Email</th>
                 <td>{{ $billingDetail->email }}</td>
             </tr>

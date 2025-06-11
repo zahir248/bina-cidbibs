@@ -105,6 +105,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <p><strong>Name:</strong> <span id="billing-name"></span></p>
+                        <p><strong>Gender:</strong> <span id="billing-gender"></span></p>
+                        <p><strong>Category:</strong> <span id="billing-category"></span></p>
                         <p><strong>Email:</strong> <span id="billing-email"></span></p>
                         <p><strong>Phone:</strong> <span id="billing-phone"></span></p>
                     </div>
@@ -224,6 +226,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('billing-name').textContent = `${data.first_name} ${data.last_name}`;
+                    document.getElementById('billing-gender').textContent = data.gender;
+                    document.getElementById('billing-category').textContent = data.category;
                     document.getElementById('billing-email').textContent = data.email;
                     document.getElementById('billing-phone').textContent = data.phone;
                     document.getElementById('billing-country').textContent = data.country;
