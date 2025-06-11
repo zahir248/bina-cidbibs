@@ -58,6 +58,40 @@ class AuthController extends Controller
         // Get total users
         $totalUsers = User::count();
 
+        // Get gender statistics from billing details
+        $genderStats = DB::table('billing_details')
+            ->select('gender', DB::raw('count(*) as total'))
+            ->groupBy('gender')
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return [ucfirst($item->gender) => $item->total];
+            })
+            ->toArray();
+
+        // Get category statistics from billing details
+        $categoryStats = DB::table('billing_details')
+            ->select('category', DB::raw('count(*) as total'))
+            ->groupBy('category')
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return [ucfirst($item->category) => $item->total];
+            })
+            ->toArray();
+
+        // Get location statistics from billing details
+        $locationStats = [
+            'countries' => DB::table('billing_details')
+                ->select('country', DB::raw('count(*) as total'))
+                ->groupBy('country')
+                ->orderByDesc('total')
+                ->get(),
+            'cities' => DB::table('billing_details')
+                ->select('city', 'country', DB::raw('count(*) as total'))
+                ->groupBy('city', 'country')
+                ->orderByDesc('total')
+                ->get()
+        ];
+
         // Get total orders and calculate revenue
         $totalOrders = Order::count();
         $totalRevenue = Order::where('status', 'paid')->sum('total_amount');
@@ -149,7 +183,10 @@ class AuthController extends Controller
             'monthlyRevenue',
             'ticketNames',
             'soldQuantities',
-            'ticketRevenues'
+            'ticketRevenues',
+            'genderStats',
+            'categoryStats',
+            'locationStats'
         ));
     }
 

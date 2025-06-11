@@ -67,6 +67,78 @@
     </div>
 </div>
 
+<!-- Gender Distribution Chart -->
+<div class="row">
+    <div class="col-lg-6 mb-4">
+        <div class="card fade-in">
+            <div class="card-header">
+                <i class="bi bi-pie-chart-fill me-2"></i>Gender Distribution
+            </div>
+            <div class="card-body d-flex align-items-center justify-content-center flex-wrap flex-md-nowrap">
+                <div style="flex:0 0 180px; max-width:180px;">
+                    <canvas id="genderDoughnutChart" height="180" width="180"></canvas>
+                </div>
+                <div class="ms-md-4 mt-3 mt-md-0" style="flex:1; min-width:180px;">
+                    <ul id="genderChartLegend" class="list-unstyled mb-0" style="font-size:0.98rem;"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 mb-4">
+        <div class="card fade-in">
+            <div class="card-header">
+                <i class="bi bi-pie-chart-fill me-2"></i>Category Distribution
+            </div>
+            <div class="card-body d-flex align-items-center justify-content-center flex-wrap flex-md-nowrap">
+                <div style="flex:0 0 180px; max-width:180px;">
+                    <canvas id="categoryDoughnutChart" height="180" width="180"></canvas>
+                </div>
+                <div class="ms-md-4 mt-3 mt-md-0" style="flex:1; min-width:180px;">
+                    <ul id="categoryChartLegend" class="list-unstyled mb-0" style="font-size:0.98rem;"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Location Statistics -->
+<div class="card fade-in mb-4">
+    <div class="card-header">
+        <i class="bi bi-geo-alt-fill me-2"></i>Client Locations
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-8 mb-4">
+                <h5 class="mb-3">Global Distribution</h5>
+                <div id="worldMap" style="height: 400px;"></div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <h5 class="mb-3">Top Cities</h5>
+                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>Clients</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($locationStats['cities'] as $city)
+                            <tr>
+                                <td>{{ $city->city }}</td>
+                                <td>{{ $city->country }}</td>
+                                <td>{{ $city->total }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="card fade-in mb-4">
     <div class="card-header">
         <i class="bi bi-bar-chart-fill me-2"></i>Ticket Sales (Quantity Sold)
@@ -224,10 +296,13 @@
         </div>
     </div>
 </div>
+
 @endsection
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/jsvectormap@1.5.3/dist/js/jsvectormap.min.js"></script>
+<script src="https://unpkg.com/jsvectormap@1.5.3/dist/maps/world.js"></script>
 <script>
 // Animate cards on scroll
 const observerOptions = {
@@ -253,6 +328,80 @@ document.querySelectorAll('.fade-in').forEach(el => {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Gender Distribution Doughnut Chart
+    var genderCtx = document.getElementById('genderDoughnutChart').getContext('2d');
+    var genderColors = ['#2563eb', '#f472b6'];
+    var genderData = @json($genderStats);
+    var genderLabels = Object.keys(genderData);
+    var genderValues = Object.values(genderData);
+    
+    var genderDoughnutChart = new Chart(genderCtx, {
+        type: 'doughnut',
+        data: {
+            labels: genderLabels,
+            datasets: [{
+                data: genderValues,
+                backgroundColor: genderColors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            plugins: {
+                legend: { display: false }
+            },
+            cutout: '60%'
+        }
+    });
+
+    // Custom legend for gender chart
+    var genderLegendContainer = document.getElementById('genderChartLegend');
+    genderLegendContainer.innerHTML = genderLabels.map(function(label, i) {
+        var total = genderValues[i];
+        var percentage = ((total / genderValues.reduce((a, b) => a + b, 0)) * 100).toFixed(1);
+        return `<li class="d-flex align-items-center mb-2">
+            <span style="display:inline-block;width:16px;height:16px;background:${genderColors[i]};border-radius:3px;margin-right:10px;"></span>
+            ${label} <span class='ms-auto fw-bold'>${total} (${percentage}%)</span>
+        </li>`;
+    }).join('');
+
+    // Category Distribution Doughnut Chart
+    var categoryCtx = document.getElementById('categoryDoughnutChart').getContext('2d');
+    var categoryColors = ['#22c55e', '#3b82f6', '#f59e0b'];
+    var categoryData = @json($categoryStats);
+    var categoryLabels = Object.keys(categoryData);
+    var categoryValues = Object.values(categoryData);
+    
+    var categoryDoughnutChart = new Chart(categoryCtx, {
+        type: 'doughnut',
+        data: {
+            labels: categoryLabels,
+            datasets: [{
+                data: categoryValues,
+                backgroundColor: categoryColors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            plugins: {
+                legend: { display: false }
+            },
+            cutout: '60%'
+        }
+    });
+
+    // Custom legend for category chart
+    var categoryLegendContainer = document.getElementById('categoryChartLegend');
+    categoryLegendContainer.innerHTML = categoryLabels.map(function(label, i) {
+        var total = categoryValues[i];
+        var percentage = ((total / categoryValues.reduce((a, b) => a + b, 0)) * 100).toFixed(1);
+        return `<li class="d-flex align-items-center mb-2">
+            <span style="display:inline-block;width:16px;height:16px;background:${categoryColors[i]};border-radius:3px;margin-right:10px;"></span>
+            ${label} <span class='ms-auto fw-bold'>${total} (${percentage}%)</span>
+        </li>`;
+    }).join('');
+
     var ctx = document.getElementById('ticketsBarChart').getContext('2d');
     var ticketsBarChart = new Chart(ctx, {
         type: 'bar',
@@ -303,11 +452,120 @@ document.addEventListener('DOMContentLoaded', function() {
     legendContainer.innerHTML = labels.map(function(label, i) {
         return `<li class="d-flex align-items-center mb-2"><span style="display:inline-block;width:16px;height:16px;background:${pieColors[i % pieColors.length]};border-radius:3px;margin-right:10px;"></span>${label} <span class='ms-auto fw-bold'>RM ${revenues[i].toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}</span></li>`;
     }).join('');
+
+    // World Map
+    const mapData = {};
+    const countryData = @json($locationStats['countries']);
+    countryData.forEach(item => {
+        // Convert country name to ISO code
+        const countryMapping = {
+            'Malaysia': 'MY',
+            'United States': 'US',
+            'United Kingdom': 'GB',
+            'Indonesia': 'ID',
+            'Singapore': 'SG',
+            'Thailand': 'TH',
+            'Vietnam': 'VN',
+            'Philippines': 'PH',
+            'China': 'CN',
+            'Japan': 'JP',
+            'South Korea': 'KR',
+            'India': 'IN',
+            'Australia': 'AU',
+            'New Zealand': 'NZ',
+            'Canada': 'CA',
+            'Germany': 'DE',
+            'France': 'FR',
+            'Italy': 'IT',
+            'Spain': 'ES',
+            'Netherlands': 'NL',
+            'Belgium': 'BE',
+            'Switzerland': 'CH',
+            'Austria': 'AT',
+            'Sweden': 'SE',
+            'Norway': 'NO',
+            'Denmark': 'DK',
+            'Finland': 'FI',
+            'Russia': 'RU',
+            'Brazil': 'BR',
+            'Mexico': 'MX',
+            'Argentina': 'AR',
+            'Chile': 'CL',
+            'South Africa': 'ZA',
+            'United Arab Emirates': 'AE',
+            'Saudi Arabia': 'SA',
+            'Turkey': 'TR',
+            'Israel': 'IL',
+            'Egypt': 'EG'
+        };
+        
+        // Try to get the country code, first check exact match, then try case-insensitive match
+        let code = countryMapping[item.country];
+        if (!code) {
+            const countryLower = item.country.toLowerCase();
+            const matchingCountry = Object.keys(countryMapping).find(
+                key => key.toLowerCase() === countryLower
+            );
+            code = matchingCountry ? countryMapping[matchingCountry] : item.country;
+        }
+        
+        if (code) {
+            mapData[code] = item.total;
+            console.log(`Mapped ${item.country} to ${code} with ${item.total} users`); // Debug log
+        }
+    });
+
+    const map = new jsVectorMap({
+        selector: '#worldMap',
+        map: 'world',
+        zoomOnScroll: true,
+        zoomButtons: true,
+        markers: null,
+        markerStyle: {
+            initial: {
+                r: 6,
+                fill: '#1e88e5',
+                stroke: '#fff',
+                strokeWidth: 2,
+            }
+        },
+        series: {
+            regions: [{
+                values: mapData,
+                scale: ['#c8e6ff', '#0d47a1'],
+                normalizeFunction: 'polynomial',
+                legend: {
+                    vertical: true
+                }
+            }]
+        },
+        regionStyle: {
+            initial: {
+                fill: '#e9ecef',
+                stroke: '#fff',
+                strokeWidth: 0.5,
+            },
+            hover: {
+                fill: '#2563eb',
+                cursor: 'pointer'
+            }
+        },
+        onRegionTipShow: function(event, label, code) {
+            const total = mapData[code] || 0;
+            label.html(
+                `<div class="map-tooltip">
+                    <strong>${label.html()}</strong><br>
+                    <span class="text-info">Total Users: ${total.toLocaleString()}</span>
+                </div>`
+            );
+        },
+        backgroundColor: 'transparent',
+    });
 });
 </script>
-@endpush
 
 @push('styles')
+<link rel="stylesheet" href="https://unpkg.com/jsvectormap@1.5.3/dist/css/jsvectormap.min.css">
 <style>
 .dashboard-stat-card {
     min-width: 240px;
@@ -325,6 +583,30 @@ document.addEventListener('DOMContentLoaded', function() {
         min-width: 100%;
         max-width: 100%;
     }
+}
+.jvm-tooltip {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 0.875rem;
+    max-width: 200px;
+    word-wrap: break-word;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.map-tooltip {
+    text-align: center;
+}
+
+.map-tooltip strong {
+    color: #fff;
+    display: block;
+    margin-bottom: 4px;
+    font-size: 1rem;
+}
+
+.map-tooltip .text-info {
+    color: #7dd3fc !important;
 }
 </style>
 @endpush
