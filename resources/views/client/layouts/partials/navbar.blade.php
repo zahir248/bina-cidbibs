@@ -29,11 +29,20 @@
                             </a>
                             <ul class="dropdown-menu">
                                 @guest
-                                    <li><a class="dropdown-item" href="#">Login</a></li>
-                                    <li><a class="dropdown-item" href="#">Register</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('client.login') }}">Login</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('client.register') }}">Register</a></li>
                                 @endguest
                                 @auth
-                                    <li><a class="dropdown-item" href="#">User</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('client.profile') }}">Profile</a></li>
+                                    <li>
+                                        <form method="POST" action="{{ route('client.logout') }}">
+                                            @csrf
+                                            <a class="dropdown-item" href="{{ route('client.logout') }}"
+                                               onclick="event.preventDefault(); this.closest('form').submit();">
+                                                Logout
+                                            </a>
+                                        </form>
+                                    </li>
                                 @endauth
                             </ul>
                         </li>
@@ -43,7 +52,10 @@
                     <a class="nav-link {{ request()->routeIs('client.calendar') ? 'active' : '' }}" href="{{ route('client.calendar') }}">Calendar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('client.podcast') ? 'active' : '' }}" href="{{ route('client.podcast') }}">Podcast</a>
+                    <a class="nav-link {{ request()->routeIs('client.facility-management') ? 'active' : '' }}" href="{{ route('client.facility-management') }}">Facility Management Engagement Day</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('client.modular-asia') ? 'active' : '' }}" href="{{ route('client.modular-asia') }}">Modular Asia Forum & Exhibition</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('client.career-spotlight') ? 'active' : '' }}" href="{{ route('client.career-spotlight') }}">Career Spotlight @ Bina</a>
@@ -55,10 +67,7 @@
                     <a class="nav-link {{ request()->routeIs('client.nextgen') ? 'active' : '' }}" href="{{ route('client.nextgen') }}">NextGen @ Bina</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('client.facility-management') ? 'active' : '' }}" href="{{ route('client.facility-management') }}">Facility Management Engagement Day</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('client.modular-asia') ? 'active' : '' }}" href="{{ route('client.modular-asia') }}">Modular Asia Forum & Exhibition</a>
+                    <a class="nav-link {{ request()->routeIs('client.podcast') ? 'active' : '' }}" href="{{ route('client.podcast') }}">Podcast</a>
                 </li>
             </ul>
         </div>
@@ -96,11 +105,20 @@
                         </a>
                         <ul class="collapse sidebar-submenu" id="accountSidebarSubmenu">
                             @guest
-                                <li><a class="sidebar-link" href="#">Login</a></li>
-                                <li><a class="sidebar-link" href="#">Register</a></li>
+                                <li><a class="sidebar-link" href="{{ route('client.login') }}">Login</a></li>
+                                <li><a class="sidebar-link" href="{{ route('client.register') }}">Register</a></li>
                             @endguest
                             @auth
-                                <li><a class="sidebar-link" href="#">User</a></li>
+                                <li><a class="sidebar-link" href="{{ route('client.profile') }}">Profile</a></li>
+                                <li>
+                                    <form method="POST" action="{{ route('client.logout') }}">
+                                        @csrf
+                                        <a class="sidebar-link" href="{{ route('client.logout') }}"
+                                           onclick="event.preventDefault(); this.closest('form').submit();">
+                                            Logout
+                                        </a>
+                                    </form>
+                                </li>
                             @endauth
                         </ul>
                     </li>
@@ -110,7 +128,10 @@
                 <a class="sidebar-link {{ request()->routeIs('client.calendar') ? 'active' : '' }}" href="{{ route('client.calendar') }}">Calendar</a>
             </li>
             <li class="sidebar-item">
-                <a class="sidebar-link {{ request()->routeIs('client.podcast') ? 'active' : '' }}" href="{{ route('client.podcast') }}">Podcast</a>
+                <a class="sidebar-link {{ request()->routeIs('client.facility-management') ? 'active' : '' }}" href="{{ route('client.facility-management') }}">Facility Management Engagement Day</a>
+            </li>
+            <li class="sidebar-item">
+                <a class="sidebar-link {{ request()->routeIs('client.modular-asia') ? 'active' : '' }}" href="{{ route('client.modular-asia') }}">Modular Asia Forum & Exhibition</a>
             </li>
             <li class="sidebar-item">
                 <a class="sidebar-link {{ request()->routeIs('client.career-spotlight') ? 'active' : '' }}" href="{{ route('client.career-spotlight') }}">Career Spotlight @ Bina</a>
@@ -122,10 +143,7 @@
                 <a class="sidebar-link {{ request()->routeIs('client.nextgen') ? 'active' : '' }}" href="{{ route('client.nextgen') }}">NextGen @ Bina</a>
             </li>
             <li class="sidebar-item">
-                <a class="sidebar-link {{ request()->routeIs('client.facility-management') ? 'active' : '' }}" href="{{ route('client.facility-management') }}">Facility Management Engagement Day</a>
-            </li>
-            <li class="sidebar-item">
-                <a class="sidebar-link {{ request()->routeIs('client.modular-asia') ? 'active' : '' }}" href="{{ route('client.modular-asia') }}">Modular Asia Forum & Exhibition</a>
+                <a class="sidebar-link {{ request()->routeIs('client.podcast') ? 'active' : '' }}" href="{{ route('client.podcast') }}">Podcast</a>
             </li>
         </ul>
     </div>

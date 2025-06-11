@@ -30,7 +30,7 @@
         align-items: center;
         justify-content: center;
         
-        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('{{ asset('images/hero-hero-section.png') }}') no-repeat center center;
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('{{ asset('images/hero-section.png') }}') no-repeat center center;
         background-size: cover;
         background-attachment: scroll; /* Better for mobile */
         
@@ -217,7 +217,7 @@
 
     /* Store Section */
     .store-section {
-        padding: 60px 2rem 60px 2rem;
+        padding: 60px 2rem;
         background-color: transparent;
         position: relative;
         z-index: 10;
@@ -312,19 +312,112 @@
     }
 
     .store-container {
-        display: flex;
-        gap: 2.5rem;
         max-width: 1400px;
         margin: 0 auto;
-        padding: 0 2rem;
     }
 
-    .store-sidebar {
-        flex: 0 0 270px;
-        background: transparent;
+    .store-products {
+        flex: 1 1 0%;
+    }
+
+    .category-section {
+        background: white;
+        border-radius: 0.75rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        overflow: hidden;
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+    }
+
+    .category-header {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 0.5rem;
+    }
+
+    .sale-info {
+        color: #64748b;
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .product-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .product-table th {
+        background: #f8fafc;
+        padding: 1rem;
+        text-align: left;
+        font-weight: 600;
+        color: #1e293b;
+        border-bottom: 2px solid #e2e8f0;
+    }
+
+    .product-table td {
+        padding: 1rem;
+        border-bottom: 1px solid #e2e8f0;
+        vertical-align: middle;
+    }
+
+    .product-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .original-price {
+        text-decoration: line-through;
+        color: #94a3b8;
+        font-size: 0.9rem;
+        display: block;
+    }
+
+    .discounted-price {
+        color: #ef4444;
+        font-weight: 600;
+    }
+
+    .early-bird {
+        color: #94a3b8;
+        font-size: 0.9rem;
+        margin-left: 0.5rem;
+    }
+
+    .quantity-column {
+        flex: 1;
         display: flex;
-        flex-direction: column;
-        gap: 2.5rem;
+        justify-content: flex-end;
+    }
+
+    /* Add styles for details button */
+    .details-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 0.375rem;
+        font-size: 0.9rem;
+        color: #ffa000;
+        text-decoration: none;
+        margin-left: 1rem;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .details-button:hover {
+        color: #ff8f00;
+    }
+
+    .details-button i {
+        font-size: 1rem;
+    }
+
+    .product-name-cell {
+        display: flex;
+        align-items: center;
     }
 
     /* Updated Single Price Slider Styles */
@@ -453,100 +546,67 @@
     }
 
     /* Product Grid */
-    .store-products {
-        flex: 1 1 0%;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 2rem;
+    .product-image {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 0.5rem;
     }
 
-    .product-card {
-        background: #fff;
-        border-radius: 0.5rem;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        overflow: hidden;
+    .product-info {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        transition: box-shadow 0.2s, transform 0.2s;
+        gap: 0.5rem;
     }
-    .product-card:hover {
-        box-shadow: 0 8px 24px rgba(37,99,235,0.12);
-        transform: translateY(-4px) scale(1.02);
-    }
-    .product-image {
-        width: 100%;
-        aspect-ratio: 1/1;
-        object-fit: cover;
-        background: #f1f1f1;
-    }
-    .product-info {
-        padding: 1.25rem 1rem 1rem 1rem;
-        width: 100%;
-    }
+
     .product-title {
-        font-size: 1.05rem;
-        font-weight: 700;
+        font-size: 1rem;
+        font-weight: 600;
         color: #111a3a;
-        margin-bottom: 0.5rem;
         text-transform: uppercase;
         letter-spacing: 0.5px;
     }
+
     .product-price {
-        color: #bfa600;
+        color: #1e293b;
         font-weight: 600;
-        font-size: 1.05rem;
-        margin-bottom: 0.5rem;
-    }
-    .product-meta {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: #64748b;
         font-size: 1rem;
     }
-    .product-meta i {
+
+    .view-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
         color: #64748b;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+
+    .view-button:hover {
+        background: #f1f5f9;
+        color: #1e293b;
     }
 
     /* Responsive */
-    @media (max-width: 1100px) {
-        .store-container {
-            flex-direction: column;
-            gap: 2rem;
-            padding: 0 1rem;
-        }
-        .store-sidebar {
-            flex-direction: row;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-        .store-categories {
-            margin-top: 0;
-        }
-    }
     @media (max-width: 768px) {
-        .store-container {
-            flex-direction: column;
-            gap: 1.5rem;
-            padding: 0 0.5rem;
-        }
-        .store-sidebar {
-            flex-direction: column;
-            gap: 1.5rem;
-            width: 100%;
-        }
         .store-products {
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            margin: 0 -1rem;
+            border-radius: 0;
         }
-    }
-    @media (max-width: 576px) {
-        .store-products {
-            grid-template-columns: 1fr;
+
+        .product-table {
+            display: block;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
-        .store-sidebar {
-            width: 100%;
+
+        .product-table th,
+        .product-table td {
+            white-space: nowrap;
         }
     }
 
@@ -584,6 +644,434 @@
         margin: 0 auto 2.5rem auto;
         max-width: 1400px;
         width: 100%;
+    }
+
+    /* Cart Buttons */
+    .cart-buttons-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 2rem;
+        padding-right: 1.5rem;
+    }
+
+    .cart-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        width: 25%;
+        min-width: 200px;
+    }
+
+    .cart-button {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.875rem 1rem;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s;
+        white-space: nowrap;
+    }
+
+    .add-to-cart {
+        background: #212529;
+        color: white;
+        border: none;
+    }
+
+    .add-to-cart:hover {
+        background: #212529;
+        color: white;
+    }
+
+    .view-cart {
+        background: #ff9900;
+        color: white;
+        border: none;
+    }
+
+    .view-cart:hover {
+        background: #ffb300;
+        color: white;
+    }
+
+    .quantity-select {
+        padding: 0.5rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.25rem;
+        width: 80px;
+        background: white;
+        color: #1e293b;
+        font-size: 1rem;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 0.5rem center;
+        background-repeat: no-repeat;
+        background-size: 1.5em 1.5em;
+        padding-right: 2.5rem;
+    }
+
+    .quantity-select:focus {
+        outline: none;
+        border-color: orange;
+        box-shadow: orange;
+    }
+
+    /* Category Styles */
+    .category-section {
+        background: white;
+        border-radius: 0.75rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        overflow: hidden;
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+    }
+
+    .category-header {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 0.5rem;
+    }
+
+    .sale-info {
+        color: #64748b;
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .product-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .product-table th {
+        background: #f8fafc;
+        padding: 1rem;
+        text-align: left;
+        font-weight: 600;
+        color: #1e293b;
+        border-bottom: 2px solid #e2e8f0;
+    }
+
+    .product-table td {
+        padding: 1rem;
+        border-bottom: 1px solid #e2e8f0;
+        vertical-align: middle;
+    }
+
+    .product-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .original-price {
+        text-decoration: line-through;
+        color: #94a3b8;
+        font-size: 0.9rem;
+        display: block;
+    }
+
+    .discounted-price {
+        color: #ef4444;
+        font-weight: 600;
+    }
+
+    .early-bird {
+        color: #94a3b8;
+        font-size: 0.9rem;
+        margin-left: 0.5rem;
+    }
+
+    .quantity-column {
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    /* Add styles for details button */
+    .details-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 0.375rem;
+        font-size: 0.9rem;
+        color: #ff9900;
+        text-decoration: none;
+        margin-left: 1rem;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .details-button:hover {
+        color: #ff8f00;
+    }
+
+    .details-button i {
+        font-size: 1rem;
+    }
+
+    .product-name-cell {
+        display: flex;
+        align-items: center;
+    }
+
+    /* Add pricing table styles */
+    .pricing-table-section {
+        margin: 0 auto 3.5rem;
+        max-width: 1400px;
+    }
+
+    .pricing-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        border-radius: 0.5rem;
+        overflow: hidden;
+    }
+
+    .pricing-table th {
+        background: #666;
+        color: white;
+        padding: 1rem;
+        text-align: left;
+        font-weight: 600;
+    }
+
+    .pricing-table td {
+        padding: 1rem;
+        background: #f0f0f0;
+        border-bottom: 2px solid white;
+    }
+
+    .pricing-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .pricing-table .price-column {
+        width: 30%;
+    }
+
+    .per-pax {
+        color: #666;
+        font-size: 0.9rem;
+        margin-left: 0.25rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+        .cart-buttons {
+            width: 40%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .cart-buttons {
+            width: 50%;
+        }
+        .cart-button {
+            font-size: 0.9rem;
+            padding: 0.75rem 0.875rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .cart-buttons-container {
+            padding-right: 0;
+        }
+        .cart-buttons {
+            width: 100%;
+        }
+        .cart-button {
+            font-size: 1rem;
+            padding: 0.875rem 1rem;
+        }
+    }
+
+    /* Modal styles to prevent scrolling */
+    body.modal-open {
+        overflow: hidden;
+        padding-right: 17px;
+    }
+
+    #cartMessageModal {
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    #cartMessageModal .modal-dialog {
+        margin: 1.75rem auto;
+        max-width: 90%;
+        width: 400px;
+    }
+
+    #cartMessageModal .modal-content {
+        max-height: calc(100vh - 3.5rem);
+        overflow: hidden;
+        border-radius: 12px;
+        border: none;
+    }
+
+    #cartMessageModal .modal-header {
+        padding: 1rem;
+        border-bottom: none;
+    }
+
+    #cartMessageModal .modal-header.bg-success,
+    #cartMessageModal .modal-header.bg-danger {
+        border-radius: 12px 12px 0 0;
+    }
+
+    #cartMessageModal .modal-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    #cartMessageModal .modal-body {
+        padding: 1.25rem;
+        font-size: 1rem;
+        color: #1e293b;
+    }
+
+    #cartMessageModal .modal-footer {
+        border-top: none;
+        padding: 1rem;
+        justify-content: center;
+    }
+
+    #cartMessageModal .btn-secondary {
+        background: #64748b;
+        border: none;
+        padding: 0.5rem 2rem;
+        font-weight: 500;
+        border-radius: 6px;
+    }
+
+    #cartMessageModal .btn-secondary:hover {
+        background: #475569;
+    }
+
+    /* Mobile specific modal adjustments */
+    @media (max-width: 576px) {
+        #cartMessageModal .modal-dialog {
+            margin: 1rem;
+            width: auto;
+        }
+
+        #cartMessageModal .modal-content {
+            margin: 0 1rem;
+        }
+
+        #cartMessageModal .modal-title {
+            font-size: 1rem;
+        }
+
+        #cartMessageModal .modal-body {
+            padding: 1rem;
+            font-size: 0.95rem;
+        }
+    }
+
+    /* Mobile Product Cards */
+    .mobile-product-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .mobile-product-card {
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    }
+
+    .mobile-product-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+    }
+
+    .mobile-product-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin: 0;
+    }
+
+    .mobile-details-link {
+        color: #ffa000;
+        font-size: 1.25rem;
+        text-decoration: none;
+    }
+
+    .mobile-product-price {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 1rem;
+    }
+
+    .mobile-product-quantity {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .mobile-product-quantity label {
+        font-weight: 500;
+        color: #64748b;
+    }
+
+    .mobile-product-quantity .quantity-select {
+        flex: 1;
+        max-width: 120px;
+    }
+
+    /* Adjust cart buttons container for mobile */
+    @media (max-width: 768px) {
+        .cart-buttons-container {
+            padding: 0 1rem;
+            margin-top: 2rem;
+        }
+
+        .cart-buttons {
+            width: 100%;
+            flex-direction: row;
+            background: white;
+            padding: 0;
+            gap: 0.75rem;
+        }
+
+        .cart-button {
+            flex: 1;
+            font-size: 0.9rem;
+            padding: 0.75rem 1rem;
+        }
+
+        .store-section {
+            padding-bottom: 2rem;
+        }
+    }
+
+    /* Hide horizontal scroll on mobile */
+    @media (max-width: 768px) {
+        .category-section {
+            margin: 0 1rem 1rem;
+            overflow: visible;
+        }
+
+        .mobile-product-cards {
+            margin-bottom: 1rem;
+        }
     }
 </style>
 @endpush
@@ -626,63 +1114,183 @@
             </div>
         </div>
     </div>
-    <!-- Divider below announcement section -->
+
+    <hr class="announcement-divider">
+
+    <div class="pricing-table-section">
+        <table class="pricing-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="price-column">PRICE (RM)</th>
+                    <th class="price-column">PRICE (USD)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>NORMAL PRICE</td>
+                    <td>349.00 <span class="per-pax">- per pax</span></td>
+                    <td>80.00</td>
+                </tr>
+                <tr>
+                    <td>STUDENT PRICE</td>
+                    <td>249.00 <span class="per-pax">- per pax</span></td>
+                    <td>60.00</td>
+                </tr>
+                <tr>
+                    <td>EARLY BIRD</td>
+                    <td>249.00 <span class="per-pax">- per pax</span></td>
+                    <td>60.00</td>
+                </tr>
+                <tr>
+                    <td>COMBO**</td>
+                    <td>450.00 <span class="per-pax">- per pax</span></td>
+                    <td>110.00</td>
+                </tr>
+                <tr>
+                    <td rowspan="3">GROUP PRICE</td>
+                    <td>319.00 <span class="per-pax">- 1 to 3pax</span></td>
+                    <td>80.00</td>
+                </tr>
+                <tr>
+                    <td>299.00 <span class="per-pax">- 4 to 7pax</span></td>
+                    <td>70.00</td>
+                </tr>
+                <tr>
+                    <td>249.00 <span class="per-pax">- 8 pax and above</span></td>
+                    <td>60.00</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
     <hr class="announcement-divider">
 
     <div class="store-container">
-        <!-- Sidebar -->
-        <aside class="store-sidebar">
-            <a href="{{ route('client.cart.index') }}" class="btn btn-warning btn-lg d-flex align-items-center justify-content-center gap-2 mb-4" style="width:100%;height:48px;font-size:1.1rem;border-radius:0.5rem;">
-                <i class="fas fa-shopping-cart" style="font-size:1.5rem;"></i>
-                <span class="fw-bold">RM {{ number_format($cartTotal ?? 0, 2) }}</span>
-            </a>
-            <div class="price-slider-container">
-                <div class="price-filter-title">PRICE FILTER</div>
-                <div class="price-display">
-                    <span class="price-value" id="priceValue">RM 249</span>
-                </div>
-                <input type="range" min="249" max="450" value="249" class="price-slider" id="priceSlider" step="1">
-                <div class="price-range-info">
-                    <span>RM 249</span>
-                    <span>RM 450</span>
-                </div>
-            </div>
-            <div class="store-categories">
-                <div class="categories-title">PRODUCT CATEGORIES</div>
-                <ul class="category-list">
-                    <li class="category-item">
-                        <input type="checkbox" class="category-checkbox" id="cat-facility">
-                        <label for="cat-facility" class="category-label">Facility Management</label>
-                    </li>
-                    <li class="category-item">
-                        <input type="checkbox" class="category-checkbox" id="cat-general">
-                        <label for="cat-general" class="category-label">General</label>
-                    </li>
-                    <li class="category-item">
-                        <input type="checkbox" class="category-checkbox" id="cat-modular">
-                        <label for="cat-modular" class="category-label">Modular Asia</label>
-                    </li>
-                    <li class="category-item">
-                        <input type="checkbox" class="category-checkbox" id="cat-ticket">
-                        <label for="cat-ticket" class="category-label">Ticket</label>
-                    </li>
-                </ul>
-            </div>
-        </aside>
-        <!-- Product Grid -->
         <section class="store-products">
-            @foreach($tickets as $ticket)
-                <a href="{{ route('client.ticket.detail', $ticket->id) }}" class="product-card" style="text-decoration:none;color:inherit;">
-                    <img src="{{ asset($ticket->image) }}" alt="Product" class="product-image">
-                    <div class="product-info">
-                        <div class="product-title">{{ strtoupper($ticket->name) }}</div>
-                        <div class="product-price">RM {{ number_format($ticket->price, 2) }}</div>
-                        <div class="product-meta">
-                            <i class="fas fa-eye"></i>
+            @php
+                $categories = [
+                    'Facility Management' => [],
+                    'Modular Asia' => [],
+                    'Combo' => []
+                ];
+                
+                foreach($tickets as $ticket) {
+                    $name = strtolower($ticket->name);
+                    if (str_contains($name, 'facility')) {
+                        $categories['Facility Management'][] = $ticket;
+                    } elseif (str_contains($name, 'modular')) {
+                        $categories['Modular Asia'][] = $ticket;
+                    } else {
+                        $categories['Combo'][] = $ticket;
+                    }
+                }
+
+                // Sort Facility Management and Modular Asia categories by price
+                $categories['Facility Management'] = collect($categories['Facility Management'])
+                    ->sortBy('price')
+                    ->values()
+                    ->all();
+                
+                $categories['Modular Asia'] = collect($categories['Modular Asia'])
+                    ->sortBy('price')
+                    ->values()
+                    ->all();
+            @endphp
+
+            @foreach($categories as $categoryName => $categoryTickets)
+                @if(count($categoryTickets) > 0)
+                    <div class="category-section">
+                        <div class="category-header">{{ $categoryName }}</div>
+                        
+                        <!-- Desktop Table View -->
+                        <div class="d-none d-md-block">
+                            <table class="product-table">
+                                <thead>
+                                    <tr>
+                                        <th>Ticket</th>
+                                        <th>Price (MYR)</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($categoryTickets as $ticket)
+                                        <tr data-ticket-id="{{ $ticket->id }}">
+                                            <td>
+                                                <div class="product-name-cell">
+                                                    {{ $ticket->name }}
+                                                    <a href="{{ route('client.ticket.detail', $ticket->id) }}" class="details-button">
+                                                        <i class="fas fa-info-circle"></i>
+                                                        Details
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="product-price">{{ number_format($ticket->price, 2) }}</span>
+                                            </td>
+                                            <td>
+                                                <select class="quantity-select" data-ticket-id="{{ $ticket->id }}">
+                                                    <option value="0">0</option>
+                                                    @for($i = 1; $i <= 10; $i++)
+                                                        <option value="{{ $i }}">{{ $i }}</option>
+                                                    @endfor
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Mobile Card View -->
+                        <div class="d-md-none">
+                            <div class="mobile-product-cards">
+                                @foreach($categoryTickets as $ticket)
+                                    <div class="mobile-product-card" data-ticket-id="{{ $ticket->id }}">
+                                        <div class="mobile-product-header">
+                                            <h3 class="mobile-product-title">{{ $ticket->name }}</h3>
+                                            <a href="{{ route('client.ticket.detail', $ticket->id) }}" class="mobile-details-link">
+                                                <i class="fas fa-info-circle"></i>
+                                            </a>
+                                        </div>
+                                        <div class="mobile-product-price">
+                                            RM {{ number_format($ticket->price, 2) }}
+                                        </div>
+                                        <div class="mobile-product-quantity">
+                                            <label>Quantity:</label>
+                                            <select class="quantity-select" data-ticket-id="{{ $ticket->id }}">
+                                                <option value="0">0</option>
+                                                @for($i = 1; $i <= 10; $i++)
+                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                @endfor
+                                            </select>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
-                </a>
+                @endif
             @endforeach
+
+            <hr class="announcement-divider">
+
+            <!-- Cart Buttons -->
+            <div class="cart-buttons-container">
+                <div class="cart-buttons">
+                    <form id="addToCartForm" action="{{ route('client.cart.add') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="ticket_data" id="ticketData" value="">
+                        <button type="submit" class="cart-button add-to-cart">
+                            <span>ADD TO CART</span>
+                        </button>
+                    </form>
+                    <a href="{{ route('client.cart.index') }}" class="cart-button view-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>RM {{ number_format($cartTotal ?? 0, 2) }}</span>
+                    </a>
+                </div>
+            </div>
         </section>
     </div>
 </div>
@@ -715,6 +1323,23 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 @endif
+
+<!-- Cart Message Modal -->
+<div class="modal fade" id="cartMessageModal" tabindex="-1" aria-labelledby="cartMessageModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cartMessageModalLabel">Cart Message</h5>
+      </div>
+      <div class="modal-body" id="cartMessageBody">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @push('scripts')
@@ -926,6 +1551,120 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Example: Redirect to checkout or open modal
             // window.location.href = '/checkout?ticket=' + ticketType;
+        });
+    });
+});
+
+// Cart functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const addToCartForm = document.getElementById('addToCartForm');
+    const quantitySelects = document.querySelectorAll('.quantity-select');
+    const cartMessageModal = new bootstrap.Modal(document.getElementById('cartMessageModal'), {
+        backdrop: 'static',
+        keyboard: false
+    });
+    const cartMessageBody = document.getElementById('cartMessageBody');
+    const cartMessageModalEl = document.getElementById('cartMessageModal');
+    const modalHeaderEl = cartMessageModalEl.querySelector('.modal-header');
+    
+    // Function to handle modal show/hide
+    function toggleScrollLock(lock) {
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+        document.body.style.paddingRight = lock ? `${scrollbarWidth}px` : '';
+        document.body.style.overflow = lock ? 'hidden' : '';
+    }
+
+    // Add event listeners for modal events
+    cartMessageModalEl.addEventListener('show.bs.modal', function () {
+        toggleScrollLock(true);
+    });
+
+    cartMessageModalEl.addEventListener('hidden.bs.modal', function () {
+        toggleScrollLock(false);
+    });
+    
+    addToCartForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Store current scroll position
+        const scrollPos = window.scrollY;
+        
+        // Collect all selected quantities
+        const selectedTickets = [];
+        quantitySelects.forEach(select => {
+            const quantity = parseInt(select.value);
+            if (quantity > 0) {
+                // Get the ticket ID from the closest row
+                const ticketId = select.closest('tr').dataset.ticketId;
+                selectedTickets.push({
+                    ticket_id: ticketId,
+                    quantity: quantity
+                });
+            }
+        });
+        
+        if (selectedTickets.length === 0) {
+            // Show error in modal
+            modalHeaderEl.className = 'modal-header bg-danger text-white';
+            cartMessageBody.textContent = 'Please select at least one ticket to add to cart.';
+            cartMessageModal.show();
+            // Restore scroll position after modal is shown
+            window.scrollTo(0, scrollPos);
+            return;
+        }
+        
+        // Create a hidden form to submit multiple tickets
+        const formData = new FormData();
+        selectedTickets.forEach((ticket, index) => {
+            formData.append(`tickets[${index}][ticket_id]`, ticket.ticket_id);
+            formData.append(`tickets[${index}][quantity]`, ticket.quantity);
+        });
+        
+        // Send AJAX request
+        fetch('{{ route('client.cart.add') }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Show success in modal
+                modalHeaderEl.className = 'modal-header bg-success text-white';
+                cartMessageBody.textContent = data.message;
+                cartMessageModal.show();
+                
+                // Reset all quantity selects to 0
+                quantitySelects.forEach(select => {
+                    select.value = '0';
+                });
+
+                // Update cart total
+                if (data.cartTotal !== undefined) {
+                    const viewCartBtn = document.querySelector('.view-cart span');
+                    if (viewCartBtn) {
+                        viewCartBtn.textContent = 'RM ' + parseFloat(data.cartTotal).toFixed(2);
+                    }
+                }
+            } else {
+                // Show error in modal
+                modalHeaderEl.className = 'modal-header bg-danger text-white';
+                cartMessageBody.textContent = data.message || 'Error adding items to cart. Please try again.';
+                cartMessageModal.show();
+                // Restore scroll position after modal is shown
+                window.scrollTo(0, scrollPos);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Show error in modal
+            modalHeaderEl.className = 'modal-header bg-danger text-white';
+            cartMessageBody.textContent = 'Error adding items to cart. Please try again.';
+            cartMessageModal.show();
+            // Restore scroll position after modal is shown
+            window.scrollTo(0, scrollPos);
         });
     });
 });

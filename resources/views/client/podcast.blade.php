@@ -24,9 +24,9 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('{{ asset('images/hero-hero-section.png') }}') no-repeat center center;
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('{{ asset('images/hero-section.png') }}') no-repeat center center;
         background-size: cover;
-        background-attachment: scroll;
+        background-attachment: fixed;
         text-align: center;
         position: relative;
         padding: 0 1.5rem;
@@ -35,6 +35,7 @@
         z-index: 1;
         overflow: hidden;
     }
+
     .hero-title-store {
         font-size: clamp(2rem, 8vw, 4rem);
         font-weight: 800;
@@ -42,7 +43,18 @@
         margin-bottom: 1rem;
         letter-spacing: 1px;
         text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.8s ease forwards;
     }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
     .breadcrumb-store {
         display: flex;
         align-items: center;
@@ -52,21 +64,45 @@
         font-size: clamp(1rem, 3vw, 1.25rem);
         font-weight: 500;
         flex-wrap: wrap;
+        opacity: 0;
+        animation: fadeIn 0.8s ease 0.4s forwards;
     }
+
+    @keyframes fadeIn {
+        to {
+            opacity: 1;
+        }
+    }
+
     .breadcrumb-store a {
         color: #fff;
         text-decoration: none;
         opacity: 0.85;
-        transition: opacity 0.2s;
+        transition: all 0.3s ease;
     }
+
     .breadcrumb-store a:hover {
         opacity: 1;
         text-decoration: underline;
+        transform: translateY(-2px);
     }
+
     .breadcrumb-separator {
         color: #fff;
         opacity: 0.7;
         font-size: 1.2em;
+    }
+
+    /* Scroll Animation Classes */
+    .scroll-reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s ease;
+    }
+
+    .scroll-reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
     }
     
     /* Audio Player Styles */
@@ -148,6 +184,70 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+        .podcast-info-card {
+            margin: 0 0.5rem;
+        }
+        
+        .podcast-episode-card {
+            margin: 0 0.5rem;
+        }
+        
+        .table-responsive {
+            margin: 0 -0.5rem;
+        }
+        
+        .audio-player-container {
+            width: 100%;
+            padding-left: 0;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .hero-section-store {
+            min-height: 40vh;
+        }
+        
+        .hero-title-store {
+            font-size: 2rem;
+        }
+        
+        .breadcrumb-store {
+            font-size: 0.9rem;
+        }
+        
+        .event-highlight-card img {
+            height: 200px;
+        }
+    }
+
+    /* Fix table responsiveness */
+    .table {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    @media (max-width: 576px) {
+        td {
+            min-width: 120px;
+            font-size: 0.9rem;
+        }
+        
+        .table > :not(caption) > * > * {
+            padding: 0.75rem;
+        }
+    }
+
+    /* General responsive container fixes */
+    .container {
+        width: 100%;
+        padding-right: var(--bs-gutter-x, 0.75rem);
+        padding-left: var(--bs-gutter-x, 0.75rem);
+        margin-right: auto;
+        margin-left: auto;
+    }
 </style>
 @endpush
 
@@ -162,227 +262,392 @@
     </div>
 </div>
 <!-- Main Content Section -->
-<div class="container py-5">
-    <div class="podcast-info-card d-flex flex-column flex-md-row align-items-stretch p-3 p-md-4" style="background:#fff;border:1.5px solid #22223b;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);gap:2rem;max-width:1100px;margin:0 auto;">
-        <!-- Left: Image -->
-        <div class="flex-shrink-0" style="max-width:340px;width:100%;display:flex;align-items:center;justify-content:center;">
-            <img src="{{ asset('images/podcast-1.png') }}" alt="FM Podcast" style="width:100%;max-width:320px;aspect-ratio:4/3;object-fit:cover;border-radius:1.1rem;">
+<div class="container py-4 px-3 px-sm-4" style="max-width:1400px;">
+    <div class="podcast-info-card d-flex flex-column flex-md-row align-items-stretch p-3 p-sm-4" style="background:#fff;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);gap:3rem;margin:0 auto;border:2px solid #e5e7eb;">
+        <!-- Image Section -->
+        <div class="flex-shrink-0 d-flex justify-content-center align-items-center" style="width:100%;max-width:450px;">
+            <img src="{{ asset('images/podcast-about.png') }}" 
+                 alt="CIDB IBS Podcast"
+                 style="width:100%;height:auto;max-height:380px;object-fit:contain;border-radius:1.25rem;box-shadow:0 4px 20px rgba(80,80,120,0.1);display:block;"
+                 data-bs-toggle="modal"
+                 data-bs-target="#imageModal"
+                 onclick="showImage(this.src)">
         </div>
-        <!-- Right: Text -->
-        <div class="flex-grow-1 d-flex flex-column justify-content-center" style="min-width:0;">
-            <div style="background:#e5e7eb;border-radius:0.75rem;padding:0.5rem 1.5rem 0.5rem 1.5rem;display:inline-block;font-size:1.35rem;font-weight:800;color:#22223b;margin-bottom:1.1rem;">WHAT IS FM PODCAST?</div>
-            <div style="font-size:1.13rem;color:#374151;line-height:1.7;">
-                Facility Management (FM) is an integral part of the built environment, ensuring operational efficiency, sustainability, and long-term asset value. As the industry <b>embraces digitalisation and innovation</b>, there is a growing need for <b>knowledge-sharing platforms</b> that connect stakeholders and provide insights into <b>industry best practices</b>.
+        <!-- Content Section -->
+        <div class="flex-grow-1 d-flex flex-column" style="min-width:0;">
+            <div style="background:#f1f5f9;border-radius:0.75rem;padding:0.75rem 1.5rem;margin-bottom:1rem;">
+                <h2 style="font-size:clamp(1.25rem, 4vw, 1.5rem);font-weight:800;color:#1e293b;margin:0;">ABOUT</h2>
             </div>
-        </div>
-    </div>
-</div>
-<!-- WHY CIDB IBS Section -->
-<div class="container py-5">
-    <div class="text-center mb-2">
-        <h2 style="font-size:2.7rem;font-weight:900;color:#181b2c;letter-spacing:1px;margin-bottom:0.5rem;">WHY CIDB IBS?</h2>
-        <div style="color:#ff9800;font-size:1.15rem;font-weight:600;margin-bottom:2.5rem;">
-            THIS YEAR WE BRINGS YOU INDUSTRY LEADERS, INNOVATORS, AND DECISION-MAKERS AT THE PREMIER EVENT OF THE YEAR!
-        </div>
-    </div>
-    <div class="row g-4 justify-content-center align-items-stretch">
-        <div class="col-md-6 d-flex">
-            <div class="d-flex flex-column h-100 w-100" style="background:#faf7fd;border-radius:1rem;padding:2rem 1.5rem;box-shadow:0 2px 12px rgba(80,80,120,0.03);border:1.5px solid #e5e7eb;">
-                <div style="background:#fff;border-radius:0.75rem;padding:0.7rem 1.5rem;font-size:1.25rem;font-weight:700;color:#181b2c;box-shadow:0 1px 4px rgba(80,80,120,0.03);border:1.5px solid #d1d5db;display:inline-block;margin-bottom:1.2rem;">ESTABLISHED INDUSTRY LEADERSHIP</div>
-                <div style="font-size:1.08rem;color:#181b2c;line-height:1.7;">
-                    As the leading body for IBS in Malaysia, CIDB IBS has an unmatched network and reputation within the construction industry. This gives us the credibility needed to attract high-profile experts and industry leaders to participate in the podcast series.
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 d-flex">
-            <div class="d-flex flex-column h-100 w-100" style="background:#faf7fd;border-radius:1rem;padding:2rem 1.5rem;box-shadow:0 2px 12px rgba(80,80,120,0.03);border:1.5px solid #e5e7eb;">
-                <div style="background:#fff;border-radius:0.75rem;padding:0.7rem 1.5rem;font-size:1.25rem;font-weight:700;color:#181b2c;box-shadow:0 1px 4px rgba(80,80,120,0.03);border:1.5px solid #d1d5db;display:inline-block;margin-bottom:1.2rem;">ACCESS TO RESOURCES</div>
-                <div style="font-size:1.08rem;color:#181b2c;line-height:1.7;">
-                    CIDB IBS has the infrastructure, knowledge, and relationships to effectively host and produce this podcast. With our existing team and resources, we can easily integrate the podcast into our broader marketing and branding strategy.
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 d-flex">
-            <div class="d-flex flex-column h-100 w-100" style="background:#faf7fd;border-radius:1rem;padding:2rem 1.5rem;box-shadow:0 2px 12px rgba(80,80,120,0.03);border:1.5px solid #e5e7eb;">
-                <div style="background:#fff;border-radius:0.75rem;padding:0.7rem 1.5rem;font-size:1.25rem;font-weight:700;color:#181b2c;box-shadow:0 1px 4px rgba(80,80,120,0.03);border:1.5px solid #d1d5db;display:inline-block;margin-bottom:1.2rem;">COMMITMENT TO INNOVATION</div>
-                <div style="font-size:1.08rem;color:#181b2c;line-height:1.7;">
-                    CIDB IBS is a pioneer in driving innovation within the construction sector, with it's BINA brand and launching this podcast aligns with our core mission of fostering growth and modernization within the industry.
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 d-flex">
-            <div class="d-flex flex-column h-100 w-100" style="background:#faf7fd;border-radius:1rem;padding:2rem 1.5rem;box-shadow:0 2px 12px rgba(80,80,120,0.03);border:1.5px solid #e5e7eb;">
-                <div style="background:#fff;border-radius:0.75rem;padding:0.7rem 1.5rem;font-size:1.25rem;font-weight:700;color:#181b2c;box-shadow:0 1px 4px rgba(80,80,120,0.03);border:1.5px solid #d1d5db;display:inline-block;margin-bottom:1.2rem;">INDUSTRY TRUST</div>
-                <div style="font-size:1.08rem;color:#181b2c;line-height:1.7;">
-                    As a trusted institution, CIDB IBS is positioned to make a significant impact with a podcast series that speaks to the needs and challenges of the construction sector.
-                </div>
+            <div style="font-size:0.95rem;color:#334155;line-height:1.5;text-align:justify;">
+                The first-ever podcast series by CIDB IBS, launched under the <b>BINA 2025</b> initiative to amplify conversations that matter in Malaysia's construction and built environment sector. We offer two podcast segments: <b>BINA Podcast</b>, which features insightful conversations with construction industry leaders and innovators, and <b>FM Podcast</b>, which focuses on facility management, highlighting best practices, sustainability, and digitalisation in the built environment.<br><br>
+                As the industry <b>embraces digitalisation and innovation</b>, this Podcast series provides a platform for insightful, video-based discussions. Each episode features relaxed yet thought-provoking conversations with industry leaders, policymakers, contractors, manufacturers, consultants, financial institutions, and innovators.<br><br>
+                This podcast is more than a conversation—it's a strategic initiative by CIDB IBS to foster <b>knowledge-sharing platforms</b> that connect stakeholders and provide insights into <b>industry best practices</b>.
             </div>
         </div>
     </div>
 </div>
 <!-- FM Engagement Day Podcast Section -->
-<div class="container py-5">
-    <div class="mb-4">
-        <img src="{{ asset('images/facility-logo-2.png') }}" alt="FM Engagement Day 2025" style="height:64px;width:auto;">
-    </div>
-    <div class="podcast-episode-card d-flex flex-column flex-lg-row align-items-stretch p-3 p-md-4" style="background:#fff;border:1.5px solid #d1d5db;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);gap:2rem;max-width:1200px;margin:0 auto;">
-        <!-- Left: Speaker Image -->
-        <div class="flex-shrink-0 d-flex align-items-center justify-content-center" style="max-width:200px;width:100%;">
-            <img src="{{ asset('images/podcast.jpeg') }}" alt="Speaker" style="width:100%;max-width:180px;aspect-ratio:1/1;object-fit:cover;border-radius:1.1rem;">
-        </div>
-        <!-- Center: Event Info -->
-        <div class="flex-grow-1 d-flex flex-column justify-content-center px-lg-3" style="min-width:0;border-left:1.5px solid #eee;border-right:1.5px solid #eee;">
-            <div class="d-flex align-items-center gap-3 mb-2" style="font-size:1.08rem;color:#ff9800;font-weight:600;flex-wrap:wrap;">
-                <span><i class="fas fa-map-marker-alt me-1"></i> BCCK</span>
-                <span><i class="fas fa-calendar-alt me-1"></i> 13 Mei 2025</span>
-                <span><i class="fas fa-clock me-1"></i> 3.00 - 4.00 pm</span>
-            </div>
-            <div style="font-size:1.35rem;font-weight:900;color:#181b2c;line-height:1.3;">
-                BINA - ICW BORNEO: BUILDING GREEN - HOW CONSTRUCTION TECHNOLOGY LEADS THE SUSTAINABLE CONSTRUCTION REVOLUTION
-            </div>
-            <!-- Audio Player -->
-            <div class="audio-player-container mt-3">
-                <button class="play-button" id="playButton1" onclick="toggleAudio('audio1')">
-                    <i class="fas fa-play"></i>
-                </button>
-                <div class="audio-progress" onclick="seekAudio('audio1', event)">
-                    <div class="audio-progress-bar" id="progress1"></div>
+<div class="container py-4 px-3 px-sm-4" style="max-width:1400px;">
+    <div class="row g-4">
+        <!-- BINA Podcast Column -->
+        <div class="col-lg-6">
+            <div class="podcast-episode-card d-flex flex-column h-100" style="background:#fff;border:1.5px solid #d1d5db;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);overflow:hidden;">
+                <!-- Header -->
+                <div style="background:#181b2c;color:#fff;padding:1rem 1.5rem;">
+                    <h3 style="font-size:clamp(1.25rem, 4vw, 1.5rem);font-weight:800;margin:0;">BINA PODCAST</h3>
                 </div>
-                <div class="audio-time" id="time1">0:00 / 0:00</div>
-                <div id="audio1" class="audio-player"></div>
+                <!-- Content -->
+                <div class="p-3 p-md-4 d-flex flex-column flex-grow-1">
+                    <!-- Episode Table -->
+                    <div class="table-responsive">
+                        <table class="table" style="border:1px solid #e5e7eb;border-radius:0.5rem;overflow:hidden;">
+                            <thead style="background:#f8fafc;">
+                                <tr>
+                                    <th style="padding:1rem;font-weight:700;color:#181b2c;border-bottom:2px solid #e5e7eb;">Episode</th>
+                                    <th style="padding:1rem;font-weight:700;color:#181b2c;border-bottom:2px solid #e5e7eb;">Panelist</th>
+                                    <th style="padding:1rem;font-weight:700;color:#181b2c;border-bottom:2px solid #e5e7eb;">Topic</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Episode 1 - Info Row -->
+                                <tr>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;width:25%;">
+                                        <div style="font-weight:600;font-size:1.1rem;margin-bottom:0.5rem;">Ep. 1</div>
+                                        <div style="font-size:0.9rem;color:#64748b;">(Live Streaming - ICW Borneo)</div>
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;width:35%;">
+                                        <div style="font-weight:600;font-size:1.1rem;margin-bottom:0.5rem;">Panel:</div>
+                                        <div style="line-height:1.6;">
+                                            Prof. Ir. Resdiansyah
+                                            <div style="font-size:0.9rem;color:#64748b;margin-top:0.25rem;">Senior Advisor of Infrastructure and Regional Development, Indonesia</div>
+                                        </div>
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;width:40%;">
+                                        <div style="line-height:1.6;">
+                                            BINA - ICW Borneo:<br>
+                                            <i>Building Green – How Construction Technology Leads the Sustainable Revolution</i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Episode 1 - Media Row -->
+                                <tr>
+                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
+                                        <div class="d-flex flex-column gap-4" style="max-width:800px;margin:0 auto;">
+                                            <!-- Image and Buttons Section -->
+                                            <div class="d-flex flex-column flex-md-row align-items-center gap-4" style="width:450px;">
+                                                <!-- Speaker Image -->
+                                                <div style="width:320px;height:240px;flex-shrink:0;background:#f8fafc;border-radius:1rem;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+                                                    <img src="{{ asset('images/posterbina-ep1.png') }}" 
+                                                         alt="Speaker" 
+                                                         data-bs-toggle="modal"
+                                                         data-bs-target="#imageModal"
+                                                         onclick="showImage(this.src)"
+                                                         style="max-width:100%;max-height:100%;object-fit:contain;border-radius:0.75rem;cursor:pointer;">
+                                                </div>
+                                                <!-- Buttons Section -->
+                                                <div class="flex-grow-1 d-flex flex-column gap-2" style="min-width:110px;">
+                                                    <a href="{{ route('client.facility-management') }}" 
+                                                       class="btn w-100" 
+                                                       style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:600;font-size:0.85rem;border-radius:1.5rem;padding:0.5rem 0;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                                                       VIEW<br>MORE
+                                                    </a>
+                                                    <a href="https://www.youtube.com/watch?v=Bjaj_ye_djQ&t=2022s" 
+                                                       class="btn w-100" 
+                                                       style="background:#181b2c;color:#fff;font-weight:600;font-size:0.85rem;border-radius:1.5rem;padding:0.5rem 0;box-shadow:0 2px 8px rgba(0,0,0,0.08);"
+                                                       target="_blank" rel="noopener noreferrer">
+                                                       WATCH<br>NOW
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <!-- Audio Player -->
+                                            <div class="audio-player-container" style="width:450px;padding-left:1.5rem;">
+                                                <div class="d-flex align-items-center gap-1 mb-2">
+                                                    <button class="play-button" id="playButton1" onclick="toggleAudio('audio1')" 
+                                                            style="width:44px;height:44px;flex-shrink:0;">
+                                                        <i class="fas fa-play"></i>
+                                                    </button>
+                                                    <div class="audio-time" id="time1" style="font-size:0.9rem;color:#64748b;width:80px;">0:00 / 0:00</div>
+                                                </div>
+                                                <div class="audio-progress" onclick="seekAudio('audio1', event)" 
+                                                     style="height:6px;background:#e2e8f0;border-radius:3px;">
+                                                    <div class="audio-progress-bar" id="progress1" 
+                                                         style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);height:100%;border-radius:3px;"></div>
+                                                </div>
+                                                <div id="audio1" class="audio-player"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Episode 2 -->
+                                <tr>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;">Ep. 2</div>
+                                        <div style="font-size:0.9rem;color:#64748b;">(Live Streaming - ICW Borneo)</div>
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;">Panel 1:</div>
+                                        Prof. Patrick Bellew RDI – SJ Group
+                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
+                                        Neil Thomas MBE – Founder, Atelier One
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        BINA - ICW Borneo: <i>Challenges and Innovations in Construction Technology</i>
+                                    </td>
+                                </tr>
+                                <!-- Episode 2 - Media Row -->
+                                <tr>
+                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
+                                        <div class="d-flex flex-column gap-4" style="max-width:800px;margin:0 auto;">
+                                            <!-- Image and Buttons Section -->
+                                            <div class="d-flex flex-column flex-md-row align-items-center gap-4" style="width:450px;">
+                                                <!-- Speaker Image -->
+                                                <div style="width:320px;height:240px;flex-shrink:0;background:#f8fafc;border-radius:1rem;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+                                                    <img src="{{ asset('images/posterbina-ep2.png') }}" 
+                                                         alt="Speaker" 
+                                                         data-bs-toggle="modal"
+                                                         data-bs-target="#imageModal"
+                                                         onclick="showImage(this.src)"
+                                                         style="max-width:100%;max-height:100%;object-fit:contain;border-radius:0.75rem;cursor:pointer;">
+                                                </div>
+                                                <!-- Buttons Section -->
+                                                <div class="flex-grow-1 d-flex flex-column gap-2" style="min-width:110px;">
+                                                    <a href="{{ route('client.facility-management') }}" 
+                                                       class="btn w-100" 
+                                                       style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:600;font-size:0.85rem;border-radius:1.5rem;padding:0.5rem 0;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                                                       VIEW<br>MORE
+                                                    </a>
+                                                    <a href="https://www.youtube.com/watch?v=wY7fdrD4fkI&t=1887s" 
+                                                       class="btn w-100" 
+                                                       style="background:#181b2c;color:#fff;font-weight:600;font-size:0.85rem;border-radius:1.5rem;padding:0.5rem 0;box-shadow:0 2px 8px rgba(0,0,0,0.08);"
+                                                       target="_blank" rel="noopener noreferrer">
+                                                       WATCH<br>NOW
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <!-- Audio Player -->
+                                            <div class="audio-player-container" style="width:450px;padding-left:1.5rem;">
+                                                <div class="d-flex align-items-center gap-1 mb-2">
+                                                    <button class="play-button" id="playButton3" onclick="toggleAudio('audio3')" 
+                                                            style="width:44px;height:44px;flex-shrink:0;">
+                                                        <i class="fas fa-play"></i>
+                                                    </button>
+                                                    <div class="audio-time" id="time3" style="font-size:0.9rem;color:#64748b;width:80px;">0:00 / 0:00</div>
+                                                </div>
+                                                <div class="audio-progress" onclick="seekAudio('audio3', event)" 
+                                                     style="height:6px;background:#e2e8f0;border-radius:3px;">
+                                                    <div class="audio-progress-bar" id="progress3" 
+                                                         style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);height:100%;border-radius:3px;"></div>
+                                                </div>
+                                                <div id="audio3" class="audio-player"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Episode 3 -->
+                                <tr>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;">Ep. 3</div>
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;">Panel 1:</div>
+                                        TBA
+                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
+                                        Datuk Ir. Elias Ismail – Chairman, Certibuild
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <i>The CIDB IBS Story – Overview of Construction Technology and Its Impact</i>
+                                    </td>
+                                </tr>
+                                <!-- Episode 4 -->
+                                <tr>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;">Ep. 4</div>
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;">Panel 1:</div>
+                                        TBA
+                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
+                                        Ir Ts. Rofizlan Ahmad – Senior GM, CIDB Malaysia
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <i>Game-Changer Policies – Visionary Policies Shaping the Industry</i>
+                                    </td>
+                                </tr>
+                                <!-- Episode 5 -->
+                                <tr>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;">Ep. 5</div>
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;">Panel 1:</div>
+                                        Tan Sri Lim Kheng Cheng – Board of Director, Ekovest
+                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
+                                        Zainora Zainal – CEO, CIDB Malaysia
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <i>Modular Building Technology – Global Trends in Modular Construction</i>
+                                    </td>
+                                </tr>
+                                <!-- Episode 6 -->
+                                <tr>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;">Ep. 6</div>
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;">Panel 1:</div>
+                                        Datuk Richard Lim Lit Chek – CEO, MGB Berhad
+                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
+                                        Ir Ts. Zuraihi Abdul Ghani – CEO, CIDB IBS
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <i>Vendor Development and FM Ecosystem Growth – How the VDP Supports Construction Technology</i>
+                                    </td>
+                                </tr>
+                                <!-- Episode 7 -->
+                                <tr>
+                                    <td style="padding:1rem;vertical-align:top;">
+                                        <div style="font-weight:600;">Ep. 7</div>
+                                        <div style="font-size:0.9rem;color:#64748b;">(Live Streaming - ICW Kuala Lumpur)</div>
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;">
+                                        <div style="font-weight:600;">Panel:</div>
+                                        Lawrence Chua – Executive Director, Scandinavian IBS Sdn Bhd (SIBS Malaysia)
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;">
+                                        <i>BINA - ICW: The Future of Construction Through Modular & Construction Technology</i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-        <!-- Right: Buttons -->
-        <div class="d-flex flex-column align-items-center justify-content-center gap-3 py-3 px-lg-3" style="min-width:180px;">
-            <a href="{{ route('client.facility-management') }}" class="btn" style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">VIEW MORE</a>
-            <a href="https://www.youtube.com/watch?v=Bjaj_ye_djQ&t=2022s" 
-               class="btn" 
-               style="background:#181b2c;color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;"
-               target="_blank" rel="noopener noreferrer">
-               WATCH NOW
-            </a>
+        <!-- FM Podcast Column -->
+        <div class="col-lg-6">
+            <div class="podcast-episode-card d-flex flex-column h-100" style="background:#fff;border:1.5px solid #d1d5db;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);overflow:hidden;">
+                <!-- Header -->
+                <div style="background:#181b2c;color:#fff;padding:1rem 1.5rem;">
+                    <h3 style="font-size:clamp(1.25rem, 4vw, 1.5rem);font-weight:800;margin:0;">FM PODCAST</h3>
+                </div>
+                <!-- Content -->
+                <div class="p-3 p-md-4 d-flex flex-column flex-grow-1">
+                    <!-- Episode Table -->
+                    <div class="table-responsive">
+                        <table class="table" style="border:1px solid #e5e7eb;border-radius:0.5rem;overflow:hidden;">
+                            <thead style="background:#f8fafc;">
+                                <tr>
+                                    <th style="padding:1rem;font-weight:700;color:#181b2c;border-bottom:2px solid #e5e7eb;">Episode</th>
+                                    <th style="padding:1rem;font-weight:700;color:#181b2c;border-bottom:2px solid #e5e7eb;">Panelist</th>
+                                    <th style="padding:1rem;font-weight:700;color:#181b2c;border-bottom:2px solid #e5e7eb;">Topic</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Episode 1 -->
+                                <tr>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;">Ep. 1</div>
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;">Panel 1:</div>
+                                        Zainora Zainal – CEO, CIDB Malaysia
+                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
+                                        YBhg. Dato' Seri Azman Bin Ibrahim – KSU, KKR
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <i>Sustainable Facility Management – Green buildings, energy efficiency, and ESG strategies</i>
+                                    </td>
+                                </tr>
+                                <!-- Episode 2 -->
+                                <tr>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;">Ep. 2</div>
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;">Panel 1:</div>
+                                        Sr Dr. Syamilah Yacob – JKR Malaysia
+                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
+                                        Ts. Rohana Binti Abdul Manan – CIDB Malaysia
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <i>Smart FM Technologies – IoT, AI, automation, and predictive maintenance</i>
+                                    </td>
+                                </tr>
+                                <!-- Episode 3 -->
+                                <tr>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;">Ep. 3</div>
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;">Panel 1:</div>
+                                        Sr Ahmad Farrin Mokhtar – CIDB Malaysia
+                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
+                                        TBA
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <i>Regulations & Compliance – Safety, certification, and industry standards</i>
+                                    </td>
+                                </tr>
+                                <!-- Episode 4 -->
+                                <tr>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;">Ep. 4</div>
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;">Panel 1:</div>
+                                        TBA
+                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
+                                        Dato' Tengku Ab. Aziz Tengku Mahmud – CEO, PNB Merdeka Ventures Sdn
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <i>Asset & Lifecycle Management – Best practices in prolonging asset lifespan</i>
+                                    </td>
+                                </tr>
+                                <!-- Episode 5 -->
+                                <tr>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;">Ep. 5</div>
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;">Panel 1:</div>
+                                        Ahmad Ridzuan Ismail – CIDB Malaysia
+                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
+                                        UDA Holdings
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <i>Workforce & Skill Development – Upskilling FM professionals for the future</i>
+                                    </td>
+                                </tr>
+                                <!-- Episode 6 -->
+                                <tr>
+                                    <td style="padding:1rem;vertical-align:top;">
+                                        <div style="font-weight:600;">Ep. 6</div>
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;">
+                                        <div style="font-weight:600;">Panel 1:</div>
+                                        Mohammad Shahrizal Mohammad Idris – GFM Services Berhad
+                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
+                                        Kementerian (TBA)
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;">
+                                        <i>Challenges & Opportunities – Addressing operational and financial challenges in FM</i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<!-- Schedule Section -->
-<div class="container py-5">
-    <div class="podcast-schedule-card" style="background:#fff;border:1.5px solid #d1d5db;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);max-width:900px;margin:0 auto;padding:2.5rem 1.5rem;">
-        <div class="d-flex flex-column gap-4">
-            <!-- 1st Row -->
-            <div class="d-flex align-items-start gap-3 flex-wrap">
-                <div style="min-width:120px;font-weight:800;font-size:1.15rem;color:#181b2c;">8.00 - 11.00 PM</div>
-                <div style="width:12px;display:flex;align-items:center;justify-content:center;"><div style="width:3px;height:40px;background:#ff9800;border-radius:2px;"></div></div>
-                <div style="font-weight:800;font-size:1.13rem;color:#181b2c;">PERSIAPAN TEKNIKAL & SIARAN</div>
-            </div>
-            <!-- 2nd Row -->
-            <div class="d-flex align-items-start gap-3 flex-wrap">
-                <div style="min-width:120px;font-weight:800;font-size:1.15rem;color:#181b2c;">1.30 - 2.00 PM</div>
-                <div style="width:12px;display:flex;align-items:center;justify-content:center;"><div style="width:3px;height:40px;background:#ff9800;border-radius:2px;"></div></div>
-                <div style="font-weight:800;font-size:1.13rem;color:#181b2c;">KEHADIRAN PANELIS</div>
-            </div>
-            <!-- 3rd Row -->
-            <div class="d-flex align-items-start gap-3 flex-wrap">
-                <div style="min-width:120px;font-weight:800;font-size:1.15rem;color:#181b2c;">2.00 - 3.00 PM</div>
-                <div style="width:12px;display:flex;align-items:center;justify-content:center;"><div style="width:3px;height:40px;background:#ff9800;border-radius:2px;"></div></div>
-                <div style="font-weight:800;font-size:1.13rem;color:#181b2c;">TAKLIMAT RINGKAS & LATIHAN PENUH SIARAN</div>
-            </div>
-            <!-- 4th Row -->
-            <div class="d-flex align-items-start gap-3 flex-wrap">
-                <div style="min-width:120px;font-weight:800;font-size:1.15rem;color:#181b2c;">3.00 - 4.00 PM</div>
-                <div style="width:12px;display:flex;align-items:center;justify-content:center;"><div style="width:3px;height:40px;background:#ff9800;border-radius:2px;"></div></div>
-                <div>
-                    <div style="font-weight:800;font-size:1.13rem;color:#181b2c;">SIARAN LANGSUNG – EPISOD 1</div>
-                    <div style="font-size:1.08rem;color:#181b2c;margin-top:0.3rem;max-width:420px;">BINA – ICW Borneo: Building Green – How Construction Technology Leads the Sustainable Construction Revolution</div>
-                </div>
-            </div>
-            <!-- 5th Row -->
-            <div class="d-flex align-items-start gap-3 flex-wrap">
-                <div style="min-width:120px;font-weight:800;font-size:1.15rem;color:#181b2c;">4.00 PM</div>
-                <div style="width:12px;display:flex;align-items:center;justify-content:center;"><div style="width:3px;height:40px;background:#ff9800;border-radius:2px;"></div></div>
-                <div style="font-weight:800;font-size:1.13rem;color:#181b2c;">SIARAN LANGSUNG TAMAT</div>
-            </div>
-        </div>
-    </div>
-</div>
-<hr style="border-top:1.5px solid #22223b; margin:3.5rem 0 2.5rem 0;">
-<div class="container pb-5">
-    <div class="podcast-episode-card d-flex flex-column flex-lg-row align-items-stretch p-3 p-md-4" style="background:#fff;border:1.5px solid #d1d5db;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);gap:2rem;max-width:1200px;margin:0 auto;">
-        <!-- Left: Speaker Image -->
-        <div class="flex-shrink-0 d-flex align-items-center justify-content-center" style="max-width:200px;width:100%;">
-            <img src="{{ asset('images/podcast-2.jpeg') }}" alt="Speaker" style="width:100%;max-width:180px;aspect-ratio:1/1;object-fit:cover;border-radius:1.1rem;">
-        </div>
-        <!-- Center: Event Info -->
-        <div class="flex-grow-1 d-flex flex-column justify-content-center px-lg-3" style="min-width:0;border-left:1.5px solid #eee;border-right:1.5px solid #eee;">
-            <div class="d-flex align-items-center gap-3 mb-2" style="font-size:1.08rem;color:#ff9800;font-weight:600;flex-wrap:wrap;">
-                <span><i class="fas fa-map-marker-alt me-1"></i> BCCK</span>
-                <span><i class="fas fa-calendar-alt me-1"></i> 14 Mei 2025</span>
-                <span><i class="fas fa-clock me-1"></i> 1.30 - 2.30 pm</span>
-            </div>
-            <div style="font-size:1.35rem;font-weight:900;color:#181b2c;line-height:1.3;">
-                BINA - ICW BORNEO: CHALLENGES AND INNOVATIONS IN CONSTRUCTION TECHNOLOGY - OVERCOMING INDUSTRY CHALLENGES
-            </div>
-            <!-- Audio Player -->
-            <div class="audio-player-container mt-3">
-                <button class="play-button" id="playButton2" onclick="toggleAudio('audio2')">
-                    <i class="fas fa-play"></i>
-                </button>
-                <div class="audio-progress" onclick="seekAudio('audio2', event)">
-                    <div class="audio-progress-bar" id="progress2"></div>
-                </div>
-                <div class="audio-time" id="time2">0:00 / 0:00</div>
-                <div id="audio2" class="audio-player"></div>
-            </div>
-        </div>
-        <!-- Right: Buttons -->
-        <div class="d-flex flex-column align-items-center justify-content-center gap-3 py-3 px-lg-3" style="min-width:180px;">
-            <a href="{{ route('client.facility-management') }}" class="btn" style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">VIEW MORE</a>
-            <a href="https://www.youtube.com/watch?v=wY7fdrD4fkI&t=1887s" 
-                class="btn" 
-                style="background:#181b2c;color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;"
-                target="_blank" rel="noopener noreferrer">
-                WATCH NOW
-            </a>
-        </div>
-    </div>
-</div>
-<!-- Schedule Section -->
-<div class="container py-5">
-    <div class="podcast-schedule-card" style="background:#fff;border:1.5px solid #d1d5db;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);max-width:900px;margin:0 auto;padding:2.5rem 1.5rem;">
-        <div class="d-flex flex-column gap-4">
-            <!-- 1st Row -->
-            <div class="d-flex align-items-start gap-3 flex-wrap">
-                <div style="min-width:120px;font-weight:800;font-size:1.15rem;color:#181b2c;">8.00 - 11.00 PM</div>
-                <div style="width:12px;display:flex;align-items:center;justify-content:center;"><div style="width:3px;height:40px;background:#ff9800;border-radius:2px;"></div></div>
-                <div style="font-weight:800;font-size:1.13rem;color:#181b2c;">PERSIAPAN TEKNIKAL & SIARAN</div>
-            </div>
-            <!-- 2nd Row -->
-            <div class="d-flex align-items-start gap-3 flex-wrap">
-                <div style="min-width:120px;font-weight:800;font-size:1.15rem;color:#181b2c;">11.00 - 12.30 PM</div>
-                <div style="width:12px;display:flex;align-items:center;justify-content:center;"><div style="width:3px;height:40px;background:#ff9800;border-radius:2px;"></div></div>
-                <div style="font-weight:800;font-size:1.13rem;color:#181b2c;">KEHADIRAN PANELIS</div>
-            </div>
-            <!-- 3rd Row -->
-            <div class="d-flex align-items-start gap-3 flex-wrap">
-                <div style="min-width:120px;font-weight:800;font-size:1.15rem;color:#181b2c;">12.30 - 1.30 PM</div>
-                <div style="width:12px;display:flex;align-items:center;justify-content:center;"><div style="width:3px;height:40px;background:#ff9800;border-radius:2px;"></div></div>
-                <div style="font-weight:800;font-size:1.13rem;color:#181b2c;">TAKLIMAT RINGKAS & LATIHAN PENUH SIARAN</div>
-            </div>
-            <!-- 4th Row -->
-            <div class="d-flex align-items-start gap-3 flex-wrap">
-                <div style="min-width:120px;font-weight:800;font-size:1.15rem;color:#181b2c;">1.30 - 2.30 PM</div>
-                <div style="width:12px;display:flex;align-items:center;justify-content:center;"><div style="width:3px;height:40px;background:#ff9800;border-radius:2px;"></div></div>
-                <div>
-                    <div style="font-weight:800;font-size:1.13rem;color:#181b2c;">SIARAN LANGSUNG – EPISOD 2</div>
-                    <div style="font-size:1.08rem;color:#181b2c;margin-top:0.3rem;max-width:420px;">BINA – ICW Borneo: Challenges and Innovations in Construction Technology – Overcoming Industry Challenges</div>
-                </div>
-            </div>
-            <!-- 5th Row -->
-            <div class="d-flex align-items-start gap-3 flex-wrap">
-                <div style="min-width:120px;font-weight:800;font-size:1.15rem;color:#181b2c;">2.30 PM</div>
-                <div style="width:12px;display:flex;align-items:center;justify-content:center;"><div style="width:3px;height:40px;background:#ff9800;border-radius:2px;"></div></div>
-                <div style="font-weight:800;font-size:1.13rem;color:#181b2c;">SIARAN LANGSUNG TAMAT</div>
-            </div>
-        </div>
+
+<!-- Engagement Content -->
+<div class="container py-4">
+    <div class="text-center" style="max-width:800px;margin:0 auto;">
+        <p style="font-size:1.15rem;color:#374151;font-weight:500;line-height:1.6;">
+            Got something to say about the future of construction? Join us as a panelist on BINA Podcast—contact us today!
+        </p>
     </div>
 </div>
 
@@ -404,6 +669,28 @@
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
             allowfullscreen>
     </iframe>
+    <iframe id="player3" 
+            width="1" 
+            height="1" 
+            src="https://www.youtube.com/embed/wY7fdrD4fkI?enablejsapi=1&controls=0&showinfo=0&rel=0&modestbranding=1" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+    </iframe>
+</div>
+
+<!-- Image Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" style="max-width:90vw;">
+        <div class="modal-content border-0" style="background:transparent;">
+            <div class="modal-header border-0 p-3">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex align-items-center justify-content-center p-3" style="min-height:80vh;">
+                <img id="modalImage" src="" alt="Modal Image" style="max-width:85%;max-height:80vh;object-fit:contain;border-radius:1.25rem;box-shadow:0 4px 24px rgba(0,0,0,0.1);">
+            </div>
+        </div>
+    </div>
 </div>
 @endsection 
 
@@ -414,10 +701,12 @@ let apiLoadTimeout;
 let isAPIReady = false;
 let playersReady = {
     player1: false,
-    player2: false
+    player2: false,
+    player3: false
 };
 let player1 = null;
 let player2 = null;
+let player3 = null;
 let currentPlayer = null;
 
 function loadYouTubeAPI() {
@@ -442,8 +731,10 @@ function initializeFallbackPlayers() {
     isAPIReady = true;
     playersReady.player1 = true;
     playersReady.player2 = true;
+    playersReady.player3 = true;
     updateButtonState('playButton1', false, false);
     updateButtonState('playButton2', false, false);
+    updateButtonState('playButton3', false, false);
 }
 
 function onYouTubeIframeAPIReady() {
@@ -455,7 +746,7 @@ function onYouTubeIframeAPIReady() {
     const playerInitTimeout = setTimeout(() => {
         console.log('Player initialization timeout - using fallback');
         initializeFallbackPlayers();
-    }, 3000); // 3 second timeout for player initialization
+    }, 3000);
     
     try {
         player1 = new YT.Player('player1', {
@@ -464,7 +755,7 @@ function onYouTubeIframeAPIReady() {
                     console.log('Player 1 Ready');
                     playersReady.player1 = true;
                     updateButtonState('playButton1', false, false);
-                    if (playersReady.player1 && playersReady.player2) {
+                    if (playersReady.player1 && playersReady.player2 && playersReady.player3) {
                         clearTimeout(playerInitTimeout);
                     }
                 },
@@ -479,7 +770,22 @@ function onYouTubeIframeAPIReady() {
                     console.log('Player 2 Ready');
                     playersReady.player2 = true;
                     updateButtonState('playButton2', false, false);
-                    if (playersReady.player1 && playersReady.player2) {
+                    if (playersReady.player1 && playersReady.player2 && playersReady.player3) {
+                        clearTimeout(playerInitTimeout);
+                    }
+                },
+                'onStateChange': onPlayerStateChange,
+                'onError': onPlayerError
+            }
+        });
+
+        player3 = new YT.Player('player3', {
+            events: {
+                'onReady': (event) => {
+                    console.log('Player 3 Ready');
+                    playersReady.player3 = true;
+                    updateButtonState('playButton3', false, false);
+                    if (playersReady.player1 && playersReady.player2 && playersReady.player3) {
                         clearTimeout(playerInitTimeout);
                     }
                 },
@@ -495,7 +801,7 @@ function onYouTubeIframeAPIReady() {
 
 // Function to check if all players are ready
 function arePlayersReady() {
-    return playersReady.player1 && playersReady.player2;
+    return playersReady.player1 && playersReady.player2 && playersReady.player3;
 }
 
 // Function to update button state
@@ -520,7 +826,7 @@ function updateButtonState(buttonId, isLoading = false, isPlaying = false) {
 function onPlayerError(event) {
     console.error('YouTube Player Error:', event.data);
     const player = event.target;
-    const playerId = player.getIframe().id === 'player1' ? 'audio1' : 'audio2';
+    const playerId = player.getIframe().id === 'player1' ? 'audio1' : player.getIframe().id === 'player2' ? 'audio2' : 'audio3';
     const buttonId = `playButton${playerId.slice(-1)}`;
     updateButtonState(buttonId, false, false);
     
@@ -535,7 +841,7 @@ function onPlayerStateChange(event) {
     if (!event.target) return;
     
     const player = event.target;
-    const playerId = player.getIframe().id === 'player1' ? 'audio1' : 'audio2';
+    const playerId = player.getIframe().id === 'player1' ? 'audio1' : player.getIframe().id === 'player2' ? 'audio2' : 'audio3';
     const buttonId = `playButton${playerId.slice(-1)}`;
     const timeDisplay = document.querySelector(`#time${playerId.slice(-1)}`);
     const progressBar = document.querySelector(`#progress${playerId.slice(-1)}`);
@@ -590,7 +896,7 @@ function toggleAudio(audioId) {
         return;
     }
     
-    const player = audioId === 'audio1' ? player1 : player2;
+    const player = audioId === 'audio1' ? player1 : audioId === 'audio2' ? player2 : player3;
     const buttonId = `playButton${audioId.slice(-1)}`;
     
     if (!player) {
@@ -619,7 +925,7 @@ function toggleAudio(audioId) {
 function seekAudio(audioId, event) {
     if (!isAPIReady || !arePlayersReady()) return;
     
-    const player = audioId === 'audio1' ? player1 : player2;
+    const player = audioId === 'audio1' ? player1 : audioId === 'audio2' ? player2 : player3;
     if (!player) return;
     
     const progressBar = event.currentTarget;
@@ -639,15 +945,55 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM Content Loaded');
     const timeDisplay1 = document.querySelector('#time1');
     const timeDisplay2 = document.querySelector('#time2');
+    const timeDisplay3 = document.querySelector('#time3');
     if (timeDisplay1) timeDisplay1.textContent = '0:00 / 0:00';
     if (timeDisplay2) timeDisplay2.textContent = '0:00 / 0:00';
+    if (timeDisplay3) timeDisplay3.textContent = '0:00 / 0:00';
     
     // Set initial button states
     updateButtonState('playButton1', true, false);
     updateButtonState('playButton2', true, false);
+    updateButtonState('playButton3', true, false);
     
     // Load YouTube API
     loadYouTubeAPI();
+
+    // Intersection Observer for scroll animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+
+    // Observe all elements with scroll-reveal class
+    document.querySelectorAll('.scroll-reveal').forEach((el) => {
+        observer.observe(el);
+    });
+
+    // Parallax effect for hero section
+    window.addEventListener('scroll', function() {
+        const heroSection = document.querySelector('.hero-section-store');
+        const scrolled = window.pageYOffset;
+        heroSection.style.backgroundPositionY = -(scrolled * 0.5) + 'px';
+    });
+});
+
+function showImage(src) {
+    document.getElementById('modalImage').src = src;
+}
+
+// Handle modal open
+document.getElementById('imageModal').addEventListener('show.bs.modal', function () {
+    document.body.style.overflow = 'hidden';
+});
+
+// Handle modal close
+document.getElementById('imageModal').addEventListener('hidden.bs.modal', function () {
+    document.body.style.overflow = 'auto';
 });
 </script>
 @endpush 

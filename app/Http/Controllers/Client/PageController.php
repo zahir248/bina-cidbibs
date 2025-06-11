@@ -25,7 +25,7 @@ class PageController extends Controller
             ->get();
         
         $cartTotal = $cartItems->sum(function($item) {
-            return $item->ticket->price * $item->quantity;
+            return $item->ticket->getDiscountedPrice($item->quantity) * $item->quantity;
         });
         
         return view('client.store.store', compact('tickets', 'cartTotal'));
@@ -40,7 +40,7 @@ class PageController extends Controller
             ->get();
         
         $cartTotal = $cartItems->sum(function($item) {
-            return $item->ticket->price * $item->quantity;
+            return $item->ticket->getDiscountedPrice($item->quantity) * $item->quantity;
         });
         
         return view('client.store.ticket_detail', compact('ticket', 'cartTotal'));

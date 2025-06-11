@@ -12,6 +12,37 @@
         --text-light: #64748b;
         --mobile-vh: 100vh;
     }
+
+    /* Animation Keyframes */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeIn {
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+
     .hero-section-store {
         min-height: 100vh;
         min-height: 100svh;
@@ -24,9 +55,9 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('{{ asset('images/hero-hero-section.png') }}') no-repeat center center;
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('{{ asset('images/hero-section.png') }}') no-repeat center center;
         background-size: cover;
-        background-attachment: scroll;
+        background-attachment: fixed;
         text-align: center;
         position: relative;
         padding: 0 1.5rem;
@@ -35,6 +66,7 @@
         z-index: 1;
         overflow: hidden;
     }
+
     .hero-title-store {
         font-size: clamp(2rem, 8vw, 4rem);
         font-weight: 800;
@@ -42,7 +74,11 @@
         margin-bottom: 1rem;
         letter-spacing: 1px;
         text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.8s ease forwards;
     }
+
     .breadcrumb-store {
         display: flex;
         align-items: center;
@@ -52,33 +88,51 @@
         font-size: clamp(1rem, 3vw, 1.25rem);
         font-weight: 500;
         flex-wrap: wrap;
+        opacity: 0;
+        animation: fadeIn 0.8s ease 0.4s forwards;
     }
+
     .breadcrumb-store a {
         color: #fff;
         text-decoration: none;
         opacity: 0.85;
-        transition: opacity 0.2s;
+        transition: all 0.3s ease;
     }
+
     .breadcrumb-store a:hover {
         opacity: 1;
         text-decoration: underline;
+        transform: translateY(-2px);
     }
+
     .breadcrumb-separator {
         color: #fff;
         opacity: 0.7;
         font-size: 1.2em;
     }
+
     .ma-logo {
         height: 48px;
         margin-bottom: 0.5rem;
     }
+
     .ma-card {
         background: #f7f5fa;
         border-radius: 1.25rem;
         padding: 2rem 2rem 1.5rem 2rem;
         box-shadow: 0 2px 12px rgba(80, 80, 120, 0.04);
         color: #22223b;
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.8s ease forwards;
     }
+
+    .ma-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
     .ma-icon {
         color: #ff9800;
         font-size: 1.25rem;
@@ -86,12 +140,14 @@
         display: inline-block;
         text-align: center;
     }
+
     .ma-detail-row {
         margin-bottom: 1rem;
         display: flex;
         align-items: center;
         gap: 0.75rem;
     }
+
     .ma-title {
         color: #ff9800;
         font-weight: 800;
@@ -101,26 +157,110 @@
         display: flex;
         align-items: center;
         gap: 0.75rem;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease forwards;
     }
+
     .ma-headline {
         font-size: 2rem;
         font-weight: 900;
         color: #22223b;
         margin-bottom: 1.25rem;
         margin-top: 1.5rem;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease 0.2s forwards;
     }
+
     .ma-desc {
         color: #4b5563;
         font-size: 1.1rem;
         margin-bottom: 1.5rem;
-        max-width: 600px;
+        text-align: justify;
+        text-justify: inter-word;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease 0.4s forwards;
     }
+
+    .ma-video-preview {
+        opacity: 0;
+        animation: fadeInUp 0.8s ease 0.6s forwards;
+        transition: transform 0.3s ease;
+    }
+
+    .ma-video-preview:hover {
+        transform: scale(1.02);
+    }
+
+    .sticky-sidebar {
+        position: sticky;
+        top: 2rem;
+        height: fit-content;
+    }
+
+    .speaker-card {
+        animation: float 3s ease-in-out infinite;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease 0.8s forwards, float 3s ease-in-out infinite 0.8s;
+    }
+
+    .social-icon {
+        transition: all 0.3s ease;
+    }
+
+    .social-icon:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+    }
+
+    .ticket-btn {
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease 0.6s forwards;
+    }
+
+    .ticket-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(255, 152, 0, 0.4);
+    }
+
+    .ticket-btn::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: 0.5s;
+    }
+
+    .ticket-btn:hover::after {
+        left: 100%;
+    }
+
+    /* Animate on scroll class */
+    .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s ease;
+    }
+
+    .animate-on-scroll.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
     @media (max-width: 991px) {
         .ma-flex-row {
             flex-direction: column;
         }
         .ma-card {
             margin-top: 2rem;
+        }
+        .sticky-sidebar {
+            position: static;
         }
     }
 </style>
@@ -147,11 +287,11 @@
             </div>
             <div class="ma-headline">TRANSFORMING ASEAN'S CONSTRUCTION LANDSCAPE</div>
             <div class="ma-desc">
-            Facility management goes beyond maintaining buildings—it's about fostering productive environments where people can thrive. In this session, we explore practical strategies to navigate challenging interpersonal situations, ensuring smooth operations and positive outcomes. Learn how to effectively manage workplace dynamics, build stronger teams, and maintain a harmonious work environment while addressing the complexities of human interaction.
+                Facility management goes beyond maintaining buildings—it's about fostering productive environments where people can thrive. In this session, we explore practical strategies to navigate challenging interpersonal situations, ensuring smooth operations and positive outcomes. Learn how to effectively manage workplace dynamics, build stronger teams, and maintain a harmonious work environment while addressing the complexities of human interaction.
             </div>
-            <!-- Image Section (no video preview) -->
-            <div class="ma-video-preview position-relative mt-4" style="max-width: 600px;">
-                <img src="{{ asset('images/facility.jpg') }}" alt="Facility Management" style="width:100%; border-radius: 2rem; display:block;">
+            <!-- Image Section -->
+            <div class="ma-video-preview position-relative mt-4" style="width:100%; max-width:100%; max-height: 500px; overflow: hidden;">
+                <img src="{{ asset('images/facility.jpg') }}" alt="Facility Management" style="width:100%; border-radius: 2rem; display:block; object-fit: cover; height: 500px;">
             </div>
             <!-- Important Points and Schedule Section -->
             <div class="ma-session-points mt-5">
@@ -208,7 +348,7 @@
             </div>
         </div>
         <!-- Right: Event Details Card -->
-        <div>
+        <div class="sticky-sidebar">
             <div class="ma-card" style="min-width:270px;max-width:340px;">
                 <div class="mb-3" style="font-weight:700;font-size:1.1rem;">
                     Join us at <span style="font-weight:900;">Facility Management Engagement Day 2025</span> to explore innovative strategies and best practices in facility management. Connect with industry leaders and experts.
@@ -227,11 +367,11 @@
                 </div>
             </div>
             <!-- Speaker Card -->
-            <div style="background:#ffefdf;border-radius:1.5rem;padding:2rem 1.5rem 1.5rem 1.5rem;margin-top:2rem;max-width:340px;">
+            <div class="speaker-card" style="background:#ffefdf;border-radius:1.5rem;padding:2rem 1.5rem 1.5rem 1.5rem;margin-top:2rem;max-width:340px;">
                 <div style="font-size:1.35rem;font-weight:500;color:#181b2c;margin-bottom:1.2rem;">SPEAKER :</div>
                 <div style="display:flex;align-items:center;margin-bottom:1.2rem;">
                     <div style="width:60px;height:60px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-right:1.2rem;">
-                        <img src='https://www.w3schools.com/howto/img_avatar.png' alt='Speaker Avatar' style='width:60px;height:60px;object-fit:cover;border-radius:50%;'>
+                        <img src='https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg' alt='Speaker Avatar' style='width:60px;height:60px;object-fit:cover;border-radius:50%;'>
                     </div>
                     <div>
                         <div style="font-weight:700;font-size:1.15rem;color:#181b2c;">SPEAKER NAME</div>
@@ -240,8 +380,8 @@
                 </div>
                 <div style="font-size:1.08rem;color:#181b2c;margin-bottom:0.7rem;">Share This :</div>
                 <div style="display:flex;gap:0.7rem;">
-                    <a href="#" style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;background:#ff9800;border-radius:50%;color:#fff;font-size:1.3rem;"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;background:#ff9800;border-radius:50%;color:#fff;font-size:1.3rem;"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-icon" style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;background:#ff9800;border-radius:50%;color:#fff;font-size:1.3rem;text-decoration:none;"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon" style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;background:#ff9800;border-radius:50%;color:#fff;font-size:1.3rem;text-decoration:none;"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
         </div>
@@ -252,27 +392,33 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    var playBtn = document.getElementById('maPlayBtn');
-    var modal = document.getElementById('maVideoModal');
-    var closeBtn = document.getElementById('maModalClose');
-    var iframe = document.getElementById('maVideoIframe');
-    var videoUrl = 'https://www.youtube.com/embed/4BUA0YC8UeU?autoplay=1&rel=0&showinfo=0';
+    // Animate elements on scroll
+    const animateElements = document.querySelectorAll('.ma-desc, .ma-video-preview, .ma-card, .ma-session-points');
+    
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
 
-    playBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        iframe.src = videoUrl;
-        modal.style.display = 'flex';
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    animateElements.forEach(element => {
+        element.classList.add('animate-on-scroll');
+        observer.observe(element);
     });
-    closeBtn.addEventListener('click', function() {
-        modal.style.display = 'none';
-        iframe.src = '';
-    });
-    // Close modal when clicking outside the video
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            modal.style.display = 'none';
-            iframe.src = '';
-        }
+
+    // Parallax effect for hero section
+    window.addEventListener('scroll', function() {
+        const heroSection = document.querySelector('.hero-section-store');
+        const scrolled = window.pageYOffset;
+        heroSection.style.backgroundPositionY = -(scrolled * 0.5) + 'px';
     });
 });
 </script>

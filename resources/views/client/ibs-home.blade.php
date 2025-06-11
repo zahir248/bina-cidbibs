@@ -11,7 +11,9 @@
         --text-dark: #1e293b;
         --text-light: #64748b;
         --mobile-vh: 100vh;
+        --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     }
+    
     .hero-section-store {
         min-height: 100vh;
         min-height: 100svh;
@@ -24,9 +26,9 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('{{ asset('images/hero-hero-section.png') }}') no-repeat center center;
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('{{ asset('images/hero-section.png') }}') no-repeat center center;
         background-size: cover;
-        background-attachment: scroll;
+        background-attachment: fixed;
         text-align: center;
         position: relative;
         padding: 0 1.5rem;
@@ -35,31 +37,219 @@
         z-index: 1;
         overflow: hidden;
     }
-    .coming-soon-icon {
-        margin-bottom: 2rem;
-    }
-    .coming-soon-title {
-        font-size: clamp(2.5rem, 7vw, 4rem);
-        font-weight: 900;
+
+    .hero-title-store {
+        font-size: clamp(2rem, 8vw, 4rem);
+        font-weight: 800;
         color: #fff;
-        letter-spacing: 2px;
         margin-bottom: 1rem;
-        text-shadow: 2px 2px 8px rgba(0,0,0,0.25);
+        letter-spacing: 1px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.8s ease forwards;
     }
-    .coming-soon-subtext {
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .breadcrumb-store {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
         color: #fff;
+        font-size: clamp(1rem, 3vw, 1.25rem);
+        font-weight: 500;
+        flex-wrap: wrap;
+        opacity: 0;
+        animation: fadeIn 0.8s ease 0.4s forwards;
+    }
+
+    @keyframes fadeIn {
+        to {
+            opacity: 1;
+        }
+    }
+
+    .breadcrumb-store a {
+        color: #fff;
+        text-decoration: none;
+        opacity: 0.85;
+        transition: all 0.3s ease;
+    }
+
+    .breadcrumb-store a:hover {
+        opacity: 1;
+        text-decoration: underline;
+        transform: translateY(-2px);
+    }
+
+    .breadcrumb-separator {
+        color: #fff;
+        opacity: 0.7;
+        font-size: 1.2em;
+    }
+
+    .ibs-intro-section {
+        padding: 5rem 1.5rem;
+        background-color: var(--bg-light-gray);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .intro-content {
+        text-align: center;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .intro-text {
+        font-size: 1.125rem;
+        line-height: 1.8;
+        color: var(--text-dark);
+        margin-bottom: 1.5rem;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s ease;
+    }
+
+    .intro-text.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Features Section */
+    .features-section {
+        padding: 5rem 1.5rem;
+        background: white;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .feature-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 0.75rem;
+        box-shadow: var(--card-shadow);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    .feature-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    }
+
+    .feature-icon {
+        font-size: 2rem;
+        color: var(--primary-blue);
+        margin-bottom: 1rem;
+    }
+
+    .feature-title {
         font-size: 1.25rem;
-        font-weight: 400;
-        margin-top: 0.5rem;
-        text-shadow: 1px 1px 6px rgba(0,0,0,0.18);
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 0.75rem;
+    }
+
+    .feature-description {
+        color: var(--text-light);
+        line-height: 1.6;
+    }
+
+    /* Scroll Animation Classes */
+    .scroll-reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s ease;
+    }
+
+    .scroll-reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
     }
 </style>
 @endpush
 
 @section('content')
-<!-- Hero Section: Coming Soon -->
+<!-- Hero Section -->
 <div class="hero-section-store" id="heroSection">
-    <div class="coming-soon-title">COMING SOON!</div>
-    <div class="coming-soon-subtext">Look forward to our new feature !!</div>
+    <h1 class="hero-title-store">IBS HOME</h1>
+    <div class="breadcrumb-store">
+        <a href="{{ route('client.home') }}">Home</a>
+        <span class="breadcrumb-separator">&gt;</span>
+        <span>IBS Home</span>
+    </div>
 </div>
+
+<!-- IBS Homes Introduction Section -->
+<div class="ibs-intro-section scroll-reveal">
+    <div class="container">
+        <div class="intro-content">
+            <p class="intro-text">
+                CIDB IBS is thrilled to present our <b>innovative IBS Homes, powered by modular technology</b>. This
+                exclusive showcase offers a unique opportunity for the public to <b>explore and experience the next
+                generation of housing solutions</b>, designed for speed, efficiency, and sustainability.
+            </p>
+            <p class="intro-text">
+                First unveiled at <b>Kompleks CIDB Malaysia, Chan Sow Lin</b>, IBS Homes now take a bold step forward with
+                <b>modular construction</b> — a game-changer in the built environment. Through our <b>collaboration with
+                leading modular technology providers</b>, we bring to life a smarter, faster, and more sustainable way to build.
+            </p>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        // Observe all elements with scroll-reveal class
+        document.querySelectorAll('.scroll-reveal, .feature-card, .intro-text').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', function() {
+            const heroSection = document.querySelector('.hero-section-store');
+            const scrolled = window.pageYOffset;
+            heroSection.style.backgroundPositionY = -(scrolled * 0.5) + 'px';
+        });
+    });
+</script>
+@endpush
+
 @endsection

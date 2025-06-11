@@ -12,6 +12,37 @@
         --text-light: #64748b;
         --mobile-vh: 100vh;
     }
+
+    /* Animation Keyframes */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeIn {
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+
     .hero-section-store {
         min-height: 100vh;
         min-height: 100svh;
@@ -24,9 +55,9 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('{{ asset('images/hero-hero-section.png') }}') no-repeat center center;
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('{{ asset('images/hero-section.png') }}') no-repeat center center;
         background-size: cover;
-        background-attachment: scroll;
+        background-attachment: fixed;
         text-align: center;
         position: relative;
         padding: 0 1.5rem;
@@ -35,6 +66,7 @@
         z-index: 1;
         overflow: hidden;
     }
+
     .hero-title-store {
         font-size: clamp(2rem, 8vw, 4rem);
         font-weight: 800;
@@ -42,7 +74,11 @@
         margin-bottom: 1rem;
         letter-spacing: 1px;
         text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.8s ease forwards;
     }
+
     .breadcrumb-store {
         display: flex;
         align-items: center;
@@ -52,21 +88,95 @@
         font-size: clamp(1rem, 3vw, 1.25rem);
         font-weight: 500;
         flex-wrap: wrap;
+        opacity: 0;
+        animation: fadeIn 0.8s ease 0.4s forwards;
     }
+
     .breadcrumb-store a {
         color: #fff;
         text-decoration: none;
         opacity: 0.85;
-        transition: opacity 0.2s;
+        transition: all 0.3s ease;
     }
+
     .breadcrumb-store a:hover {
         opacity: 1;
         text-decoration: underline;
+        transform: translateY(-2px);
     }
+
     .breadcrumb-separator {
         color: #fff;
         opacity: 0.7;
         font-size: 1.2em;
+    }
+
+    /* Contact Info Section Animations */
+    .contact-info-item {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .contact-info-item:nth-child(1) { animation-delay: 0.2s; }
+    .contact-info-item:nth-child(2) { animation-delay: 0.4s; }
+    .contact-info-item:nth-child(3) { animation-delay: 0.6s; }
+
+    .contact-info-icon {
+        transition: all 0.3s ease;
+    }
+
+    .contact-info-item:hover .contact-info-icon {
+        transform: scale(1.1);
+        color: #ff9800;
+    }
+
+    /* Schedule Section Animations */
+    .schedule-header {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .schedule-card {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.3s ease;
+    }
+
+    .schedule-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .schedule-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .view-more-btn, .get-ticket-btn {
+        transition: all 0.3s ease;
+    }
+
+    .view-more-btn:hover, .get-ticket-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3) !important;
+    }
+
+    .get-ticket-btn:hover {
+        box-shadow: 0 5px 15px rgba(24, 27, 44, 0.3) !important;
+    }
+
+    /* Animate on scroll class */
+    .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s ease;
+    }
+
+    .animate-on-scroll.visible {
+        opacity: 1;
+        transform: translateY(0);
     }
 </style>
 @endpush
@@ -86,8 +196,8 @@
 <div class="container py-5">
     <div class="row justify-content-center text-center align-items-start" style="gap:0;">
         <!-- Email -->
-        <div class="col-12 col-md-4 mb-4 mb-md-0">
-            <div style="font-size:3rem;color:#6b7280;margin-bottom:0.5rem;">
+        <div class="col-12 col-md-4 mb-4 mb-md-0 contact-info-item">
+            <div class="contact-info-icon" style="font-size:3rem;color:#6b7280;margin-bottom:0.5rem;">
                 <i class="fas fa-envelope"></i>
             </div>
             <div style="font-size:1.1rem;color:#22223b;">
@@ -95,8 +205,8 @@
             </div>
         </div>
         <!-- Phone -->
-        <div class="col-12 col-md-4 mb-4 mb-md-0">
-            <div style="font-size:3rem;color:#6b7280;margin-bottom:0.5rem;">
+        <div class="col-12 col-md-4 mb-4 mb-md-0 contact-info-item">
+            <div class="contact-info-icon" style="font-size:3rem;color:#6b7280;margin-bottom:0.5rem;">
                 <i class="fas fa-phone-alt"></i>
             </div>
             <div style="font-size:1.1rem;color:#22223b;">
@@ -104,8 +214,8 @@
             </div>
         </div>
         <!-- WhatsApp -->
-        <div class="col-12 col-md-4">
-            <div style="font-size:3rem;color:#6b7280;margin-bottom:0.5rem;">
+        <div class="col-12 col-md-4 contact-info-item">
+            <div class="contact-info-icon" style="font-size:3rem;color:#6b7280;margin-bottom:0.5rem;">
                 <i class="far fa-comment-dots"></i>
             </div>
             <div style="font-size:1.1rem;color:#22223b;">
@@ -117,7 +227,7 @@
 
 <!-- Schedule Plan Section -->
 <div class="container py-5">
-    <div class="text-center mb-4">
+    <div class="text-center mb-4 schedule-header">
         <div style="color:#ff9800;font-size:1.1rem;font-weight:600;letter-spacing:0.5px;">OUR TIMETABLE</div>
         <h2 style="font-size:2.7rem;font-weight:900;color:#181b2c;letter-spacing:1px;margin-bottom:0.5rem;">OUR SCHEDULE PLAN</h2>
     </div>
@@ -145,10 +255,48 @@
         </div>
         <!-- Right: Buttons -->
         <div class="d-flex flex-column align-items-center justify-content-center gap-3 py-3 px-lg-3" style="min-width:180px;">
-            <a href="{{ $event->slug }}" class="btn" style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">VIEW MORE</a>
-            <a href="{{ route('client.store') }}" class="btn" style="background:#181b2c;color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">GET TICKET</a>
+            <a href="{{ $event->slug }}" class="btn view-more-btn" style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">VIEW MORE</a>
+            <a href="{{ route('client.store') }}" class="btn get-ticket-btn" style="background:#181b2c;color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">GET TICKET</a>
         </div>
     </div>
     @endforeach
 </div>
-@endsection 
+@endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate schedule cards on scroll
+    const scheduleCards = document.querySelectorAll('.schedule-card');
+    
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                // Add delay based on index
+                setTimeout(() => {
+                    entry.target.classList.add('visible');
+                }, index * 200); // 200ms delay between each card
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    scheduleCards.forEach(card => {
+        card.classList.add('animate-on-scroll');
+        observer.observe(card);
+    });
+
+    // Parallax effect for hero section
+    window.addEventListener('scroll', function() {
+        const heroSection = document.querySelector('.hero-section-store');
+        const scrolled = window.pageYOffset;
+        heroSection.style.backgroundPositionY = -(scrolled * 0.5) + 'px';
+    });
+});
+</script>
+@endpush 

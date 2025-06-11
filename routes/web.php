@@ -5,13 +5,67 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Client\PageController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\CheckoutController;
+use App\Http\Controllers\Client\AuthController;
 
-use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\TicketController;
 use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\ProfileController;
+
+/*
+|--------------------------------------------------------------------------
+| Client Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'loginPage'])->name('client.login');
+    Route::post('/login', [AuthController::class, 'login'])->name('client.login.submit');
+    Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('client.register');
+    Route::post('/register', [AuthController::class, 'register'])->name('client.register.submit');
+    
+    // Social Login Routes
+    Route::get('auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
+    Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+    Route::get('auth/google/complete', [AuthController::class, 'completeGoogleAuth'])->name('google.auth.complete');
+    
+    Route::get('auth/facebook', [AuthController::class, 'redirectToFacebook'])->name('auth.facebook');
+    Route::get('auth/facebook/callback', [AuthController::class, 'handleFacebookCallback']);
+    
+    Route::get('auth/linkedin', [AuthController::class, 'redirectToLinkedin'])->name('auth.linkedin');
+    Route::get('auth/linkedin/callback', [AuthController::class, 'handleLinkedinCallback']);
+});
+
+// Client Protected Routes
+Route::middleware(['auth'])->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('client.logout');
+    Route::get('/user/details', [AuthController::class, 'userDetails'])->name('client.user.details');
+    Route::post('/user/details', [AuthController::class, 'updateUserDetails'])->name('client.user.details.update');
+    Route::delete('/user/deactivate', [AuthController::class, 'deactivateAccount'])->name('client.user.deactivate');
+
+    // Profile Routes
+    Route::get('/profile', [App\Http\Controllers\Client\ProfileController::class, 'index'])->name('client.profile');
+    Route::get('/profile/search', [App\Http\Controllers\Client\ProfileController::class, 'search'])->name('client.profile.search');
+    Route::post('/profile/{id}/save', [App\Http\Controllers\Client\ProfileController::class, 'saveProfile'])->name('client.profile.save');
+    Route::post('/profile/{id}/remove', [App\Http\Controllers\Client\ProfileController::class, 'removeProfile'])->name('client.profile.remove');
+    Route::get('/profile/saved', [App\Http\Controllers\Client\ProfileController::class, 'savedProfiles'])->name('client.profile.saved');
+    Route::get('/profile/searches', [App\Http\Controllers\Client\ProfileController::class, 'savedSearches'])->name('client.profile.searches');
+    Route::post('/profile/avatar', [App\Http\Controllers\Client\ProfileController::class, 'updateAvatar'])->name('client.profile.update.avatar');
+    Route::delete('/profile/avatar', [App\Http\Controllers\Client\ProfileController::class, 'removeAvatar'])->name('client.profile.remove.avatar');
+});
+
+// Route to serve avatar images
+Route::get('avatar/{filename}', function ($filename) {
+    $path = storage_path('app/public/avatars/' . $filename);
+    
+    if (!file_exists($path)) {
+        abort(404);
+    }
+    
+    return response()->file($path);
+})->name('avatar.show');
 
 // client 
 Route::get('/', [PageController::class, 'home'])->name('client.home');
@@ -63,24 +117,27 @@ Route::post('/checkout', [CheckoutController::class, 'process'])->name('client.c
 // Payment callback route
 Route::get('/payment/callback', [\App\Http\Controllers\Client\CheckoutController::class, 'paymentCallback'])->name('payment.callback');
 
-// admin
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
+
 Route::middleware('guest')->group(function () {
-    Route::get('/admin/login', [AuthController::class, 'loginPage'])->name('login'); 
-    Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login.submit');
+    Route::get('/admin/login', [AdminAuthController::class, 'loginPage'])->name('admin.login'); 
+    Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
 });
 
 // Routes for authenticated users only
 Route::middleware('auth')->group(function () {
-    Route::get('/admin/dashboard', [AuthController::class, 'dashboard'])->name('admin.dashboard');
-    Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
-    Route::get('/admin/logout', function () { 
-        return redirect()->route('admin.dashboard'); 
-    });
+    Route::get('/admin/dashboard', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
+    Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+    // Redirect GET requests to logout to the login page
+    Route::get('/admin/logout', [AdminAuthController::class, 'handleGetLogout'])->name('admin.logout.get');
 
-    // Admin Routes
     Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
-        Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
-        Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+        // Route::get('/dashboard', [AdminAuthController::class, 'dashboard'])->name('dashboard');
         
         // Profile Routes
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -111,4 +168,3 @@ Route::middleware('auth')->group(function () {
         Route::resource('schedules', \App\Http\Controllers\Admin\ScheduleController::class);
     });
 });
-

@@ -30,7 +30,7 @@
         align-items: center;
         justify-content: center;
         
-        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('{{ asset('images/hero-hero-section.png') }}') no-repeat center center;
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('{{ asset('images/hero-section.png') }}') no-repeat center center;
         background-size: cover;
         background-attachment: scroll; /* Better for mobile */
         
@@ -642,7 +642,7 @@
             <table class="table cart-table">
                 <thead>
                     <tr>
-                        <th class="bg-orange">Product Name</th>
+                        <th class="bg-orange">Ticket Name</th>
                         <th class="bg-orange">Price</th>
                         <th class="bg-orange">Quantity</th>
                         <th class="bg-orange">Subtotal</th>

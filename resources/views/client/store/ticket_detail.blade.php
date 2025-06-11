@@ -12,6 +12,15 @@
         --text-light: #64748b;
         --mobile-vh: 100vh;
     }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+    }
     /* Enhanced Hero Section for Better Mobile Support */
     .hero-section-store {
         min-height: 100vh;
@@ -25,7 +34,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('{{ asset('images/hero-hero-section.png') }}') no-repeat center center;
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('{{ asset('images/hero-section.png') }}') no-repeat center center;
         background-size: cover;
         background-attachment: scroll;
         text-align: center;
@@ -153,10 +162,6 @@
             min-height: var(--vh, 100vh);
         }
     }
-    body {
-        margin: 0;
-        padding: 0;
-    }
     .hero-section-store {
         margin-top: 0;
         position: relative;
@@ -256,7 +261,7 @@
     </div>
 </div>
 
-<div class="container py-5">
+<div id="ticketDetailContent" class="container py-5">
     <div class="row align-items-start">
         <!-- Image Column -->
         <div class="col-md-6 mb-4 mb-md-0">
@@ -313,9 +318,9 @@
                     <button type="button" class="quantity-btn" id="qty-plus" {{ !$ticket->isInStock() ? 'disabled' : '' }}>+</button>
                 </div>
                 <button type="submit" class="btn btn-dark btn-lg ms-2" {{ !$ticket->isInStock() ? 'disabled' : '' }}>ADD TO CART</button>
-                <a href="{{ route('client.cart.index') }}" class="btn btn-warning btn-lg ms-2" title="View Cart">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="fw-bold ms-2">RM {{ number_format($cartTotal ?? 0, 2) }}</span>
+                <a href="{{ route('client.cart.index') }}" class="btn btn-warning btn-lg ms-2" title="View Cart" style="background:#ff9900;">
+                    <i class="fas fa-shopping-cart text-white"></i>
+                    <span class="fw-bold ms-2 text-white">RM {{ number_format($cartTotal ?? 0, 2) }}</span>
                 </a>
             </form>
             @else
@@ -324,9 +329,9 @@
                 <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
                 <input type="hidden" name="quantity" value="1">
                 <button type="submit" class="btn btn-dark btn-lg mb-4" {{ !$ticket->isInStock() ? 'disabled' : '' }}>ADD TO CART</button>
-                <a href="{{ route('client.cart.index') }}" class="btn btn-warning btn-lg ms-2 mb-4" title="View Cart">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="fw-bold ms-2">RM {{ number_format($cartTotal ?? 0, 2) }}</span>
+                <a href="{{ route('client.cart.index') }}" class="btn btn-warning btn-lg ms-2 mb-4" title="View Cart" style="background:#ff9900;">
+                    <i class="fas fa-shopping-cart text-white"></i>
+                    <span class="fw-bold ms-2 text-white">RM {{ number_format($cartTotal ?? 0, 2) }}</span>
                 </a>
             </form>
             @endif
@@ -397,6 +402,15 @@ document.addEventListener('DOMContentLoaded', function() {
             let val = parseInt(qtyInput.value, 10);
             if (val < maxStock) qtyInput.value = val + 1;
         });
+    }
+
+    // Scroll to ticket detail content
+    const ticketDetailContent = document.getElementById('ticketDetailContent');
+    if (ticketDetailContent) {
+        // Add a small delay to ensure smooth scrolling after page load
+        setTimeout(() => {
+            ticketDetailContent.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
     }
 });
 </script>
