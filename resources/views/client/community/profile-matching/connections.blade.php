@@ -113,7 +113,14 @@ async function handleRequest(action, senderId, button) {
                                                         }
                                                     })">
                                                     <div class="position-relative">
-                                                        <img src="{{ $request->sender->avatar ? route('avatar.show', $request->sender->avatar) : asset('images/default-avatar.png') }}" 
+                                                        @php
+                                                            $avatarUrl = $request->sender->avatar 
+                                                                ? (filter_var($request->sender->avatar, FILTER_VALIDATE_URL)
+                                                                    ? $request->sender->avatar
+                                                                    : route('avatar.show', $request->sender->avatar))
+                                                                : asset('images/default-avatar.png');
+                                                        @endphp
+                                                        <img src="{{ $avatarUrl }}" 
                                                              class="rounded-circle border border-3 border-white shadow-sm" 
                                                              style="width: 60px; height: 60px; object-fit: cover;"
                                                              alt="{{ $request->sender->profile->first_name }} {{ $request->sender->profile->last_name }}">
@@ -189,7 +196,14 @@ async function handleRequest(action, senderId, button) {
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div class="d-flex align-items-center">
                                                     <div class="position-relative">
-                                                        <img src="{{ $connection->avatar ? route('avatar.show', $connection->avatar) : asset('images/default-avatar.png') }}" 
+                                                        @php
+                                                            $avatarUrl = $connection->avatar 
+                                                                ? (filter_var($connection->avatar, FILTER_VALIDATE_URL)
+                                                                    ? $connection->avatar
+                                                                    : route('avatar.show', $connection->avatar))
+                                                                : asset('images/default-avatar.png');
+                                                        @endphp
+                                                        <img src="{{ $avatarUrl }}" 
                                                              class="rounded-circle border border-3 border-white shadow-sm" 
                                                              style="width: 60px; height: 60px; object-fit: cover;"
                                                              alt="{{ $connection->profile->first_name }} {{ $connection->profile->last_name }}">
@@ -618,7 +632,9 @@ window.showProfileModal = function(user) {
     try {
         // Update modal content
         document.getElementById('modalAvatar').src = user.avatar 
-            ? `{{ url('avatar') }}/${user.avatar}`
+            ? (user.avatar.startsWith('http') 
+                ? user.avatar // If it's an external URL
+                : `{{ url('avatar') }}/${user.avatar}`) // If it's a local file
             : "{{ asset('images/default-avatar.png') }}";
         document.getElementById('modalName').textContent = user.name;
         document.getElementById('modalJobTitle').textContent = user.profile?.job_title || 'Not specified';

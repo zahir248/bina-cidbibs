@@ -58,13 +58,17 @@ Route::middleware(['auth'])->group(function () {
 
 // Route to serve avatar images
 Route::get('avatar/{filename}', function ($filename) {
-    $path = storage_path('app/public/avatars/' . $filename);
+    // Check both storage and public paths
+    $storagePath = storage_path('app/public/avatars/' . $filename);
+    $publicPath = public_path('storage/avatars/' . $filename);
     
-    if (!file_exists($path)) {
-        abort(404);
+    if (file_exists($storagePath)) {
+        return response()->file($storagePath);
+    } elseif (file_exists($publicPath)) {
+        return response()->file($publicPath);
     }
     
-    return response()->file($path);
+    abort(404);
 })->name('avatar.show');
 
 // client 

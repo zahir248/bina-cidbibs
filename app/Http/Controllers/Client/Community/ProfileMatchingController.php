@@ -28,7 +28,9 @@ class ProfileMatchingController extends Controller
                     'job_title' => $user->profile->job_title,
                     'about_me' => $user->profile->about_me,
                     'avatar' => $user->avatar 
-                        ? asset('storage/avatars/' . $user->avatar) 
+                        ? (filter_var($user->avatar, FILTER_VALIDATE_URL) 
+                            ? $user->avatar // If it's already a URL (e.g. Google avatar)
+                            : route('avatar.show', $user->avatar)) // If it's a local file
                         : 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg',
                     // Additional profile information
                     'category' => $user->profile->category,
