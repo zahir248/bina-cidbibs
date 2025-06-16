@@ -48,8 +48,8 @@
                 <form class="newsletter-form mb-2" action="#" method="POST">
                      @csrf
                     <div class="input-group">
-                        <input type="email" class="form-control newsletter-input" placeholder="Your Email Address" name="email" required>
-                        <button type="submit" class="btn btn-newsletter">SIGN UP</button>
+                        <input type="email" class="form-control newsletter-input" placeholder="Your Email Address" name="email" required style="background:rgba(255, 255, 255, 0.2) !important;border-radius:0.5rem 0 0 0.5rem !important;color:white !important;border:none;padding:0.75rem 1.25rem;">
+                        <button type="submit" class="btn btn-newsletter" style="background:white !important;color:#FF9900 !important;border-radius:0 0.5rem 0.5rem 0 !important;padding:0.75rem 1.5rem;font-weight:600;border:none;">SIGN UP</button>
                     </div>
                 </form>
 
@@ -73,12 +73,13 @@
 <style>
 /* Footer Styles */
 .footer-section {
-    color: #c9d1d9; /* Light text color */
+    background: #e67e00;
+    color: #ffffff;
     font-size: 0.9rem;
 }
 
 .footer-logo-container img {
-    height: 60px; /* Reduced logo size */
+    height: 60px;
     width: auto;
 }
 
@@ -91,10 +92,11 @@
 .footer-address p {
     margin-bottom: 0.1rem;
     line-height: 1.4;
+    color: white;
 }
 
 .footer-social a {
-    color: #ff9800;
+    color: white;
     font-size: 1.1rem;
     margin-right: 0.8rem;
     transition: color 0.3s ease;
@@ -102,8 +104,8 @@
 }
 
 .footer-social a:hover {
-    color: white; /* White on hover */
-    text-decoration: none; /* Ensure no underline on hover */
+    color: #181b2c;
+    text-decoration: none;
 }
 
 .footer-heading {
@@ -126,14 +128,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #161b22;
+    background-color: white;
     border-radius: 50%;
     font-size: 1rem;
     flex-shrink: 0;
 }
 
 .contact-icon i {
-    color: #ff9800; /* Orange icon */
+    color: #FF9900;
 }
 
 .contact-details {
@@ -149,57 +151,58 @@
 
 .contact-link, .contact-details p {
     font-size: 0.9rem;
-    color: #c9d1d9;
+    color: white;
     text-decoration: none;
     line-height: 1.4;
     margin-bottom: 0.1rem;
 }
 
 .contact-link:hover {
-    color: white; /* White on hover */
+    color: #181b2c;
 }
 
 .newsletter-form .input-group {
-    border-radius: 0.4rem;
+    border-radius: 0.5rem;
     overflow: hidden;
-    background-color: #161b22;
-    border: 1px solid #30363d;
+    background: transparent;
+    border: none;
 }
 
 .newsletter-input {
-    background-color: transparent !important;
+    background: rgba(255, 255, 255, 0.2) !important;
     border: none !important;
     color: white !important;
     font-size: 0.9rem;
-    padding: 0.5rem 0.8rem;
+    padding: 0.75rem 1.25rem;
     box-shadow: none !important;
 }
 
 .newsletter-input::placeholder {
-    color: #8b949e; /* Lighter placeholder text */
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .btn-newsletter {
-    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
-    color: white !important;
+    background: white !important;
+    color: #FF9900 !important;
     border: none;
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1.5rem;
     font-size: 0.9rem;
     font-weight: 600;
     transition: all 0.3s ease;
 }
 
 .btn-newsletter:hover {
-    background: linear-gradient(135deg, #f57c00 0%, #ef6c00 100%);
+    background: #f8f9fa !important;
+    color: #FF9900 !important;
 }
 
 .partner-logos {
-    display: block; /* Change display to block */
+    display: block;
     align-items: center;
-    gap: 1rem; /* Space between logos */
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
-    width: 100%; /* Make the container take the full width of its parent column */
-    text-align: left; /* Align content to the left */
+    gap: 1rem;
+    flex-wrap: wrap;
+    width: 100%;
+    text-align: left;
 }
 
 .partner-logo {
@@ -207,21 +210,21 @@
     width: 100%;
     max-width: 100%;
     filter: brightness(0) invert(1);
-    opacity: 0.8;
+    opacity: 1;
     transition: opacity 0.3s ease;
 }
 
 .partner-logo:hover {
-     opacity: 1;
+    opacity: 0.9;
 }
 
 .footer-divider {
-    border-top: 1px solid #30363d; /* Dark divider */
+    border-top: 1px solid rgb(255, 255, 255);
 }
 
 .footer-copyright {
     font-size: 0.85rem;
-    color: #8b949e;
+    color: white;
 }
 
 /* Responsive adjustments */

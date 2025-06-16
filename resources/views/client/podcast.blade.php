@@ -248,6 +248,48 @@
         margin-right: auto;
         margin-left: auto;
     }
+
+    /* Coming Soon Styles */
+    .coming-soon-container {
+        /* background: linear-gradient(135deg, rgba(255,153,0,0.05) 0%, rgba(255,153,0,0.1) 100%);
+        border: 1px dashed rgba(255,153,0,0.3); */
+        border-radius: 1rem;
+        padding: 2rem;
+        text-align: center;
+        margin: 1rem 0;
+    }
+
+    .coming-soon-text {
+        color: #FF9900;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .coming-soon-subtext {
+        color: #666;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .pulse-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #FF9900;
+        border-radius: 50%;
+        display: inline-block;
+        animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.5); opacity: 0.5; }
+        100% { transform: scale(1); opacity: 1; }
+    }
 </style>
 @endpush
 
@@ -263,16 +305,7 @@
 </div>
 <!-- Main Content Section -->
 <div class="container py-4 px-3 px-sm-4" style="max-width:1400px;">
-    <div class="podcast-info-card d-flex flex-column flex-md-row align-items-stretch p-3 p-sm-4" style="background:#fff;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);gap:3rem;margin:0 auto;border:2px solid #e5e7eb;">
-        <!-- Image Section -->
-        <div class="flex-shrink-0 d-flex justify-content-center align-items-center" style="width:100%;max-width:450px;">
-            <img src="{{ asset('images/podcast-about.png') }}" 
-                 alt="CIDB IBS Podcast"
-                 style="width:100%;height:auto;max-height:380px;object-fit:contain;border-radius:1.25rem;box-shadow:0 4px 20px rgba(80,80,120,0.1);display:block;"
-                 data-bs-toggle="modal"
-                 data-bs-target="#imageModal"
-                 onclick="showImage(this.src)">
-        </div>
+    <div class="podcast-info-card d-flex flex-column p-3 p-sm-4" style="background:#fff;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);margin:0 auto;border:2px solid #e5e7eb;">
         <!-- Content Section -->
         <div class="flex-grow-1 d-flex flex-column" style="min-width:0;">
             <div style="background:#f1f5f9;border-radius:0.75rem;padding:0.75rem 1.5rem;margin-bottom:1rem;">
@@ -293,8 +326,10 @@
         <div class="col-lg-6">
             <div class="podcast-episode-card d-flex flex-column h-100" style="background:#fff;border:1.5px solid #d1d5db;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);overflow:hidden;">
                 <!-- Header -->
-                <div style="background:#181b2c;color:#fff;padding:1rem 1.5rem;">
-                    <h3 style="font-size:clamp(1.25rem, 4vw, 1.5rem);font-weight:800;margin:0;">BINA PODCAST</h3>
+                <div style="background:#ff9900;color:#fff;padding:1rem 1.5rem;display:flex;align-items:center;">
+                    <img src="{{ asset('images/bina-podcast-logo.png') }}" 
+                         alt="BINA PODCAST" 
+                         style="height:60px;width:auto;object-fit:contain;max-width:400px;">
                 </div>
                 <!-- Content -->
                 <div class="p-3 p-md-4 d-flex flex-column flex-grow-1">
@@ -458,6 +493,19 @@
                                         <i>The CIDB IBS Story – Overview of Construction Technology and Its Impact</i>
                                     </td>
                                 </tr>
+                                <!-- Episode 3 - Media Row -->
+                                <tr>
+                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
+                                        <div class="coming-soon-container">
+                                            <div class="coming-soon-text">
+                                                Coming Soon <span class="pulse-dot"></span>
+                                            </div>
+                                            <div class="coming-soon-subtext">
+                                                Stay tuned for exciting content from this episode!
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                                 <!-- Episode 4 -->
                                 <tr>
                                     <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
@@ -471,6 +519,19 @@
                                     </td>
                                     <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
                                         <i>Game-Changer Policies – Visionary Policies Shaping the Industry</i>
+                                    </td>
+                                </tr>
+                                <!-- Episode 4 - Media Row -->
+                                <tr>
+                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
+                                        <div class="coming-soon-container">
+                                            <div class="coming-soon-text">
+                                                Coming Soon <span class="pulse-dot"></span>
+                                            </div>
+                                            <div class="coming-soon-subtext">
+                                                Stay tuned for exciting content from this episode!
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <!-- Episode 5 -->
@@ -488,6 +549,19 @@
                                         <i>Modular Building Technology – Global Trends in Modular Construction</i>
                                     </td>
                                 </tr>
+                                <!-- Episode 5 - Media Row -->
+                                <tr>
+                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
+                                        <div class="coming-soon-container">
+                                            <div class="coming-soon-text">
+                                                Coming Soon <span class="pulse-dot"></span>
+                                            </div>
+                                            <div class="coming-soon-subtext">
+                                                Stay tuned for exciting content from this episode!
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                                 <!-- Episode 6 -->
                                 <tr>
                                     <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
@@ -501,6 +575,19 @@
                                     </td>
                                     <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
                                         <i>Vendor Development and FM Ecosystem Growth – How the VDP Supports Construction Technology</i>
+                                    </td>
+                                </tr>
+                                <!-- Episode 6 - Media Row -->
+                                <tr>
+                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
+                                        <div class="coming-soon-container">
+                                            <div class="coming-soon-text">
+                                                Coming Soon <span class="pulse-dot"></span>
+                                            </div>
+                                            <div class="coming-soon-subtext">
+                                                Stay tuned for exciting content from this episode!
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <!-- Episode 7 -->
@@ -517,6 +604,19 @@
                                         <i>BINA - ICW: The Future of Construction Through Modular & Construction Technology</i>
                                     </td>
                                 </tr>
+                                <!-- Episode 7 - Media Row -->
+                                <tr>
+                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
+                                        <div class="coming-soon-container">
+                                            <div class="coming-soon-text">
+                                                Coming Soon <span class="pulse-dot"></span>
+                                            </div>
+                                            <div class="coming-soon-subtext">
+                                                Stay tuned for exciting content from this episode!
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -527,8 +627,8 @@
         <div class="col-lg-6">
             <div class="podcast-episode-card d-flex flex-column h-100" style="background:#fff;border:1.5px solid #d1d5db;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);overflow:hidden;">
                 <!-- Header -->
-                <div style="background:#181b2c;color:#fff;padding:1rem 1.5rem;">
-                    <h3 style="font-size:clamp(1.25rem, 4vw, 1.5rem);font-weight:800;margin:0;">FM PODCAST</h3>
+                <div style="background:#ff9900;color:#fff;padding:1rem 1.5rem;display:flex;align-items:center;height:92px;">
+                    <h3 style="font-size:2rem;font-weight:800;margin:0;letter-spacing:0.5px;">FM PODCAST</h3>
                 </div>
                 <!-- Content -->
                 <div class="p-3 p-md-4 d-flex flex-column flex-grow-1">
@@ -558,6 +658,19 @@
                                         <i>Sustainable Facility Management – Green buildings, energy efficiency, and ESG strategies</i>
                                     </td>
                                 </tr>
+                                <!-- Episode 1 - Media Row -->
+                                <tr>
+                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
+                                        <div class="coming-soon-container">
+                                            <div class="coming-soon-text">
+                                                Coming Soon <span class="pulse-dot"></span>
+                                            </div>
+                                            <div class="coming-soon-subtext">
+                                                Stay tuned for exciting content from this episode!
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                                 <!-- Episode 2 -->
                                 <tr>
                                     <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
@@ -571,6 +684,19 @@
                                     </td>
                                     <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
                                         <i>Smart FM Technologies – IoT, AI, automation, and predictive maintenance</i>
+                                    </td>
+                                </tr>
+                                <!-- Episode 2 - Media Row -->
+                                <tr>
+                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
+                                        <div class="coming-soon-container">
+                                            <div class="coming-soon-text">
+                                                Coming Soon <span class="pulse-dot"></span>
+                                            </div>
+                                            <div class="coming-soon-subtext">
+                                                Stay tuned for exciting content from this episode!
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <!-- Episode 3 -->
@@ -588,6 +714,19 @@
                                         <i>Regulations & Compliance – Safety, certification, and industry standards</i>
                                     </td>
                                 </tr>
+                                <!-- Episode 3 - Media Row -->
+                                <tr>
+                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
+                                        <div class="coming-soon-container">
+                                            <div class="coming-soon-text">
+                                                Coming Soon <span class="pulse-dot"></span>
+                                            </div>
+                                            <div class="coming-soon-subtext">
+                                                Stay tuned for exciting content from this episode!
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                                 <!-- Episode 4 -->
                                 <tr>
                                     <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
@@ -601,6 +740,19 @@
                                     </td>
                                     <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
                                         <i>Asset & Lifecycle Management – Best practices in prolonging asset lifespan</i>
+                                    </td>
+                                </tr>
+                                <!-- Episode 4 - Media Row -->
+                                <tr>
+                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
+                                        <div class="coming-soon-container">
+                                            <div class="coming-soon-text">
+                                                Coming Soon <span class="pulse-dot"></span>
+                                            </div>
+                                            <div class="coming-soon-subtext">
+                                                Stay tuned for exciting content from this episode!
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <!-- Episode 5 -->
@@ -618,6 +770,19 @@
                                         <i>Workforce & Skill Development – Upskilling FM professionals for the future</i>
                                     </td>
                                 </tr>
+                                <!-- Episode 5 - Media Row -->
+                                <tr>
+                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
+                                        <div class="coming-soon-container">
+                                            <div class="coming-soon-text">
+                                                Coming Soon <span class="pulse-dot"></span>
+                                            </div>
+                                            <div class="coming-soon-subtext">
+                                                Stay tuned for exciting content from this episode!
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                                 <!-- Episode 6 -->
                                 <tr>
                                     <td style="padding:1rem;vertical-align:top;">
@@ -633,6 +798,19 @@
                                         <i>Challenges & Opportunities – Addressing operational and financial challenges in FM</i>
                                     </td>
                                 </tr>
+                                <!-- Episode 6 - Media Row -->
+                                <tr>
+                                    <td colspan="3" style="padding:1.5rem;background:#f8fafc;">
+                                        <div class="coming-soon-container">
+                                            <div class="coming-soon-text">
+                                                Coming Soon <span class="pulse-dot"></span>
+                                            </div>
+                                            <div class="coming-soon-subtext">
+                                                Stay tuned for exciting content from this episode!
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -643,11 +821,15 @@
 </div>
 
 <!-- Engagement Content -->
-<div class="container py-4">
-    <div class="text-center" style="max-width:800px;margin:0 auto;">
-        <p style="font-size:1.15rem;color:#374151;font-weight:500;line-height:1.6;">
-            Got something to say about the future of construction? Join us as a panelist on BINA Podcast—contact us today!
-        </p>
+<div class="container py-5">
+    <div class="engagement-section" style="background:linear-gradient(135deg, #1B1F31  0%, #2C3149  100%);border-radius:1.5rem;padding:3rem 2rem;box-shadow:0 4px 20px rgba(255, 153, 0, 0.2);max-width:1000px;margin:0 auto;">
+        <div class="text-center">
+            <h2 style="font-size:2rem;color:#fff;font-weight:800;margin-bottom:1.5rem;text-shadow:2px 2px 4px rgba(0,0,0,0.1);">Join Our Podcast!</h2>
+            <p style="font-size:1.25rem;color:#fff;font-weight:500;line-height:1.6;margin-bottom:2rem;">
+                Got something to say about the future of construction? Join us as a panelist on BINA Podcast—<br>
+                contact us today!<br>
+            </p
+        </div>
     </div>
 </div>
 
