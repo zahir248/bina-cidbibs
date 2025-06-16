@@ -117,6 +117,24 @@ Route::post('/checkout', [CheckoutController::class, 'process'])->name('client.c
 // Payment callback route
 Route::get('/payment/callback', [\App\Http\Controllers\Client\CheckoutController::class, 'paymentCallback'])->name('payment.callback');
 
+// Community routes
+Route::prefix('community')->middleware(['auth'])->group(function () {
+    Route::get('/', [App\Http\Controllers\Client\CommunityController::class, 'index'])->name('client.community');
+    Route::get('/profile-matching', [App\Http\Controllers\Client\Community\ProfileMatchingController::class, 'index'])->name('client.community.profile-matching');
+    
+    // Connection routes
+    Route::prefix('profile-matching')->name('client.community.profile-matching.')->group(function () {
+        Route::get('/connections', [App\Http\Controllers\Client\Community\ConnectionRequestController::class, 'index'])->name('connections');
+    });
+
+    // Connection Request API Routes
+    Route::prefix('connections')->name('client.community.connections.')->group(function () {
+        Route::post('/send', [App\Http\Controllers\Client\Community\ConnectionRequestController::class, 'send'])->name('send');
+        Route::get('/status', [App\Http\Controllers\Client\Community\ConnectionRequestController::class, 'getStatus'])->name('status');
+        Route::post('/accept', [App\Http\Controllers\Client\Community\ConnectionRequestController::class, 'accept'])->name('accept');
+        Route::post('/reject', [App\Http\Controllers\Client\Community\ConnectionRequestController::class, 'reject'])->name('reject');
+    });
+});
 
 /*
 |--------------------------------------------------------------------------

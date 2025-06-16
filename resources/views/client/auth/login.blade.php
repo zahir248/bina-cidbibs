@@ -275,7 +275,7 @@ body {
         </div>
         <div class="form-group d-flex justify-content-between align-items-center">
             <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                <input type="checkbox" class="form-check-input" id="remember" name="remember" checked>
                 <label class="form-check-label" for="remember">Remember me</label>
             </div>
             <a href="#" class="text-decoration-none">Forgot?</a>
@@ -309,6 +309,12 @@ body {
 <script>
     $(document).ready(function() {
         const responseModal = new bootstrap.Modal(document.getElementById('responseModal'));
+        
+        // Keep remember me checkbox always checked
+        $('#remember').prop('checked', true).on('click', function(e) {
+            e.preventDefault();
+            return false;
+        });
         
         // Function to show response in modal
         function showResponseModal(success, message, redirect = null) {

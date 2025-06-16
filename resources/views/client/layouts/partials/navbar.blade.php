@@ -46,6 +46,11 @@
                                 @endauth
                             </ul>
                         </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('client.community') }}" onclick="showLoginRequiredModal(event)">
+                                BINA Community
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -121,6 +126,11 @@
                                 </li>
                             @endauth
                         </ul>
+                    </li>
+                    <li>
+                        <a class="sidebar-link" href="{{ route('client.community') }}" onclick="showLoginRequiredModal(event)">
+                            BINA Community
+                        </a>
                     </li>
                 </ul>
             </li>
@@ -529,4 +539,85 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+function showLoginRequiredModal(event) {
+    if (!{{ auth()->check() ? 'true' : 'false' }}) {
+        event.preventDefault();
+        var loginModal = new bootstrap.Modal(document.getElementById('loginRequiredModal'));
+        loginModal.show();
+    }
+}
+
+// Add this to your existing JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    // For desktop menu
+    const desktopCommunityLink = document.querySelector('.dropdown-menu .dropdown-item[href="{{ route('client.community') }}"]');
+    if (desktopCommunityLink) {
+        desktopCommunityLink.onclick = showLoginRequiredModal;
+    }
+
+    // For mobile menu
+    const mobileCommunityLink = document.querySelector('.sidebar-link[href="{{ route('client.community') }}"]');
+    if (mobileCommunityLink) {
+        mobileCommunityLink.onclick = showLoginRequiredModal;
+    }
+});
 </script>
+
+<!-- Login Required Modal -->
+<div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-labelledby="loginRequiredModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0 bg-primary text-white" style="background: linear-gradient(45deg, #ff9900, #ffb84d) !important;">
+                <h5 class="modal-title" id="loginRequiredModalLabel">Login Required</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="text-center mb-4">
+                    <i class="fas fa-lock fa-3x text-warning mb-3"></i>
+                    <h4 class="mb-3">Please Login to Continue</h4>
+                    <p class="text-muted">To access BINA Community and its features, please log in to your account.</p>
+                </div>
+                <div class="d-grid gap-2">
+                    <a href="{{ route('client.login') }}" class="btn btn-primary btn-lg" style="background: linear-gradient(45deg, #ff9900, #ffb84d); border: none;">
+                        Login Now
+                    </a>
+                    <button type="button" class="btn btn-light btn-lg" data-bs-dismiss="modal">
+                        Maybe Later
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Modal Animation */
+.modal.fade .modal-dialog {
+    transform: scale(0.8);
+    transition: transform 0.3s ease-in-out;
+}
+
+.modal.show .modal-dialog {
+    transform: scale(1);
+}
+
+/* Button Hover Effects */
+.modal .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 153, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.modal .btn-light:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+/* Close Button Hover */
+.modal .btn-close:hover {
+    transform: rotate(90deg);
+    transition: transform 0.3s ease;
+}
+</style>

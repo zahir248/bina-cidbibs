@@ -30,7 +30,7 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
             return redirect()->intended(route('client.profile'));
         }
@@ -190,27 +190,27 @@ class AuthController extends Controller
                     'email_verified_at' => now()
                 ]);
 
-                Auth::login($user);
+                Auth::login($user, true);
                 session()->forget('google_registration');
                 return redirect()->route('client.profile');
-            } else {
-                // Login Flow
-                if (!$user) {
-                    return redirect()->route('client.register')
-                        ->with('error', 'Account not found. Please register first.');
-                }
-
-                // Update google_id if not set
-                if (!$user->google_id) {
-                    $user->update([
-                        'google_id' => $googleUser->id,
-                        'avatar' => $googleUser->avatar
-                    ]);
-                }
-                
-                Auth::login($user);
-                return redirect()->route('client.profile');
             }
+            
+            // Login Flow
+            if (!$user) {
+                return redirect()->route('client.register')
+                    ->with('error', 'Account not found. Please register first.');
+            }
+
+            // Update google_id if not set
+            if (!$user->google_id) {
+                $user->update([
+                    'google_id' => $googleUser->id,
+                    'avatar' => $googleUser->avatar
+                ]);
+            }
+            
+            Auth::login($user, true);
+            return redirect()->route('client.profile');
 
         } catch (\Exception $e) {
             \Log::error('Google Callback Error:', [
