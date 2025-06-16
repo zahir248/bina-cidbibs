@@ -167,16 +167,22 @@ async function handleRequest(action, senderId, button) {
                         </div>
                         <div class="card-body p-4">
                             @php
-                                $connections = \App\Models\ConnectionRequest::with(['sender', 'receiver'])
-                                    ->where(function($query) {
-                                        $query->where('sender_id', auth()->id())
-                                            ->orWhere('receiver_id', auth()->id());
+                                $authUserId = auth()->id();
+                                $connections = \App\Models\ConnectionRequest::with(['sender.profile', 'receiver.profile'])
+                                    ->where(function($query) use ($authUserId) {
+                                        $query->where('sender_id', '=', $authUserId)
+                                            ->orWhere('receiver_id', '=', $authUserId);
                                     })
-                                    ->where('status', 'accepted')
+                                    ->where('status', '=', 'accepted')
                                     ->get()
-                                    ->map(function($request) {
-                                        return $request->sender_id === auth()->id() 
-                                            ? $request->receiver 
+                                    ->map(function($request) use ($authUserId) {
+                                        // Explicitly cast IDs to strings for comparison
+                                        $senderId = (string) $request->sender_id;
+                                        $currentUserId = (string) $authUserId;
+                                        
+                                        // Return the other user in the connection
+                                        return $senderId === $currentUserId
+                                            ? $request->receiver
                                             : $request->sender;
                                     });
                             @endphp
