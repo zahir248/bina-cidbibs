@@ -18,10 +18,11 @@ body {
     right: 0;
     z-index: 1000;
     background-color: var(--bina-orange) !important;
+    transform: translateY(-100%);
 }
 
-.navbar.navbar-hidden {
-    transform: translateY(-100%);
+.navbar.navbar-visible {
+    transform: translateY(0);
 }
 
 .navbar-brand {

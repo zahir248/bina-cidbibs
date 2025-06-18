@@ -129,6 +129,10 @@ Route::prefix('community')->middleware(['auth'])->group(function () {
     // Connection routes
     Route::prefix('profile-matching')->name('client.community.profile-matching.')->group(function () {
         Route::get('/connections', [App\Http\Controllers\Client\Community\ConnectionRequestController::class, 'index'])->name('connections');
+        Route::get('/messages', [App\Http\Controllers\Client\Community\MessagesController::class, 'index'])->name('messages');
+        Route::get('/messages/{user}/chat', [App\Http\Controllers\Client\Community\MessagesController::class, 'getMessages'])->name('messages.get');
+        Route::post('/messages/send', [App\Http\Controllers\Client\Community\MessagesController::class, 'sendMessage'])->name('messages.send');
+        Route::get('/messages/unread-count', [App\Http\Controllers\Client\Community\MessagesController::class, 'getUnreadCount'])->name('messages.unread-count');
     });
 
     // Connection Request API Routes

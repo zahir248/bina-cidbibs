@@ -8,7 +8,7 @@
         <div class="section-title text-center mb-5">
             <h2 class="display-5 fw-bold" style="color: #1B1F31;">Recommended Matches</h2>
             <p class="text-muted lead">Discover and connect with professionals in your field</p>
-        </div>
+        </div> 
         <div class="row g-4">
             @forelse($users as $user)
                 <div class="col-md-4">

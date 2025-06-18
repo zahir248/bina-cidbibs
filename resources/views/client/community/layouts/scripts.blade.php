@@ -1,28 +1,22 @@
 <script>
-// Auto-hide navbar on scroll
-let lastScrollTop = 0;
+// Show navbar only at top of page
 const navbar = document.getElementById('mainNavbar');
-let scrollTimeout;
 
-window.addEventListener('scroll', function() {
-    clearTimeout(scrollTimeout);
+function handleScroll() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     
-    scrollTimeout = setTimeout(function() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
-        if (scrollTop > 100) {
-            if (scrollTop > lastScrollTop) {
-                navbar.classList.add('navbar-hidden');
-            } else {
-                navbar.classList.remove('navbar-hidden');
-            }
-        } else {
-            navbar.classList.remove('navbar-hidden');
-        }
-        
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-    }, 10);
-});
+    if (scrollTop <= 0) {
+        navbar.classList.add('navbar-visible');
+    } else {
+        navbar.classList.remove('navbar-visible');
+    }
+}
+
+// Initial check
+handleScroll();
+
+// Add scroll event listener
+window.addEventListener('scroll', handleScroll, { passive: true });
 
 // Handle mobile viewport height issues
 function setMobileVH() {

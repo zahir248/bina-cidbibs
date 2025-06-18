@@ -39,6 +39,19 @@
                                 @endif
                             </a>
                         </li>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('client.community.profile-matching.messages') ? 'fw-bold' : '' }}" 
+                               href="{{ route('client.community.profile-matching.messages') }}">
+                                Messages
+                                @php
+                                    // We'll implement unread messages count later
+                                    $unreadMessages = 0;
+                                @endphp
+                                @if($unreadMessages > 0)
+                                    <span class="badge bg-danger rounded-pill ms-2">{{ $unreadMessages }}</span>
+                                @endif
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -73,5 +86,52 @@
     font-weight: bold !important;
     color: #ff9900 !important;
 }
+
+/* Navbar visibility styles */
+#mainNavbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    opacity: 0;
+    visibility: hidden;
+}
+
+#mainNavbar.navbar-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Add padding to body to prevent content from hiding under navbar */
+body {
+    padding-top: 76px; /* Adjust this value based on your navbar height */
+}
 </style>
+@endpush
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const navbar = document.getElementById('mainNavbar');
+    
+    function handleScroll() {
+        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Only show navbar when at the very top (scroll position is 0)
+        if (currentScroll <= 0) {
+            navbar.classList.add('navbar-visible');
+        } else {
+            navbar.classList.remove('navbar-visible');
+        }
+    }
+
+    // Initial check
+    handleScroll();
+    
+    // Add scroll event listener with passive option for better performance
+    window.addEventListener('scroll', handleScroll, { passive: true });
+});
+</script>
 @endpush 
