@@ -12,7 +12,7 @@ use Illuminate\View\View;
 
 class MessagesController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request, User $user = null): View
     {
         // Get all accepted connections for the current user
         $authUserId = auth()->id();
@@ -33,26 +33,24 @@ class MessagesController extends Controller
                     : $request->sender;
             });
 
-        // Get selected user if user_id is provided
+        // Get selected user if provided
         $receiver = null;
-        if ($request->has('user_id')) {
-            $userId = $request->user_id;
-            
+        if ($user) {
             // Check if there's a connection between users
             $connection = ConnectionRequest::where('status', 'accepted')
-                ->where(function($query) use ($userId) {
-                    $query->where(function($q) use ($userId) {
+                ->where(function($query) use ($user) {
+                    $query->where(function($q) use ($user) {
                         $q->where('sender_id', auth()->id())
-                            ->where('receiver_id', $userId);
-                    })->orWhere(function($q) use ($userId) {
-                        $q->where('sender_id', $userId)
+                            ->where('receiver_id', $user->id);
+                    })->orWhere(function($q) use ($user) {
+                        $q->where('sender_id', $user->id)
                             ->where('receiver_id', auth()->id());
                     });
                 })
                 ->first();
 
             if ($connection) {
-                $receiver = User::with('profile')->find($userId);
+                $receiver = $user;
             }
         }
 

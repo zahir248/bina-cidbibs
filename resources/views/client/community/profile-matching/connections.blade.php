@@ -258,7 +258,7 @@ async function handleRequest(action, senderId, button) {
                                                             })">
                                                         <i class="fas fa-user me-1"></i>View Profile
                                                     </button>
-                                                    <a href="{{ route('client.community.profile-matching.messages', ['user_id' => $connection->id]) }}" class="btn btn-orange-soft btn-sm px-3">
+                                                    <a href="{{ route('client.community.profile-matching.messages', $connection) }}" class="btn btn-orange-soft btn-sm px-3">
                                                         <i class="fas fa-envelope me-1"></i>Message
                                                     </a>
                                                 </div>

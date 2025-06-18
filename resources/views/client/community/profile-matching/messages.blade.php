@@ -62,8 +62,8 @@
                     @else
                         <div class="list-group list-group-flush">
                             @foreach($connections as $connection)
-                                <a href="{{ route('client.community.profile-matching.messages', ['user_id' => $connection->id]) }}" 
-                                   class="connection-item list-group-item list-group-item-action border-0 d-flex align-items-center p-3 {{ request()->query('user_id') == $connection->id ? 'active' : '' }}">
+                                <a href="{{ route('client.community.profile-matching.messages', $connection) }}" 
+                                   class="connection-item list-group-item list-group-item-action border-0 d-flex align-items-center p-3 {{ $receiver && $receiver->id == $connection->id ? 'active' : '' }}">
                                     <div class="position-relative">
                                         @php
                                             $avatarUrl = $connection->avatar 
