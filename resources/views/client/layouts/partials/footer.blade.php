@@ -11,8 +11,8 @@
                 <p class="footer-tagline mb-2">Beyond Limit, Build Tomorrow</p>
                 <div class="footer-address mb-2">
                     <p>CIDB IBS SDN. BHD.</p>
-                    <p>Lot 8, Jalan Chan So,</p>
-                    <p>55200 Kuala Lumpur</p>
+                    <p>Lot 8, Jalan Chan Sow, Cheras Batu 2 1/2,</p>
+                    <p>55200 Kuala Lumpur, Federal Territory of Kuala Lumpur</p>
                 </div>
                 <div class="footer-social">
                     <a href="https://www.facebook.com/cidbibsofficial/?locale=ms_MY" class="social-icon" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>

@@ -7,8 +7,7 @@
                 <h5 class="text-white">Beyond Limit, Build Tomorrow</h5>
                 <div class="company-info">
                     <p class="mb-1">CIDB IBS SDN. BHD.</p>
-                    <p class="mb-1">Lot 8, Jalan Chan So,</p>
-                    <p class="mb-3">55200 Kuala Lumpur</p>
+                    <p class="mb-3">Lot 8, Jalan Chan Sow, Cheras Batu 2 1/2,<br>55200 Kuala Lumpur, Federal Territory of Kuala Lumpur</p>
                 </div>
                 <div class="social-links">
                     <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
