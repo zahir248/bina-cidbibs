@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommunityController extends Controller
 {
@@ -14,6 +15,9 @@ class CommunityController extends Controller
      */
     public function index()
     {
-        return view('client.community.index');
+        $user = Auth::user();
+        $profile = $user->profile;
+        
+        return view('client.community.index', compact('profile'));
     }
 }

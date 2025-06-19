@@ -41,12 +41,12 @@ Route::middleware('guest')->group(function () {
 // Client Protected Routes
 Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('client.logout');
-    Route::get('/user/details', [AuthController::class, 'userDetails'])->name('client.user.details');
-    Route::post('/user/details', [AuthController::class, 'updateUserDetails'])->name('client.user.details.update');
     Route::delete('/user/deactivate', [AuthController::class, 'deactivateAccount'])->name('client.user.deactivate');
 
     // Profile Routes
     Route::get('/profile', [App\Http\Controllers\Client\ProfileController::class, 'index'])->name('client.profile');
+    Route::post('/profile', [App\Http\Controllers\Client\ProfileController::class, 'update'])->name('client.profile.update');
+    Route::post('/profile/clear-reminder', [App\Http\Controllers\Client\ProfileController::class, 'clearReminder'])->name('client.profile.clear-reminder');
     Route::get('/profile/search', [App\Http\Controllers\Client\ProfileController::class, 'search'])->name('client.profile.search');
     Route::post('/profile/{id}/save', [App\Http\Controllers\Client\ProfileController::class, 'saveProfile'])->name('client.profile.save');
     Route::post('/profile/{id}/remove', [App\Http\Controllers\Client\ProfileController::class, 'removeProfile'])->name('client.profile.remove');

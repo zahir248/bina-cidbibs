@@ -12,6 +12,16 @@
         --text-light: #64748b;
         --mobile-vh: 100vh;
     }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
     .hero-section-store {
         min-height: 100vh;
         min-height: 100svh;
@@ -35,6 +45,111 @@
         z-index: 1;
         overflow: hidden;
     }
+
+    @supports (-webkit-touch-callout: none) {
+        .hero-section-store {
+            min-height: -webkit-fill-available;
+            height: -webkit-fill-available;
+        }
+    }
+
+    .profile-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+        position: relative;
+        z-index: 2;
+        background: #fff;
+    }
+
+    @media screen and (max-width: 992px) {
+        .hero-section-store {
+            min-height: 100vh;
+            min-height: 100svh;
+            height: 100vh;
+            padding: 0 1rem;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .hero-section-store {
+            min-height: 100vh;
+            min-height: 100svh;
+            min-height: 100dvh;
+            height: 100vh;
+            height: 100svh;
+            height: 100dvh;
+            padding: 0 1rem;
+        }
+        .hero-title-store {
+            max-width: 90vw;
+            word-wrap: break-word;
+        }
+    }
+
+    @media screen and (max-width: 576px) {
+        .hero-section-store {
+            min-height: 100vh;
+            min-height: 100svh;
+            min-height: 100dvh;
+            height: 100vh;
+            height: 100svh;
+            height: 100dvh;
+            padding: 0 0.75rem;
+            padding-top: env(safe-area-inset-top, 0);
+            padding-bottom: env(safe-area-inset-bottom, 0);
+            padding-left: max(0.75rem, env(safe-area-inset-left));
+            padding-right: max(0.75rem, env(safe-area-inset-right));
+        }
+    }
+
+    @media screen and (max-width: 375px) {
+        .hero-section-store {
+            padding: 0 0.5rem;
+            min-height: 100vh;
+            height: 100vh;
+        }
+        .hero-title-store {
+            font-size: 1.75rem;
+            line-height: 1.2;
+        }
+        .breadcrumb-store {
+            font-size: 0.9rem;
+        }
+    }
+
+    @media screen and (max-height: 500px) and (orientation: landscape) {
+        .hero-section-store {
+            min-height: 100vh;
+            height: 100vh;
+            padding: 1rem;
+            justify-content: center;
+        }
+        .hero-title-store {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .breadcrumb-store {
+            font-size: 1rem;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .hero-section-store {
+            position: relative;
+        }
+        .hero-section-store.js-mobile-vh {
+            height: var(--vh, 100vh);
+            min-height: var(--vh, 100vh);
+        }
+    }
+
+    .hero-section-store {
+        margin-top: 0;
+        position: relative;
+        top: 0;
+    }
+
     .hero-title-store {
         font-size: clamp(2rem, 8vw, 4rem);
         font-weight: 800;
@@ -67,13 +182,6 @@
         color: #fff;
         opacity: 0.7;
         font-size: 1.2em;
-    }
-    .profile-container {
-        max-width: 1000px;
-        margin: 2rem auto;
-        padding: 0 1rem;
-        position: relative;
-        z-index: 2;
     }
     .profile-content {
         background: white;
@@ -218,24 +326,6 @@
     .alert {
         border-radius: 8px;
         margin-bottom: 1.5rem;
-    }
-    @media (max-width: 768px) {
-        .profile-container {
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        .profile-content {
-            padding: 1.5rem;
-        }
-        .profile-avatar {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 1.5rem;
-            font-size: 3rem;
-        }
-        .profile-name {
-            font-size: 1.5rem;
-        }
     }
     .profile-section {
         margin-bottom: 2rem;
@@ -448,6 +538,106 @@
         max-height: calc(100vh - 210px);
         overflow-y: auto;
     }
+
+    /* Profile Reminder Modal Styles */
+    .reminder-modal .modal-content {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .reminder-modal .modal-header {
+        border-bottom: none;
+        padding: 2rem 2rem 1rem;
+        text-align: center;
+        display: block;
+    }
+
+    .reminder-modal .modal-body {
+        padding: 1rem 2rem;
+        text-align: center;
+    }
+
+    .reminder-modal .modal-footer {
+        border-top: none;
+        padding: 1rem 2rem 2rem;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .reminder-modal .modal-title {
+        color: #1e293b;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .reminder-modal .modal-icon {
+        font-size: 3rem;
+        color: #ff9800;
+        margin-bottom: 1rem;
+    }
+
+    .reminder-modal .modal-description {
+        color: #64748b;
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    .reminder-modal .btn-complete-profile {
+        background-color: #ff9800;
+        color: white;
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .reminder-modal .btn-complete-profile:hover {
+        background-color: #f57c00;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+    }
+
+    .reminder-modal .btn-remind-later {
+        color: #64748b;
+        background: none;
+        border: none;
+        padding: 0.75rem 2rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .reminder-modal .btn-remind-later:hover {
+        color: #1e293b;
+    }
+
+    .reminder-modal .benefits-list {
+        text-align: left;
+        margin: 1.5rem 0;
+        padding-left: 1.5rem;
+    }
+
+    .reminder-modal .benefits-list li {
+        color: #475569;
+        margin-bottom: 0.75rem;
+        position: relative;
+    }
+
+    .reminder-modal .benefits-list li:before {
+        content: "•";
+        color: #ff9800;
+        font-weight: bold;
+        position: absolute;
+        left: -1.2rem;
+    }
+
+    #hero-end {
+        height: 0;
+        margin: 0;
+        padding: 0;
+    }
 </style>
 @endpush
 
@@ -461,8 +651,9 @@
         <span>Profile</span>
     </div>
 </div>
+<div id="hero-end"></div>
 
-<div class="profile-container">
+<div class="profile-container" id="profile-container">
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -552,7 +743,7 @@
             </div>
         </div>
 
-        <form action="{{ route('client.user.details.update') }}" method="POST">
+        <form action="{{ route('client.profile.update') }}" method="POST">
             @csrf
             
             <div class="profile-section">
@@ -920,58 +1111,101 @@
         </div>
     </div>
 </div>
+
+<!-- Profile Completion Modal -->
+<div class="modal fade" id="profileCompletionModal" tabindex="-1" aria-labelledby="profileCompletionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center px-4 py-4">
+                <h3 class="fw-bold mb-3">Complete Your Profile</h3>
+                <p class="text-muted mb-4">Your profile is incomplete. A complete profile helps you:</p>
+                <ul class="list-unstyled text-start mb-4">
+                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Get matched with relevant opportunities</li>
+                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Connect with like-minded professionals</li>
+                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Showcase your skills and experience</li>
+                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Stand out in the community</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
 <script>
-function submitPhotoForm(input) {
-    if (input.files && input.files[0]) {
-        document.getElementById('avatarForm').submit();
-    }
-}
-
-function removePhoto() {
-    // Create a form to submit the remove photo request
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = '{{ route("client.profile.remove.avatar") }}';
-    
-    // Add CSRF token
-    const csrfToken = document.createElement('input');
-    csrfToken.type = 'hidden';
-    csrfToken.name = '_token';
-    csrfToken.value = '{{ csrf_token() }}';
-    form.appendChild(csrfToken);
-    
-    // Add _method field for DELETE request
-    const methodField = document.createElement('input');
-    methodField.type = 'hidden';
-    methodField.name = '_method';
-    methodField.value = 'DELETE';
-    form.appendChild(methodField);
-    
-    document.body.appendChild(form);
-    form.submit();
-}
-
-// Initialize modals with custom options
 document.addEventListener('DOMContentLoaded', function() {
-    const photoModal = new bootstrap.Modal(document.getElementById('photoOptionsModal'), {
-        backdrop: false,
-        keyboard: true
-    });
+    // Profile Completion Modal - Only show if coming from registration
+    @if(session('show_profile_reminder'))
+        var profileModal = new bootstrap.Modal(document.getElementById('profileCompletionModal'));
+        profileModal.show();
+        
+        // Clear the session flag via AJAX after showing the modal
+        fetch('{{ route("client.profile.clear-reminder") }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+    @endif
 
-    const deactivateModal = document.getElementById('deactivateModal');
-    
-    // Add event listener for when deactivate modal is shown
-    deactivateModal.addEventListener('show.bs.modal', function () {
-        document.body.style.overflow = 'hidden'; // Prevent scrolling
-    });
+    // Always scroll to profile container on page load
+    const profileContainer = document.getElementById('profile-container');
+    if (profileContainer) {
+        // Add a small delay to ensure smooth scrolling after page load
+        setTimeout(() => {
+            profileContainer.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+    }
 
-    // Add event listener for when deactivate modal is hidden
-    deactivateModal.addEventListener('hidden.bs.modal', function () {
-        document.body.style.overflow = ''; // Restore scrolling
-    });
+    // Avatar upload functionality
+    const avatarInput = document.getElementById('avatar');
+    const avatarForm = document.getElementById('avatarForm');
+    const avatarPreview = document.getElementById('avatarPreview');
+    const defaultAvatar = document.getElementById('defaultAvatar');
+
+    if (avatarInput) {
+        avatarInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    if (avatarPreview) {
+                        avatarPreview.src = e.target.result;
+                        avatarPreview.style.display = 'block';
+                        if (defaultAvatar) {
+                            defaultAvatar.style.display = 'none';
+                        }
+                    }
+                    // Submit the form automatically when a file is selected
+                    avatarForm.submit();
+                };
+                
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    }
+
+    // Form submission handling
+    const profileForm = document.getElementById('profileForm');
+    if (profileForm) {
+        profileForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...';
+            
+            // Submit the form
+            this.submit();
+        });
+    }
 });
 </script>
 @endpush 

@@ -32,7 +32,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended(route('client.profile'));
+            return redirect()->route('client.community');
         }
 
         return back()->withErrors([
@@ -85,11 +85,14 @@ class AuthController extends Controller
             ]);
 
             Auth::login($user);
+            
+            // Set session flag to show profile reminder
+            session(['show_profile_reminder' => true]);
 
             return response()->json([
                 'success' => true,
-                'message' => 'Registration successful! Please complete your profile details.',
-                'redirect' => route('client.user.details')
+                'message' => 'Registration successful! You can now update your profile.',
+                'redirect' => route('client.profile')
             ]);
 
         } catch (\Exception $e) {
@@ -192,6 +195,8 @@ class AuthController extends Controller
 
                 Auth::login($user, true);
                 session()->forget('google_registration');
+                // Set session flag to show profile reminder and redirect to profile page
+                session(['show_profile_reminder' => true]);
                 return redirect()->route('client.profile');
             }
             
@@ -210,7 +215,7 @@ class AuthController extends Controller
             }
             
             Auth::login($user, true);
-            return redirect()->route('client.profile');
+            return redirect()->route('client.community');
 
         } catch (\Exception $e) {
             \Log::error('Google Callback Error:', [
@@ -309,106 +314,6 @@ class AuthController extends Controller
             }
         } catch (\Exception $e) {
             return redirect()->route('client.login')->with('error', 'Something went wrong with LinkedIn login');
-        }
-    }
-
-    public function userDetails()
-    {
-        if (Auth::user()->profile) {
-            return redirect()->route('client.profile');
-        }
-        return view('client.auth.user-details');
-    }
-
-    public function updateUserDetails(Request $request)
-    {
-        try {
-            $validator = validator($request->all(), [
-                'category' => ['nullable', 'string', 'in:individual,academician,organization'],
-                'mobile_number' => ['nullable', 'regex:/^[0-9]+$/', 'max:15'],
-                'student_id' => ['nullable', 'string'],
-                'academic_institution' => ['nullable', 'string'],
-                'job_title' => ['nullable', 'string'],
-                'organization' => ['nullable', 'string'],
-                'green_card' => ['nullable', 'string'],
-                'impact_number' => ['nullable', 'string'],
-                'title' => ['nullable', 'string'],
-                'first_name' => ['nullable', 'string', 'max:255'],
-                'last_name' => ['nullable', 'string', 'max:255'],
-                'about_me' => ['nullable', 'string'],
-                'address' => ['nullable', 'string', 'max:500'],
-                'city' => ['nullable', 'string', 'max:255'],
-                'state' => ['nullable', 'string', 'max:255'],
-                'postal_code' => ['nullable', 'regex:/^[0-9]+$/', 'max:10'],
-                'country' => ['nullable', 'string', 'max:255'],
-                'website' => ['nullable', 'string', 'max:255'],
-                'linkedin' => ['nullable', 'string', 'max:255'],
-                'facebook' => ['nullable', 'string', 'max:255'],
-                'twitter' => ['nullable', 'string', 'max:255'],
-                'instagram' => ['nullable', 'string', 'max:255']
-            ], [
-                'mobile_number.regex' => 'Mobile number must contain numbers only.',
-                'postal_code.regex' => 'Postal code must contain numbers only.'
-            ]);
-
-            if ($validator->fails()) {
-                return back()
-                    ->withErrors($validator)
-                    ->withInput();
-            }
-
-            $user = Auth::user();
-            
-            // Get all fields that can be updated
-            $fields = [
-                'category',
-                'mobile_number',
-                'student_id',
-                'academic_institution',
-                'job_title',
-                'organization',
-                'green_card',
-                'impact_number',
-                'title',
-                'first_name',
-                'last_name',
-                'about_me',
-                'address',
-                'city',
-                'state',
-                'postal_code',
-                'country',
-                'website',
-                'linkedin',
-                'facebook',
-                'twitter',
-                'instagram'
-            ];
-
-            // Prepare the data for update, converting empty strings to null
-            $profileData = [];
-            foreach ($fields as $field) {
-                $profileData[$field] = $request->input($field) === '' ? null : $request->input($field);
-            }
-
-            // Create or update user profile
-            $user->profile()->updateOrCreate(
-                ['user_id' => $user->id],
-                $profileData
-            );
-
-            return redirect()->route('client.profile')
-                ->with('success', 'Profile updated successfully!');
-
-        } catch (\Exception $e) {
-            \Log::error('Profile Update Error:', [
-                'message' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-            
-            return back()
-                ->with('error', 'An error occurred while updating your profile. Please try again.')
-                ->withInput();
         }
     }
 
