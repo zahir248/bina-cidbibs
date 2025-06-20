@@ -65,6 +65,22 @@
                 <th>Category</th>
                 <td>{{ ucfirst($billingDetail->category) }}</td>
             </tr>
+            @if($billingDetail->category === 'organization')
+            <tr>
+                <th>Company Name</th>
+                <td>{{ $billingDetail->company_name }}</td>
+            </tr>
+            <tr>
+                <th>Business Registration Number</th>
+                <td>{{ $billingDetail->business_registration_number }}</td>
+            </tr>
+            @if($billingDetail->tax_number)
+            <tr>
+                <th>Tax Number</th>
+                <td>{{ $billingDetail->tax_number }}</td>
+            </tr>
+            @endif
+            @endif
             <tr>
                 <th>Email</th>
                 <td>{{ $billingDetail->email }}</td>

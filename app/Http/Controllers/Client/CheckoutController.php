@@ -31,7 +31,7 @@ class CheckoutController extends Controller
     {
         \Log::info('Checkout process started', ['input' => $request->all()]);
 
-        $validated = $request->validate([
+        $validationRules = [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'gender' => 'required|in:male,female',
@@ -44,7 +44,16 @@ class CheckoutController extends Controller
             'postcode' => 'required|string|max:20',
             'phone' => 'required|string|max:30',
             'email' => 'required|email|max:255',
-        ]);
+        ];
+
+        // Add B2B validation rules if organization is selected
+        if ($request->input('category') === 'organization') {
+            $validationRules['company_name'] = 'required|string|max:255';
+            $validationRules['business_registration_number'] = 'required|string|max:50';
+            $validationRules['tax_number'] = 'nullable|string|max:50';
+        }
+
+        $validated = $request->validate($validationRules);
         \Log::info('Validation passed', ['validated' => $validated]);
 
         // Get cart total
@@ -90,6 +99,16 @@ class CheckoutController extends Controller
             'billEmail' => $validated['email'],
             'billPhone' => $phone,
         ];
+
+        // Enable FPX B2B for organizations
+        if ($validated['category'] === 'organization') {
+            $billData['enableFPXB2B'] = '1';  // Enable FPX Corporate Banking
+            $billData['chargeFPXB2B'] = '1';  // Charge on bill owner
+            // Add company name to bill description
+            $billData['billDescription'] = 'Ticket purchase - ' . $validated['company_name'];
+            $billData['billTo'] = $validated['company_name'];
+        }
+
         \Log::info('ToyyibPay bill data', $billData);
 
         try {

@@ -21,6 +21,9 @@ class BillingDetail extends Model
         'postcode',
         'phone',
         'email',
+        'company_name',
+        'business_registration_number',
+        'tax_number'
     ];
 
     public function orders()

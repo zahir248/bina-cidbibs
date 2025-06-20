@@ -456,6 +456,28 @@
                     @error('category')<div class="error">Category is a required field.</div>@enderror
                 </div>
             </div>
+            
+            <!-- B2B Fields (shown only when organization is selected) -->
+            <div id="b2b-fields" style="display: none;">
+                <div class="form-row">
+                    <div>
+                        <label for="company_name">Company Name <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="company_name" name="company_name" value="{{ old('company_name') }}" placeholder="e.g. ABC Corporation">
+                        @error('company_name')<div class="error">Company name is a required field for organizations.</div>@enderror
+                    </div>
+                    <div>
+                        <label for="business_registration_number">Business Registration Number <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="business_registration_number" name="business_registration_number" value="{{ old('business_registration_number') }}" placeholder="e.g. 123456789">
+                        @error('business_registration_number')<div class="error">Business registration number is a required field for organizations.</div>@enderror
+                    </div>
+                </div>
+                <div>
+                    <label for="tax_number">Tax Number (if applicable)</label>
+                    <input type="text" class="form-control" id="tax_number" name="tax_number" value="{{ old('tax_number') }}" placeholder="e.g. TAX123456">
+                    @error('tax_number')<div class="error">{{ $message }}</div>@enderror
+                </div>
+            </div>
+
             <div>
                 <label for="country">Country / Region <span class="required">*</span></label>
                 <input type="text" class="form-control" id="country" name="country" value="{{ old('country') }}" placeholder="e.g. Malaysia" required pattern="[A-Za-z ]*">
@@ -800,6 +822,32 @@ document.addEventListener('DOMContentLoaded', function() {
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl)
     });
+});
+
+// Handle B2B fields visibility
+document.addEventListener('DOMContentLoaded', function() {
+    const categorySelect = document.getElementById('category');
+    const b2bFields = document.getElementById('b2b-fields');
+    const companyName = document.getElementById('company_name');
+    const businessRegNumber = document.getElementById('business_registration_number');
+
+    function toggleB2BFields() {
+        if (categorySelect.value === 'organization') {
+            b2bFields.style.display = 'block';
+            companyName.required = true;
+            businessRegNumber.required = true;
+        } else {
+            b2bFields.style.display = 'none';
+            companyName.required = false;
+            businessRegNumber.required = false;
+        }
+    }
+
+    // Initial check
+    toggleB2BFields();
+
+    // Listen for changes
+    categorySelect.addEventListener('change', toggleB2BFields);
 });
 </script>
 @endpush

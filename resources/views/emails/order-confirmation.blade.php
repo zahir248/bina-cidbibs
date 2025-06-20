@@ -113,6 +113,13 @@
                 <p><strong>Name:</strong> {{ $billingData['first_name'] }} {{ $billingData['last_name'] }}</p>
                 <p><strong>Gender:</strong> {{ ucfirst($billingData['gender']) }}</p>
                 <p><strong>Category:</strong> {{ ucfirst($billingData['category']) }}</p>
+                @if($billingData['category'] === 'organization')
+                    <p><strong>Company Name:</strong> {{ $billingData['company_name'] }}</p>
+                    <p><strong>Business Registration Number:</strong> {{ $billingData['business_registration_number'] }}</p>
+                    @if($billingData['tax_number'])
+                        <p><strong>Tax Number:</strong> {{ $billingData['tax_number'] }}</p>
+                    @endif
+                @endif
                 <p><strong>Email:</strong> {{ $billingData['email'] }}</p>
                 <p><strong>Phone:</strong> {{ $billingData['phone'] }}</p>
                 <p><strong>Address:</strong><br>
