@@ -52,7 +52,7 @@ body {
 }
 
 .back-link:hover {
-    color: #0d6efd;
+    color: #ff9900;
     transform: translateX(-2px);
 }
 
@@ -96,9 +96,10 @@ body {
 }
 
 .form-control:focus {
-    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
-    border-color: #0d6efd;
+    box-shadow: 0 0 0 2px rgba(255, 153, 0, 0.25);
+    border-color: #ff9900;
     background-color: #fff;
+    outline: none;
 }
 
 .btn-login {
@@ -106,7 +107,7 @@ body {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    background-color: #0d6efd;
+    background-color: #ff9900;
     border: none;
     border-radius: 8px;
     transition: all 0.3s ease;
@@ -115,9 +116,10 @@ body {
 }
 
 .btn-login:hover {
-    background-color: #0b5ed7;
+    background-color: #ff9900;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+    color:white;
 }
 
 .alert {
@@ -192,7 +194,7 @@ body {
 }
 
 .login-link a {
-    color: #0d6efd;
+    color: #ff9900;
     text-decoration: none;
     font-weight: 600;
 }
@@ -321,7 +323,7 @@ body {
 }
 
 .input-group .form-control:focus + .btn-outline-secondary {
-    border-color: #0d6efd;
+    border-color: #ff9900;
 }
 </style>
 
@@ -411,17 +413,18 @@ body {
         <div class="divider">
             <span>Or sign up with</span>
         </div>
-        <div class="social-buttons">
+        <div class="social-buttons" style="display: flex; justify-content: center;">
             <a href="{{ route('auth.google') }}" class="btn-social">
                 <img src="https://www.google.com/favicon.ico" alt="Google">
             </a>
+            {{-- Commented out until implementation
             <a class="btn-social disabled" title="Coming soon">
                 <img src="https://www.facebook.com/favicon.ico" alt="Facebook">
             </a>
             <a class="btn-social disabled" title="Coming soon">
                 <img src="https://www.linkedin.com/favicon.ico" alt="LinkedIn">
             </a>
-        </div>
+            --}}
     </div>
 
     <div class="login-link">

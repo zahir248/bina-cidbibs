@@ -52,7 +52,7 @@ body {
 }
 
 .back-link:hover {
-    color: #0d6efd;
+    color: #ff9900;
     transform: translateX(-2px);
 }
 
@@ -101,9 +101,24 @@ body {
 }
 
 .form-control:focus {
-    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
-    border-color: #0d6efd;
+    box-shadow: 0 0 0 2px rgba(255, 153, 0, 0.25);
+    border-color: #ff9900;
     background-color: #fff;
+    outline: none;
+}
+
+.form-check-input {
+    border-color: #e2e8f0;
+}
+
+.form-check-input:checked {
+    background-color: #ff9900;
+    border-color: #ff9900;
+}
+
+.form-check-input:focus {
+    border-color: #ff9900;
+    box-shadow: 0 0 0 0.25rem rgba(255, 153, 0, 0.25);
 }
 
 .btn-login {
@@ -111,7 +126,7 @@ body {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    background-color: #0d6efd;
+    background-color: #ff9900;
     border: none;
     border-radius: 8px;
     transition: all 0.3s ease;
@@ -120,7 +135,7 @@ body {
 }
 
 .btn-login:hover {
-    background-color: #0b5ed7;
+    background-color: #ff9900;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
 }
@@ -209,7 +224,7 @@ body {
 }
 
 .register-link a {
-    color: #0d6efd;
+    color: #ff9900;
     text-decoration: none;
     font-weight: 600;
 }
@@ -278,7 +293,7 @@ body {
                 <input type="checkbox" class="form-check-input" id="remember" name="remember" checked>
                 <label class="form-check-label" for="remember">Remember me</label>
             </div>
-            <a href="#" class="text-decoration-none">Forgot?</a>
+            <a href="#" class="text-decoration-none" style="color: #ff9900;">Forgot?</a>
         </div>
         <button type="submit" class="btn btn-login w-100">Sign In</button>
     </form>
@@ -287,16 +302,18 @@ body {
         <div class="divider">
             <span>Or continue with</span>
         </div>
-        <div class="social-buttons">
+        <div class="social-buttons" style="display: flex; justify-content: center;">
             <a href="{{ route('auth.google') }}" class="btn-social">
                 <img src="https://www.google.com/favicon.ico" alt="Google">
             </a>
+            {{-- Commented out until implementation
             <a class="btn-social disabled" title="Coming soon">
                 <img src="https://www.facebook.com/favicon.ico" alt="Facebook">
             </a>
             <a class="btn-social disabled" title="Coming soon">
                 <img src="https://www.linkedin.com/favicon.ico" alt="LinkedIn">
             </a>
+            --}}
         </div>
     </div>
 
