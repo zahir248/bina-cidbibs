@@ -55,6 +55,10 @@
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('client.profile') ? 'fw-bold' : '' }}" 
+                       href="{{ route('client.profile') }}">Profile</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ route('client.home') }}">Portal</a>
                 </li>
             </ul>
