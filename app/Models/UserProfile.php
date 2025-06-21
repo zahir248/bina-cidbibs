@@ -33,7 +33,8 @@ class UserProfile extends Model
         'linkedin',
         'facebook',
         'twitter',
-        'instagram'
+        'instagram',
+        'nature_of_business'
     ];
 
     /**

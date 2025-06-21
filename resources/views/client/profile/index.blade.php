@@ -878,6 +878,28 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label for="nature_of_business" class="form-label">Nature of Business (optional)</label>
+                                    <select class="form-control @error('nature_of_business') is-invalid @enderror" 
+                                            name="nature_of_business" 
+                                            id="nature_of_business">
+                                        <option value="">Select Nature of Business</option>
+                                        <option value="Manufacturing" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Manufacturing' ? 'selected' : '' }}>Manufacturing</option>
+                                        <option value="Construction" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Construction' ? 'selected' : '' }}>Construction</option>
+                                        <option value="Real Estate" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Real Estate' ? 'selected' : '' }}>Real Estate</option>
+                                        <option value="Technology" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Technology' ? 'selected' : '' }}>Technology</option>
+                                        <option value="Consulting" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Consulting' ? 'selected' : '' }}>Consulting</option>
+                                        <option value="Education" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Education' ? 'selected' : '' }}>Education</option>
+                                        <option value="Healthcare" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Healthcare' ? 'selected' : '' }}>Healthcare</option>
+                                        <option value="Retail" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Retail' ? 'selected' : '' }}>Retail</option>
+                                        <option value="Other" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Other' ? 'selected' : '' }}>Other</option>
+                                    </select>
+                                    @error('nature_of_business')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label for="green_card" class="form-label">Green Card Number (optional)</label>
                                     <input type="text" 
                                            class="form-control @error('green_card') is-invalid @enderror" 

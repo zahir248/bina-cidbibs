@@ -3,7 +3,7 @@
         <div class="card-header py-3" style="background-color: #1B1F31;">
             <div class="d-flex align-items-center">
                 <i class="fas fa-comments text-white fs-4 me-2"></i>
-                <h5 class="card-title mb-0 text-white">Chat with {{ $receiver->profile->first_name }} {{ $receiver->profile->last_name }}</h5>
+                <h5 class="card-title mb-0 text-white">Chat with {{ $receiver->profile ? $receiver->profile->first_name . ' ' . $receiver->profile->last_name : $receiver->name }}</h5>
             </div>
         </div>
         <div class="card-body d-flex flex-column chat-interface-body" style="height: 600px;">
@@ -21,11 +21,13 @@
                         <img src="{{ $avatarUrl }}" 
                              class="rounded-circle border border-2 border-white shadow-sm" 
                              style="width: 40px; height: 40px; object-fit: cover;"
-                             alt="{{ $receiver->profile->first_name }} {{ $receiver->profile->last_name }}">
+                             alt="{{ $receiver->profile ? $receiver->profile->first_name . ' ' . $receiver->profile->last_name : $receiver->name }}">
                     </div>
                     <div class="ms-2">
-                        <h6 class="mb-0">{{ $receiver->profile->first_name }} {{ $receiver->profile->last_name }}</h6>
+                        <h6 class="mb-0">{{ $receiver->profile ? $receiver->profile->first_name . ' ' . $receiver->profile->last_name : $receiver->name }}</h6>
+                        @if($receiver->profile)
                         <p class="text-muted small mb-0">{{ $receiver->profile->job_title ?? 'No title specified' }}</p>
+                        @endif
                     </div>
                 </div>
             </div>

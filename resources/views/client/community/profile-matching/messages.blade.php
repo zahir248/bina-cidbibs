@@ -75,14 +75,16 @@
                                         <img src="{{ $avatarUrl }}" 
                                              class="rounded-circle border border-2 border-white shadow-sm" 
                                              style="width: 48px; height: 48px; object-fit: cover;"
-                                             alt="{{ $connection->profile->first_name }} {{ $connection->profile->last_name }}">
+                                             alt="{{ $connection->profile ? $connection->profile->first_name . ' ' . $connection->profile->last_name : $connection->name }}">
                                     </div>
                                     <div class="ms-3">
-                                        <h6 class="mb-1">{{ $connection->profile->first_name }} {{ $connection->profile->last_name }}</h6>
+                                        <h6 class="mb-1">{{ $connection->profile ? $connection->profile->first_name . ' ' . $connection->profile->last_name : $connection->name }}</h6>
+                                        @if($connection->profile)
                                         <p class="text-muted small mb-0">
                                             <i class="fas fa-briefcase me-1"></i>
                                             {{ $connection->profile->job_title ?? 'No title specified' }}
                                         </p>
+                                        @endif
                                     </div>
                                 </a>
                             @endforeach

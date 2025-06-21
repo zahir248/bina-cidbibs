@@ -8,26 +8,175 @@
         <div class="section-title text-center mb-5">
             <h2 class="display-5 fw-bold" style="color: #1B1F31;">Recommended Matches</h2>
             <p class="text-muted lead">Discover and connect with professionals in your field</p>
-        </div> 
+        </div>
+
+        <!-- Filter Form -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form action="{{ route('client.community.profile-matching') }}" method="GET" class="row g-3">
+                    <div class="col-md-4">
+                        <label for="location" class="form-label">Country</label>
+                        <select class="form-control" id="location" name="location">
+                            <option value="">All Countries</option>
+                            <option value="Afghanistan" {{ request('location') == 'Afghanistan' ? 'selected' : '' }}>Afghanistan</option>
+                            <option value="Albania" {{ request('location') == 'Albania' ? 'selected' : '' }}>Albania</option>
+                            <option value="Algeria" {{ request('location') == 'Algeria' ? 'selected' : '' }}>Algeria</option>
+                            <option value="Andorra" {{ request('location') == 'Andorra' ? 'selected' : '' }}>Andorra</option>
+                            <option value="Angola" {{ request('location') == 'Angola' ? 'selected' : '' }}>Angola</option>
+                            <option value="Argentina" {{ request('location') == 'Argentina' ? 'selected' : '' }}>Argentina</option>
+                            <option value="Armenia" {{ request('location') == 'Armenia' ? 'selected' : '' }}>Armenia</option>
+                            <option value="Australia" {{ request('location') == 'Australia' ? 'selected' : '' }}>Australia</option>
+                            <option value="Austria" {{ request('location') == 'Austria' ? 'selected' : '' }}>Austria</option>
+                            <option value="Azerbaijan" {{ request('location') == 'Azerbaijan' ? 'selected' : '' }}>Azerbaijan</option>
+                            <option value="Bahamas" {{ request('location') == 'Bahamas' ? 'selected' : '' }}>Bahamas</option>
+                            <option value="Bahrain" {{ request('location') == 'Bahrain' ? 'selected' : '' }}>Bahrain</option>
+                            <option value="Bangladesh" {{ request('location') == 'Bangladesh' ? 'selected' : '' }}>Bangladesh</option>
+                            <option value="Barbados" {{ request('location') == 'Barbados' ? 'selected' : '' }}>Barbados</option>
+                            <option value="Belarus" {{ request('location') == 'Belarus' ? 'selected' : '' }}>Belarus</option>
+                            <option value="Belgium" {{ request('location') == 'Belgium' ? 'selected' : '' }}>Belgium</option>
+                            <option value="Belize" {{ request('location') == 'Belize' ? 'selected' : '' }}>Belize</option>
+                            <option value="Benin" {{ request('location') == 'Benin' ? 'selected' : '' }}>Benin</option>
+                            <option value="Bhutan" {{ request('location') == 'Bhutan' ? 'selected' : '' }}>Bhutan</option>
+                            <option value="Bolivia" {{ request('location') == 'Bolivia' ? 'selected' : '' }}>Bolivia</option>
+                            <option value="Bosnia and Herzegovina" {{ request('location') == 'Bosnia and Herzegovina' ? 'selected' : '' }}>Bosnia and Herzegovina</option>
+                            <option value="Botswana" {{ request('location') == 'Botswana' ? 'selected' : '' }}>Botswana</option>
+                            <option value="Brazil" {{ request('location') == 'Brazil' ? 'selected' : '' }}>Brazil</option>
+                            <option value="Brunei" {{ request('location') == 'Brunei' ? 'selected' : '' }}>Brunei</option>
+                            <option value="Bulgaria" {{ request('location') == 'Bulgaria' ? 'selected' : '' }}>Bulgaria</option>
+                            <option value="Burkina Faso" {{ request('location') == 'Burkina Faso' ? 'selected' : '' }}>Burkina Faso</option>
+                            <option value="Burundi" {{ request('location') == 'Burundi' ? 'selected' : '' }}>Burundi</option>
+                            <option value="Cambodia" {{ request('location') == 'Cambodia' ? 'selected' : '' }}>Cambodia</option>
+                            <option value="Cameroon" {{ request('location') == 'Cameroon' ? 'selected' : '' }}>Cameroon</option>
+                            <option value="Canada" {{ request('location') == 'Canada' ? 'selected' : '' }}>Canada</option>
+                            <option value="China" {{ request('location') == 'China' ? 'selected' : '' }}>China</option>
+                            <option value="Colombia" {{ request('location') == 'Colombia' ? 'selected' : '' }}>Colombia</option>
+                            <option value="Denmark" {{ request('location') == 'Denmark' ? 'selected' : '' }}>Denmark</option>
+                            <option value="Egypt" {{ request('location') == 'Egypt' ? 'selected' : '' }}>Egypt</option>
+                            <option value="Finland" {{ request('location') == 'Finland' ? 'selected' : '' }}>Finland</option>
+                            <option value="France" {{ request('location') == 'France' ? 'selected' : '' }}>France</option>
+                            <option value="Germany" {{ request('location') == 'Germany' ? 'selected' : '' }}>Germany</option>
+                            <option value="Greece" {{ request('location') == 'Greece' ? 'selected' : '' }}>Greece</option>
+                            <option value="Hong Kong" {{ request('location') == 'Hong Kong' ? 'selected' : '' }}>Hong Kong</option>
+                            <option value="Hungary" {{ request('location') == 'Hungary' ? 'selected' : '' }}>Hungary</option>
+                            <option value="Iceland" {{ request('location') == 'Iceland' ? 'selected' : '' }}>Iceland</option>
+                            <option value="India" {{ request('location') == 'India' ? 'selected' : '' }}>India</option>
+                            <option value="Indonesia" {{ request('location') == 'Indonesia' ? 'selected' : '' }}>Indonesia</option>
+                            <option value="Iran" {{ request('location') == 'Iran' ? 'selected' : '' }}>Iran</option>
+                            <option value="Iraq" {{ request('location') == 'Iraq' ? 'selected' : '' }}>Iraq</option>
+                            <option value="Ireland" {{ request('location') == 'Ireland' ? 'selected' : '' }}>Ireland</option>
+                            <option value="Israel" {{ request('location') == 'Israel' ? 'selected' : '' }}>Israel</option>
+                            <option value="Italy" {{ request('location') == 'Italy' ? 'selected' : '' }}>Italy</option>
+                            <option value="Jamaica" {{ request('location') == 'Jamaica' ? 'selected' : '' }}>Jamaica</option>
+                            <option value="Japan" {{ request('location') == 'Japan' ? 'selected' : '' }}>Japan</option>
+                            <option value="Jordan" {{ request('location') == 'Jordan' ? 'selected' : '' }}>Jordan</option>
+                            <option value="Kazakhstan" {{ request('location') == 'Kazakhstan' ? 'selected' : '' }}>Kazakhstan</option>
+                            <option value="Kenya" {{ request('location') == 'Kenya' ? 'selected' : '' }}>Kenya</option>
+                            <option value="Kuwait" {{ request('location') == 'Kuwait' ? 'selected' : '' }}>Kuwait</option>
+                            <option value="Malaysia" {{ request('location') == 'Malaysia' ? 'selected' : '' }}>Malaysia</option>
+                            <option value="Maldives" {{ request('location') == 'Maldives' ? 'selected' : '' }}>Maldives</option>
+                            <option value="Mexico" {{ request('location') == 'Mexico' ? 'selected' : '' }}>Mexico</option>
+                            <option value="Morocco" {{ request('location') == 'Morocco' ? 'selected' : '' }}>Morocco</option>
+                            <option value="Myanmar" {{ request('location') == 'Myanmar' ? 'selected' : '' }}>Myanmar</option>
+                            <option value="Nepal" {{ request('location') == 'Nepal' ? 'selected' : '' }}>Nepal</option>
+                            <option value="Netherlands" {{ request('location') == 'Netherlands' ? 'selected' : '' }}>Netherlands</option>
+                            <option value="New Zealand" {{ request('location') == 'New Zealand' ? 'selected' : '' }}>New Zealand</option>
+                            <option value="Nigeria" {{ request('location') == 'Nigeria' ? 'selected' : '' }}>Nigeria</option>
+                            <option value="Norway" {{ request('location') == 'Norway' ? 'selected' : '' }}>Norway</option>
+                            <option value="Oman" {{ request('location') == 'Oman' ? 'selected' : '' }}>Oman</option>
+                            <option value="Pakistan" {{ request('location') == 'Pakistan' ? 'selected' : '' }}>Pakistan</option>
+                            <option value="Philippines" {{ request('location') == 'Philippines' ? 'selected' : '' }}>Philippines</option>
+                            <option value="Poland" {{ request('location') == 'Poland' ? 'selected' : '' }}>Poland</option>
+                            <option value="Portugal" {{ request('location') == 'Portugal' ? 'selected' : '' }}>Portugal</option>
+                            <option value="Qatar" {{ request('location') == 'Qatar' ? 'selected' : '' }}>Qatar</option>
+                            <option value="Romania" {{ request('location') == 'Romania' ? 'selected' : '' }}>Romania</option>
+                            <option value="Russia" {{ request('location') == 'Russia' ? 'selected' : '' }}>Russia</option>
+                            <option value="Saudi Arabia" {{ request('location') == 'Saudi Arabia' ? 'selected' : '' }}>Saudi Arabia</option>
+                            <option value="Singapore" {{ request('location') == 'Singapore' ? 'selected' : '' }}>Singapore</option>
+                            <option value="South Africa" {{ request('location') == 'South Africa' ? 'selected' : '' }}>South Africa</option>
+                            <option value="South Korea" {{ request('location') == 'South Korea' ? 'selected' : '' }}>South Korea</option>
+                            <option value="Spain" {{ request('location') == 'Spain' ? 'selected' : '' }}>Spain</option>
+                            <option value="Sri Lanka" {{ request('location') == 'Sri Lanka' ? 'selected' : '' }}>Sri Lanka</option>
+                            <option value="Sweden" {{ request('location') == 'Sweden' ? 'selected' : '' }}>Sweden</option>
+                            <option value="Switzerland" {{ request('location') == 'Switzerland' ? 'selected' : '' }}>Switzerland</option>
+                            <option value="Taiwan" {{ request('location') == 'Taiwan' ? 'selected' : '' }}>Taiwan</option>
+                            <option value="Thailand" {{ request('location') == 'Thailand' ? 'selected' : '' }}>Thailand</option>
+                            <option value="Turkey" {{ request('location') == 'Turkey' ? 'selected' : '' }}>Turkey</option>
+                            <option value="Ukraine" {{ request('location') == 'Ukraine' ? 'selected' : '' }}>Ukraine</option>
+                            <option value="United Arab Emirates" {{ request('location') == 'United Arab Emirates' ? 'selected' : '' }}>United Arab Emirates</option>
+                            <option value="United Kingdom" {{ request('location') == 'United Kingdom' ? 'selected' : '' }}>United Kingdom</option>
+                            <option value="United States" {{ request('location') == 'United States' ? 'selected' : '' }}>United States</option>
+                            <option value="Vietnam" {{ request('location') == 'Vietnam' ? 'selected' : '' }}>Vietnam</option>
+                            <option value="Yemen" {{ request('location') == 'Yemen' ? 'selected' : '' }}>Yemen</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="nature_of_business" class="form-label">Nature of Business</label>
+                        <select class="form-control" id="nature_of_business" name="nature_of_business">
+                            <option value="">All Business Types</option>
+                            <option value="Manufacturing" {{ request('nature_of_business') == 'Manufacturing' ? 'selected' : '' }}>Manufacturing</option>
+                            <option value="Construction" {{ request('nature_of_business') == 'Construction' ? 'selected' : '' }}>Construction</option>
+                            <option value="Real Estate" {{ request('nature_of_business') == 'Real Estate' ? 'selected' : '' }}>Real Estate</option>
+                            <option value="Technology" {{ request('nature_of_business') == 'Technology' ? 'selected' : '' }}>Technology</option>
+                            <option value="Consulting" {{ request('nature_of_business') == 'Consulting' ? 'selected' : '' }}>Consulting</option>
+                            <option value="Education" {{ request('nature_of_business') == 'Education' ? 'selected' : '' }}>Education</option>
+                            <option value="Healthcare" {{ request('nature_of_business') == 'Healthcare' ? 'selected' : '' }}>Healthcare</option>
+                            <option value="Retail" {{ request('nature_of_business') == 'Retail' ? 'selected' : '' }}>Retail</option>
+                            <option value="Other" {{ request('nature_of_business') == 'Other' ? 'selected' : '' }}>Other</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <div class="d-flex gap-2 w-100">
+                            <button type="submit" class="btn flex-grow-1" style="background-color: #ff9900; color: white;">
+                                <i class="fas fa-search me-2"></i>Apply Filters
+                            </button>
+                            @if(request('location') || request('nature_of_business'))
+                                <a href="{{ route('client.community.profile-matching') }}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-times me-2"></i>Clear
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <div class="row g-4">
             @forelse($users as $user)
                 <div class="col-md-4">
                     <div class="card card-profile p-3 text-center bg-white">
-                        <div class="profile-image-container">
-                            <img src="{{ $user['avatar'] }}" alt="{{ $user['full_name'] }}'s Profile Picture">
-                        </div>
-                        <h5 class="mt-3 mb-1">{{ $user['full_name'] }}</h5>
-                        <p class="mb-1 text-muted">{{ $user['job_title'] ?? 'Not specified' }}</p>
-                        <p class="text-secondary small">{{ Str::limit($user['about_me'] ?? 'No description available', 100) }}</p>
-                        <div class="d-flex gap-2 mt-3">
-                            <button type="button" class="btn btn-orange" onclick='showProfileModal(@json($user))'>
-                                <i class="fas fa-user me-2"></i>View Profile
-                            </button>
-                            <button class="btn btn-orange-outline connection-request-btn" data-user-id="{{ $user['id'] }}">
-                                <span class="btn-text"><i class="fas fa-user-plus me-2"></i>Send Connection Request</span>
-                                <span class="spinner-border spinner-border-sm d-none" role="status"></span>
-                            </button>
-                        </div>
+                        @if($user['job_title'] !== 'Not provided' || $user['about_me'] !== 'No description available')
+                            <div class="profile-image-container">
+                                <img src="{{ $user['avatar'] }}" alt="{{ $user['full_name'] }}'s Profile Picture">
+                            </div>
+                            <h5 class="mt-3 mb-1">{{ $user['full_name'] }}</h5>
+                            <p class="mb-1 text-muted">{{ $user['job_title'] }}</p>
+                            <p class="text-secondary small">{{ Str::limit($user['about_me'], 100) }}</p>
+                            <div class="d-flex gap-2 mt-auto">
+                                <button type="button" class="btn" style="background-color: #ff9900; color: white;" onclick='showProfileModal(@json($user))'>
+                                    <i class="fas fa-user me-2"></i>View Profile
+                                </button>
+                                <button class="btn connection-request-btn" style="border: 2px solid #ff9900; color: #ff9900; background-color: transparent;" data-user-id="{{ $user['id'] }}">
+                                    <span class="btn-text"><i class="fas fa-user-plus me-2"></i>Send Connection Request</span>
+                                    <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+                                </button>
+                            </div>
+                        @else
+                            <div class="compact-profile">
+                                <div class="profile-image-container mb-2">
+                                    <img src="{{ $user['avatar'] }}" alt="{{ $user['full_name'] }}'s Profile Picture">
+                                </div>
+                                <h5 class="mb-3">{{ $user['full_name'] }}</h5>
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn" style="background-color: #ff9900; color: white;" onclick='showProfileModal(@json($user))'>
+                                        <i class="fas fa-user me-2"></i>View Profile
+                                    </button>
+                                    <button class="btn connection-request-btn" style="border: 2px solid #ff9900; color: #ff9900; background-color: transparent;" data-user-id="{{ $user['id'] }}">
+                                        <span class="btn-text"><i class="fas fa-user-plus me-2"></i>Send Connection Request</span>
+                                        <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             @empty
@@ -66,22 +215,22 @@
                         <!-- Tabs Navigation -->
                         <ul class="nav nav-tabs" id="profileTabs" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="about-tab" data-bs-toggle="tab" data-bs-target="#about" type="button" role="tab">
+                                <button class="nav-link active" id="about-tab" data-bs-toggle="tab" data-bs-target="#about-tab-pane" type="button" role="tab" aria-controls="about-tab-pane" aria-selected="true">
                                     <i class="fas fa-user me-2"></i>
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab">
+                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">
                                     <i class="fas fa-address-book me-2"></i>
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="professional-tab" data-bs-toggle="tab" data-bs-target="#professional" type="button" role="tab">
+                                <button class="nav-link" id="professional-tab" data-bs-toggle="tab" data-bs-target="#professional-tab-pane" type="button" role="tab" aria-controls="professional-tab-pane" aria-selected="false">
                                     <i class="fas fa-briefcase me-2"></i>
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="location-tab" data-bs-toggle="tab" data-bs-target="#location" type="button" role="tab">
+                                <button class="nav-link" id="location-tab" data-bs-toggle="tab" data-bs-target="#location-tab-pane" type="button" role="tab" aria-controls="location-tab-pane" aria-selected="false">
                                     <i class="fas fa-map-marker-alt me-2"></i>
                                 </button>
                             </li>
@@ -90,12 +239,12 @@
                         <!-- Tabs Content -->
                         <div class="tab-content pt-4" id="profileTabsContent">
                             <!-- About Tab -->
-                            <div class="tab-pane fade show active" id="about" role="tabpanel">
+                            <div class="tab-pane fade show active" id="about-tab-pane" role="tabpanel" aria-labelledby="about-tab" tabindex="0">
                                 <p id="modalAboutMe" class="text-muted"></p>
                             </div>
 
                             <!-- Contact & Social Tab -->
-                            <div class="tab-pane fade" id="contact" role="tabpanel">
+                            <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
                                 <h6 class="mb-3" style="color: #ff9900;">Contact Information</h6>
                                 <ul class="list-unstyled mb-4">
                                     <li class="mb-2"><i class="fas fa-envelope me-2" style="color: #ff9900;"></i> <span id="modalEmail"></span></li>
@@ -125,11 +274,12 @@
                             </div>
 
                             <!-- Professional Tab -->
-                            <div class="tab-pane fade" id="professional" role="tabpanel">
+                            <div class="tab-pane fade" id="professional-tab-pane" role="tabpanel" aria-labelledby="professional-tab" tabindex="0">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <p class="mb-2"><strong>Category:</strong> <span id="modalCategory"></span></p>
                                         <p class="mb-2"><strong>Organization:</strong> <span id="modalOrganization"></span></p>
+                                        <p class="mb-2"><strong>Nature of Business:</strong> <span id="modalNatureOfBusiness"></span></p>
                                         <p class="mb-2"><strong>Academic Institution:</strong> <span id="modalAcademicInstitution"></span></p>
                                     </div>
                                     <div class="col-md-6">
@@ -141,7 +291,7 @@
                             </div>
 
                             <!-- Location Tab -->
-                            <div class="tab-pane fade" id="location" role="tabpanel">
+                            <div class="tab-pane fade" id="location-tab-pane" role="tabpanel" aria-labelledby="location-tab" tabindex="0">
                                 <p class="mb-1" id="modalAddress"></p>
                                 <p class="mb-1" id="modalCityState"></p>
                                 <p class="mb-1" id="modalCountry"></p>
@@ -161,6 +311,9 @@
     border: none;
     border-radius: 10px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .card-profile:hover {
@@ -181,6 +334,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.compact-profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 1rem 0;
 }
 
 /* Empty state styling */
@@ -304,21 +466,27 @@
 
 /* Connection request button states */
 .connection-request-btn.pending {
-    background-color: #FFA726;
-    border-color: #FFA726;
-    color: white;
+    background-color: #FFA726 !important;
+    border-color: #FFA726 !important;
+    color: white !important;
 }
 
 .connection-request-btn.connected {
-    background-color: #66BB6A;
-    border-color: #66BB6A;
-    color: white;
+    background-color: #66BB6A !important;
+    border-color: #66BB6A !important;
+    color: white !important;
 }
 
 .connection-request-btn.rejected {
-    background-color: #EF5350;
-    border-color: #EF5350;
-    color: white;
+    background-color: #EF5350 !important;
+    border-color: #EF5350 !important;
+    color: white !important;
+}
+
+.connection-request-btn:hover {
+    background-color: #ff9900 !important;
+    border-color: #ff9900 !important;
+    color: white !important;
 }
 </style>
 @endsection
@@ -331,23 +499,31 @@ function showProfileModal(user) {
     document.getElementById('modalName').textContent = user.full_name;
     document.getElementById('modalJobTitle').textContent = user.job_title || 'Not specified';
     document.getElementById('modalAboutMe').textContent = user.about_me || 'No description available';
-    document.getElementById('modalEmail').textContent = user.email;
+    document.getElementById('modalEmail').textContent = user.email || 'Not provided';
     document.getElementById('modalPhone').textContent = user.mobile_number || 'Not provided';
     document.getElementById('modalWebsite').textContent = user.website || 'Not provided';
     
     // Professional details
     document.getElementById('modalCategory').textContent = user.category || 'Not specified';
     document.getElementById('modalOrganization').textContent = user.organization || 'Not specified';
+    document.getElementById('modalNatureOfBusiness').textContent = user.nature_of_business || 'Not specified';
     document.getElementById('modalAcademicInstitution').textContent = user.academic_institution || 'Not specified';
     document.getElementById('modalStudentId').textContent = user.student_id || 'Not specified';
     document.getElementById('modalImpactNumber').textContent = user.impact_number || 'Not specified';
     document.getElementById('modalGreenCard').textContent = user.green_card || 'Not specified';
     
-    // Location
-    document.getElementById('modalAddress').textContent = user.address || '';
-    document.getElementById('modalCityState').textContent = 
-        `${user.city || ''} ${user.state ? ', ' + user.state : ''} ${user.postal_code || ''}`.trim() || 'Address not provided';
-    document.getElementById('modalCountry').textContent = user.country || '';
+    // Location - Handle empty fields with appropriate messages
+    const address = user.address || 'Address not provided';
+    const cityState = [
+        user.city,
+        user.state,
+        user.postal_code
+    ].filter(Boolean).join(', ') || 'City/State not provided';
+    const country = user.country || 'Country not provided';
+
+    document.getElementById('modalAddress').textContent = address;
+    document.getElementById('modalCityState').textContent = cityState;
+    document.getElementById('modalCountry').textContent = country;
 
     // Social Media Links
     document.getElementById('modalLinkedin').textContent = user.linkedin || 'Not provided';

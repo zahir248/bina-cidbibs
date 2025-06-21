@@ -87,10 +87,10 @@ async function handleRequest(action, senderId, button) {
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div class="d-flex align-items-center user-section" 
                                                      onclick="showProfileModal({
-                                                        name: '{{ $request->sender->profile->first_name }} {{ $request->sender->profile->last_name }}',
+                                                        name: '{{ $request->sender->profile ? $request->sender->profile->first_name . ' ' . $request->sender->profile->last_name : $request->sender->name }}',
                                                         email: '{{ $request->sender->email }}',
                                                         avatar: '{{ $request->sender->avatar }}',
-                                                        profile: {
+                                                        profile: @if($request->sender->profile) {
                                                             job_title: '{{ $request->sender->profile->job_title ?? '' }}',
                                                             about_me: '{{ $request->sender->profile->about_me ?? '' }}',
                                                             mobile_number: '{{ $request->sender->profile->mobile_number ?? '' }}',
@@ -110,7 +110,27 @@ async function handleRequest(action, senderId, button) {
                                                             facebook: '{{ $request->sender->profile->facebook ?? '' }}',
                                                             twitter: '{{ $request->sender->profile->twitter ?? '' }}',
                                                             instagram: '{{ $request->sender->profile->instagram ?? '' }}'
-                                                        }
+                                                        } @else {
+                                                            job_title: 'Not provided',
+                                                            about_me: 'No description available',
+                                                            mobile_number: 'Not provided',
+                                                            website: 'Not provided',
+                                                            category: 'Not provided',
+                                                            organization: 'Not provided',
+                                                            academic_institution: 'Not provided',
+                                                            student_id: 'Not provided',
+                                                            impact_number: 'Not provided',
+                                                            green_card: 'Not provided',
+                                                            address: 'Not provided',
+                                                            city: 'Not provided',
+                                                            state: 'Not provided',
+                                                            postal_code: 'Not provided',
+                                                            country: 'Not provided',
+                                                            linkedin: 'Not provided',
+                                                            facebook: 'Not provided',
+                                                            twitter: 'Not provided',
+                                                            instagram: 'Not provided'
+                                                        } @endif
                                                     })">
                                                     <div class="position-relative">
                                                         @php
@@ -123,14 +143,16 @@ async function handleRequest(action, senderId, button) {
                                                         <img src="{{ $avatarUrl }}" 
                                                              class="rounded-circle border border-3 border-white shadow-sm" 
                                                              style="width: 60px; height: 60px; object-fit: cover;"
-                                                             alt="{{ $request->sender->profile->first_name }} {{ $request->sender->profile->last_name }}">
+                                                             alt="{{ $request->sender->profile ? $request->sender->profile->first_name . ' ' . $request->sender->profile->last_name : $request->sender->name }}">
                                                     </div>
                                                     <div class="ms-3">
-                                                        <h6 class="mb-1 fw-bold">{{ $request->sender->profile->first_name }} {{ $request->sender->profile->last_name }}</h6>
+                                                        <h6 class="mb-1 fw-bold">{{ $request->sender->profile ? $request->sender->profile->first_name . ' ' . $request->sender->profile->last_name : $request->sender->name }}</h6>
+                                                        @if($request->sender->profile)
                                                         <p class="text-muted small mb-0">
                                                             <i class="fas fa-briefcase me-1"></i>
                                                             {{ $request->sender->profile->job_title ?? 'No title specified' }}
                                                         </p>
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div class="d-flex gap-2">
@@ -212,10 +234,11 @@ async function handleRequest(action, senderId, button) {
                                                         <img src="{{ $avatarUrl }}" 
                                                              class="rounded-circle border border-3 border-white shadow-sm" 
                                                              style="width: 60px; height: 60px; object-fit: cover;"
-                                                             alt="{{ $connection->profile->first_name }} {{ $connection->profile->last_name }}">
+                                                             alt="{{ $connection->profile ? $connection->profile->first_name . ' ' . $connection->profile->last_name : $connection->name }}">
                                                     </div>
                                                     <div class="ms-3">
-                                                        <h6 class="mb-1 fw-bold">{{ $connection->profile->first_name }} {{ $connection->profile->last_name }}</h6>
+                                                        <h6 class="mb-1 fw-bold">{{ $connection->profile ? $connection->profile->first_name . ' ' . $connection->profile->last_name : $connection->name }}</h6>
+                                                        @if($connection->profile)
                                                         <p class="text-muted small mb-0">
                                                             <i class="fas fa-briefcase me-1"></i>
                                                             {{ $connection->profile->job_title ?? 'No title specified' }}
@@ -226,15 +249,16 @@ async function handleRequest(action, senderId, button) {
                                                             {{ $connection->profile->organization }}
                                                         </p>
                                                         @endif
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div class="d-flex gap-2">
                                                     <button type="button" class="btn btn-orange-soft btn-sm px-3" 
                                                             onclick="showProfileModal({
-                                                                name: '{{ $connection->profile->first_name }} {{ $connection->profile->last_name }}',
+                                                                name: '{{ $connection->profile ? $connection->profile->first_name . ' ' . $connection->profile->last_name : $connection->name }}',
                                                                 email: '{{ $connection->email }}',
                                                                 avatar: '{{ $connection->avatar }}',
-                                                                profile: {
+                                                                profile: @if($connection->profile) {
                                                                     job_title: '{{ $connection->profile->job_title ?? '' }}',
                                                                     about_me: '{{ $connection->profile->about_me ?? '' }}',
                                                                     mobile_number: '{{ $connection->profile->mobile_number ?? '' }}',
@@ -254,7 +278,27 @@ async function handleRequest(action, senderId, button) {
                                                                     facebook: '{{ $connection->profile->facebook ?? '' }}',
                                                                     twitter: '{{ $connection->profile->twitter ?? '' }}',
                                                                     instagram: '{{ $connection->profile->instagram ?? '' }}'
-                                                                }
+                                                                } @else {
+                                                                    job_title: 'Not provided',
+                                                                    about_me: 'No description available',
+                                                                    mobile_number: 'Not provided',
+                                                                    website: 'Not provided',
+                                                                    category: 'Not provided',
+                                                                    organization: 'Not provided',
+                                                                    academic_institution: 'Not provided',
+                                                                    student_id: 'Not provided',
+                                                                    impact_number: 'Not provided',
+                                                                    green_card: 'Not provided',
+                                                                    address: 'Not provided',
+                                                                    city: 'Not provided',
+                                                                    state: 'Not provided',
+                                                                    postal_code: 'Not provided',
+                                                                    country: 'Not provided',
+                                                                    linkedin: 'Not provided',
+                                                                    facebook: 'Not provided',
+                                                                    twitter: 'Not provided',
+                                                                    instagram: 'Not provided'
+                                                                } @endif
                                                             })">
                                                         <i class="fas fa-user me-1"></i>View Profile
                                                     </button>
