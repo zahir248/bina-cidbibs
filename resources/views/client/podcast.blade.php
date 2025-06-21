@@ -326,10 +326,10 @@
         <div class="col-lg-6">
             <div class="podcast-episode-card d-flex flex-column h-100" style="background:#fff;border:1.5px solid #d1d5db;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);overflow:hidden;">
                 <!-- Header -->
-                <div style="background:#ff9900;color:#fff;padding:1rem 1.5rem;display:flex;align-items:center;">
+                <div style="background:#ff9900;color:#fff;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:center;height:92px;">
                     <img src="{{ asset('images/bina-podcast-logo.png') }}" 
                          alt="BINA PODCAST" 
-                         style="height:60px;width:auto;object-fit:contain;max-width:400px;">
+                         style="height:80px;width:auto;object-fit:contain;max-width:500px;">
                 </div>
                 <!-- Content -->
                 <div class="p-3 p-md-4 d-flex flex-column flex-grow-1">
@@ -474,6 +474,75 @@
                                                          style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);height:100%;border-radius:3px;"></div>
                                                 </div>
                                                 <div id="audio3" class="audio-player"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Special Podcast -->
+                                <tr>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;font-size:1.1rem;margin-bottom:0.5rem;">Special Edition</div>
+                                        <div style="font-size:0.9rem;color:#64748b;">(Live Streaming - Asean TVET Edition)</div>
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;font-size:1.1rem;margin-bottom:0.5rem;">Panel:</div>
+                                        <div style="line-height:1.6;">
+                                            Suhaimi Mansor
+                                            <div style="font-size:0.9rem;color:#64748b;margin-top:0.25rem;">General Manager of the Registration & Accreditation Sector, CIDB Malaysia</div>
+                                        </div>
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="line-height:1.6;">
+                                            BINA - TVET Edition:<br>
+                                            <i>In Conjunction with ASEAN TVET Friendly Match 2025</i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Special Podcast - Media Row -->
+                                <tr>
+                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
+                                        <div class="d-flex flex-column gap-4" style="max-width:800px;margin:0 auto;">
+                                            <!-- Image and Buttons Section -->
+                                            <div class="d-flex flex-column flex-md-row align-items-center gap-4" style="width:450px;">
+                                                <!-- Speaker Image -->
+                                                <div style="width:320px;height:240px;flex-shrink:0;background:#f8fafc;border-radius:1rem;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+                                                    <img src="{{ asset('images/specialpodcast_binapodcast.jpg') }}" 
+                                                         alt="Special Podcast" 
+                                                         data-bs-toggle="modal"
+                                                         data-bs-target="#imageModal"
+                                                         onclick="showImage(this.src)"
+                                                         style="max-width:100%;max-height:100%;object-fit:contain;border-radius:0.75rem;cursor:pointer;">
+                                                </div>
+                                                <!-- Buttons Section -->
+                                                <div class="flex-grow-1 d-flex flex-column gap-2" style="min-width:110px;">
+                                                    <a href="{{ route('client.facility-management') }}" 
+                                                       class="btn w-100" 
+                                                       style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:600;font-size:0.85rem;border-radius:1.5rem;padding:0.5rem 0;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                                                       VIEW<br>MORE
+                                                    </a>
+                                                    <a href="#" 
+                                                       class="btn w-100" 
+                                                       style="background:#181b2c;color:#fff;font-weight:600;font-size:0.85rem;border-radius:1.5rem;padding:0.5rem 0;box-shadow:0 2px 8px rgba(0,0,0,0.08);"
+                                                       target="_blank" rel="noopener noreferrer">
+                                                       WATCH<br>NOW
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <!-- Audio Player -->
+                                            <div class="audio-player-container" style="width:450px;padding-left:1.5rem;">
+                                                <div class="d-flex align-items-center gap-1 mb-2">
+                                                    <button class="play-button" id="playButtonSpecial" onclick="toggleAudio('audioSpecial')" 
+                                                            style="width:44px;height:44px;flex-shrink:0;">
+                                                        <i class="fas fa-play"></i>
+                                                    </button>
+                                                    <div class="audio-time" id="timeSpecial" style="font-size:0.9rem;color:#64748b;width:80px;">0:00 / 0:00</div>
+                                                </div>
+                                                <div class="audio-progress" onclick="seekAudio('audioSpecial', event)" 
+                                                     style="height:6px;background:#e2e8f0;border-radius:3px;">
+                                                    <div class="audio-progress-bar" id="progressSpecial" 
+                                                         style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);height:100%;border-radius:3px;"></div>
+                                                </div>
+                                                <div id="audioSpecial" class="audio-player"></div>
                                             </div>
                                         </div>
                                     </td>
@@ -627,8 +696,10 @@
         <div class="col-lg-6">
             <div class="podcast-episode-card d-flex flex-column h-100" style="background:#fff;border:1.5px solid #d1d5db;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);overflow:hidden;">
                 <!-- Header -->
-                <div style="background:#ff9900;color:#fff;padding:1rem 1.5rem;display:flex;align-items:center;height:92px;">
-                    <h3 style="font-size:2rem;font-weight:800;margin:0;letter-spacing:0.5px;">FM PODCAST</h3>
+                <div style="background:#ff9900;color:#fff;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:center;height:92px;">
+                    <img src="{{ asset('images/fm-podcast-logo.png') }}" 
+                         alt="FM PODCAST" 
+                         style="height:80px;width:auto;object-fit:contain;max-width:500px;">
                 </div>
                 <!-- Content -->
                 <div class="p-3 p-md-4 d-flex flex-column flex-grow-1">
