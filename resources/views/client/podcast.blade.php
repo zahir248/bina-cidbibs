@@ -462,18 +462,18 @@
                                             <!-- Audio Player -->
                                             <div class="audio-player-container" style="width:450px;padding-left:1.5rem;">
                                                 <div class="d-flex align-items-center gap-1 mb-2">
-                                                    <button class="play-button" id="playButton3" onclick="toggleAudio('audio3')" 
+                                                    <button class="play-button" id="playButton2" onclick="toggleAudio('audio2')" 
                                                             style="width:44px;height:44px;flex-shrink:0;">
                                                         <i class="fas fa-play"></i>
                                                     </button>
-                                                    <div class="audio-time" id="time3" style="font-size:0.9rem;color:#64748b;width:80px;">0:00 / 0:00</div>
+                                                    <div class="audio-time" id="time2" style="font-size:0.9rem;color:#64748b;width:80px;">0:00 / 0:00</div>
                                                 </div>
-                                                <div class="audio-progress" onclick="seekAudio('audio3', event)" 
+                                                <div class="audio-progress" onclick="seekAudio('audio2', event)" 
                                                      style="height:6px;background:#e2e8f0;border-radius:3px;">
-                                                    <div class="audio-progress-bar" id="progress3" 
+                                                    <div class="audio-progress-bar" id="progress2" 
                                                          style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);height:100%;border-radius:3px;"></div>
                                                 </div>
-                                                <div id="audio3" class="audio-player"></div>
+                                                <div id="audio2" class="audio-player"></div>
                                             </div>
                                         </div>
                                     </td>
@@ -520,7 +520,7 @@
                                                        style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:600;font-size:0.85rem;border-radius:1.5rem;padding:0.5rem 0;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
                                                        VIEW<br>MORE
                                                     </a>
-                                                    <a href="#" 
+                                                    <a href="https://www.youtube.com/watch?v=w1K4gLcNSX0" 
                                                        class="btn w-100" 
                                                        style="background:#181b2c;color:#fff;font-weight:600;font-size:0.85rem;border-radius:1.5rem;padding:0.5rem 0;box-shadow:0 2px 8px rgba(0,0,0,0.08);"
                                                        target="_blank" rel="noopener noreferrer">
@@ -922,10 +922,10 @@
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
             allowfullscreen>
     </iframe>
-    <iframe id="player3" 
+    <iframe id="playerSpecial" 
             width="1" 
             height="1" 
-            src="https://www.youtube.com/embed/wY7fdrD4fkI?enablejsapi=1&controls=0&showinfo=0&rel=0&modestbranding=1" 
+            src="https://www.youtube.com/embed/w1K4gLcNSX0?enablejsapi=1&controls=0&showinfo=0&rel=0&modestbranding=1" 
             frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
             allowfullscreen>
@@ -955,11 +955,11 @@ let isAPIReady = false;
 let playersReady = {
     player1: false,
     player2: false,
-    player3: false
+    playerSpecial: false
 };
 let player1 = null;
 let player2 = null;
-let player3 = null;
+let playerSpecial = null;
 let currentPlayer = null;
 
 function loadYouTubeAPI() {
@@ -984,10 +984,10 @@ function initializeFallbackPlayers() {
     isAPIReady = true;
     playersReady.player1 = true;
     playersReady.player2 = true;
-    playersReady.player3 = true;
+    playersReady.playerSpecial = true;
     updateButtonState('playButton1', false, false);
     updateButtonState('playButton2', false, false);
-    updateButtonState('playButton3', false, false);
+    updateButtonState('playButtonSpecial', false, false);
 }
 
 function onYouTubeIframeAPIReady() {
@@ -1008,7 +1008,7 @@ function onYouTubeIframeAPIReady() {
                     console.log('Player 1 Ready');
                     playersReady.player1 = true;
                     updateButtonState('playButton1', false, false);
-                    if (playersReady.player1 && playersReady.player2 && playersReady.player3) {
+                    if (arePlayersReady()) {
                         clearTimeout(playerInitTimeout);
                     }
                 },
@@ -1023,7 +1023,7 @@ function onYouTubeIframeAPIReady() {
                     console.log('Player 2 Ready');
                     playersReady.player2 = true;
                     updateButtonState('playButton2', false, false);
-                    if (playersReady.player1 && playersReady.player2 && playersReady.player3) {
+                    if (arePlayersReady()) {
                         clearTimeout(playerInitTimeout);
                     }
                 },
@@ -1032,13 +1032,13 @@ function onYouTubeIframeAPIReady() {
             }
         });
 
-        player3 = new YT.Player('player3', {
+        playerSpecial = new YT.Player('playerSpecial', {
             events: {
                 'onReady': (event) => {
-                    console.log('Player 3 Ready');
-                    playersReady.player3 = true;
-                    updateButtonState('playButton3', false, false);
-                    if (playersReady.player1 && playersReady.player2 && playersReady.player3) {
+                    console.log('Player Special Ready');
+                    playersReady.playerSpecial = true;
+                    updateButtonState('playButtonSpecial', false, false);
+                    if (arePlayersReady()) {
                         clearTimeout(playerInitTimeout);
                     }
                 },
@@ -1054,7 +1054,7 @@ function onYouTubeIframeAPIReady() {
 
 // Function to check if all players are ready
 function arePlayersReady() {
-    return playersReady.player1 && playersReady.player2 && playersReady.player3;
+    return playersReady.player1 && playersReady.player2 && playersReady.playerSpecial;
 }
 
 // Function to update button state
@@ -1079,11 +1079,11 @@ function updateButtonState(buttonId, isLoading = false, isPlaying = false) {
 function onPlayerError(event) {
     console.error('YouTube Player Error:', event.data);
     const player = event.target;
-    const playerId = player.getIframe().id === 'player1' ? 'audio1' : player.getIframe().id === 'player2' ? 'audio2' : 'audio3';
-    const buttonId = `playButton${playerId.slice(-1)}`;
+    const playerId = player.getIframe().id;
+    const buttonId = playerId === 'playerSpecial' ? 'playButtonSpecial' : `playButton${playerId.slice(-1)}`;
     updateButtonState(buttonId, false, false);
     
-    const timeDisplay = document.querySelector(`#time${playerId.slice(-1)}`);
+    const timeDisplay = document.querySelector(`#time${playerId === 'playerSpecial' ? 'Special' : playerId.slice(-1)}`);
     if (timeDisplay) {
         timeDisplay.textContent = 'Error loading audio';
         timeDisplay.style.color = '#ef4444';
@@ -1094,10 +1094,10 @@ function onPlayerStateChange(event) {
     if (!event.target) return;
     
     const player = event.target;
-    const playerId = player.getIframe().id === 'player1' ? 'audio1' : player.getIframe().id === 'player2' ? 'audio2' : 'audio3';
-    const buttonId = `playButton${playerId.slice(-1)}`;
-    const timeDisplay = document.querySelector(`#time${playerId.slice(-1)}`);
-    const progressBar = document.querySelector(`#progress${playerId.slice(-1)}`);
+    const playerId = player.getIframe().id;
+    const buttonId = playerId === 'playerSpecial' ? 'playButtonSpecial' : `playButton${playerId.slice(-1)}`;
+    const timeDisplay = document.querySelector(`#time${playerId === 'playerSpecial' ? 'Special' : playerId.slice(-1)}`);
+    const progressBar = document.querySelector(`#progress${playerId === 'playerSpecial' ? 'Special' : playerId.slice(-1)}`);
 
     if (!timeDisplay || !progressBar) return;
 
@@ -1144,13 +1144,14 @@ function toggleAudio(audioId) {
     
     if (!isAPIReady || !arePlayersReady()) {
         console.log('Players not ready yet, showing loading state');
-        const buttonId = `playButton${audioId.slice(-1)}`;
+        const buttonId = audioId === 'audioSpecial' ? 'playButtonSpecial' : `playButton${audioId.slice(-1)}`;
         updateButtonState(buttonId, true, false);
         return;
     }
     
-    const player = audioId === 'audio1' ? player1 : audioId === 'audio2' ? player2 : player3;
-    const buttonId = `playButton${audioId.slice(-1)}`;
+    const player = audioId === 'audioSpecial' ? playerSpecial : 
+                  audioId === 'audio1' ? player1 : player2;
+    const buttonId = audioId === 'audioSpecial' ? 'playButtonSpecial' : `playButton${audioId.slice(-1)}`;
     
     if (!player) {
         console.error('Player not found:', audioId);
@@ -1178,7 +1179,7 @@ function toggleAudio(audioId) {
 function seekAudio(audioId, event) {
     if (!isAPIReady || !arePlayersReady()) return;
     
-    const player = audioId === 'audio1' ? player1 : audioId === 'audio2' ? player2 : player3;
+    const player = audioId === 'audio1' ? player1 : audioId === 'audio2' ? player2 : playerSpecial;
     if (!player) return;
     
     const progressBar = event.currentTarget;
@@ -1198,15 +1199,15 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM Content Loaded');
     const timeDisplay1 = document.querySelector('#time1');
     const timeDisplay2 = document.querySelector('#time2');
-    const timeDisplay3 = document.querySelector('#time3');
+    const timeDisplaySpecial = document.querySelector('#timeSpecial');
     if (timeDisplay1) timeDisplay1.textContent = '0:00 / 0:00';
     if (timeDisplay2) timeDisplay2.textContent = '0:00 / 0:00';
-    if (timeDisplay3) timeDisplay3.textContent = '0:00 / 0:00';
+    if (timeDisplaySpecial) timeDisplaySpecial.textContent = '0:00 / 0:00';
     
     // Set initial button states
     updateButtonState('playButton1', true, false);
     updateButtonState('playButton2', true, false);
-    updateButtonState('playButton3', true, false);
+    updateButtonState('playButtonSpecial', true, false);
     
     // Load YouTube API
     loadYouTubeAPI();
