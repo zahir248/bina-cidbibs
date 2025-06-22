@@ -71,10 +71,9 @@ class AuthController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return response()->json([
-                    'success' => false,
-                    'errors' => $validator->errors()
-                ], 422);
+                return back()
+                    ->withErrors($validator)
+                    ->withInput();
             }
 
             $user = User::create([
@@ -89,17 +88,13 @@ class AuthController extends Controller
             // Set session flag to show profile reminder
             session(['show_profile_reminder' => true]);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Registration successful! You can now update your profile.',
-                'redirect' => route('client.profile')
-            ]);
+            return redirect()->route('client.profile')
+                ->with('success', 'Registration successful! You can now update your profile.');
 
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'An error occurred during registration. Please try again.'
-            ], 500);
+            return back()
+                ->with('error', 'An error occurred during registration. Please try again.')
+                ->withInput();
         }
     }
 
@@ -197,7 +192,7 @@ class AuthController extends Controller
                 session()->forget('google_registration');
                 // Set session flag to show profile reminder and redirect to profile page
                 session(['show_profile_reminder' => true]);
-                return redirect()->route('client.profile');
+                return redirect()->route('client.profile')->with('success', 'Registration successful! You can now update your profile.');
             }
             
             // Login Flow

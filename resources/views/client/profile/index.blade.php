@@ -843,6 +843,22 @@
     .info-section h5.mb-3.text-primary {
         color: #ff9900 !important;
     }
+
+    .btn-orange {
+        background-color: #ff9900;
+        color: white;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-orange:hover {
+        background-color: #f57c00;
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(255, 153, 0, 0.3);
+    }
 </style>
 @endpush
 
@@ -859,7 +875,7 @@
 <div id="hero-end"></div>
 
 <div class="profile-container" id="profile-container">
-    @if(session('success'))
+    @if(session('success') && !session('show_profile_reminder'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -1377,6 +1393,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center px-4 py-4">
+                @if(session('success'))
+                    <div class="alert alert-success mb-4">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <h3 class="fw-bold mb-3">Complete Your Profile</h3>
                 <p class="text-muted mb-4">Your profile is incomplete. A complete profile helps you:</p>
                 <ul class="list-unstyled text-start mb-4">
@@ -1385,6 +1406,9 @@
                     <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Showcase your skills and experience</li>
                     <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Stand out in the community</li>
                 </ul>
+                <button type="button" class="btn btn-orange w-100" data-bs-dismiss="modal">
+                    <i class="fas fa-pencil-alt me-2"></i>Start Completing My Profile
+                </button>
             </div>
         </div>
     </div>

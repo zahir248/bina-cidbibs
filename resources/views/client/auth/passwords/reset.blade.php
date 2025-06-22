@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BINA | Register</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BINA | Reset Password</title>
 
-  {{-- Custom Favicon --}}
-  <link rel="icon" href="{{ asset('favicon-client.png') }}" type="image/png">
-  <link rel="shortcut icon" href="{{ asset('favicon-client.png') }}" type="image/png">
+    {{-- Custom Favicon --}}
+    <link rel="icon" href="{{ asset('favicon-client.png') }}" type="image/png">
+    <link rel="shortcut icon" href="{{ asset('favicon-client.png') }}" type="image/png">
   
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
 
@@ -27,7 +27,7 @@ body {
     padding: 15px;
 }
 
-.login-card {
+.reset-card {
     width: 100%;
     max-width: 360px;
     padding: 1.5rem;
@@ -63,7 +63,7 @@ body {
 .logo-container {
     text-align: center;
     margin-bottom: 1.5rem;
-    margin-top: 1rem;
+    margin-top: 2rem;
 }
 
 .logo-container h4 {
@@ -102,7 +102,7 @@ body {
     outline: none;
 }
 
-.btn-login {
+.btn-reset {
     padding: 0.625rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -115,11 +115,10 @@ body {
     font-size: 0.875rem;
 }
 
-.btn-login:hover {
+.btn-reset:hover {
     background-color: #ff9900;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
-    color:white;
 }
 
 .alert {
@@ -129,183 +128,18 @@ body {
     font-size: 0.875rem;
 }
 
-.social-login {
-    margin-top: 1.25rem;
-    text-align: center;
-}
-
-.social-login .divider {
-    display: flex;
-    align-items: center;
-    margin: 0.75rem 0;
-}
-
-.social-login .divider::before,
-.social-login .divider::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.social-login .divider span {
-    padding: 0 0.75rem;
-    color: #64748b;
-    font-size: 0.75rem;
-}
-
-.social-buttons {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
-    margin-top: 0.75rem;
-}
-
-.btn-social {
-    padding: 0.5rem;
-    border-radius: 8px;
-    border: 1px solid #e2e8f0;
-    background: white;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.btn-social:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.btn-social.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-.btn-social img {
-    height: 20px;
-}
-
-.login-link {
-    text-align: center;
-    margin-top: 1rem;
-    color: #64748b;
-    font-size: 0.875rem;
-}
-
-.login-link a {
-    color: #ff9900;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.login-link a:hover {
-    text-decoration: underline;
-}
-
-@media (max-width: 576px) {
-    .login-card {
-        padding: 1.25rem;
-    }
-}
-
-.error-list {
-    list-style-type: none;
-    padding-left: 0;
-    margin-bottom: 0;
-}
-
-.error-list li {
+.alert-danger {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-color: rgba(220, 53, 69, 0.2);
     color: #dc3545;
-    margin-bottom: 0.5rem;
-    padding-left: 1.5rem;
-    position: relative;
 }
 
-.error-list li:before {
-    content: "•";
-    position: absolute;
-    left: 0.5rem;
+.alert-success {
+    background-color: rgba(40, 167, 69, 0.1);
+    border-color: rgba(40, 167, 69, 0.2);
+    color: #28a745;
 }
 
-.error-list li:last-child {
-    margin-bottom: 0;
-}
-
-.form-text ul {
-    padding-left: 1.2rem;
-    margin-top: 0.5rem;
-}
-
-.form-text ul li {
-    font-size: 0.75rem;
-    margin-bottom: 0.25rem;
-}
-
-.modal-content {
-    border: none;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-.modal-header {
-    padding: 1.5rem 1.5rem 0.5rem;
-    text-align: center;
-    display: block;
-}
-
-.modal-header .modal-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-}
-
-.modal-body {
-    padding: 1.5rem;
-}
-
-.modal-footer {
-    padding: 0.5rem 1.5rem 1.5rem;
-}
-
-.modal-footer .btn {
-    padding: 0.75rem;
-    font-weight: 600;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
-
-.modal-footer .btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.btn-success {
-    background-color: #28a745;
-    border-color: #28a745;
-}
-
-.btn-danger {
-    background-color: #dc3545;
-    border-color: #dc3545;
-}
-
-/* Tooltip Styles */
-.tooltip {
-    font-size: 0.75rem;
-}
-
-.tooltip-inner {
-    max-width: 300px;
-    padding: 0.5rem 1rem;
-    text-align: left;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-.tooltip-inner br {
-    margin-bottom: 0.25rem;
-}
-
-/* Password Toggle Button */
 .input-group .btn-outline-secondary {
     border-color: #e2e8f0;
     color: #64748b;
@@ -325,28 +159,28 @@ body {
 .input-group .form-control:focus + .btn-outline-secondary {
     border-color: #ff9900;
 }
+
+@media (max-width: 576px) {
+    .reset-card {
+        padding: 1.25rem;
+    }
+}
 </style>
 
-<div class="login-card">
-    <a href="{{ route('client.home') }}" class="back-link">
+<div class="reset-card">
+    <a href="{{ route('client.login') }}" class="back-link">
         <i class="bi bi-arrow-left"></i>
-        Back
+        Back to Login
     </a>
     <div class="logo-container">
-        <h4>Create Account</h4>
+        <h4>Reset Password</h4>
     </div>
 
-    @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="bi bi-exclamation-circle me-1"></i>
-            {{ session('error') }}
-        </div>
-    @endif
-
-    @if(session('success'))
+    @if(session('status'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <i class="bi bi-check-circle me-1"></i>
-            {{ session('success') }}
+            {{ session('status') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
 
@@ -360,28 +194,19 @@ body {
         </div>
     @endif
 
-    <form id="registerForm" method="POST" action="{{ route('client.register.submit') }}">
+    <form method="POST" action="{{ route('password.update') }}">
         @csrf
+        <input type="hidden" name="token" value="{{ $token }}">
+        <input type="hidden" name="email" value="{{ $email }}">
+
         <div class="form-group">
-            <label for="name">Username</label>
-            <input type="text" class="form-control" id="name" name="name" 
-                   value="{{ old('name') }}" 
-                   placeholder="Enter your username" required>
-        </div>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" 
-                   value="{{ old('email') }}" 
-                   placeholder="Enter your email" required>
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
+            <label for="password">New Password</label>
             <div class="input-group">
                 <input type="password" 
                        class="form-control" 
                        id="password" 
                        name="password" 
-                       placeholder="Create a password" 
+                       placeholder="Enter new password" 
                        required
                        data-bs-toggle="tooltip"
                        data-bs-html="true"
@@ -392,45 +217,26 @@ body {
                 </button>
             </div>
         </div>
+
         <div class="form-group">
-            <label for="password_confirmation">Confirm Password</label>
+            <label for="password_confirmation">Confirm New Password</label>
             <div class="input-group">
                 <input type="password" 
                        class="form-control" 
                        id="password_confirmation" 
                        name="password_confirmation" 
-                       placeholder="Confirm your password" 
+                       placeholder="Confirm new password" 
                        required>
                 <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
                     <i class="bi bi-eye-slash"></i>
                 </button>
             </div>
         </div>
-        <button type="submit" class="btn btn-login w-100">Sign Up</button>
+
+        <button type="submit" class="btn btn-reset w-100">
+            <i class="bi bi-check2-circle me-1"></i>Reset Password
+        </button>
     </form>
-
-    <div class="social-login">
-        <div class="divider">
-            <span>Or sign up with</span>
-        </div>
-        <div class="social-buttons" style="display: flex; justify-content: center;">
-            <a href="{{ route('auth.google') }}" class="btn-social">
-                <img src="https://www.google.com/favicon.ico" alt="Google">
-            </a>
-            {{-- Commented out until implementation
-            <a class="btn-social disabled" title="Coming soon">
-                <img src="https://www.facebook.com/favicon.ico" alt="Facebook">
-            </a>
-            <a class="btn-social disabled" title="Coming soon">
-                <img src="https://www.linkedin.com/favicon.ico" alt="LinkedIn">
-            </a>
-            --}}
-        </div>
-    </div>
-
-    <div class="login-link">
-        Already have an account? <a href="{{ route('client.login') }}">Sign in</a>
-    </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -471,6 +277,15 @@ body {
                 icon.removeClass('bi-eye').addClass('bi-eye-slash');
             }
         });
+
+        // Auto-hide alerts after 5 seconds
+        setTimeout(function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                const bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
     });
 </script>
 </body>

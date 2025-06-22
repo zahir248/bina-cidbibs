@@ -233,6 +233,18 @@ body {
     text-decoration: underline;
 }
 
+.forgot-link {
+    color: #ff9900;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.875rem;
+}
+
+.forgot-link:hover {
+    color: #f57c00;
+    text-decoration: underline;
+}
+
 @media (max-width: 576px) {
     .login-card {
         padding: 1.25rem;
@@ -246,16 +258,8 @@ body {
         Back
     </a>
     <div class="logo-container">
-        <h4>Welcome Back</h4>
+        <h4>Login</h4>
     </div>
-
-    @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="bi bi-exclamation-circle me-1"></i>
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
 
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -265,9 +269,25 @@ body {
         </div>
     @endif
 
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-circle me-2"></i>
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if(session('status'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-1"></i>
+            {{ session('status') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     @if($errors->any())
         <div class="alert alert-danger">
-            <ul class="mb-0 ps-3">
+            <ul class="mb-0">
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
@@ -293,7 +313,9 @@ body {
                 <input type="checkbox" class="form-check-input" id="remember" name="remember" checked>
                 <label class="form-check-label" for="remember">Remember me</label>
             </div>
-            <a href="#" class="text-decoration-none" style="color: #ff9900;">Forgot?</a>
+            <a href="{{ route('password.request') }}" class="text-decoration-none forgot-link">
+                <i class="bi bi-key me-1"></i>Forgot Password?
+            </a>
         </div>
         <button type="submit" class="btn btn-login w-100">Sign In</button>
     </form>
