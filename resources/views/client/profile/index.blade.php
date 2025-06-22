@@ -638,6 +638,211 @@
         margin: 0;
         padding: 0;
     }
+
+    /* Add new styles for tabs */
+    .profile-tabs {
+        margin-bottom: 2rem;
+        border-bottom: none;
+        background-color: #f8f9fa;
+        padding: 0.5rem;
+        border-radius: 12px;
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .profile-tabs .nav-item {
+        flex: 1;
+    }
+
+    .profile-tabs .nav-link {
+        color: #64748b;
+        font-weight: 600;
+        padding: 1rem 1.5rem;
+        border: none;
+        border-radius: 8px;
+        margin-bottom: 0;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        white-space: nowrap;
+        width: 100%;
+    }
+
+    .profile-tabs .nav-link i {
+        font-size: 1.1rem;
+    }
+
+    .profile-tabs .nav-link:hover {
+        color: #ff9900;
+        background-color: #fff1e0;
+    }
+
+    .profile-tabs .nav-link.active {
+        color: #ff9900;
+        background-color: #ffffff;
+        box-shadow: 0 2px 8px rgba(255, 153, 0, 0.15);
+    }
+
+    .profile-tab-content {
+        padding: 2rem;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+        margin-top: 1rem;
+    }
+
+    .tab-pane {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .profile-tabs {
+            flex-direction: column;
+            padding: 0.75rem;
+            gap: 0.75rem;
+        }
+
+        .profile-tabs .nav-link {
+            padding: 0.875rem;
+            font-size: 0.95rem;
+            justify-content: flex-start;
+        }
+        
+        .profile-tab-content {
+            padding: 1.5rem;
+        }
+
+        .profile-tabs .nav-link i {
+            width: 24px;
+        }
+    }
+
+    /* Update the tab content container */
+    .profile-section {
+        margin-bottom: 0;
+    }
+
+    .category-select {
+        background-color: #ffffff;
+        border: 1px solid #e9ecef;
+        margin-bottom: 2rem;
+    }
+
+    .all-fields {
+        margin-top: 0;
+        padding-top: 2rem;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .social-links {
+        background-color: transparent;
+        padding: 0;
+    }
+
+    /* Form styling updates */
+    .form-control {
+        border: 1px solid #e9ecef;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+        border-color: #ff9900;
+        box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.1);
+    }
+
+    .form-label {
+        color: #495057;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    /* Button styling updates */
+    .btn-save {
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        background: #ff9900;
+        border: none;
+        color: white;
+    }
+
+    .btn-save:hover {
+        background: #ff8800;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(255, 153, 0, 0.2);
+    }
+
+    .info-section {
+        border: 1px solid #e9ecef;
+        transition: all 0.3s ease;
+    }
+
+    .info-section h5 {
+        color: #ff9900;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    .category-fields {
+        animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Radio button styling */
+    .form-check-input:checked {
+        background-color: #ff9900 !important;
+        border-color: #ff9900 !important;
+    }
+
+    .form-check-input:focus {
+        border-color: #ff9900;
+        box-shadow: 0 0 0 0.25rem rgba(255, 153, 0, 0.25);
+    }
+
+    /* Section header styling */
+    .info-section h5 {
+        color: #ff9900;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    /* Additional Information section headers */
+    .category-fields .info-section h5.text-primary {
+        color: #ff9900 !important;
+    }
+
+    /* Academic Information text color */
+    .info-section h5.mb-3.text-primary {
+        color: #ff9900 !important;
+    }
 </style>
 @endpush
 
@@ -746,341 +951,371 @@
         <form action="{{ route('client.profile.update') }}" method="POST">
             @csrf
             
-            <div class="profile-section">
-                <h2 class="section-title">Personal Information</h2>
-                <!-- Category Selection -->
-                <div class="category-select">
-                    <label class="form-label fw-bold mb-3">Select your category:</label>
-                    <div class="form-check">
-                        <input class="form-check-input @error('category') is-invalid @enderror" 
-                               type="radio" 
-                               name="category" 
-                               id="category-individual" 
-                               value="individual" 
-                               {{ old('category', $profile->category ?? 'individual') == 'individual' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="category-individual">
-                            Individual
-                        </label>
+            <!-- Tabs Navigation -->
+            <ul class="nav nav-tabs profile-tabs" id="profileTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab" aria-controls="personal" aria-selected="true">
+                        <i class="bi bi-person me-2"></i>Personal Information
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#address" type="button" role="tab" aria-controls="address" aria-selected="false">
+                        <i class="bi bi-geo-alt me-2"></i>Address Information
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social" type="button" role="tab" aria-controls="social" aria-selected="false">
+                        <i class="bi bi-share me-2"></i>Social Media Links
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Tabs Content -->
+            <div class="tab-content profile-tab-content" id="profileTabsContent">
+                <!-- Personal Information Tab -->
+                <div class="tab-pane fade show active" id="personal" role="tabpanel" aria-labelledby="personal-tab">
+                    <div class="profile-section">
+                        <!-- Category Selection -->
+                        <div class="category-select mb-4">
+                            <label class="form-label fw-bold mb-3">Select your category:</label>
+                            <div class="form-check">
+                                <input class="form-check-input category-radio" 
+                                       type="radio" 
+                                       name="category" 
+                                       id="category-individual" 
+                                       value="individual" 
+                                       {{ old('category', $profile->category ?? 'individual') == 'individual' ? 'checked' : '' }}>
+                                <label class="form-check-label" for="category-individual">
+                                    Individual
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input category-radio" 
+                                       type="radio" 
+                                       name="category" 
+                                       id="category-academician" 
+                                       value="academician"
+                                       {{ old('category', $profile->category ?? '') == 'academician' ? 'checked' : '' }}>
+                                <label class="form-check-label" for="category-academician">
+                                    Academician
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input category-radio" 
+                                       type="radio" 
+                                       name="category" 
+                                       id="category-org" 
+                                       value="organization"
+                                       {{ old('category', $profile->category ?? '') == 'organization' ? 'checked' : '' }}>
+                                <label class="form-check-label" for="category-org">
+                                    Organization
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Additional Information Sections -->
+                        <div class="additional-info">
+                            <!-- Academician Fields -->
+                            <div id="academician-fields" class="category-fields" style="display: none;">
+                                <div class="info-section p-4 bg-light rounded-3 mb-4">
+                                    <h5 class="mb-3">Academic Information</h5>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="student_id" class="form-label">Student ID (optional)</label>
+                                                <input type="text" 
+                                                       class="form-control @error('student_id') is-invalid @enderror" 
+                                                       name="student_id" 
+                                                       id="student_id"
+                                                       value="{{ old('student_id', $profile->student_id ?? '') }}">
+                                                @error('student_id')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="academic_institution" class="form-label">Academic Institution (optional)</label>
+                                                <input type="text" 
+                                                       class="form-control @error('academic_institution') is-invalid @enderror" 
+                                                       name="academic_institution" 
+                                                       id="academic_institution"
+                                                       value="{{ old('academic_institution', $profile->academic_institution ?? '') }}">
+                                                @error('academic_institution')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Organization Fields -->
+                            <div id="organization-fields" class="category-fields" style="display: none;">
+                                <div class="info-section p-4 bg-light rounded-3 mb-4">
+                                    <h5 class="mb-3">Organization Information</h5>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="organization" class="form-label">Organization (optional)</label>
+                                                <input type="text" 
+                                                       class="form-control @error('organization') is-invalid @enderror" 
+                                                       name="organization" 
+                                                       id="organization"
+                                                       value="{{ old('organization', $profile->organization ?? '') }}">
+                                                @error('organization')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="green_card" class="form-label">Green Card Number (optional)</label>
+                                                <input type="text" 
+                                                       class="form-control @error('green_card') is-invalid @enderror" 
+                                                       name="green_card" 
+                                                       id="green_card"
+                                                       value="{{ old('green_card', $profile->green_card ?? '') }}">
+                                                @error('green_card')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="impact_number" class="form-label">IMPACT Certified Number (optional)</label>
+                                                <input type="text" 
+                                                       class="form-control @error('impact_number') is-invalid @enderror" 
+                                                       name="impact_number" 
+                                                       id="impact_number"
+                                                       value="{{ old('impact_number', $profile->impact_number ?? '') }}">
+                                                @error('impact_number')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Common Fields -->
+                        <div class="common-fields mt-4">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Title</label>
+                                        <select class="form-control" name="title">
+                                            <option value="">Select Title</option>
+                                            <option value="Mr" {{ ($profile->title ?? '') == 'Mr' ? 'selected' : '' }}>Mr.</option>
+                                            <option value="Mrs" {{ ($profile->title ?? '') == 'Mrs' ? 'selected' : '' }}>Mrs.</option>
+                                            <option value="Ms" {{ ($profile->title ?? '') == 'Ms' ? 'selected' : '' }}>Ms.</option>
+                                            <option value="Dr" {{ ($profile->title ?? '') == 'Dr' ? 'selected' : '' }}>Dr.</option>
+                                            <option value="Prof" {{ ($profile->title ?? '') == 'Prof' ? 'selected' : '' }}>Prof.</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">First Name</label>
+                                        <input type="text" class="form-control" name="first_name" value="{{ $profile->first_name ?? '' }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" name="last_name" value="{{ $profile->last_name ?? '' }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="job_title" class="form-label">Job Title (optional)</label>
+                                        <input type="text" 
+                                               class="form-control @error('job_title') is-invalid @enderror" 
+                                               name="job_title" 
+                                               id="job_title"
+                                               value="{{ old('job_title', $profile->job_title ?? '') }}">
+                                        @error('job_title')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="mobile_number" class="form-label">Mobile Number</label>
+                                        <input type="tel" 
+                                               class="form-control @error('mobile_number') is-invalid @enderror" 
+                                               name="mobile_number" 
+                                               id="mobile_number"
+                                               pattern="[0-9]*"
+                                               inputmode="numeric"
+                                               oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                               maxlength="15"
+                                               placeholder="e.g. 0123456789"
+                                               value="{{ old('mobile_number', $profile->mobile_number ?? '') }}">
+                                        @error('mobile_number')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nature_of_business" class="form-label">Nature of Business (optional)</label>
+                                        <select class="form-control @error('nature_of_business') is-invalid @enderror" 
+                                                name="nature_of_business" 
+                                                id="nature_of_business">
+                                            <option value="">Select Nature of Business</option>
+                                            <option value="Manufacturing" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Manufacturing' ? 'selected' : '' }}>Manufacturing</option>
+                                            <option value="Construction" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Construction' ? 'selected' : '' }}>Construction</option>
+                                            <option value="Real Estate" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Real Estate' ? 'selected' : '' }}>Real Estate</option>
+                                            <option value="Technology" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Technology' ? 'selected' : '' }}>Technology</option>
+                                            <option value="Consulting" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Consulting' ? 'selected' : '' }}>Consulting</option>
+                                            <option value="Education" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Education' ? 'selected' : '' }}>Education</option>
+                                            <option value="Healthcare" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Healthcare' ? 'selected' : '' }}>Healthcare</option>
+                                            <option value="Retail" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Retail' ? 'selected' : '' }}>Retail</option>
+                                            <option value="Other" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Other' ? 'selected' : '' }}>Other</option>
+                                        </select>
+                                        @error('nature_of_business')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mt-3">
+                                <label class="form-label">About Me</label>
+                                <textarea class="form-control" name="about_me" rows="4">{{ $profile->about_me ?? '' }}</textarea>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input @error('category') is-invalid @enderror" 
-                               type="radio" 
-                               name="category" 
-                               id="category-academician" 
-                               value="academician"
-                               {{ old('category', $profile->category ?? '') == 'academician' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="category-academician">
-                            Academician
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input @error('category') is-invalid @enderror" 
-                               type="radio" 
-                               name="category" 
-                               id="category-org" 
-                               value="organization"
-                               {{ old('category', $profile->category ?? '') == 'organization' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="category-org">
-                            Organization
-                        </label>
-                    </div>
-                    @error('category')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
                 </div>
 
-                <!-- All Fields -->
-                <div class="all-fields">
-                    <!-- Individual Fields -->
-                    <div class="individual-section">
+                <!-- Address Information Tab -->
+                <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
+                    <div class="profile-section">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-12">
                                 <div class="form-group">
-                                    <label for="mobile_number" class="form-label">Mobile Number</label>
-                                    <input type="tel" 
-                                           class="form-control @error('mobile_number') is-invalid @enderror" 
-                                           name="mobile_number" 
-                                           id="mobile_number"
-                                           pattern="[0-9]*"
-                                           inputmode="numeric"
-                                           oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                                           maxlength="15"
-                                           placeholder="e.g. 0123456789"
-                                           value="{{ old('mobile_number', $profile->mobile_number ?? '') }}">
-                                    @error('mobile_number')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Academic Fields -->
-                    <div class="academician-section">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="student_id" class="form-label">Student ID (optional)</label>
-                                    <input type="text" 
-                                           class="form-control @error('student_id') is-invalid @enderror" 
-                                           name="student_id" 
-                                           id="student_id"
-                                           value="{{ old('student_id', $profile->student_id ?? '') }}">
-                                    @error('student_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <label class="form-label">Address</label>
+                                    <input type="text" class="form-control" name="address" value="{{ $profile->address ?? '' }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="academic_institution" class="form-label">Academic Institution (optional)</label>
-                                    <input type="text" 
-                                           class="form-control @error('academic_institution') is-invalid @enderror" 
-                                           name="academic_institution" 
-                                           id="academic_institution"
-                                           value="{{ old('academic_institution', $profile->academic_institution ?? '') }}">
-                                    @error('academic_institution')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Organization Fields -->
-                    <div class="organization-section">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="job_title" class="form-label">Job Title (optional)</label>
-                                    <input type="text" 
-                                           class="form-control @error('job_title') is-invalid @enderror" 
-                                           name="job_title" 
-                                           id="job_title"
-                                           value="{{ old('job_title', $profile->job_title ?? '') }}">
-                                    @error('job_title')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <label class="form-label">City</label>
+                                    <input type="text" class="form-control" name="city" value="{{ $profile->city ?? '' }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="organization" class="form-label">Organization (optional)</label>
-                                    <input type="text" 
-                                           class="form-control @error('organization') is-invalid @enderror" 
-                                           name="organization" 
-                                           id="organization"
-                                           value="{{ old('organization', $profile->organization ?? '') }}">
-                                    @error('organization')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <label class="form-label">State</label>
+                                    <input type="text" class="form-control" name="state" value="{{ $profile->state ?? '' }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="nature_of_business" class="form-label">Nature of Business (optional)</label>
-                                    <select class="form-control @error('nature_of_business') is-invalid @enderror" 
-                                            name="nature_of_business" 
-                                            id="nature_of_business">
-                                        <option value="">Select Nature of Business</option>
-                                        <option value="Manufacturing" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Manufacturing' ? 'selected' : '' }}>Manufacturing</option>
-                                        <option value="Construction" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Construction' ? 'selected' : '' }}>Construction</option>
-                                        <option value="Real Estate" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Real Estate' ? 'selected' : '' }}>Real Estate</option>
-                                        <option value="Technology" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Technology' ? 'selected' : '' }}>Technology</option>
-                                        <option value="Consulting" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Consulting' ? 'selected' : '' }}>Consulting</option>
-                                        <option value="Education" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Education' ? 'selected' : '' }}>Education</option>
-                                        <option value="Healthcare" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Healthcare' ? 'selected' : '' }}>Healthcare</option>
-                                        <option value="Retail" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Retail' ? 'selected' : '' }}>Retail</option>
-                                        <option value="Other" {{ old('nature_of_business', $profile->nature_of_business ?? '') == 'Other' ? 'selected' : '' }}>Other</option>
-                                    </select>
-                                    @error('nature_of_business')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <label class="form-label">Postal Code</label>
+                                    <input type="text" class="form-control" name="postal_code" value="{{ $profile->postal_code ?? '' }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="green_card" class="form-label">Green Card Number (optional)</label>
-                                    <input type="text" 
-                                           class="form-control @error('green_card') is-invalid @enderror" 
-                                           name="green_card" 
-                                           id="green_card"
-                                           value="{{ old('green_card', $profile->green_card ?? '') }}">
-                                    @error('green_card')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="impact_number" class="form-label">IMPACT Certified Number (optional)</label>
-                                    <input type="text" 
-                                           class="form-control @error('impact_number') is-invalid @enderror" 
-                                           name="impact_number" 
-                                           id="impact_number"
-                                           value="{{ old('impact_number', $profile->impact_number ?? '') }}">
-                                    @error('impact_number')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <label class="form-label">Country</label>
+                                    <input type="text" class="form-control" name="country" value="{{ $profile->country ?? '' }}">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Common Fields -->
-                <div class="common-fields mt-4">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label">Title</label>
-                                <select class="form-control" name="title">
-                                    <option value="">Select Title</option>
-                                    <option value="Mr" {{ ($profile->title ?? '') == 'Mr' ? 'selected' : '' }}>Mr.</option>
-                                    <option value="Mrs" {{ ($profile->title ?? '') == 'Mrs' ? 'selected' : '' }}>Mrs.</option>
-                                    <option value="Ms" {{ ($profile->title ?? '') == 'Ms' ? 'selected' : '' }}>Ms.</option>
-                                    <option value="Dr" {{ ($profile->title ?? '') == 'Dr' ? 'selected' : '' }}>Dr.</option>
-                                    <option value="Prof" {{ ($profile->title ?? '') == 'Prof' ? 'selected' : '' }}>Prof.</option>
-                                </select>
+                <!-- Social Media Links Tab -->
+                <div class="tab-pane fade" id="social" role="tabpanel" aria-labelledby="social-tab">
+                    <div class="profile-section">
+                        <div class="social-links">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="website" class="form-label">Website (optional)</label>
+                                        <input type="text" 
+                                               class="form-control @error('website') is-invalid @enderror" 
+                                               name="website" 
+                                               id="website" 
+                                               placeholder="e.g. company.com"
+                                               value="{{ old('website', $profile->website ?? '') }}">
+                                        @error('website')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="linkedin" class="form-label">LinkedIn (optional)</label>
+                                        <input type="text" 
+                                               class="form-control @error('linkedin') is-invalid @enderror" 
+                                               name="linkedin" 
+                                               id="linkedin" 
+                                               placeholder="LinkedIn Name or Username"
+                                               value="{{ old('linkedin', $profile->linkedin ?? '') }}">
+                                        @error('linkedin')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="facebook" class="form-label">Facebook (optional)</label>
+                                        <input type="text" 
+                                               class="form-control @error('facebook') is-invalid @enderror" 
+                                               name="facebook" 
+                                               id="facebook" 
+                                               placeholder="Facebook Name or Username"
+                                               value="{{ old('facebook', $profile->facebook ?? '') }}">
+                                        @error('facebook')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="twitter" class="form-label">Twitter (optional)</label>
+                                        <input type="text" 
+                                               class="form-control @error('twitter') is-invalid @enderror" 
+                                               name="twitter" 
+                                               id="twitter" 
+                                               placeholder="Twitter Username"
+                                               value="{{ old('twitter', $profile->twitter ?? '') }}">
+                                        @error('twitter')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="instagram" class="form-label">Instagram (optional)</label>
+                                        <input type="text" 
+                                               class="form-control @error('instagram') is-invalid @enderror" 
+                                               name="instagram" 
+                                               id="instagram" 
+                                               placeholder="Instagram Username"
+                                               value="{{ old('instagram', $profile->instagram ?? '') }}">
+                                        @error('instagram')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label">First Name</label>
-                                <input type="text" class="form-control" name="first_name" value="{{ $profile->first_name ?? '' }}">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label">Last Name</label>
-                                <input type="text" class="form-control" name="last_name" value="{{ $profile->last_name ?? '' }}">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">About Me</label>
-                        <textarea class="form-control" name="about_me" rows="4">{{ $profile->about_me ?? '' }}</textarea>
                     </div>
                 </div>
             </div>
 
-            <div class="profile-section">
-                <h2 class="section-title">Address Information</h2>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="form-label">Address</label>
-                            <input type="text" class="form-control" name="address" value="{{ $profile->address ?? '' }}">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">City</label>
-                            <input type="text" class="form-control" name="city" value="{{ $profile->city ?? '' }}">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">State</label>
-                            <input type="text" class="form-control" name="state" value="{{ $profile->state ?? '' }}">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Postal Code</label>
-                            <input type="text" class="form-control" name="postal_code" value="{{ $profile->postal_code ?? '' }}">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Country</label>
-                            <input type="text" class="form-control" name="country" value="{{ $profile->country ?? '' }}">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="profile-section">
-                <h2 class="section-title">Social Media Links</h2>
-                <div class="social-links">
-                    <h5>Social Media & Website Links</h5>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="website" class="form-label">Website (optional)</label>
-                                <input type="text" 
-                                       class="form-control @error('website') is-invalid @enderror" 
-                                       name="website" 
-                                       id="website" 
-                                       placeholder="e.g. company.com"
-                                       value="{{ old('website', $profile->website ?? '') }}">
-                                @error('website')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="linkedin" class="form-label">LinkedIn (optional)</label>
-                                <input type="text" 
-                                       class="form-control @error('linkedin') is-invalid @enderror" 
-                                       name="linkedin" 
-                                       id="linkedin" 
-                                       placeholder="LinkedIn Name or Username"
-                                       value="{{ old('linkedin', $profile->linkedin ?? '') }}">
-                                @error('linkedin')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="facebook" class="form-label">Facebook (optional)</label>
-                                <input type="text" 
-                                       class="form-control @error('facebook') is-invalid @enderror" 
-                                       name="facebook" 
-                                       id="facebook" 
-                                       placeholder="Facebook Name or Username"
-                                       value="{{ old('facebook', $profile->facebook ?? '') }}">
-                                @error('facebook')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="twitter" class="form-label">Twitter (optional)</label>
-                                <input type="text" 
-                                       class="form-control @error('twitter') is-invalid @enderror" 
-                                       name="twitter" 
-                                       id="twitter" 
-                                       placeholder="Twitter Username"
-                                       value="{{ old('twitter', $profile->twitter ?? '') }}">
-                                @error('twitter')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="instagram" class="form-label">Instagram (optional)</label>
-                                <input type="text" 
-                                       class="form-control @error('instagram') is-invalid @enderror" 
-                                       name="instagram" 
-                                       id="instagram" 
-                                       placeholder="Instagram Username"
-                                       value="{{ old('instagram', $profile->instagram ?? '') }}">
-                                @error('instagram')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-end">
+            <div class="text-end mt-4">
                 <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#deactivateModal">
                     <i class="bi bi-exclamation-triangle"></i> Deactivate Account
                 </button>
@@ -1228,6 +1463,33 @@ document.addEventListener('DOMContentLoaded', function() {
             this.submit();
         });
     }
+
+    // Function to handle category change
+    function handleCategoryChange() {
+        const selectedCategory = document.querySelector('input[name="category"]:checked').value;
+        const academicianFields = document.getElementById('academician-fields');
+        const organizationFields = document.getElementById('organization-fields');
+
+        // Hide all category fields first
+        document.querySelectorAll('.category-fields').forEach(field => {
+            field.style.display = 'none';
+        });
+
+        // Show fields based on selected category
+        if (selectedCategory === 'academician') {
+            academicianFields.style.display = 'block';
+        } else if (selectedCategory === 'organization') {
+            organizationFields.style.display = 'block';
+        }
+    }
+
+    // Add event listeners to radio buttons
+    document.querySelectorAll('.category-radio').forEach(radio => {
+        radio.addEventListener('change', handleCategoryChange);
+    });
+
+    // Initial check on page load
+    handleCategoryChange();
 });
 </script>
 @endpush 
