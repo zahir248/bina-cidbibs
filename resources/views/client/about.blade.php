@@ -1061,6 +1061,22 @@
             height: 90px;
             margin-top: -30px;
         }
+        /* Fix for mobile horizontal scroll */
+        .container {
+            padding-left: 15px;
+            padding-right: 15px;
+            max-width: 100% !important;
+            width: 100% !important;
+            overflow-x: hidden;
+        }
+        .row {
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+        [class*="col-"] {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
     }
     .summary-section,
     .showcase-section,
@@ -1080,7 +1096,7 @@
 
 @section('content')
 <!-- Hero Section -->
-<div class="hero-section-store" id="heroSection">
+<div class="hero-section-store" id="heroSection" style="overflow-x: hidden;">
     <h1 class="hero-title-store">ABOUT</h1>
     <div class="breadcrumb-store">
         <a href="{{ route('client.home') }}">Home</a>
@@ -1089,158 +1105,190 @@
     </div>
 </div>
 
+<!-- Wrapper to prevent horizontal scroll -->
+<div style="overflow-x: hidden; width: 100%;">
+
 <!-- Main Content Section -->
-<div class="about-bg">
-    <div class="container py-5">
-        <div class="row g-4 align-items-center">
-            <!-- Left: Logo and About Text -->
-            <div class="col-lg-7">
-                <div style="display: flex; align-items: flex-start; gap: 1.5rem;">
-                    <!-- Vertical Accent Bar -->
-                    <div style="width: 16px; min-width: 16px; height: 100%; border-radius: 12px; background: linear-gradient(180deg, #ff9800 0%, #ff5e62 100%); margin-right: 0.5rem;"></div>
-                    <div class="about-section" style="box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
-                        <div class="about-logo-header-wrap">
-                            <img src="{{ asset('images/about-bina-logo.png') }}" alt="BINA 2025 Logo" class="about-logo-img">
-                            <div class="about-header-text">ABOUT BINA</div>
-                        </div>
-                        <p>Formerly known as CR4.0 Conference, BINA 2025 is a platform to introduce building technologies into the construction industry, including infrastructure, real estate and other built assets that are designed, constructed, operated and maintained. In-line with the vision of the International Construction Week (ICW) 2025, this premier event will be held on 28 – 30th October 2025 with two overarching platforms.</p>
-                        <p>As a premier platform for showcasing transformative building technologies, we aims to drive any innovation and efficiency within the IBS sector. By aligning with the government's vision, BINA 2025 aims to propel the IBS industry forward, delivering substantial economic and social impacts and establishing Malaysia as a leader in modern construction practices.</p>
-                        <p style="margin-bottom:0;"><b>In conjunction with International Construction Week</b><br>
+<div style="background: #f5f5f5; width: 100%;">
+    <div class="container py-5" style="max-width: 1300px;">
+        <div class="row g-5 align-items-center">
+        <!-- Left: Logo and About Text -->
+        <div class="col-lg-7">
+            <div style="display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 1.5rem;">
+                <img src="{{ asset('images/about-bina-logo.png') }}" alt="BINA 2025 Logo" style="width: 100%; max-width: 150px; height: auto; display: block; margin-bottom: 1rem;">
+                <h1 style="font-size: 2.0rem; font-weight: 800; color: #22223b; margin-bottom: 1rem; letter-spacing: 1px; line-height: 1.1;">ABOUT BINA</h1>
+            </div>
+            <div style="display: flex; align-items: flex-start; gap: 1.5rem;">
+                <!-- Vertical Accent Bar -->
+                <div style="width: 16px; min-width: 16px; height: 100%; border-radius: 12px; background: linear-gradient(180deg, #ff9800 0%, #ff5e62 100%); margin-right: 0.5rem;"></div>
+                <div style="flex: 1;">
+                    <div style="font-size: 1.08rem; color: #333; line-height: 1.7;">
+                        <p style="margin-bottom: 1.5rem;">Formerly known as CR4.0 Conference, BINA 2025 is a platform to introduce building technologies into the construction industry, including infrastructure, real estate and other built assets that are designed, constructed, operated and maintained. In-line with the vision of the International Construction Week (ICW) 2025, this premier event will be held on 28 – 30th October 2025 with two overarching platforms.</p>
+                        <p style="margin-bottom: 1.5rem;">As a premier platform for showcasing transformative building technologies, we aims to drive any innovation and efficiency within the IBS sector. By aligning with the government's vision, BINA 2025 aims to propel the IBS industry forward, delivering substantial economic and social impacts and establishing Malaysia as a leader in modern construction practices.</p>
+                        <p style="margin-bottom: 0;"><b>In conjunction with International Construction Week</b><br>
                         BINA 2025 is one of the exclusive event of the ICW 2025. While ICW focuses on the overall aspect of construction industry in Malaysia, BINA 2025 will be the platform for the construction industry players especially in Industrialised Building System (IBS) to explore in person, the latest trends, developments and technologies in the construction industry</p>
                     </div>
                 </div>
             </div>
-            <!-- Right: Image -->
-            <div class="col-lg-5 d-flex justify-content-center">
-                <img src="{{ asset('images/about-1.jpg') }}" alt="About BINA" style="max-width:100%;border-radius:1.2rem;box-shadow:0 2px 12px rgba(0,0,0,0.08);object-fit:cover;">
-            </div>
+        </div>
+        <!-- Right: Image -->
+        <div class="col-lg-5">
+            <img src="{{ asset('images/about-1.jpg') }}" alt="About BINA" style="width: 100%; border-radius: 1.2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.12); object-fit: cover;">
+        </div>
         </div>
     </div>
 </div>
 
 <!-- Summary Section -->
-<div class="summary-section">
-    <div class="summary-divider"></div>
-    <div class="summary-title">
-        SUMMARY OF BINA 2025:<br>
-        <span>-CONSTRUCTING THE FUTURE OF ASEAN-</span>
+<div class="container" style="max-width: 1100px; margin: 4.5rem auto;">
+    <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 style="font-size: 2rem; font-weight: 800; color: #181818; margin-bottom: 0.5rem; text-transform: uppercase;">SUMMARY OF BINA 2025</h2>
+        <p style="font-size: 1.25rem; font-weight: 700; color: #181818; margin: 0;">-CONSTRUCTING THE FUTURE OF ASEAN-</p>
     </div>
-    <div class="summary-cards-row">
-        <!-- Modular Asia Card -->
-        <div class="summary-card">
-            <img src="{{ asset('images/modular-logo.png') }}" alt="Modular Asia Forum & Exhibition 2025 Logo">
+
+    <div style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 3rem;">
+        <div style="flex: 1; max-width: 400px; text-align: center;">
+            <img src="{{ asset('images/modular-logo.png') }}" alt="Modular Asia Forum & Exhibition 2025 Logo" style="max-width: 100%; height: auto;">
         </div>
-        <!-- Facility Management Card -->
-        <div class="summary-card">
-            <img src="{{ asset('images/facility-logo.png') }}" alt="Facility Management Engagement Day 2025 Logo">
+        <div style="flex: 1; max-width: 400px; text-align: center;">
+            <img src="{{ asset('images/facility-logo.png') }}" alt="Facility Management Engagement Day 2025 Logo" style="max-width: 100%; height: auto;">
         </div>
     </div>
+
     <div class="row g-4">
         <div class="col-lg-6">
-            <div class="summary-card-desc" style="text-align:left;">
+            <p style="font-size: 1.08rem; color: #22223b; line-height: 1.7; margin-bottom: 0;">
                 MODULAR ASIA will serve as the premier platform advancing Modular Technology, Modern Methods of Construction (MMC), and Industrialised Building Systems (IBS), gathering global leaders to exchange best practices and showcase breakthroughs driving construction efficiency, sustainability, and scalability across ASEAN and beyond.
-            </div>
+            </p>
         </div>
         <div class="col-lg-6">
-            <div class="summary-card-desc" style="text-align:left;">
+            <p style="font-size: 1.08rem; color: #22223b; line-height: 1.7; margin-bottom: 0;">
                 Facility Management Engagement Day will foster dynamic exchanges among facility managers, technology providers, and industry experts, unlocking business opportunities while exploring the latest trends and challenges in facility management.
-            </div>
+            </p>
         </div>
     </div>
 </div>
 
 <!-- Three Key Showcase Section -->
-<div class="showcase-section">
-    <div class="showcase-title">THREE KEY SHOWCASE</div>
-    <div class="showcase-cards-row">
-        <!-- Modular Thinker Card -->
-        <div class="showcase-card">
-            <img src="{{ asset('images/about-2.png') }}" alt="NextGen TVET Modular Thinker Logo">
-            <div class="showcase-card-desc">
-                Modular Thinkers invites TVET students to design sustainable, affordable township developments, promoting the next generation of smart modular living.
-            </div>
+<div style="background: #f5f5f5; padding: 4.5rem 0;">
+    <div class="container" style="max-width: 1100px; margin: 0 auto;">
+        <div style="text-align: center; margin-bottom: 3.5rem;">
+            <h2 style="font-size: 2rem; font-weight: 800; color: #181818; margin-bottom: 0; text-transform: uppercase;">THREE KEY SHOWCASE</h2>
         </div>
-        <!-- Career Spotlight Card -->
-        <div class="showcase-card">
-            <img src="{{ asset('images/about-3.png') }}" alt="Career Spotlight Logo">
-            <div class="showcase-card-desc">
-                BINA: Career Spotlight returns for its second year, empowering talents and professionals by connecting them with top employers in the construction industry, with strong collaboration support from PERKESO.
+
+        <div class="row g-4 justify-content-center">
+            <!-- Modular Thinker -->
+            <div class="col-lg-4">
+                <div style="text-align: center;">
+                    <div style="background: #fff; display: inline-block; padding: 1rem 2rem; border-radius: 0.7rem; margin-bottom: 1.5rem;">
+                        <img src="{{ asset('images/about-2.png') }}" alt="NextGen TVET Modular Thinker Logo" style="height: 48px; width: auto;">
+                    </div>
+                    <p style="font-size: 1.05rem; color: #22223b; line-height: 1.7; margin: 0;">
+                        Modular Thinkers invites TVET students to design sustainable, affordable township developments, promoting the next generation of smart modular living.
+                    </p>
+                </div>
             </div>
-        </div>
-        <!-- IBS Homes Card -->
-        <div class="showcase-card">
-            <img src="{{ asset('images/about-2.png') }}" alt="IBS Homes Logo">
-            <div class="showcase-card-desc">
-                IBS Homes Powered by Modular Technology: CIDB IBS presents a bold evolution of housing solutions that are faster, smarter, and more sustainable, offering the public an immersive experience into the future of urban living.
+
+            <!-- Career Spotlight -->
+            <div class="col-lg-4">
+                <div style="text-align: center;">
+                    <div style="background: #fff; display: inline-block; padding: 1rem 2rem; border-radius: 0.7rem; margin-bottom: 1.5rem;">
+                        <img src="{{ asset('images/about-3.png') }}" alt="Career Spotlight Logo" style="height: 48px; width: auto;">
+                    </div>
+                    <p style="font-size: 1.05rem; color: #22223b; line-height: 1.7; margin: 0;">
+                        BINA: Career Spotlight returns for its second year, empowering talents and professionals by connecting them with top employers in the construction industry, with strong collaboration support from PERKESO.
+                    </p>
+                </div>
+            </div>
+
+            <!-- IBS Homes -->
+            <div class="col-lg-4">
+                <div style="text-align: center;">
+                    <div style="background: #fff; display: inline-block; padding: 1rem 2rem; border-radius: 0.7rem; margin-bottom: 1.5rem;">
+                        <img src="{{ asset('images/about-2.png') }}" alt="IBS Homes Logo" style="height: 48px; width: auto;">
+                    </div>
+                    <p style="font-size: 1.05rem; color: #22223b; line-height: 1.7; margin: 0;">
+                        IBS Homes Powered by Modular Technology: CIDB IBS presents a bold evolution of housing solutions that are faster, smarter, and more sustainable, offering the public an immersive experience into the future of urban living.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Modular Asia Section -->
-<div class="modular-asia-section">
-    <div class="modular-asia-row">
-        <div class="modular-asia-left">
-            <img src="{{ asset('images/modular-logo.png') }}" alt="Modular Asia Forum & Exhibition 2025 Logo" class="modular-asia-logo">
-            <div class="modular-asia-heading">TRANSFORMING SEN'S<br>CONSTRUCTION LANDSCAPE</div>
+<div style="background: #fff; padding: 4.5rem 0;">
+    <div class="container" style="max-width: 1100px; margin: 0 auto;">
+        <div class="row g-5">
+            <!-- Left Column: Logo and Heading -->
+            <div class="col-lg-5">
+                <img src="{{ asset('images/modular-logo.png') }}" alt="Modular Asia Forum & Exhibition 2025 Logo" style="max-width: 260px; width: 100%; height: auto; margin-bottom: 1.5rem;">
+                <h2 style="font-size: 2.1rem; font-weight: 800; color: #181818; margin-bottom: 0.7rem; line-height: 1.1; letter-spacing: 0.5px; text-transform: uppercase;">TRANSFORMING SEN'S<br>CONSTRUCTION LANDSCAPE</h2>
+            </div>
+
+            <!-- Right Column: Description -->
+            <div class="col-lg-7">
+                <div style="font-size: 1.08rem; color: #333; line-height: 1.7;">
+                    <p style="margin-bottom: 1.5rem;">As part of BINA Conference at ICW 2025, MODULAR ASIA is a premier forum and exhibition dedicated to advancing Modular Technology, Modern Methods of Construction (MMC), and Industrialised Building Systems (IBS).</p>
+                    <p style="margin-bottom: 0;">This exclusive platform will bring together global modular leaders, innovators, and industry pioneers to share best practices, insights, and breakthroughs that are revolutionizing construction efficiency, sustainability, and scalability across SEN and Global market.</p>
+                </div>
+            </div>
         </div>
-        <div class="modular-asia-right">
-            <p>As part of BINA Conference at ICW 2025, MODULAR ASIA is a premier forum and exhibition dedicated to advancing Modular Technology, Modern Methods of Construction (MMC), and Industrialised Building Systems (IBS).</p>
-            <p>This exclusive platform will bring together global modular leaders, innovators, and industry pioneers to share best practices, insights, and breakthroughs that are revolutionizing construction efficiency, sustainability, and scalability across SEN and Global market.</p>
-        </div>
-    </div>
-    <div class="modular-asia-images-row">
-        <div class="modular-asia-img-wrap">
-            <img src="{{ asset('images/about-4.jpg') }}" alt="Modular Asia Main" class="img-fluid">
-            <a href="#" class="modular-asia-play-btn" style="text-decoration:none;" tabindex="-1">
-                <span style="display:inline-block;margin-left:6px;">
-                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="14" cy="14" r="14" fill="none"/>
-                        <polygon points="11,9 21,14 11,19" fill="white"/>
-                    </svg>
-                </span>
-            </a>
-        </div>
-        <div class="modular-asia-img-wrap">
-            <img src="{{ asset('images/about-5.jpg') }}" alt="Modular Asia Secondary" class="img-fluid">
+
+        <!-- Images Row -->
+        <div class="row g-4 mt-4">
+            <div class="col-lg-7 position-relative">
+                <img src="{{ asset('images/about-4.jpg') }}" alt="Modular Asia Main" style="width: 100%; height: 320px; object-fit: cover; border-radius: 1.2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.12);">
+                <a href="#" class="d-flex align-items-center justify-content-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; background: rgba(255, 152, 0, 0.9); border-radius: 50%; text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s ease;">
+                    <span style="display: inline-block; margin-left: 6px;">
+                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="14" cy="14" r="14" fill="none"/>
+                            <polygon points="11,9 21,14 11,19" fill="white"/>
+                        </svg>
+                    </span>
+                </a>
+            </div>
+            <div class="col-lg-5">
+                <img src="{{ asset('images/about-5.jpg') }}" alt="Modular Asia Secondary" style="width: 100%; height: 320px; object-fit: cover; border-radius: 1.2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.12);">
+            </div>
         </div>
     </div>
 </div>
 
 <!-- Facility Management Engagement Day Section -->
-<div class="facility-mgmt-section" style="background:#fff;border-radius:1rem;box-shadow:0 2px 12px rgba(0,0,0,0.06);padding:2.5rem 2rem 2rem 2rem;margin:3rem auto 2rem auto;max-width:1100px;position:relative;z-index:2;">
-    <div class="row align-items-center g-4 flex-wrap">
-        <!-- Left: Description Text -->
-        <div class="col-lg-6 order-lg-1 order-2">
-            <div style="color:#7a7671;font-size:1.13rem;line-height:1.7;font-family:'Inter',sans-serif;">
-                <p style="margin-bottom:1.5rem;">As part of BINA Conference at ICW 2025, MODULAR ASIA is a premier forum and exhibition dedicated to advancing Modular Technology, Modern Methods of Construction (MMC), and Industrialised Building Systems (IBS).</p>
-                <p style="margin-bottom:0;">This exclusive platform will bring together global modular leaders, innovators, and industry pioneers to share best practices, insights, and breakthroughs that are revolutionizing construction efficiency, sustainability, and scalability across SEN and Global market.</p>
+<div style="background: #f5f5f5; padding: 4.5rem 0;">
+    <div class="container" style="max-width: 1100px; margin: 0 auto;">
+        <!-- Top Content -->
+        <div class="row align-items-center g-5 mb-5">
+            <!-- Left: Description Text -->
+            <div class="col-lg-6 order-lg-1 order-2">
+                <div style="font-size: 1.08rem; color: #333; line-height: 1.7;">
+                    <p style="margin-bottom: 1.5rem;">As part of BINA Conference at ICW 2025, MODULAR ASIA is a premier forum and exhibition dedicated to advancing Modular Technology, Modern Methods of Construction (MMC), and Industrialised Building Systems (IBS).</p>
+                    <p style="margin-bottom: 0;">This exclusive platform will bring together global modular leaders, innovators, and industry pioneers to share best practices, insights, and breakthroughs that are revolutionizing construction efficiency, sustainability, and scalability across SEN and Global market.</p>
+                </div>
             </div>
-        </div>
-        <!-- Right: Logo and Heading -->
-        <div class="col-lg-6 order-lg-2 order-1 d-flex flex-column align-items-lg-start align-items-center text-lg-left text-center">
-            <div class="d-flex align-items-center mb-2" style="gap:0.7rem;">
-                <img src="{{ asset('images/facility-logo.png') }}" alt="Facility Management Engagement Day 2025 Logo" style="max-width:200px;width:200px;height:auto;">
-            </div>
-            <div style="font-size:2.5rem;font-weight:900;color:#0a102f;line-height:1.1;text-transform:uppercase;letter-spacing:0.5px;text-align:left;">
-                TRANSFORMING SEN'S<br>CONSTRUCTION<br>LANDSCAPE
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- Event Gallery Section -->
-<div class="event-gallery-section" style="max-width:1100px;margin:3rem auto 2rem auto;">
-    <div class="row g-3 align-items-center flex-wrap">
-        <!-- Left Image (Speaker) -->
-        <div class="col-lg-6 d-flex justify-content-center">
-            <img src="{{ asset('images/about-6.jpg') }}" alt="Event Speaker" style="width:100%;max-width:420px;height:420px;object-fit:cover;border-radius:1.5rem;box-shadow:0 4px 20px rgba(0,0,0,0.10);">
+            <!-- Right: Logo and Heading -->
+            <div class="col-lg-6 order-lg-2 order-1">
+                <div style="max-width: 500px; margin: 0 auto;">
+                    <img src="{{ asset('images/facility-logo.png') }}" alt="Facility Management Engagement Day 2025 Logo" style="max-width: 200px; width: 100%; height: auto; margin-bottom: 1.5rem;">
+                    <h2 style="font-size: 2.5rem; font-weight: 900; color: #0a102f; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.5px;">
+                        TRANSFORMING SEN'S<br>CONSTRUCTION<br>LANDSCAPE
+                    </h2>
+                </div>
+            </div>
         </div>
-        <!-- Right Image (Booth with Play Button) -->
-        <div class="col-lg-6 d-flex justify-content-center position-relative">
-            <div style="position:relative;width:100%;max-width:520px;">
-                <img src="{{ asset('images/about-7.jpg') }}" alt="Exhibition Booth" style="width:100%;height:420px;object-fit:cover;border-radius:1.5rem;box-shadow:0 4px 20px rgba(0,0,0,0.10);">
-                <a href="#" class="event-gallery-play-btn" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#ff9800;color:#fff;border-radius:50%;width:90px;height:90px;display:flex;align-items:center;justify-content:center;font-size:2.8rem;box-shadow:0 4px 15px rgba(0,0,0,0.18);z-index:2;text-decoration:none;transition:background 0.2s;">
+
+        <!-- Gallery Images -->
+        <div class="row g-4 mt-2">
+            <!-- Left Image (Speaker) -->
+            <div class="col-lg-6">
+                <img src="{{ asset('images/about-6.jpg') }}" alt="Event Speaker" style="width: 100%; height: 420px; object-fit: cover; border-radius: 1.2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.12);">
+            </div>
+            <!-- Right Image (Booth with Play Button) -->
+            <div class="col-lg-6 position-relative">
+                <img src="{{ asset('images/about-7.jpg') }}" alt="Exhibition Booth" style="width: 100%; height: 420px; object-fit: cover; border-radius: 1.2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.12);">
+                <a href="#" class="d-flex align-items-center justify-content-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90px; height: 90px; background: rgba(255, 152, 0, 0.9); border-radius: 50%; text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s ease;">
                     <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="22" cy="22" r="22" fill="none"/>
                         <polygon points="18,14 32,22 18,30" fill="white"/>
@@ -1252,42 +1300,59 @@
 </div>
 
 <!-- Our Audiences Section -->
-<div class="audiences-section">
-    <div class="audiences-title">
-        - OUR AUDIENCES -
+<div class="container" style="max-width: 1100px; margin: 4.5rem auto;">
+    <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 style="font-size: 2.5rem; font-weight: 900; color: #0a102f; letter-spacing: 1px;">
+             OUR AUDIENCES 
+        </h2>
     </div>
     <div class="row g-5">
         <!-- Left Column -->
         <div class="col-md-6">
-            <div class="audience-block mb-5">
-                <div class="audience-heading">CONSTRUCTION PROFESSIONALS</div>
-                <div class="audience-desc"><span class="audience-bar"></span>Architects, engineers, contractors, and developers looking to stay ahead with cutting-edge technologies.</div>
+            <div style="margin-bottom: 3rem;">
+                <h3 style="font-size: 1.35rem; font-weight: 800; color: #0a102f; text-transform: uppercase; margin-bottom: 0.7rem; letter-spacing: 0.5px;">CONSTRUCTION PROFESSIONALS</h3>
+                <div style="display: flex; align-items: flex-start;">
+                    <span style="display: inline-block; width: 6px; height: 1.5em; background: #ff9800; border-radius: 2px; margin-right: 0.7em; margin-top: 0.15em; flex-shrink: 0;"></span>
+                    <p style="font-size: 1.08rem; color: #22223b; line-height: 1.6; font-weight: 400; margin: 0;">Architects, engineers, contractors, and developers looking to stay ahead with cutting-edge technologies.</p>
+                </div>
             </div>
-            <div class="audience-block mb-5">
-                <div class="audience-heading">REAL ESTATE DEVELOPERS</div>
-                <div class="audience-desc"><span class="audience-bar"></span>Learn about the economic and social impacts of advanced building technologies</div>
+            <div style="margin-bottom: 3rem;">
+                <h3 style="font-size: 1.35rem; font-weight: 800; color: #0a102f; text-transform: uppercase; margin-bottom: 0.7rem; letter-spacing: 0.5px;">REAL ESTATE DEVELOPERS</h3>
+                <div style="display: flex; align-items: flex-start;">
+                    <span style="display: inline-block; width: 6px; height: 1.5em; background: #ff9800; border-radius: 2px; margin-right: 0.7em; margin-top: 0.15em; flex-shrink: 0;"></span>
+                    <p style="font-size: 1.08rem; color: #22223b; line-height: 1.6; font-weight: 400; margin: 0;">Learn about the economic and social impacts of advanced building technologies</p>
+                </div>
             </div>
-            <div class="audience-block mb-5 mb-md-0">
-                <div class="audience-heading">TECHNOLOGY PROVIDERS</div>
-                <div class="audience-desc"><span class="audience-bar"></span>Showcase and explore innovations like IBS, BIM, 3D printing, and automation</div>
+            <div>
+                <h3 style="font-size: 1.35rem; font-weight: 800; color: #0a102f; text-transform: uppercase; margin-bottom: 0.7rem; letter-spacing: 0.5px;">TECHNOLOGY PROVIDERS</h3>
+                <div style="display: flex; align-items: flex-start;">
+                    <span style="display: inline-block; width: 6px; height: 1.5em; background: #ff9800; border-radius: 2px; margin-right: 0.7em; margin-top: 0.15em; flex-shrink: 0;"></span>
+                    <p style="font-size: 1.08rem; color: #22223b; line-height: 1.6; font-weight: 400; margin: 0;">Showcase and explore innovations like IBS, BIM, 3D printing, and automation</p>
+                </div>
             </div>
         </div>
         <!-- Right Column -->
         <div class="col-md-6">
-            <div class="audience-block mb-5">
-                <div class="audience-heading">INVESTORS & BUSINESS LEADERS</div>
-                <div class="audience-desc"><span class="audience-bar"></span>Explore new opportunities in current construction technology</div>
+            <div style="margin-bottom: 3rem;">
+                <h3 style="font-size: 1.35rem; font-weight: 800; color: #0a102f; text-transform: uppercase; margin-bottom: 0.7rem; letter-spacing: 0.5px;">INVESTORS & BUSINESS LEADERS</h3>
+                <div style="display: flex; align-items: flex-start;">
+                    <span style="display: inline-block; width: 6px; height: 1.5em; background: #ff9800; border-radius: 2px; margin-right: 0.7em; margin-top: 0.15em; flex-shrink: 0;"></span>
+                    <p style="font-size: 1.08rem; color: #22223b; line-height: 1.6; font-weight: 400; margin: 0;">Explore new opportunities in current construction technology</p>
+                </div>
             </div>
-            <div class="audience-block">
-                <div class="audience-heading">ACADEMICIAN</div>
-                <div class="audience-desc"><span class="audience-bar"></span>Researchers, professors and students specializing in construction, engineering and related fields can gain insights into the latest technologies and connect with industry professionals</div>
+            <div>
+                <h3 style="font-size: 1.35rem; font-weight: 800; color: #0a102f; text-transform: uppercase; margin-bottom: 0.7rem; letter-spacing: 0.5px;">ACADEMICIAN</h3>
+                <div style="display: flex; align-items: flex-start;">
+                    <span style="display: inline-block; width: 6px; height: 1.5em; background: #ff9800; border-radius: 2px; margin-right: 0.7em; margin-top: 0.15em; flex-shrink: 0;"></span>
+                    <p style="font-size: 1.08rem; color: #22223b; line-height: 1.6; font-weight: 400; margin: 0;">Researchers, professors and students specializing in construction, engineering and related fields can gain insights into the latest technologies and connect with industry professionals</p>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Unveil the Extraordinary Section -->
-<div class="unveil-section" style="background:linear-gradient(180deg,#fff 60%,#f7f6fb 100%);padding:3.5rem 0 2.5rem 0;">
+<div class="unveil-section" style="background:#f5f5f5;padding:3.5rem 0 2.5rem 0;">
     <div class="container" style="max-width:1200px;">
         <div class="unveil-title" style="text-align:center;font-size:2.5rem;font-weight:900;color:#0a102f;letter-spacing:1px;margin-bottom:2.8rem;">
             UNVEIL THE EXTRAORDINRY AT BINA<br>2025
@@ -1355,7 +1420,7 @@
 </div>
 
 <!-- CCD ND CPD Points Applied Section -->
-<div class="cpd-section" style="background:linear-gradient(180deg,#fff 60%,#f7f6fb 100%);padding:3.5rem 0 2.5rem 0;">
+<div class="cpd-section" style="background:#f5f5f5;padding:3.5rem 0 2.5rem 0;">
     <div class="container" style="max-width:1300px;">
         <div class="cpd-title" style="text-align:center;font-size:2.5rem;font-weight:900;color:#0a102f;letter-spacing:1px;margin-bottom:2.8rem;">
             CCD ND CPD POINTS APPLIED
@@ -1420,7 +1485,7 @@
 </div>
 
 <!-- Our Speakers Section -->
-<div class="speakers-section" style="background:#fafbfc;padding:3.5rem 0 2.5rem 0;">
+<div class="speakers-section" style="background:#fff;padding:3.5rem 0 2.5rem 0;">
     <div class="container" style="max-width:1300px;">
         <div class="row g-5 align-items-start">
             <!-- Left Column -->
@@ -1497,4 +1562,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
+</div> <!-- Close wrapper div -->
+
 @endsection 
