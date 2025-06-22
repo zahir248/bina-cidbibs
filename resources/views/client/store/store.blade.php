@@ -4,6 +4,10 @@
 
 @push('styles')
 <style>
+    html {
+        scroll-behavior: smooth;
+    }
+
     :root {
         --primary-blue: #2563eb;
         --primary-dark: #1e40af;
@@ -1077,7 +1081,7 @@
 @endpush
 
 @section('content')
-<!-- Hero Section for Store Page -->
+<!-- Hero Section -->
 <div class="hero-section-store" id="heroSection">
     <h1 class="hero-title-store">STORE</h1>
     <div class="breadcrumb-store">
@@ -1087,8 +1091,8 @@
     </div>
 </div>
 
-<!-- Store Section -->
-<div class="store-section">
+<!-- Store Content Section -->
+<div id="storeContent" class="store-section">
     <!-- Announcement Section -->
     <div class="announcement-section">
         <div class="announcement-content">
@@ -1667,6 +1671,17 @@ document.addEventListener('DOMContentLoaded', function() {
             window.scrollTo(0, scrollPos);
         });
     });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Scroll to store content
+    const storeContent = document.getElementById('storeContent');
+    if (storeContent) {
+        // Add a small delay to ensure smooth scrolling after page load
+        setTimeout(() => {
+            storeContent.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+    }
 });
 </script>
 @endpush

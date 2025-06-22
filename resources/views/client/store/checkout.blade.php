@@ -4,6 +4,10 @@
 
 @push('styles')
 <style>
+    html {
+        scroll-behavior: smooth;
+    }
+
     :root {
         --primary-blue: #2563eb;
         --primary-dark: #1e40af;
@@ -401,7 +405,7 @@
 @endpush
 
 @section('content')
-<!-- Hero Section for Checkout Page -->
+<!-- Hero Section -->
 <div class="checkout-hero" id="heroSection">
     <h1 class="checkout-hero-title">CHECKOUT</h1>
     <div class="breadcrumb-checkout">
@@ -414,177 +418,181 @@
         <span>Checkout</span>
     </div>
 </div>
-<div class="checkout-main">
-    <!-- Billing Details -->
-    <div class="checkout-form-col">
-        <div class="checkout-title">Billing Details</div>
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-        <form method="POST" action="{{ route('client.checkout.process') }}" class="checkout-form" id="checkoutForm">
-            @csrf
-            <div class="form-row">
-                <div>
-                    <label for="first_name">First Name <span class="required">*</span></label>
-                    <input type="text" class="form-control" id="first_name" name="first_name" value="{{ old('first_name') }}" placeholder="e.g. John" required>
-                    @error('first_name')<div class="error">Billing First name is a required field.</div>@enderror
-                </div>
-                <div>
-                    <label for="last_name">Last Name <span class="required">*</span></label>
-                    <input type="text" class="form-control" id="last_name" name="last_name" value="{{ old('last_name') }}" placeholder="e.g. Doe" required>
-                    @error('last_name')<div class="error">Billing Last name is a required field.</div>@enderror
-                </div>
-            </div>
-            <div class="form-row">
-                <div>
-                    <label for="gender">Gender <span class="required">*</span></label>
-                    <select class="form-control" id="gender" name="gender" required>
-                        <option value="" disabled selected>Select your gender</option>
-                        <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male</option>
-                        <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female</option>
-                    </select>
-                    @error('gender')<div class="error">Gender is a required field.</div>@enderror
-                </div>
-                <div>
-                    <label for="category">Category <span class="required">*</span></label>
-                    <select class="form-control" id="category" name="category" required>
-                        <option value="" disabled selected>Select your category</option>
-                        <option value="individual" {{ old('category') == 'individual' ? 'selected' : '' }}>Individual</option>
-                        <option value="academician" {{ old('category') == 'academician' ? 'selected' : '' }}>Academician</option>
-                        <option value="organization" {{ old('category') == 'organization' ? 'selected' : '' }}>Organization</option>
-                    </select>
-                    @error('category')<div class="error">Category is a required field.</div>@enderror
-                </div>
-            </div>
-            
-            <!-- B2B Fields (shown only when organization is selected) -->
-            <div id="b2b-fields" style="display: none;">
+
+<!-- Checkout Content Section -->
+<div id="checkoutContent" class="container">
+    <div class="checkout-main">
+        <!-- Billing Details -->
+        <div class="checkout-form-col">
+            <div class="checkout-title">Billing Details</div>
+            @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+            <form method="POST" action="{{ route('client.checkout.process') }}" class="checkout-form" id="checkoutForm">
+                @csrf
                 <div class="form-row">
                     <div>
-                        <label for="company_name">Company Name <span class="required">*</span></label>
-                        <input type="text" class="form-control" id="company_name" name="company_name" value="{{ old('company_name') }}" placeholder="e.g. ABC Corporation">
-                        @error('company_name')<div class="error">Company name is a required field for organizations.</div>@enderror
+                        <label for="first_name">First Name <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="first_name" name="first_name" value="{{ old('first_name') }}" placeholder="e.g. John" required>
+                        @error('first_name')<div class="error">Billing First name is a required field.</div>@enderror
                     </div>
                     <div>
-                        <label for="business_registration_number">Business Registration Number <span class="required">*</span></label>
-                        <input type="text" class="form-control" id="business_registration_number" name="business_registration_number" value="{{ old('business_registration_number') }}" placeholder="e.g. 123456789">
-                        @error('business_registration_number')<div class="error">Business registration number is a required field for organizations.</div>@enderror
+                        <label for="last_name">Last Name <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="last_name" name="last_name" value="{{ old('last_name') }}" placeholder="e.g. Doe" required>
+                        @error('last_name')<div class="error">Billing Last name is a required field.</div>@enderror
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div>
+                        <label for="gender">Gender <span class="required">*</span></label>
+                        <select class="form-control" id="gender" name="gender" required>
+                            <option value="" disabled selected>Select your gender</option>
+                            <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male</option>
+                            <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female</option>
+                        </select>
+                        @error('gender')<div class="error">Gender is a required field.</div>@enderror
+                    </div>
+                    <div>
+                        <label for="category">Category <span class="required">*</span></label>
+                        <select class="form-control" id="category" name="category" required>
+                            <option value="" disabled selected>Select your category</option>
+                            <option value="individual" {{ old('category') == 'individual' ? 'selected' : '' }}>Individual</option>
+                            <option value="academician" {{ old('category') == 'academician' ? 'selected' : '' }}>Academician</option>
+                            <option value="organization" {{ old('category') == 'organization' ? 'selected' : '' }}>Organization</option>
+                        </select>
+                        @error('category')<div class="error">Category is a required field.</div>@enderror
+                    </div>
+                </div>
+                
+                <!-- B2B Fields (shown only when organization is selected) -->
+                <div id="b2b-fields" style="display: none;">
+                    <div class="form-row">
+                        <div>
+                            <label for="company_name">Company Name <span class="required">*</span></label>
+                            <input type="text" class="form-control" id="company_name" name="company_name" value="{{ old('company_name') }}" placeholder="e.g. ABC Corporation">
+                            @error('company_name')<div class="error">Company name is a required field for organizations.</div>@enderror
+                        </div>
+                        <div>
+                            <label for="business_registration_number">Business Registration Number <span class="required">*</span></label>
+                            <input type="text" class="form-control" id="business_registration_number" name="business_registration_number" value="{{ old('business_registration_number') }}" placeholder="e.g. 123456789">
+                            @error('business_registration_number')<div class="error">Business registration number is a required field for organizations.</div>@enderror
+                        </div>
+                    </div>
+                    <div>
+                        <label for="tax_number">Tax Number (if applicable)</label>
+                        <input type="text" class="form-control" id="tax_number" name="tax_number" value="{{ old('tax_number') }}" placeholder="e.g. TAX123456">
+                        @error('tax_number')<div class="error">{{ $message }}</div>@enderror
+                    </div>
+                </div>
+
+                <div>
+                    <label for="country">Country / Region <span class="required">*</span></label>
+                    <input type="text" class="form-control" id="country" name="country" value="{{ old('country') }}" placeholder="e.g. Malaysia" required pattern="[A-Za-z ]*">
+                    @error('country')<div class="error">Billing Country/Region is a required field.</div>@enderror
+                </div>
+                <div>
+                    <label for="address1">Street Address <span class="required">*</span></label>
+                    <input type="text" class="form-control" id="address1" name="address1" value="{{ old('address1') }}" placeholder="e.g. 123 Jalan Ampang" required>
+                    @error('address1')<div class="error">Billing Street address is a required field.</div>@enderror
+                </div>
+                <div>
+                    <input type="text" class="form-control" id="address2" name="address2" value="{{ old('address2') }}" placeholder="e.g. Apartment 5A, Block B (optional)">
+                </div>
+                <div class="form-row">
+                    <div>
+                        <label for="city">Town / City <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="city" name="city" value="{{ old('city') }}" placeholder="e.g. Kuala Lumpur" required>
+                        @error('city')<div class="error">Billing Town/City is a required field.</div>@enderror
+                    </div>
+                    <div>
+                        <label for="state">State <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="state" name="state" value="{{ old('state') }}" placeholder="e.g. Wilayah Persekutuan" required>
+                        @error('state')<div class="error">Billing State is a required field.</div>@enderror
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div>
+                        <label for="postcode">Postcode / ZIP <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="postcode" name="postcode" value="{{ old('postcode') }}" placeholder="e.g. 50450" required pattern="[0-9]*" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                        @error('postcode')<div class="error">Billing Postcode/ZIP is a required field.</div>@enderror
+                    </div>
+                    <div>
+                        <label for="phone">Phone <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone') }}" placeholder="e.g. 0123456789" required pattern="[0-9]*" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                        @error('phone')<div class="error">Billing Phone is a required field.</div>@enderror
                     </div>
                 </div>
                 <div>
-                    <label for="tax_number">Tax Number (if applicable)</label>
-                    <input type="text" class="form-control" id="tax_number" name="tax_number" value="{{ old('tax_number') }}" placeholder="e.g. TAX123456">
-                    @error('tax_number')<div class="error">{{ $message }}</div>@enderror
+                    <label for="email">Email Address <span class="required">*</span> <i class="fas fa-info-circle" style="color: #ff9800;" data-bs-toggle="tooltip" data-bs-placement="top" title="Please provide your active email address. This will be used to send your purchase confirmation and can be used to retrieve your purchase information if you register an account later."></i></label>
+                    <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="e.g. john@gmail.com" required>
+                    @error('email')<div class="error">Billing Email address is a required field.</div>@enderror
                 </div>
-            </div>
-
-            <div>
-                <label for="country">Country / Region <span class="required">*</span></label>
-                <input type="text" class="form-control" id="country" name="country" value="{{ old('country') }}" placeholder="e.g. Malaysia" required pattern="[A-Za-z ]*">
-                @error('country')<div class="error">Billing Country/Region is a required field.</div>@enderror
-            </div>
-            <div>
-                <label for="address1">Street Address <span class="required">*</span></label>
-                <input type="text" class="form-control" id="address1" name="address1" value="{{ old('address1') }}" placeholder="e.g. 123 Jalan Ampang" required>
-                @error('address1')<div class="error">Billing Street address is a required field.</div>@enderror
-            </div>
-            <div>
-                <input type="text" class="form-control" id="address2" name="address2" value="{{ old('address2') }}" placeholder="e.g. Apartment 5A, Block B (optional)">
-            </div>
-            <div class="form-row">
-                <div>
-                    <label for="city">Town / City <span class="required">*</span></label>
-                    <input type="text" class="form-control" id="city" name="city" value="{{ old('city') }}" placeholder="e.g. Kuala Lumpur" required>
-                    @error('city')<div class="error">Billing Town/City is a required field.</div>@enderror
-                </div>
-                <div>
-                    <label for="state">State <span class="required">*</span></label>
-                    <input type="text" class="form-control" id="state" name="state" value="{{ old('state') }}" placeholder="e.g. Wilayah Persekutuan" required>
-                    @error('state')<div class="error">Billing State is a required field.</div>@enderror
-                </div>
-            </div>
-            <div class="form-row">
-                <div>
-                    <label for="postcode">Postcode / ZIP <span class="required">*</span></label>
-                    <input type="text" class="form-control" id="postcode" name="postcode" value="{{ old('postcode') }}" placeholder="e.g. 50450" required pattern="[0-9]*" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
-                    @error('postcode')<div class="error">Billing Postcode/ZIP is a required field.</div>@enderror
-                </div>
-                <div>
-                    <label for="phone">Phone <span class="required">*</span></label>
-                    <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone') }}" placeholder="e.g. 0123456789" required pattern="[0-9]*" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
-                    @error('phone')<div class="error">Billing Phone is a required field.</div>@enderror
-                </div>
-            </div>
-            <div>
-                <label for="email">Email Address <span class="required">*</span> <i class="fas fa-info-circle" style="color: #ff9800;" data-bs-toggle="tooltip" data-bs-placement="top" title="Please provide your active email address. This will be used to send your purchase confirmation and can be used to retrieve your purchase information if you register an account later."></i></label>
-                <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="e.g. john@gmail.com" required>
-                @error('email')<div class="error">Billing Email address is a required field.</div>@enderror
-            </div>
-        </form>
-    </div>
-    <!-- Order Summary -->
-    <div class="checkout-summary-col">
-        <div class="d-flex justify-content-end mb-3">
-            <a href="{{ route('client.cart.index') }}" class="btn btn-dark" style="background:#020326;border-radius:2rem;padding:0.5rem 1.5rem;font-weight:700;letter-spacing:0.12em;font-size:0.98rem;text-transform:uppercase;box-shadow:none;">Return to Cart</a>
+            </form>
         </div>
-        <div class="checkout-summary-box">
-            <div class="checkout-summary-title">Your Order</div>
-            <div class="d-flex justify-content-between mb-2" style="font-weight:600;">
-                <span>Product</span>
-                <span>Subtotal</span>
+        <!-- Order Summary -->
+        <div class="checkout-summary-col">
+            <div class="d-flex justify-content-end mb-3">
+                <a href="{{ route('client.cart.index') }}" class="btn btn-dark" style="background:#020326;border-radius:2rem;padding:0.5rem 1.5rem;font-weight:700;letter-spacing:0.12em;font-size:0.98rem;text-transform:uppercase;box-shadow:none;">Return to Cart</a>
             </div>
-            <ul class="checkout-summary-list">
-                @php
-                    $originalSubtotal = 0;
-                    $discountedSubtotal = 0;
-                @endphp
-                @foreach($cartItems as $item)
+            <div class="checkout-summary-box">
+                <div class="checkout-summary-title">Your Order</div>
+                <div class="d-flex justify-content-between mb-2" style="font-weight:600;">
+                    <span>Product</span>
+                    <span>Subtotal</span>
+                </div>
+                <ul class="checkout-summary-list">
                     @php
-                        $originalSubtotal += $item->ticket->price * $item->quantity;
-                        $discountedSubtotal += $item->ticket->getDiscountedPrice($item->quantity) * $item->quantity;
+                        $originalSubtotal = 0;
+                        $discountedSubtotal = 0;
                     @endphp
-                    <li>
-                        <span>{{ $item->ticket->name }} &times; {{ $item->quantity }}</span>
-                        <span>
-                            @if($item->ticket->getDiscountedPrice($item->quantity) < $item->ticket->price)
-                                <span class="text-decoration-line-through text-muted">RM {{ number_format($item->ticket->price * $item->quantity, 2) }}</span>
-                                <span class="text-success">RM {{ number_format($item->ticket->getDiscountedPrice($item->quantity) * $item->quantity, 2) }}</span>
-                            @else
-                                RM {{ number_format($item->ticket->price * $item->quantity, 2) }}
-                            @endif
-                        </span>
-                    </li>
-                @endforeach
-                @php
-                    $discount = $originalSubtotal - $discountedSubtotal;
-                @endphp
-            </ul>
-            <div class="d-flex justify-content-between mb-2">
-                <span class="checkout-summary-label">Subtotal</span>
-                <span class="checkout-summary-value">RM {{ number_format($originalSubtotal, 2) }}</span>
+                    @foreach($cartItems as $item)
+                        @php
+                            $originalSubtotal += $item->ticket->price * $item->quantity;
+                            $discountedSubtotal += $item->ticket->getDiscountedPrice($item->quantity) * $item->quantity;
+                        @endphp
+                        <li>
+                            <span>{{ $item->ticket->name }} &times; {{ $item->quantity }}</span>
+                            <span>
+                                @if($item->ticket->getDiscountedPrice($item->quantity) < $item->ticket->price)
+                                    <span class="text-decoration-line-through text-muted">RM {{ number_format($item->ticket->price * $item->quantity, 2) }}</span>
+                                    <span class="text-success">RM {{ number_format($item->ticket->getDiscountedPrice($item->quantity) * $item->quantity, 2) }}</span>
+                                @else
+                                    RM {{ number_format($item->ticket->price * $item->quantity, 2) }}
+                                @endif
+                            </span>
+                        </li>
+                    @endforeach
+                    @php
+                        $discount = $originalSubtotal - $discountedSubtotal;
+                    @endphp
+                </ul>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="checkout-summary-label">Subtotal</span>
+                    <span class="checkout-summary-value">RM {{ number_format($originalSubtotal, 2) }}</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="checkout-summary-label">Discount</span>
+                    <span class="checkout-summary-value text-success">-RM {{ number_format($discount, 2) }}</span>
+                </div>
+                <div class="d-flex justify-content-between checkout-shipping mb-2">
+                    <span>Shipping</span>
+                    <span>Free shipping</span>
+                </div>
+                <hr>
+                <div class="checkout-summary-total">
+                    <span>Total</span>
+                    <span>RM {{ number_format($discountedSubtotal, 2) }}</span>
+                </div>
+                <div class="payment-method">
+                    <input type="radio" class="payment-radio" id="toyyibpay" name="payment_method" value="toyyibpay" checked>
+                    <label for="toyyibpay" class="payment-label">toyyibPay</label>
+                </div>
+                <div class="payment-desc">Pay securely with toyyibPay.</div>
+                <div class="text-muted" style="font-size:0.97rem;">
+                    Your personal data will be used to process your order, support your experience, and for other purposes described in our privacy policy.
+                </div>
+                <button type="submit" form="checkoutForm" class="btn btn-checkout mt-3">Proceed to Payment</button>
             </div>
-            <div class="d-flex justify-content-between mb-2">
-                <span class="checkout-summary-label">Discount</span>
-                <span class="checkout-summary-value text-success">-RM {{ number_format($discount, 2) }}</span>
-            </div>
-            <div class="d-flex justify-content-between checkout-shipping mb-2">
-                <span>Shipping</span>
-                <span>Free shipping</span>
-            </div>
-            <hr>
-            <div class="checkout-summary-total">
-                <span>Total</span>
-                <span>RM {{ number_format($discountedSubtotal, 2) }}</span>
-            </div>
-            <div class="payment-method">
-                <input type="radio" class="payment-radio" id="toyyibpay" name="payment_method" value="toyyibpay" checked>
-                <label for="toyyibpay" class="payment-label">toyyibPay</label>
-            </div>
-            <div class="payment-desc">Pay securely with toyyibPay.</div>
-            <div class="text-muted" style="font-size:0.97rem;">
-                Your personal data will be used to process your order, support your experience, and for other purposes described in our privacy policy.
-            </div>
-            <button type="submit" form="checkoutForm" class="btn btn-checkout mt-3">Proceed to Payment</button>
         </div>
     </div>
 </div>
@@ -848,6 +856,51 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Listen for changes
     categorySelect.addEventListener('change', toggleB2BFields);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Scroll to checkout content
+    const checkoutContent = document.getElementById('checkoutContent');
+    if (checkoutContent) {
+        // Add a small delay to ensure smooth scrolling after page load
+        setTimeout(() => {
+            checkoutContent.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+    }
+
+    // Existing checkout page JavaScript
+    const categorySelect = document.getElementById('category');
+    const b2bFields = document.getElementById('b2b-fields');
+    const companyName = document.getElementById('company_name');
+    const businessRegistrationNumber = document.getElementById('business_registration_number');
+
+    if (categorySelect && b2bFields) {
+        // Show/hide B2B fields based on initial value
+        if (categorySelect.value === 'organization') {
+            b2bFields.style.display = 'block';
+            companyName.required = true;
+            businessRegistrationNumber.required = true;
+        }
+
+        // Show/hide B2B fields on change
+        categorySelect.addEventListener('change', function() {
+            if (this.value === 'organization') {
+                b2bFields.style.display = 'block';
+                companyName.required = true;
+                businessRegistrationNumber.required = true;
+            } else {
+                b2bFields.style.display = 'none';
+                companyName.required = false;
+                businessRegistrationNumber.required = false;
+            }
+        });
+    }
+
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
 });
 </script>
 @endpush

@@ -4,6 +4,10 @@
 
 @push('styles')
 <style>
+    html {
+        scroll-behavior: smooth;
+    }
+
     :root {
         --primary-blue: #2563eb;
         --primary-dark: #1e40af;
@@ -217,7 +221,9 @@
 
     /* Store Section */
     .store-section {
-        padding: 32px 0 32px;
+        padding: 60px 0;
+        min-height: 100vh;
+        background: #f8fafc;
     }
 
     .store-container {
@@ -232,6 +238,10 @@
     .cart-items {
         flex: 2;
         min-width: 0; /* Prevents flex item from overflowing */
+        background: #fff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.05);
     }
 
     /* Cart Summary (Right Column) */
@@ -239,6 +249,7 @@
         flex: 1;
         min-width: 280px;
         max-width: 350px;
+        margin-top: 0;
     }
 
     .store-sidebar {
@@ -552,7 +563,15 @@
     .btn-orange { background: #ff9800; color: #fff; border: none; border-radius: 8px; font-weight: 600; letter-spacing: 1px; }
     .btn-orange:hover { background: #ffb84d; color: #fff; }
     .cart-img { border-radius: 0; width: 44px; height: 44px; object-fit: cover; }
-    .summary-box { border: 1px solid #eee; background: #fff; border-radius: 0; padding: 1.25rem 1rem; }
+    .summary-box {
+        position: sticky;
+        top: 2rem;
+        border: 1px solid #eee;
+        background: #fff;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
     .cart-items { min-width: 0; }
     .cart-table { 
         background: #fff; 
@@ -599,22 +618,39 @@
         padding: 0.5rem 1.25rem;
     }
     @media (max-width: 900px) {
+        .store-section {
+            padding: 40px 0;
+        }
         .store-container {
             flex-direction: column;
             gap: 1.5rem;
-            padding: 0 0.5rem;
+            padding: 0 1rem;
+        }
+        .cart-items {
+            padding: 1.5rem;
         }
         .cart-summary {
             max-width: 100%;
             min-width: 0;
             margin-left: 0 !important;
-            margin-top: 1.5rem;
+            margin-top: 0;
         }
         .summary-box {
+            position: relative;
+            top: 0;
             width: 100%;
         }
     }
     @media (max-width: 576px) {
+        .store-section {
+            padding: 32px 0;
+        }
+        .store-container {
+            padding: 0 0.75rem;
+        }
+        .cart-items {
+            padding: 1rem;
+        }
         .return-btn {
             width: 100%;
         }
@@ -623,7 +659,7 @@
 @endpush
 
 @section('content')
-<!-- Hero Section for Cart Page (same as store page) -->
+<!-- Hero Section -->
 <div class="hero-section-store" id="heroSection">
     <h1 class="hero-title-store">CART</h1>
     <div class="breadcrumb-store">
@@ -634,8 +670,9 @@
         <span>Cart</span>
     </div>
 </div>
-<!-- Cart Section (modern two-column layout) -->
-<div class="store-section">
+
+<!-- Cart Content Section -->
+<div id="cartContent" class="store-section">
     <div class="store-container">
         <!-- Cart Items (Left) -->
         <div class="cart-items">
@@ -663,7 +700,7 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="{{ asset($item->ticket->image) }}" class="cart-img me-2">
+                                        <!-- <img src="{{ asset($item->ticket->image) }}" class="cart-img me-2"> -->
                                         <span>{{ strtoupper($item->ticket->name) }}</span>
                                     </div>
                                 </td>
@@ -984,6 +1021,17 @@ document.addEventListener('DOMContentLoaded', function() {
             // window.location.href = '/checkout?ticket=' + ticketType;
         });
     });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Scroll to cart content
+    const cartContent = document.getElementById('cartContent');
+    if (cartContent) {
+        // Add a small delay to ensure smooth scrolling after page load
+        setTimeout(() => {
+            cartContent.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+    }
 });
 </script>
 @endpush
