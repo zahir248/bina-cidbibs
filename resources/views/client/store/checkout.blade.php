@@ -334,7 +334,7 @@
     .checkout-summary-total {
         font-weight: 700;
         font-size: 1.1rem;
-        color: #bfa600;
+        color: #ff9900;
         display: flex;
         justify-content: space-between;
         margin-top: 1rem;
@@ -346,7 +346,7 @@
     }
 
     .checkout-summary-value {
-        color: #bfa600;
+        color: #ff9900;
         font-weight: 700;
     }
 
@@ -401,6 +401,36 @@
     html, body {
         overflow-x: hidden;
     }
+
+    /* Custom radio button styles */
+    input[type="radio"] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #ff9900;
+        border-radius: 50%;
+        outline: none;
+        position: relative;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    input[type="radio"]:checked {
+        background-color: #ff9900;
+    }
+
+    input[type="radio"]:checked::before {
+        content: '';
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: white;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 </style>
 @endpush
 
@@ -453,7 +483,7 @@
                         @error('gender')<div class="error">Gender is a required field.</div>@enderror
                     </div>
                     <div>
-                        <label for="category">Category <span class="required">*</span></label>
+                        <label for="category">Category <span class="required">*</span> <i class="fas fa-info-circle" style="color: #ff9800;" data-bs-toggle="tooltip" data-bs-placement="top" title="For B2B transactions, select 'Organization' to enable FPX online banking for corporate payments."></i></label>
                         <select class="form-control" id="category" name="category" required>
                             <option value="" disabled selected>Select your category</option>
                             <option value="individual" {{ old('category') == 'individual' ? 'selected' : '' }}>Individual</option>
@@ -482,6 +512,22 @@
                         <label for="tax_number">Tax Number (if applicable)</label>
                         <input type="text" class="form-control" id="tax_number" name="tax_number" value="{{ old('tax_number') }}" placeholder="e.g. TAX123456">
                         @error('tax_number')<div class="error">{{ $message }}</div>@enderror
+                    </div>
+                </div>
+
+                <!-- Academician Fields (shown only when academician is selected) -->
+                <div id="academician-fields" style="display: none;">
+                    <div class="form-row">
+                        <div>
+                            <label for="student_id">Student ID <span class="required">*</span></label>
+                            <input type="text" class="form-control" id="student_id" name="student_id" value="{{ old('student_id') }}" placeholder="e.g. A12345">
+                            @error('student_id')<div class="error">Student ID is a required field for academicians.</div>@enderror
+                        </div>
+                        <div>
+                            <label for="academic_institution">Academic Institution <span class="required">*</span></label>
+                            <input type="text" class="form-control" id="academic_institution" name="academic_institution" value="{{ old('academic_institution') }}" placeholder="e.g. University of Malaysia">
+                            @error('academic_institution')<div class="error">Academic Institution is a required field for academicians.</div>@enderror
+                        </div>
                     </div>
                 </div>
 
@@ -583,15 +629,67 @@
                     <span>Total</span>
                     <span>RM {{ number_format($discountedSubtotal, 2) }}</span>
                 </div>
-                <div class="payment-method">
-                    <input type="radio" class="payment-radio" id="toyyibpay" name="payment_method" value="toyyibpay" checked>
-                    <label for="toyyibpay" class="payment-label">toyyibPay</label>
+                <div class="payment-info mt-3">
+                    <h6 class="mb-3">Available Payment Methods:</h6>
+                    <div class="payment-method-info mb-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-university me-2"></i>
+                            <strong>FPX Online Banking (Malaysia Only)</strong>
+                        </div>
+                        <div class="ms-4 text-muted">Pay securely with ToyyibPay FPX.</div>
+                    </div>
+                    <div class="payment-method-info mb-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-credit-card me-2"></i>
+                            <strong>Credit/Debit Card (International)</strong>
+                        </div>
+                        <div class="ms-4 text-muted">Pay securely with Stripe.</div>
+                    </div>
                 </div>
-                <div class="payment-desc">Pay securely with toyyibPay.</div>
-                <div class="text-muted" style="font-size:0.97rem;">
+                <div class="text-muted mt-3" style="font-size:0.97rem;">
                     Your personal data will be used to process your order, support your experience, and for other purposes described in our privacy policy.
                 </div>
                 <button type="submit" form="checkoutForm" class="btn btn-checkout mt-3">Proceed to Payment</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Method Modal -->
+<div class="modal fade" id="paymentMethodModal" tabindex="-1" aria-labelledby="paymentMethodModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentMethodModalLabel">Select Payment Method</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="payment-method-option mb-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <input type="radio" name="modal_payment_method" id="modal_toyyibpay" value="toyyibpay" class="me-2">
+                        <label for="modal_toyyibpay" class="mb-0">
+                            <strong>FPX Online Banking (Malaysia Only)</strong>
+                        </label>
+                    </div>
+                    <div class="ms-4 text-muted">
+                        Pay securely using Malaysian online banking via ToyyibPay FPX.
+                    </div>
+                </div>
+                <div class="payment-method-option">
+                    <div class="d-flex align-items-center mb-2">
+                        <input type="radio" name="modal_payment_method" id="modal_stripe" value="stripe" class="me-2">
+                        <label for="modal_stripe" class="mb-0">
+                            <strong>Credit/Debit Card (International)</strong>
+                        </label>
+                    </div>
+                    <div class="ms-4 text-muted">
+                        Pay securely using credit or debit card via Stripe.
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn rounded-pill px-4" id="confirmPaymentMethod" style="background-color: #ff9900; color: white;">Continue to Payment</button>
             </div>
         </div>
     </div>
@@ -814,14 +912,43 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('checkoutForm');
     const button = document.querySelector('.btn-checkout[form="checkoutForm"]');
+    const paymentMethodModal = new bootstrap.Modal(document.getElementById('paymentMethodModal'));
+    
     if (form && button) {
         button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
             if (!form.checkValidity()) {
-                e.preventDefault();
                 form.reportValidity();
+                return;
             }
+            
+            // Show payment method modal
+            paymentMethodModal.show();
         });
     }
+    
+    // Handle payment method selection
+    document.getElementById('confirmPaymentMethod').addEventListener('click', function() {
+        const selectedMethod = document.querySelector('input[name="modal_payment_method"]:checked');
+        if (!selectedMethod) {
+            alert('Please select a payment method');
+            return;
+        }
+        
+        // Add payment_method to form data
+        const paymentMethodInput = document.createElement('input');
+        paymentMethodInput.type = 'hidden';
+        paymentMethodInput.name = 'payment_method';
+        paymentMethodInput.value = selectedMethod.value;
+        form.appendChild(paymentMethodInput);
+        
+        // Hide modal
+        paymentMethodModal.hide();
+        
+        // Submit form
+        form.submit();
+    });
 });
 
 // Initialize tooltips
@@ -836,18 +963,34 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     const categorySelect = document.getElementById('category');
     const b2bFields = document.getElementById('b2b-fields');
+    const academicianFields = document.getElementById('academician-fields');
     const companyName = document.getElementById('company_name');
-    const businessRegNumber = document.getElementById('business_registration_number');
+    const businessRegistrationNumber = document.getElementById('business_registration_number');
+    const studentId = document.getElementById('student_id');
+    const academicInstitution = document.getElementById('academic_institution');
 
     function toggleB2BFields() {
         if (categorySelect.value === 'organization') {
             b2bFields.style.display = 'block';
+            academicianFields.style.display = 'none';
             companyName.required = true;
-            businessRegNumber.required = true;
+            businessRegistrationNumber.required = true;
+            studentId.required = false;
+            academicInstitution.required = false;
+        } else if (categorySelect.value === 'academician') {
+            b2bFields.style.display = 'none';
+            academicianFields.style.display = 'block';
+            companyName.required = false;
+            businessRegistrationNumber.required = false;
+            studentId.required = true;
+            academicInstitution.required = true;
         } else {
             b2bFields.style.display = 'none';
+            academicianFields.style.display = 'none';
             companyName.required = false;
-            businessRegNumber.required = false;
+            businessRegistrationNumber.required = false;
+            studentId.required = false;
+            academicInstitution.required = false;
         }
     }
 
@@ -871,27 +1014,53 @@ document.addEventListener('DOMContentLoaded', function() {
     // Existing checkout page JavaScript
     const categorySelect = document.getElementById('category');
     const b2bFields = document.getElementById('b2b-fields');
+    const academicianFields = document.getElementById('academician-fields');
     const companyName = document.getElementById('company_name');
     const businessRegistrationNumber = document.getElementById('business_registration_number');
+    const studentId = document.getElementById('student_id');
+    const academicInstitution = document.getElementById('academic_institution');
 
-    if (categorySelect && b2bFields) {
-        // Show/hide B2B fields based on initial value
+    if (categorySelect) {
+        // Show/hide fields based on initial value
         if (categorySelect.value === 'organization') {
             b2bFields.style.display = 'block';
+            academicianFields.style.display = 'none';
             companyName.required = true;
             businessRegistrationNumber.required = true;
+            studentId.required = false;
+            academicInstitution.required = false;
+        } else if (categorySelect.value === 'academician') {
+            b2bFields.style.display = 'none';
+            academicianFields.style.display = 'block';
+            companyName.required = false;
+            businessRegistrationNumber.required = false;
+            studentId.required = true;
+            academicInstitution.required = true;
         }
 
-        // Show/hide B2B fields on change
+        // Show/hide fields on change
         categorySelect.addEventListener('change', function() {
             if (this.value === 'organization') {
                 b2bFields.style.display = 'block';
+                academicianFields.style.display = 'none';
                 companyName.required = true;
                 businessRegistrationNumber.required = true;
-            } else {
+                studentId.required = false;
+                academicInstitution.required = false;
+            } else if (this.value === 'academician') {
                 b2bFields.style.display = 'none';
+                academicianFields.style.display = 'block';
                 companyName.required = false;
                 businessRegistrationNumber.required = false;
+                studentId.required = true;
+                academicInstitution.required = true;
+            } else {
+                b2bFields.style.display = 'none';
+                academicianFields.style.display = 'none';
+                companyName.required = false;
+                businessRegistrationNumber.required = false;
+                studentId.required = false;
+                academicInstitution.required = false;
             }
         });
     }

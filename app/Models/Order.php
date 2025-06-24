@@ -11,13 +11,17 @@ class Order extends Model
         'reference_number',
         'total_amount',
         'status',
-        'payment_status',
-        'cart_items'
+        'cart_items',
+        'payment_id',
+        'payment_method',
+        'payment_country',
+        'processing_fee'
     ];
 
     protected $casts = [
         'cart_items' => 'array',
-        'total_amount' => 'decimal:2'
+        'total_amount' => 'decimal:2',
+        'processing_fee' => 'decimal:2'
     ];
 
     public function billingDetail()

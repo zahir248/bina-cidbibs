@@ -121,6 +121,12 @@ Route::post('/checkout', [CheckoutController::class, 'process'])->name('client.c
 // Payment callback route
 Route::get('/payment/callback', [\App\Http\Controllers\Client\CheckoutController::class, 'paymentCallback'])->name('payment.callback');
 
+// Stripe payment callback route
+Route::get('/payment/stripe/callback', [\App\Http\Controllers\Client\CheckoutController::class, 'stripeCallback'])->name('client.stripe.callback');
+
+// Payment routes
+Route::post('/payment/update-amount', [CheckoutController::class, 'updatePaymentAmount'])->name('update.payment.amount');
+
 // Community routes
 Route::prefix('community')->middleware(['auth'])->group(function () {
     Route::get('/', [App\Http\Controllers\Client\CommunityController::class, 'index'])->name('client.community');

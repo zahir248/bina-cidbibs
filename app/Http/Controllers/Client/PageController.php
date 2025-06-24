@@ -19,10 +19,20 @@ class PageController extends Controller
     public function store()
     {
         $tickets = \App\Models\Ticket::all();
-        $sessionId = request()->session()->getId();
-        $cartItems = \App\Models\CartItem::with('ticket')
-            ->where('session_id', $sessionId)
-            ->get();
+        $query = \App\Models\CartItem::with('ticket');
+        
+        if (auth()->check()) {
+            // If user is logged in, get items by user_id or session_id
+            $query->where(function($q) {
+                $q->where('user_id', auth()->id())
+                  ->orWhere('session_id', request()->session()->getId());
+            });
+        } else {
+            // If user is not logged in, get items by session_id only
+            $query->where('session_id', request()->session()->getId());
+        }
+        
+        $cartItems = $query->get();
         
         $cartTotal = $cartItems->sum(function($item) {
             return $item->ticket->getDiscountedPrice($item->quantity) * $item->quantity;
@@ -34,10 +44,20 @@ class PageController extends Controller
     public function ticketDetail($id)
     {
         $ticket = \App\Models\Ticket::findOrFail($id);
-        $sessionId = request()->session()->getId();
-        $cartItems = \App\Models\CartItem::with('ticket')
-            ->where('session_id', $sessionId)
-            ->get();
+        $query = \App\Models\CartItem::with('ticket');
+        
+        if (auth()->check()) {
+            // If user is logged in, get items by user_id or session_id
+            $query->where(function($q) {
+                $q->where('user_id', auth()->id())
+                  ->orWhere('session_id', request()->session()->getId());
+            });
+        } else {
+            // If user is not logged in, get items by session_id only
+            $query->where('session_id', request()->session()->getId());
+        }
+        
+        $cartItems = $query->get();
         
         $cartTotal = $cartItems->sum(function($item) {
             return $item->ticket->getDiscountedPrice($item->quantity) * $item->quantity;

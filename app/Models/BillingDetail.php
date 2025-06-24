@@ -23,7 +23,9 @@ class BillingDetail extends Model
         'email',
         'company_name',
         'business_registration_number',
-        'tax_number'
+        'tax_number',
+        'student_id',
+        'academic_institution'
     ];
 
     public function orders()
