@@ -32,7 +32,9 @@ class ReportsController extends Controller
             'total_sold' => $this->getTotalSold(),
             'monthly_sales' => $this->getMonthlySales(),
             'ticket_types' => $this->getTicketTypeStats(),
-            'total_revenue' => Order::where('status', 'paid')->sum('total_amount'),
+            'total_revenue' => Order::where('status', 'paid')
+                ->selectRaw('SUM(total_amount - COALESCE(processing_fee, 0)) as total')
+                ->value('total'),
         ];
 
         return view('admin.reports.index', compact('ticketStats'));
@@ -68,7 +70,8 @@ class ReportsController extends Controller
                         'total_revenue' => Order::where('status', 'paid')
                             ->whereMonth('created_at', $month)
                             ->whereYear('created_at', $year)
-                            ->sum('total_amount'),
+                            ->selectRaw('SUM(total_amount - COALESCE(processing_fee, 0)) as total')
+                            ->value('total'),
                     ];
                     break;
                 
@@ -81,7 +84,8 @@ class ReportsController extends Controller
                         'total_revenue' => Order::where('status', 'paid')
                             ->whereMonth('created_at', $month)
                             ->whereYear('created_at', $year)
-                            ->sum('total_amount'),
+                            ->selectRaw('SUM(total_amount - COALESCE(processing_fee, 0)) as total')
+                            ->value('total'),
                     ];
             }
 
@@ -151,7 +155,7 @@ class ReportsController extends Controller
             }
 
             $salesByDate[$date]['total_quantity'] += $totalQuantity;
-            $salesByDate[$date]['total_amount'] += $order->total_amount;
+            $salesByDate[$date]['total_amount'] += ($order->total_amount - ($order->processing_fee ?? 0));
         }
 
         return collect($salesByDate)->map(function ($data, $date) {

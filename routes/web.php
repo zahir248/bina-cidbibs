@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\TicketController;
 use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\DocumentationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -179,8 +180,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/logout', [AdminAuthController::class, 'handleGetLogout'])->name('admin.logout.get');
 
     Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
-        // Route::get('/dashboard', [AdminAuthController::class, 'dashboard'])->name('dashboard');
-        
         // Profile Routes
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
         Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -208,5 +207,9 @@ Route::middleware('auth')->group(function () {
 
         // Schedule management routes
         Route::resource('schedules', \App\Http\Controllers\Admin\ScheduleController::class);
+
+        // Documentation routes
+        Route::get('/documentation', [DocumentationController::class, 'index'])->name('documentation.index');
+        Route::get('/documentation/download/{type}', [DocumentationController::class, 'downloadPdf'])->name('documentation.download');
     });
 });

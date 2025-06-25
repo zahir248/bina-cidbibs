@@ -31,6 +31,7 @@ class UserController extends Controller
         // Get client users with pagination
         $clientUsers = (clone $query)
             ->where('role', 'client')
+            ->with('profile')  // Eager load user profiles
             ->paginate(10);
 
         return view('admin.users.index', compact('adminUsers', 'clientUsers'));

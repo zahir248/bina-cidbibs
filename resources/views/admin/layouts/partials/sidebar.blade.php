@@ -9,6 +9,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.documentation.*') ? 'active' : '' }}" href="{{ route('admin.documentation.index') }}">
+                    <i class="bi bi-book"></i>
+                    Documentation
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('admin.events.*') ? 'active' : '' }}" href="{{ route('admin.events.index') }}">
                     <i class="bi bi-calendar-event"></i>
                     Events

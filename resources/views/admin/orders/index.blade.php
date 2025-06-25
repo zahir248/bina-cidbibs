@@ -14,7 +14,7 @@
                     <!-- Search Form -->
                     <div class="mb-3">
                         <form id="searchForm" class="row g-3">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="searchReference" placeholder="Search by Reference Number">
                                     <button class="btn btn-primary" type="submit">
@@ -22,12 +22,113 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
+                                <select class="form-select" id="paymentMethod">
+                                    <option value="">All Payment Methods</option>
+                                    <option value="stripe">Stripe</option>
+                                    <option value="toyyibpay">ToyyibPay</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select" id="paymentCountry">
+                                    <option value="">All Countries</option>
+                                    <option value="Afghanistan">Afghanistan</option>
+                                    <option value="Albania">Albania</option>
+                                    <option value="Algeria">Algeria</option>
+                                    <option value="Andorra">Andorra</option>
+                                    <option value="Angola">Angola</option>
+                                    <option value="Argentina">Argentina</option>
+                                    <option value="Armenia">Armenia</option>
+                                    <option value="Australia">Australia</option>
+                                    <option value="Austria">Austria</option>
+                                    <option value="Azerbaijan">Azerbaijan</option>
+                                    <option value="Bahamas">Bahamas</option>
+                                    <option value="Bahrain">Bahrain</option>
+                                    <option value="Bangladesh">Bangladesh</option>
+                                    <option value="Barbados">Barbados</option>
+                                    <option value="Belarus">Belarus</option>
+                                    <option value="Belgium">Belgium</option>
+                                    <option value="Belize">Belize</option>
+                                    <option value="Benin">Benin</option>
+                                    <option value="Bhutan">Bhutan</option>
+                                    <option value="Bolivia">Bolivia</option>
+                                    <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+                                    <option value="Botswana">Botswana</option>
+                                    <option value="Brazil">Brazil</option>
+                                    <option value="Brunei">Brunei</option>
+                                    <option value="Bulgaria">Bulgaria</option>
+                                    <option value="Burkina Faso">Burkina Faso</option>
+                                    <option value="Burundi">Burundi</option>
+                                    <option value="Cambodia">Cambodia</option>
+                                    <option value="Cameroon">Cameroon</option>
+                                    <option value="Canada">Canada</option>
+                                    <option value="China">China</option>
+                                    <option value="Colombia">Colombia</option>
+                                    <option value="Denmark">Denmark</option>
+                                    <option value="Egypt">Egypt</option>
+                                    <option value="Finland">Finland</option>
+                                    <option value="France">France</option>
+                                    <option value="Germany">Germany</option>
+                                    <option value="Greece">Greece</option>
+                                    <option value="Hong Kong">Hong Kong</option>
+                                    <option value="Hungary">Hungary</option>
+                                    <option value="Iceland">Iceland</option>
+                                    <option value="India">India</option>
+                                    <option value="Indonesia">Indonesia</option>
+                                    <option value="Iran">Iran</option>
+                                    <option value="Iraq">Iraq</option>
+                                    <option value="Ireland">Ireland</option>
+                                    <option value="Israel">Israel</option>
+                                    <option value="Italy">Italy</option>
+                                    <option value="Jamaica">Jamaica</option>
+                                    <option value="Japan">Japan</option>
+                                    <option value="Jordan">Jordan</option>
+                                    <option value="Kazakhstan">Kazakhstan</option>
+                                    <option value="Kenya">Kenya</option>
+                                    <option value="Kuwait">Kuwait</option>
+                                    <option value="Malaysia">Malaysia</option>
+                                    <option value="Maldives">Maldives</option>
+                                    <option value="Mexico">Mexico</option>
+                                    <option value="Morocco">Morocco</option>
+                                    <option value="Myanmar">Myanmar</option>
+                                    <option value="Nepal">Nepal</option>
+                                    <option value="Netherlands">Netherlands</option>
+                                    <option value="New Zealand">New Zealand</option>
+                                    <option value="Nigeria">Nigeria</option>
+                                    <option value="Norway">Norway</option>
+                                    <option value="Oman">Oman</option>
+                                    <option value="Pakistan">Pakistan</option>
+                                    <option value="Philippines">Philippines</option>
+                                    <option value="Poland">Poland</option>
+                                    <option value="Portugal">Portugal</option>
+                                    <option value="Qatar">Qatar</option>
+                                    <option value="Romania">Romania</option>
+                                    <option value="Russia">Russia</option>
+                                    <option value="Saudi Arabia">Saudi Arabia</option>
+                                    <option value="Singapore">Singapore</option>
+                                    <option value="South Africa">South Africa</option>
+                                    <option value="South Korea">South Korea</option>
+                                    <option value="Spain">Spain</option>
+                                    <option value="Sri Lanka">Sri Lanka</option>
+                                    <option value="Sweden">Sweden</option>
+                                    <option value="Switzerland">Switzerland</option>
+                                    <option value="Taiwan">Taiwan</option>
+                                    <option value="Thailand">Thailand</option>
+                                    <option value="Turkey">Turkey</option>
+                                    <option value="Ukraine">Ukraine</option>
+                                    <option value="United Arab Emirates">United Arab Emirates</option>
+                                    <option value="United Kingdom">United Kingdom</option>
+                                    <option value="United States">United States</option>
+                                    <option value="Vietnam">Vietnam</option>
+                                    <option value="Yemen">Yemen</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
                                 <div class="input-group">
                                     <input type="date" class="form-control" id="startDate" placeholder="Start Date">
                                     <span class="input-group-text">to</span>
                                     <input type="date" class="form-control" id="endDate" placeholder="End Date">
-                                    <button class="btn btn-secondary" type="button" id="clearDates">
+                                    <button class="btn btn-secondary" type="button" id="clearFilters">
                                         <i class="bi bi-x-circle"></i> Clear
                                     </button>
                                 </div>
@@ -43,6 +144,10 @@
                                     <th>Total Amount</th>
                                     <th>Cart Items</th>
                                     <th>Billing Details</th>
+                                    <th>Payment Method</th>
+                                    <th>Payment Country</th>
+                                    <th>Processing Fee</th>
+                                    <th>Payment ID</th>
                                     <th>Created At</th>
                                     <th>Status</th>
                                     <th>Actions</th>
@@ -58,7 +163,9 @@
                                         <a href="#" class="text-primary view-items" 
                                            data-bs-toggle="modal" 
                                            data-bs-target="#itemsModal"
-                                           data-order-id="{{ $order->id }}">
+                                           data-order-id="{{ $order->id }}"
+                                           data-processing-fee="{{ $order->processing_fee ?? 0 }}"
+                                           data-total-amount="{{ $order->total_amount }}">
                                             View Items
                                         </a>
                                     </td>
@@ -70,6 +177,10 @@
                                             View Details
                                         </a>
                                     </td>
+                                    <td>{{ ucfirst($order->payment_method ?? 'N/A') }}</td>
+                                    <td>{{ $order->payment_country ?? 'N/A' }}</td>
+                                    <td>RM {{ number_format($order->processing_fee ?? 0, 2) }}</td>
+                                    <td>{{ $order->payment_id ?? 'N/A' }}</td>
                                     <td>{{ $order->created_at->format('Y-m-d H:i:s') }}</td>
                                     <td>
                                         <span class="badge bg-{{ $order->status === 'paid' ? 'success' : 'warning' }}">
@@ -145,6 +256,20 @@
                         </thead>
                         <tbody id="items-table-body">
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-end"><strong>Subtotal:</strong></td>
+                                <td id="items-subtotal"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="text-end"><strong>Processing Fee:</strong></td>
+                                <td id="items-processing-fee"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="text-end"><strong>Total Amount:</strong></td>
+                                <td id="items-total"></td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -161,13 +286,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchReference');
     const startDateInput = document.getElementById('startDate');
     const endDateInput = document.getElementById('endDate');
-    const clearDatesBtn = document.getElementById('clearDates');
+    const paymentMethodSelect = document.getElementById('paymentMethod');
+    const paymentCountrySelect = document.getElementById('paymentCountry');
+    const clearFiltersBtn = document.getElementById('clearFilters');
     const tableRows = document.querySelectorAll('tbody tr');
 
     function filterTable() {
         const searchTerm = searchInput.value.toLowerCase().trim();
         const startDate = startDateInput.value ? new Date(startDateInput.value) : null;
         const endDate = endDateInput.value ? new Date(endDateInput.value) : null;
+        const selectedPaymentMethod = paymentMethodSelect.value.toLowerCase();
+        const selectedPaymentCountry = paymentCountrySelect.value;
 
         // Set end date to end of day if it exists
         if (endDate) {
@@ -176,15 +305,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
         tableRows.forEach(row => {
             const referenceCell = row.querySelector('td:nth-child(2)');
-            const dateCell = row.querySelector('td:nth-child(6)');
+            const dateCell = row.querySelector('td:nth-child(10)');
+            const paymentMethodCell = row.querySelector('td:nth-child(6)');
+            const paymentCountryCell = row.querySelector('td:nth-child(7)');
+
             const referenceNumber = referenceCell.textContent.toLowerCase();
             const orderDate = new Date(dateCell.textContent);
+            const paymentMethod = paymentMethodCell.textContent.toLowerCase();
+            const paymentCountry = paymentCountryCell.textContent.trim();
 
             const matchesSearch = referenceNumber.includes(searchTerm);
             const matchesDateRange = (!startDate || orderDate >= startDate) && 
                                    (!endDate || orderDate <= endDate);
+            const matchesPaymentMethod = !selectedPaymentMethod || paymentMethod.includes(selectedPaymentMethod);
+            const matchesPaymentCountry = !selectedPaymentCountry || paymentCountry === selectedPaymentCountry;
 
-            row.style.display = (matchesSearch && matchesDateRange) ? '' : 'none';
+            row.style.display = (matchesSearch && matchesDateRange && 
+                               matchesPaymentMethod && matchesPaymentCountry) ? '' : 'none';
         });
     }
 
@@ -193,14 +330,19 @@ document.addEventListener('DOMContentLoaded', function() {
         filterTable();
     });
 
-    // Filter when dates change
+    // Filter when any filter changes
     startDateInput.addEventListener('change', filterTable);
     endDateInput.addEventListener('change', filterTable);
+    paymentMethodSelect.addEventListener('change', filterTable);
+    paymentCountrySelect.addEventListener('change', filterTable);
 
-    // Clear dates button
-    clearDatesBtn.addEventListener('click', function() {
+    // Clear filters button
+    clearFiltersBtn.addEventListener('click', function() {
+        searchInput.value = '';
         startDateInput.value = '';
         endDateInput.value = '';
+        paymentMethodSelect.value = '';
+        paymentCountrySelect.value = '';
         filterTable();
     });
 
@@ -252,14 +394,17 @@ document.addEventListener('DOMContentLoaded', function() {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             const orderId = this.dataset.orderId;
+            const processingFee = parseFloat(this.dataset.processingFee);
+            const totalAmount = parseFloat(this.dataset.totalAmount);
             
             // Fetch cart items
             fetch(`/admin/orders/${orderId}/items`)
-            // fetch({{ url('admin/orders') }}/${orderId}/items)
                 .then(response => response.json())
                 .then(data => {
                     const tbody = document.getElementById('items-table-body');
                     tbody.innerHTML = '';
+                    
+                    let subtotal = 0;
                     
                     data.forEach(item => {
                         // Calculate discounted subtotal
@@ -267,6 +412,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             ? (parseFloat(item.discounted_price) * parseInt(item.quantity))
                             : (parseFloat(item.price) * parseInt(item.quantity));
                         const discountedPrice = item.discounted_price !== undefined ? item.discounted_price : item.price;
+                        
+                        subtotal += discountedSubtotal;
+                        
                         const row = document.createElement('tr');
                         row.innerHTML = `
                             <td>${item.ticket_name}</td>
@@ -276,6 +424,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         `;
                         tbody.appendChild(row);
                     });
+
+                    // Update summary
+                    document.getElementById('items-subtotal').textContent = `RM ${subtotal.toFixed(2)}`;
+                    document.getElementById('items-processing-fee').textContent = `RM ${processingFee.toFixed(2)}`;
+                    document.getElementById('items-total').textContent = `RM ${totalAmount.toFixed(2)}`;
                 })
                 .catch(error => {
                     console.error('Error fetching cart items:', error);

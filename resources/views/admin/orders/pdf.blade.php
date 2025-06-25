@@ -132,8 +132,31 @@
         <div class="total">
             <div>Subtotal: RM {{ number_format($originalSubtotal, 2) }}</div>
             <div>Discount: - RM {{ number_format($discount, 2) }}</div>
-            <div><strong>Total Amount: RM {{ number_format($discountedSubtotal, 2) }}</strong></div>
+            <div>Processing Fee: RM {{ number_format($order->processing_fee ?? 0, 2) }}</div>
+            <div><strong>Total Amount: RM {{ number_format($order->total_amount, 2) }}</strong></div>
         </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Payment Details</div>
+        <table>
+            <tr>
+                <th>Payment Method</th>
+                <td>{{ ucfirst($order->payment_method ?? 'N/A') }}</td>
+            </tr>
+            <tr>
+                <th>Payment Country</th>
+                <td>{{ $order->payment_country ?? 'N/A' }}</td>
+            </tr>
+            <tr>
+                <th>Payment ID</th>
+                <td>{{ $order->payment_id ?? 'N/A' }}</td>
+            </tr>
+            <tr>
+                <th>Processing Fee</th>
+                <td>RM {{ number_format($order->processing_fee ?? 0, 2) }}</td>
+            </tr>
+        </table>
     </div>
 
     <div class="section">

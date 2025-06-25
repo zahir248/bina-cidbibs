@@ -55,8 +55,8 @@ class AuthController extends Controller
 
     public function dashboard()
     {
-        // Get total users
-        $totalUsers = User::count();
+        // Get total users (excluding superadmin)
+        $totalUsers = User::where('role', '!=', 'superadmin')->count();
 
         // Get gender statistics from billing details
         $genderStats = DB::table('billing_details')
@@ -94,7 +94,9 @@ class AuthController extends Controller
 
         // Get total orders and calculate revenue
         $totalOrders = Order::count();
-        $totalRevenue = Order::where('status', 'paid')->sum('total_amount');
+        $totalRevenue = Order::where('status', 'paid')
+            ->selectRaw('SUM(total_amount - COALESCE(processing_fee, 0)) as total')
+            ->value('total');
 
         // Calculate success rate (percentage of paid orders)
         $successRate = $totalOrders > 0 
@@ -114,12 +116,14 @@ class AuthController extends Controller
         // Calculate revenue for today and this month
         $todayRevenue = Order::where('status', 'paid')
             ->whereDate('created_at', Carbon::today())
-            ->sum('total_amount');
+            ->selectRaw('SUM(total_amount - COALESCE(processing_fee, 0)) as total')
+            ->value('total') ?? 0;
 
         $monthlyRevenue = Order::where('status', 'paid')
             ->whereMonth('created_at', Carbon::now()->month)
             ->whereYear('created_at', Carbon::now()->year)
-            ->sum('total_amount');
+            ->selectRaw('SUM(total_amount - COALESCE(processing_fee, 0)) as total')
+            ->value('total') ?? 0;
 
         // Calculate sold quantity for every ticket
         $tickets = \App\Models\Ticket::all();
