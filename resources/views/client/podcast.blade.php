@@ -344,40 +344,85 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Episode 1 - Info Row -->
+                                @forelse($binaPodcasts as $podcast)
+                                <!-- Episode Info Row -->
                                 <tr>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;width:25%;">
-                                        <div style="font-weight:600;font-size:1.1rem;margin-bottom:0.5rem;">Ep. 1</div>
-                                        <div style="font-size:0.9rem;color:#64748b;">(Live Streaming - ICW Borneo)</div>
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;width:35%;">
-                                        <div style="font-weight:600;font-size:1.1rem;margin-bottom:0.5rem;">Panel:</div>
-                                        <div style="line-height:1.6;">
-                                            Prof. Ir. Resdiansyah
-                                            <div style="font-size:0.9rem;color:#64748b;margin-top:0.25rem;">Senior Advisor of Infrastructure and Regional Development, Indonesia</div>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="font-weight:600;font-size:1.1rem;margin-bottom:0.5rem;">
+                                            @if($podcast->is_special)
+                                                Special Edition
+                                            @else
+                                                Ep. {{ $podcast->episode_number }}
+                                            @endif
+                                        </div>
+                                        @if($podcast->is_live_streaming)
+                                        <div style="font-size:0.9rem;color:#64748b;">(Live Streaming - {{ $podcast->live_streaming_event }})</div>
+                                        @endif
+                                        <div style="font-size:0.9rem;color:#64748b;margin-top:0.5rem;">
+                                            {!! $podcast->description !!}
                                         </div>
                                     </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;width:40%;">
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        @if($podcast->panelists)
+                                            @foreach($podcast->panelists as $panelist)
                                         <div style="line-height:1.6;">
-                                            BINA - ICW Borneo:<br>
-                                            <i>Building Green – How Construction Technology Leads the Sustainable Revolution</i>
+                                                @if($loop->first)
+                                                <div style="font-weight:600;margin-bottom:0.5rem;">Panel{{ count($podcast->panelists) > 1 ? ' ' . $loop->iteration : '' }}:</div>
+                                                @else
+                                                <div style="font-weight:600;margin-top:0.5rem;">Panel {{ $loop->iteration }}:</div>
+                                                @endif
+                                                @php
+                                                    $parts = explode(' - ', $panelist, 2);
+                                                    $name = $parts[0];
+                                                    $title = isset($parts[1]) ? $parts[1] : '';
+                                                @endphp
+                                                {{ $name }}
+                                                @if($title)
+                                                <div style="font-size:0.9rem;color:#64748b;margin-top:0.25rem;">{{ $title }}</div>
+                                                @endif
+                                        </div>
+                                            @endforeach
+                                        @else
+                                            <div style="color:#64748b;">TBA</div>
+                                        @endif
+                                    </td>
+                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
+                                        <div style="line-height:1.6;">
+                                            {!! $podcast->formatted_title !!}
                                         </div>
                                     </td>
                                 </tr>
-                                <!-- Episode 1 - Media Row -->
+                                <!-- Episode Media Row -->
                                 <tr>
                                     <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
+                                        @if($podcast->is_coming_soon)
+                                        <div class="coming-soon-container">
+                                            <div class="coming-soon-text">
+                                                Coming Soon <span class="pulse-dot"></span>
+                                                </div>
+                                            <div class="coming-soon-subtext">
+                                                Stay tuned for exciting content from this episode!
+                                                </div>
+                                            </div>
+                                        @else
                                         <div class="d-flex flex-column gap-4" style="max-width:800px;margin:0 auto;">
                                             <!-- Image and Buttons Section -->
                                             <div class="d-flex flex-column flex-md-row align-items-center gap-4" style="width:450px;">
                                                 <!-- Speaker Image -->
                                                 <div style="width:320px;height:240px;flex-shrink:0;background:#f8fafc;border-radius:1rem;overflow:hidden;display:flex;align-items:center;justify-content:center;">
-                                                    <img src="{{ asset('images/posterbina-ep1.png') }}" 
-                                                         alt="Speaker" 
+                                                    @if($podcast->image)
+                                                    <img src="{{ $podcast->formatted_image_url }}" 
+                                                         alt="@if($podcast->is_special)Special Edition @else Episode {{ $podcast->episode_number }} @endif" 
                                                          data-bs-toggle="modal"
                                                          data-bs-target="#imageModal"
                                                          onclick="showImage(this.src)"
                                                          style="max-width:100%;max-height:100%;object-fit:contain;border-radius:0.75rem;cursor:pointer;">
+                                                    @else
+                                                    <div style="color:#64748b;text-align:center;">
+                                                        <i class="fas fa-image fa-3x mb-2"></i><br>
+                                                        No image available
+                                                </div>
+                                                    @endif
                                                 </div>
                                                 <!-- Buttons Section -->
                                                 <div class="flex-grow-1 d-flex flex-column gap-2" style="min-width:110px;">
@@ -386,306 +431,51 @@
                                                        style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:600;font-size:0.85rem;border-radius:1.5rem;padding:0.5rem 0;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
                                                        VIEW<br>MORE
                                                     </a>
-                                                    <a href="https://www.youtube.com/watch?v=Bjaj_ye_djQ&t=2022s" 
+                                                    @if($podcast->youtube_url)
+                                                    <a href="{{ $podcast->youtube_url }}" 
                                                        class="btn w-100" 
                                                        style="background:#181b2c;color:#fff;font-weight:600;font-size:0.85rem;border-radius:1.5rem;padding:0.5rem 0;box-shadow:0 2px 8px rgba(0,0,0,0.08);"
                                                        target="_blank" rel="noopener noreferrer">
                                                        WATCH<br>NOW
                                                     </a>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <!-- Audio Player -->
+                                            @if($podcast->youtube_url)
                                             <div class="audio-player-container" style="width:450px;padding-left:1.5rem;">
                                                 <div class="d-flex align-items-center gap-1 mb-2">
-                                                    <button class="play-button" id="playButton1" onclick="toggleAudio('audio1')" 
+                                                    @php
+                                                        $audioId = $podcast->is_special ? "audioSpecial{$podcast->id}" : "audio{$podcast->id}";
+                                                        $buttonId = $podcast->is_special ? "playButtonSpecial{$podcast->id}" : "playButton{$podcast->id}";
+                                                        $timeId = $podcast->is_special ? "timeSpecial{$podcast->id}" : "time{$podcast->id}";
+                                                        $progressId = $podcast->is_special ? "progressSpecial{$podcast->id}" : "progress{$podcast->id}";
+                                                    @endphp
+                                                    <button class="play-button" id="{{ $buttonId }}" onclick="toggleAudio('{{ $audioId }}')" 
                                                             style="width:44px;height:44px;flex-shrink:0;">
                                                         <i class="fas fa-play"></i>
                                                     </button>
-                                                    <div class="audio-time" id="time1" style="font-size:0.9rem;color:#64748b;width:80px;">0:00 / 0:00</div>
+                                                    <div class="audio-time" id="{{ $timeId }}" style="font-size:0.9rem;color:#64748b;width:80px;">0:00 / 0:00</div>
                                                 </div>
-                                                <div class="audio-progress" onclick="seekAudio('audio1', event)" 
+                                                <div class="audio-progress" onclick="seekAudio('{{ $audioId }}', event)" 
                                                      style="height:6px;background:#e2e8f0;border-radius:3px;">
-                                                    <div class="audio-progress-bar" id="progress1" 
+                                                    <div class="audio-progress-bar" id="{{ $progressId }}" 
                                                          style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);height:100%;border-radius:3px;"></div>
                                                 </div>
-                                                <div id="audio1" class="audio-player"></div>
+                                                <div id="{{ $audioId }}" class="audio-player"></div>
                                             </div>
+                                            @endif
                                         </div>
+                                        @endif
                                     </td>
                                 </tr>
-                                <!-- Episode 2 -->
+                                @empty
                                 <tr>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;">Ep. 2</div>
-                                        <div style="font-size:0.9rem;color:#64748b;">(Live Streaming - ICW Borneo)</div>
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;">Panel 1:</div>
-                                        Prof. Patrick Bellew RDI – SJ Group
-                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
-                                        Neil Thomas MBE – Founder, Atelier One
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        BINA - ICW Borneo: <i>Challenges and Innovations in Construction Technology</i>
+                                    <td colspan="3" class="text-center py-4">
+                                        <p class="text-muted">No BINA podcasts available yet.</p>
                                     </td>
                                 </tr>
-                                <!-- Episode 2 - Media Row -->
-                                <tr>
-                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
-                                        <div class="d-flex flex-column gap-4" style="max-width:800px;margin:0 auto;">
-                                            <!-- Image and Buttons Section -->
-                                            <div class="d-flex flex-column flex-md-row align-items-center gap-4" style="width:450px;">
-                                                <!-- Speaker Image -->
-                                                <div style="width:320px;height:240px;flex-shrink:0;background:#f8fafc;border-radius:1rem;overflow:hidden;display:flex;align-items:center;justify-content:center;">
-                                                    <img src="{{ asset('images/posterbina-ep2.png') }}" 
-                                                         alt="Speaker" 
-                                                         data-bs-toggle="modal"
-                                                         data-bs-target="#imageModal"
-                                                         onclick="showImage(this.src)"
-                                                         style="max-width:100%;max-height:100%;object-fit:contain;border-radius:0.75rem;cursor:pointer;">
-                                                </div>
-                                                <!-- Buttons Section -->
-                                                <div class="flex-grow-1 d-flex flex-column gap-2" style="min-width:110px;">
-                                                    <a href="{{ route('client.facility-management') }}" 
-                                                       class="btn w-100" 
-                                                       style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:600;font-size:0.85rem;border-radius:1.5rem;padding:0.5rem 0;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
-                                                       VIEW<br>MORE
-                                                    </a>
-                                                    <a href="https://www.youtube.com/watch?v=wY7fdrD4fkI&t=1887s" 
-                                                       class="btn w-100" 
-                                                       style="background:#181b2c;color:#fff;font-weight:600;font-size:0.85rem;border-radius:1.5rem;padding:0.5rem 0;box-shadow:0 2px 8px rgba(0,0,0,0.08);"
-                                                       target="_blank" rel="noopener noreferrer">
-                                                       WATCH<br>NOW
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Audio Player -->
-                                            <div class="audio-player-container" style="width:450px;padding-left:1.5rem;">
-                                                <div class="d-flex align-items-center gap-1 mb-2">
-                                                    <button class="play-button" id="playButton2" onclick="toggleAudio('audio2')" 
-                                                            style="width:44px;height:44px;flex-shrink:0;">
-                                                        <i class="fas fa-play"></i>
-                                                    </button>
-                                                    <div class="audio-time" id="time2" style="font-size:0.9rem;color:#64748b;width:80px;">0:00 / 0:00</div>
-                                                </div>
-                                                <div class="audio-progress" onclick="seekAudio('audio2', event)" 
-                                                     style="height:6px;background:#e2e8f0;border-radius:3px;">
-                                                    <div class="audio-progress-bar" id="progress2" 
-                                                         style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);height:100%;border-radius:3px;"></div>
-                                                </div>
-                                                <div id="audio2" class="audio-player"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- Special Podcast -->
-                                <tr>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;font-size:1.1rem;margin-bottom:0.5rem;">Special Edition</div>
-                                        <div style="font-size:0.9rem;color:#64748b;">(Live Streaming - Asean TVET Edition)</div>
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;font-size:1.1rem;margin-bottom:0.5rem;">Panel:</div>
-                                        <div style="line-height:1.6;">
-                                            Suhaimi Mansor
-                                            <div style="font-size:0.9rem;color:#64748b;margin-top:0.25rem;">General Manager of the Registration & Accreditation Sector, CIDB Malaysia</div>
-                                        </div>
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="line-height:1.6;">
-                                            BINA - TVET Edition:<br>
-                                            <i>In Conjunction with ASEAN TVET Friendly Match 2025</i>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- Special Podcast - Media Row -->
-                                <tr>
-                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
-                                        <div class="d-flex flex-column gap-4" style="max-width:800px;margin:0 auto;">
-                                            <!-- Image and Buttons Section -->
-                                            <div class="d-flex flex-column flex-md-row align-items-center gap-4" style="width:450px;">
-                                                <!-- Speaker Image -->
-                                                <div style="width:320px;height:240px;flex-shrink:0;background:#f8fafc;border-radius:1rem;overflow:hidden;display:flex;align-items:center;justify-content:center;">
-                                                    <img src="{{ asset('images/specialpodcast_binapodcast.jpg') }}" 
-                                                         alt="Special Podcast" 
-                                                         data-bs-toggle="modal"
-                                                         data-bs-target="#imageModal"
-                                                         onclick="showImage(this.src)"
-                                                         style="max-width:100%;max-height:100%;object-fit:contain;border-radius:0.75rem;cursor:pointer;">
-                                                </div>
-                                                <!-- Buttons Section -->
-                                                <div class="flex-grow-1 d-flex flex-column gap-2" style="min-width:110px;">
-                                                    <a href="{{ route('client.facility-management') }}" 
-                                                       class="btn w-100" 
-                                                       style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:600;font-size:0.85rem;border-radius:1.5rem;padding:0.5rem 0;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
-                                                       VIEW<br>MORE
-                                                    </a>
-                                                    <a href="https://www.youtube.com/watch?v=w1K4gLcNSX0" 
-                                                       class="btn w-100" 
-                                                       style="background:#181b2c;color:#fff;font-weight:600;font-size:0.85rem;border-radius:1.5rem;padding:0.5rem 0;box-shadow:0 2px 8px rgba(0,0,0,0.08);"
-                                                       target="_blank" rel="noopener noreferrer">
-                                                       WATCH<br>NOW
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Audio Player -->
-                                            <div class="audio-player-container" style="width:450px;padding-left:1.5rem;">
-                                                <div class="d-flex align-items-center gap-1 mb-2">
-                                                    <button class="play-button" id="playButtonSpecial" onclick="toggleAudio('audioSpecial')" 
-                                                            style="width:44px;height:44px;flex-shrink:0;">
-                                                        <i class="fas fa-play"></i>
-                                                    </button>
-                                                    <div class="audio-time" id="timeSpecial" style="font-size:0.9rem;color:#64748b;width:80px;">0:00 / 0:00</div>
-                                                </div>
-                                                <div class="audio-progress" onclick="seekAudio('audioSpecial', event)" 
-                                                     style="height:6px;background:#e2e8f0;border-radius:3px;">
-                                                    <div class="audio-progress-bar" id="progressSpecial" 
-                                                         style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);height:100%;border-radius:3px;"></div>
-                                                </div>
-                                                <div id="audioSpecial" class="audio-player"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- Episode 3 -->
-                                <tr>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;">Ep. 3</div>
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;">Panel 1:</div>
-                                        TBA
-                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
-                                        Datuk Ir. Elias Ismail – Chairman, Certibuild
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <i>The CIDB IBS Story – Overview of Construction Technology and Its Impact</i>
-                                    </td>
-                                </tr>
-                                <!-- Episode 3 - Media Row -->
-                                <tr>
-                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
-                                        <div class="coming-soon-container">
-                                            <div class="coming-soon-text">
-                                                Coming Soon <span class="pulse-dot"></span>
-                                            </div>
-                                            <div class="coming-soon-subtext">
-                                                Stay tuned for exciting content from this episode!
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- Episode 4 -->
-                                <tr>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;">Ep. 4</div>
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;">Panel 1:</div>
-                                        TBA
-                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
-                                        Ir Ts. Rofizlan Ahmad – Senior GM, CIDB Malaysia
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <i>Game-Changer Policies – Visionary Policies Shaping the Industry</i>
-                                    </td>
-                                </tr>
-                                <!-- Episode 4 - Media Row -->
-                                <tr>
-                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
-                                        <div class="coming-soon-container">
-                                            <div class="coming-soon-text">
-                                                Coming Soon <span class="pulse-dot"></span>
-                                            </div>
-                                            <div class="coming-soon-subtext">
-                                                Stay tuned for exciting content from this episode!
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- Episode 5 -->
-                                <tr>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;">Ep. 5</div>
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;">Panel 1:</div>
-                                        Tan Sri Lim Kheng Cheng – Board of Director, Ekovest
-                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
-                                        Zainora Zainal – CEO, CIDB Malaysia
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <i>Modular Building Technology – Global Trends in Modular Construction</i>
-                                    </td>
-                                </tr>
-                                <!-- Episode 5 - Media Row -->
-                                <tr>
-                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
-                                        <div class="coming-soon-container">
-                                            <div class="coming-soon-text">
-                                                Coming Soon <span class="pulse-dot"></span>
-                                            </div>
-                                            <div class="coming-soon-subtext">
-                                                Stay tuned for exciting content from this episode!
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- Episode 6 -->
-                                <tr>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;">Ep. 6</div>
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;">Panel 1:</div>
-                                        Datuk Richard Lim Lit Chek – CEO, MGB Berhad
-                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
-                                        Ir Ts. Zuraihi Abdul Ghani – CEO, CIDB IBS
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <i>Vendor Development and FM Ecosystem Growth – How the VDP Supports Construction Technology</i>
-                                    </td>
-                                </tr>
-                                <!-- Episode 6 - Media Row -->
-                                <tr>
-                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
-                                        <div class="coming-soon-container">
-                                            <div class="coming-soon-text">
-                                                Coming Soon <span class="pulse-dot"></span>
-                                            </div>
-                                            <div class="coming-soon-subtext">
-                                                Stay tuned for exciting content from this episode!
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- Episode 7 -->
-                                <tr>
-                                    <td style="padding:1rem;vertical-align:top;">
-                                        <div style="font-weight:600;">Ep. 7</div>
-                                        <div style="font-size:0.9rem;color:#64748b;">(Live Streaming - ICW Kuala Lumpur)</div>
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;">
-                                        <div style="font-weight:600;">Panel:</div>
-                                        Lawrence Chua – Executive Director, Scandinavian IBS Sdn Bhd (SIBS Malaysia)
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;">
-                                        <i>BINA - ICW: The Future of Construction Through Modular & Construction Technology</i>
-                                    </td>
-                                </tr>
-                                <!-- Episode 7 - Media Row -->
-                                <tr>
-                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
-                                        <div class="coming-soon-container">
-                                            <div class="coming-soon-text">
-                                                Coming Soon <span class="pulse-dot"></span>
-                                            </div>
-                                            <div class="coming-soon-subtext">
-                                                Stay tuned for exciting content from this episode!
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -714,24 +504,58 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Episode 1 -->
+                                @forelse($fmPodcasts as $podcast)
+                                <!-- Episode Info Row -->
                                 <tr>
                                     <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;">Ep. 1</div>
+                                        <div style="font-weight:600;font-size:1.1rem;margin-bottom:0.5rem;">
+                                            @if($podcast->is_special)
+                                                Special Edition
+                                            @else
+                                                Ep. {{ $podcast->episode_number }}
+                                            @endif
+                                        </div>
+                                        @if($podcast->is_live_streaming)
+                                        <div style="font-size:0.9rem;color:#64748b;">(Live Streaming - {{ $podcast->live_streaming_event }})</div>
+                                        @endif
+                                        <div style="font-size:0.9rem;color:#64748b;margin-top:0.5rem;">
+                                            {!! $podcast->description !!}
+                                        </div>
                                     </td>
                                     <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;">Panel 1:</div>
-                                        Zainora Zainal – CEO, CIDB Malaysia
-                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
-                                        YBhg. Dato' Seri Azman Bin Ibrahim – KSU, KKR
+                                        @if($podcast->panelists)
+                                            @foreach($podcast->panelists as $panelist)
+                                            <div style="line-height:1.6;">
+                                                @if($loop->first)
+                                                <div style="font-weight:600;margin-bottom:0.5rem;">Panel{{ count($podcast->panelists) > 1 ? ' ' . $loop->iteration : '' }}:</div>
+                                                @else
+                                                <div style="font-weight:600;margin-top:0.5rem;">Panel {{ $loop->iteration }}:</div>
+                                                @endif
+                                                @php
+                                                    $parts = explode(' - ', $panelist, 2);
+                                                    $name = $parts[0];
+                                                    $title = isset($parts[1]) ? $parts[1] : '';
+                                                @endphp
+                                                {{ $name }}
+                                                @if($title)
+                                                <div style="font-size:0.9rem;color:#64748b;margin-top:0.25rem;">{{ $title }}</div>
+                                                @endif
+                                            </div>
+                                            @endforeach
+                                        @else
+                                            <div style="color:#64748b;">TBA</div>
+                                        @endif
                                     </td>
                                     <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <i>Sustainable Facility Management – Green buildings, energy efficiency, and ESG strategies</i>
+                                        <div style="line-height:1.6;">
+                                            {!! $podcast->formatted_title !!}
+                                        </div>
                                     </td>
                                 </tr>
-                                <!-- Episode 1 - Media Row -->
+                                <!-- Episode Media Row -->
                                 <tr>
                                     <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
+                                        @if($podcast->is_coming_soon)
                                         <div class="coming-soon-container">
                                             <div class="coming-soon-text">
                                                 Coming Soon <span class="pulse-dot"></span>
@@ -740,148 +564,78 @@
                                                 Stay tuned for exciting content from this episode!
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                                <!-- Episode 2 -->
-                                <tr>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;">Ep. 2</div>
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;">Panel 1:</div>
-                                        Sr Dr. Syamilah Yacob – JKR Malaysia
-                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
-                                        Ts. Rohana Binti Abdul Manan – CIDB Malaysia
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <i>Smart FM Technologies – IoT, AI, automation, and predictive maintenance</i>
-                                    </td>
-                                </tr>
-                                <!-- Episode 2 - Media Row -->
-                                <tr>
-                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
-                                        <div class="coming-soon-container">
-                                            <div class="coming-soon-text">
-                                                Coming Soon <span class="pulse-dot"></span>
+                                        @else
+                                        <div class="d-flex flex-column gap-4" style="max-width:800px;margin:0 auto;">
+                                            <!-- Image and Buttons Section -->
+                                            <div class="d-flex flex-column flex-md-row align-items-center gap-4" style="width:450px;">
+                                                <!-- Speaker Image -->
+                                                <div style="width:320px;height:240px;flex-shrink:0;background:#f8fafc;border-radius:1rem;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+                                                    @if($podcast->image)
+                                                    <img src="{{ $podcast->formatted_image_url }}" 
+                                                         alt="@if($podcast->is_special)Special Edition @else Episode {{ $podcast->episode_number }} @endif" 
+                                                         data-bs-toggle="modal"
+                                                         data-bs-target="#imageModal"
+                                                         onclick="showImage(this.src)"
+                                                         style="max-width:100%;max-height:100%;object-fit:contain;border-radius:0.75rem;cursor:pointer;">
+                                                    @else
+                                                    <div style="color:#64748b;text-align:center;">
+                                                        <i class="fas fa-image fa-3x mb-2"></i><br>
+                                                        No image available
                                             </div>
-                                            <div class="coming-soon-subtext">
-                                                Stay tuned for exciting content from this episode!
+                                                    @endif
                                             </div>
+                                                <!-- Buttons Section -->
+                                                <div class="flex-grow-1 d-flex flex-column gap-2" style="min-width:110px;">
+                                                    <a href="{{ route('client.facility-management') }}" 
+                                                       class="btn w-100" 
+                                                       style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:600;font-size:0.85rem;border-radius:1.5rem;padding:0.5rem 0;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                                                       VIEW<br>MORE
+                                                    </a>
+                                                    @if($podcast->youtube_url)
+                                                    <a href="{{ $podcast->youtube_url }}" 
+                                                       class="btn w-100" 
+                                                       style="background:#181b2c;color:#fff;font-weight:600;font-size:0.85rem;border-radius:1.5rem;padding:0.5rem 0;box-shadow:0 2px 8px rgba(0,0,0,0.08);"
+                                                       target="_blank" rel="noopener noreferrer">
+                                                       WATCH<br>NOW
+                                                    </a>
+                                                    @endif
                                         </div>
-                                    </td>
-                                </tr>
-                                <!-- Episode 3 -->
-                                <tr>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;">Ep. 3</div>
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;">Panel 1:</div>
-                                        Sr Ahmad Farrin Mokhtar – CIDB Malaysia
-                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
-                                        TBA
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <i>Regulations & Compliance – Safety, certification, and industry standards</i>
-                                    </td>
-                                </tr>
-                                <!-- Episode 3 - Media Row -->
-                                <tr>
-                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
-                                        <div class="coming-soon-container">
-                                            <div class="coming-soon-text">
-                                                Coming Soon <span class="pulse-dot"></span>
                                             </div>
-                                            <div class="coming-soon-subtext">
-                                                Stay tuned for exciting content from this episode!
-                                            </div>
+                                            <!-- Audio Player -->
+                                            @if($podcast->youtube_url)
+                                            <div class="audio-player-container" style="width:450px;padding-left:1.5rem;">
+                                                <div class="d-flex align-items-center gap-1 mb-2">
+                                                    @php
+                                                        $audioId = $podcast->is_special ? "audioSpecial{$podcast->id}" : "audio{$podcast->id}";
+                                                        $buttonId = $podcast->is_special ? "playButtonSpecial{$podcast->id}" : "playButton{$podcast->id}";
+                                                        $timeId = $podcast->is_special ? "timeSpecial{$podcast->id}" : "time{$podcast->id}";
+                                                        $progressId = $podcast->is_special ? "progressSpecial{$podcast->id}" : "progress{$podcast->id}";
+                                                    @endphp
+                                                    <button class="play-button" id="{{ $buttonId }}" onclick="toggleAudio('{{ $audioId }}')" 
+                                                            style="width:44px;height:44px;flex-shrink:0;">
+                                                        <i class="fas fa-play"></i>
+                                                    </button>
+                                                    <div class="audio-time" id="{{ $timeId }}" style="font-size:0.9rem;color:#64748b;width:80px;">0:00 / 0:00</div>
+                                                </div>
+                                                <div class="audio-progress" onclick="seekAudio('{{ $audioId }}', event)" 
+                                                     style="height:6px;background:#e2e8f0;border-radius:3px;">
+                                                    <div class="audio-progress-bar" id="{{ $progressId }}" 
+                                                         style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);height:100%;border-radius:3px;"></div>
                                         </div>
-                                    </td>
-                                </tr>
-                                <!-- Episode 4 -->
-                                <tr>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;">Ep. 4</div>
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;">Panel 1:</div>
-                                        TBA
-                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
-                                        Dato' Tengku Ab. Aziz Tengku Mahmud – CEO, PNB Merdeka Ventures Sdn
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <i>Asset & Lifecycle Management – Best practices in prolonging asset lifespan</i>
-                                    </td>
-                                </tr>
-                                <!-- Episode 4 - Media Row -->
-                                <tr>
-                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
-                                        <div class="coming-soon-container">
-                                            <div class="coming-soon-text">
-                                                Coming Soon <span class="pulse-dot"></span>
+                                                <div id="{{ $audioId }}" class="audio-player"></div>
                                             </div>
-                                            <div class="coming-soon-subtext">
-                                                Stay tuned for exciting content from this episode!
+                                            @endif
                                             </div>
-                                        </div>
+                                        @endif
                                     </td>
                                 </tr>
-                                <!-- Episode 5 -->
+                                @empty
                                 <tr>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;">Ep. 5</div>
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <div style="font-weight:600;">Panel 1:</div>
-                                        Ahmad Ridzuan Ismail – CIDB Malaysia
-                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
-                                        UDA Holdings
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;border-bottom:1px solid #e5e7eb;">
-                                        <i>Workforce & Skill Development – Upskilling FM professionals for the future</i>
+                                    <td colspan="3" class="text-center py-4">
+                                        <p class="text-muted">No FM podcasts available yet.</p>
                                     </td>
                                 </tr>
-                                <!-- Episode 5 - Media Row -->
-                                <tr>
-                                    <td colspan="3" style="padding:1.5rem;border-bottom:1px solid #e5e7eb;background:#f8fafc;">
-                                        <div class="coming-soon-container">
-                                            <div class="coming-soon-text">
-                                                Coming Soon <span class="pulse-dot"></span>
-                                            </div>
-                                            <div class="coming-soon-subtext">
-                                                Stay tuned for exciting content from this episode!
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- Episode 6 -->
-                                <tr>
-                                    <td style="padding:1rem;vertical-align:top;">
-                                        <div style="font-weight:600;">Ep. 6</div>
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;">
-                                        <div style="font-weight:600;">Panel 1:</div>
-                                        Mohammad Shahrizal Mohammad Idris – GFM Services Berhad
-                                        <div style="font-weight:600;margin-top:0.5rem;">Panel 2:</div>
-                                        Kementerian (TBA)
-                                    </td>
-                                    <td style="padding:1rem;vertical-align:top;">
-                                        <i>Challenges & Opportunities – Addressing operational and financial challenges in FM</i>
-                                    </td>
-                                </tr>
-                                <!-- Episode 6 - Media Row -->
-                                <tr>
-                                    <td colspan="3" style="padding:1.5rem;background:#f8fafc;">
-                                        <div class="coming-soon-container">
-                                            <div class="coming-soon-text">
-                                                Coming Soon <span class="pulse-dot"></span>
-                                            </div>
-                                            <div class="coming-soon-subtext">
-                                                Stay tuned for exciting content from this episode!
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -904,32 +658,28 @@
     </div>
 </div>
 
-<!-- Add YouTube Player Containers -->
+<!-- Update YouTube Player Containers -->
 <div class="youtube-player-container">
-    <iframe id="player1" 
-            width="1" 
-            height="1" 
-            src="https://www.youtube.com/embed/Bjaj_ye_djQ?enablejsapi=1&controls=0&showinfo=0&rel=0&modestbranding=1" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen>
-    </iframe>
-    <iframe id="player2" 
-            width="1" 
-            height="1" 
-            src="https://www.youtube.com/embed/wY7fdrD4fkI?enablejsapi=1&controls=0&showinfo=0&rel=0&modestbranding=1" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen>
-    </iframe>
-    <iframe id="playerSpecial" 
-            width="1" 
-            height="1" 
-            src="https://www.youtube.com/embed/w1K4gLcNSX0?enablejsapi=1&controls=0&showinfo=0&rel=0&modestbranding=1" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen>
-    </iframe>
+    @foreach($binaPodcasts->merge($fmPodcasts) as $podcast)
+        @if($podcast->youtube_url)
+            @php
+                $videoId = last(explode('/', parse_url($podcast->youtube_url, PHP_URL_PATH)));
+                if (str_contains($podcast->youtube_url, 'watch?v=')) {
+                    parse_str(parse_url($podcast->youtube_url, PHP_URL_QUERY), $params);
+                    $videoId = $params['v'] ?? '';
+                }
+                $playerId = $podcast->is_special ? "playerSpecial{$podcast->id}" : "player{$podcast->id}";
+            @endphp
+            <iframe id="{{ $playerId }}" 
+                    width="1" 
+                    height="1" 
+                    src="https://www.youtube.com/embed/{{ $videoId }}?enablejsapi=1&controls=0&showinfo=0&rel=0&modestbranding=1" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+        @endif
+    @endforeach
 </div>
 
 <!-- Image Modal -->
@@ -952,29 +702,19 @@
 // Load YouTube API with timeout
 let apiLoadTimeout;
 let isAPIReady = false;
-let playersReady = {
-    player1: false,
-    player2: false,
-    playerSpecial: false
-};
-let player1 = null;
-let player2 = null;
-let playerSpecial = null;
+let players = {};
 let currentPlayer = null;
 
 function loadYouTubeAPI() {
-    // Create script element
     const tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     tag.async = true;
     
-    // Add timeout
     apiLoadTimeout = setTimeout(() => {
         console.log('YouTube API load timeout - using fallback');
         initializeFallbackPlayers();
-    }, 5000); // 5 second timeout
+    }, 5000);
     
-    // Add to document
     const firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 }
@@ -982,12 +722,9 @@ function loadYouTubeAPI() {
 function initializeFallbackPlayers() {
     console.log('Initializing fallback players');
     isAPIReady = true;
-    playersReady.player1 = true;
-    playersReady.player2 = true;
-    playersReady.playerSpecial = true;
-    updateButtonState('playButton1', false, false);
-    updateButtonState('playButton2', false, false);
-    updateButtonState('playButtonSpecial', false, false);
+    document.querySelectorAll('.play-button').forEach(button => {
+        updateButtonState(button.id, false, false);
+    });
 }
 
 function onYouTubeIframeAPIReady() {
@@ -995,84 +732,31 @@ function onYouTubeIframeAPIReady() {
     clearTimeout(apiLoadTimeout);
     isAPIReady = true;
     
-    // Initialize players with timeout
     const playerInitTimeout = setTimeout(() => {
         console.log('Player initialization timeout - using fallback');
         initializeFallbackPlayers();
     }, 3000);
     
     try {
-        player1 = new YT.Player('player1', {
-            events: {
-                'onReady': (event) => {
-                    console.log('Player 1 Ready');
-                    playersReady.player1 = true;
-                    updateButtonState('playButton1', false, false);
-                    if (arePlayersReady()) {
-                        clearTimeout(playerInitTimeout);
-                    }
-                },
-                'onStateChange': onPlayerStateChange,
-                'onError': onPlayerError
-            }
+        document.querySelectorAll('iframe[id^="player"]').forEach(iframe => {
+            const playerId = iframe.id;
+            players[playerId] = new YT.Player(playerId, {
+                events: {
+                    'onReady': (event) => {
+                        console.log(`${playerId} Ready`);
+                        const buttonId = playerId.replace('player', 'playButton');
+                        updateButtonState(buttonId, false, false);
+                    },
+                    'onStateChange': onPlayerStateChange,
+                    'onError': onPlayerError
+                }
+            });
         });
-
-        player2 = new YT.Player('player2', {
-            events: {
-                'onReady': (event) => {
-                    console.log('Player 2 Ready');
-                    playersReady.player2 = true;
-                    updateButtonState('playButton2', false, false);
-                    if (arePlayersReady()) {
-                        clearTimeout(playerInitTimeout);
-                    }
-                },
-                'onStateChange': onPlayerStateChange,
-                'onError': onPlayerError
-            }
-        });
-
-        playerSpecial = new YT.Player('playerSpecial', {
-            events: {
-                'onReady': (event) => {
-                    console.log('Player Special Ready');
-                    playersReady.playerSpecial = true;
-                    updateButtonState('playButtonSpecial', false, false);
-                    if (arePlayersReady()) {
-                        clearTimeout(playerInitTimeout);
-                    }
-                },
-                'onStateChange': onPlayerStateChange,
-                'onError': onPlayerError
-            }
-        });
+        
+        clearTimeout(playerInitTimeout);
     } catch (error) {
         console.error('Error initializing players:', error);
         initializeFallbackPlayers();
-    }
-}
-
-// Function to check if all players are ready
-function arePlayersReady() {
-    return playersReady.player1 && playersReady.player2 && playersReady.playerSpecial;
-}
-
-// Function to update button state
-function updateButtonState(buttonId, isLoading = false, isPlaying = false) {
-    const button = document.getElementById(buttonId);
-    if (!button) return;
-    
-    const icon = button.querySelector('i');
-    if (!icon) return;
-    
-    button.classList.remove('loading');
-    icon.classList.remove('fa-spinner', 'fa-spin', 'fa-play', 'fa-pause');
-    
-    if (isLoading) {
-        button.classList.add('loading');
-        icon.classList.add('fa-spinner', 'fa-spin');
-    } else {
-        icon.classList.add(isPlaying ? 'fa-pause' : 'fa-play');
     }
 }
 
@@ -1080,10 +764,11 @@ function onPlayerError(event) {
     console.error('YouTube Player Error:', event.data);
     const player = event.target;
     const playerId = player.getIframe().id;
-    const buttonId = playerId === 'playerSpecial' ? 'playButtonSpecial' : `playButton${playerId.slice(-1)}`;
+    const buttonId = playerId.replace('player', 'playButton');
     updateButtonState(buttonId, false, false);
     
-    const timeDisplay = document.querySelector(`#time${playerId === 'playerSpecial' ? 'Special' : playerId.slice(-1)}`);
+    const timeId = playerId.replace('player', 'time');
+    const timeDisplay = document.getElementById(timeId);
     if (timeDisplay) {
         timeDisplay.textContent = 'Error loading audio';
         timeDisplay.style.color = '#ef4444';
@@ -1095,9 +780,12 @@ function onPlayerStateChange(event) {
     
     const player = event.target;
     const playerId = player.getIframe().id;
-    const buttonId = playerId === 'playerSpecial' ? 'playButtonSpecial' : `playButton${playerId.slice(-1)}`;
-    const timeDisplay = document.querySelector(`#time${playerId === 'playerSpecial' ? 'Special' : playerId.slice(-1)}`);
-    const progressBar = document.querySelector(`#progress${playerId === 'playerSpecial' ? 'Special' : playerId.slice(-1)}`);
+    const buttonId = playerId.replace('player', 'playButton');
+    const timeId = playerId.replace('player', 'time');
+    const progressId = playerId.replace('player', 'progress');
+    
+    const timeDisplay = document.getElementById(timeId);
+    const progressBar = document.getElementById(progressId);
 
     if (!timeDisplay || !progressBar) return;
 
@@ -1110,6 +798,62 @@ function onPlayerStateChange(event) {
         updateButtonState(buttonId, false, false);
         progressBar.style.width = '0%';
         timeDisplay.textContent = '0:00 / ' + formatTime(player.getDuration());
+    }
+}
+
+function toggleAudio(audioId) {
+    console.log('Toggle Audio:', audioId);
+    
+    if (!isAPIReady) {
+        console.log('Players not ready yet, showing loading state');
+        const buttonId = audioId.replace('audio', 'playButton');
+        updateButtonState(buttonId, true, false);
+        return;
+    }
+    
+    const playerId = audioId.replace('audio', 'player');
+    const player = players[playerId];
+    const buttonId = audioId.replace('audio', 'playButton');
+    
+    if (!player) {
+        console.error('Player not found:', audioId);
+        return;
+    }
+    
+    try {
+        if (currentPlayer && currentPlayer !== player) {
+            currentPlayer.pauseVideo();
+        }
+        
+        const state = player.getPlayerState();
+        if (state === YT.PlayerState.PLAYING) {
+            player.pauseVideo();
+        } else {
+            player.playVideo();
+            currentPlayer = player;
+        }
+    } catch (error) {
+        console.error('Error toggling audio:', error);
+        updateButtonState(buttonId, false, false);
+    }
+}
+
+function seekAudio(audioId, event) {
+    if (!isAPIReady) return;
+    
+    const playerId = audioId.replace('audio', 'player');
+    const player = players[playerId];
+    if (!player) return;
+    
+    const progressBar = event.currentTarget;
+    const rect = progressBar.getBoundingClientRect();
+    const pos = (event.clientX - rect.left) / rect.width;
+    
+    try {
+        const duration = player.getDuration();
+        player.seekTo(pos * duration, true);
+    } catch (error) {
+        console.error('Error seeking audio:', error);
     }
 }
 
@@ -1139,75 +883,36 @@ function formatTime(seconds) {
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
 
-function toggleAudio(audioId) {
-    console.log('Toggle Audio:', audioId);
+function updateButtonState(buttonId, isLoading = false, isPlaying = false) {
+    const button = document.getElementById(buttonId);
+    if (!button) return;
     
-    if (!isAPIReady || !arePlayersReady()) {
-        console.log('Players not ready yet, showing loading state');
-        const buttonId = audioId === 'audioSpecial' ? 'playButtonSpecial' : `playButton${audioId.slice(-1)}`;
-        updateButtonState(buttonId, true, false);
-        return;
-    }
+    const icon = button.querySelector('i');
+    if (!icon) return;
     
-    const player = audioId === 'audioSpecial' ? playerSpecial : 
-                  audioId === 'audio1' ? player1 : player2;
-    const buttonId = audioId === 'audioSpecial' ? 'playButtonSpecial' : `playButton${audioId.slice(-1)}`;
+    button.classList.remove('loading');
+    icon.classList.remove('fa-spinner', 'fa-spin', 'fa-play', 'fa-pause');
     
-    if (!player) {
-        console.error('Player not found:', audioId);
-        return;
-    }
-    
-    try {
-        if (currentPlayer && currentPlayer !== player) {
-            currentPlayer.pauseVideo();
-        }
-        
-        const state = player.getPlayerState();
-        if (state === YT.PlayerState.PLAYING) {
-            player.pauseVideo();
-        } else {
-            player.playVideo();
-            currentPlayer = player;
-        }
-    } catch (error) {
-        console.error('Error toggling audio:', error);
-        updateButtonState(buttonId, false, false);
+    if (isLoading) {
+        button.classList.add('loading');
+        icon.classList.add('fa-spinner', 'fa-spin');
+    } else {
+        icon.classList.add(isPlaying ? 'fa-pause' : 'fa-play');
     }
 }
 
-function seekAudio(audioId, event) {
-    if (!isAPIReady || !arePlayersReady()) return;
-    
-    const player = audioId === 'audio1' ? player1 : audioId === 'audio2' ? player2 : playerSpecial;
-    if (!player) return;
-    
-    const progressBar = event.currentTarget;
-    const rect = progressBar.getBoundingClientRect();
-    const pos = (event.clientX - rect.left) / rect.width;
-    
-    try {
-        const duration = player.getDuration();
-        player.seekTo(pos * duration, true);
-    } catch (error) {
-        console.error('Error seeking audio:', error);
-    }
-}
-
-// Initialize time displays and button states
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM Content Loaded');
-    const timeDisplay1 = document.querySelector('#time1');
-    const timeDisplay2 = document.querySelector('#time2');
-    const timeDisplaySpecial = document.querySelector('#timeSpecial');
-    if (timeDisplay1) timeDisplay1.textContent = '0:00 / 0:00';
-    if (timeDisplay2) timeDisplay2.textContent = '0:00 / 0:00';
-    if (timeDisplaySpecial) timeDisplaySpecial.textContent = '0:00 / 0:00';
+    
+    // Initialize time displays
+    document.querySelectorAll('[id^="time"]').forEach(timeDisplay => {
+        timeDisplay.textContent = '0:00 / 0:00';
+    });
     
     // Set initial button states
-    updateButtonState('playButton1', true, false);
-    updateButtonState('playButton2', true, false);
-    updateButtonState('playButtonSpecial', true, false);
+    document.querySelectorAll('.play-button').forEach(button => {
+        updateButtonState(button.id, true, false);
+    });
     
     // Load YouTube API
     loadYouTubeAPI();

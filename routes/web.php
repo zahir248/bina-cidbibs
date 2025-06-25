@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\TicketController;
 use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\DocumentationController;
+use App\Http\Controllers\Admin\PodcastController;
 
 /*
 |--------------------------------------------------------------------------
@@ -211,5 +212,9 @@ Route::middleware('auth')->group(function () {
         // Documentation routes
         Route::get('/documentation', [DocumentationController::class, 'index'])->name('documentation.index');
         Route::get('/documentation/download/{type}', [DocumentationController::class, 'downloadPdf'])->name('documentation.download');
+
+        // Podcast Management
+        Route::resource('podcasts', PodcastController::class);
+        Route::post('podcasts/update-order', [PodcastController::class, 'updateOrder'])->name('podcasts.updateOrder');
     });
 });

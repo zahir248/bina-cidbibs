@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
 use App\Models\Event;
 use App\Models\Schedule;
+use App\Models\Podcast;
 
 class PageController extends Controller
 {
@@ -102,7 +103,10 @@ class PageController extends Controller
 
     public function podcast()
     {
-        return view('client.podcast');
+        $binaPodcasts = Podcast::query()->bina();
+        $fmPodcasts = Podcast::query()->fm();
+        
+        return view('client.podcast', compact('binaPodcasts', 'fmPodcasts'));
     }
 
     public function calendar()
