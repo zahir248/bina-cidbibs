@@ -767,5 +767,156 @@
             </div>
         </div>
     </div>
+
+    <div class="page-break"></div>
+
+    <div class="section">
+        <h2 class="section-title">8. Podcast Management</h2>
+        
+        <div class="subsection">
+            <h3 class="subsection-title">8.1 Managing Podcasts</h3>
+            <div class="content-block">
+                <div class="block-title">Podcast Overview:</div>
+                <ul class="info-list">
+                    <li>Podcast Types:
+                        <ul>
+                            <li>BINA Podcasts</li>
+                            <li>FM (Facility Management) Podcasts</li>
+                            <li>Regular Episodes</li>
+                            <li>Special Episodes</li>
+                        </ul>
+                    </li>
+                    <li>Podcast Components:
+                        <ul>
+                            <li>Title and description</li>
+                            <li>Episode number</li>
+                            <li>YouTube URL</li>
+                            <li>Image (optional)</li>
+                            <li>Panelists (optional)</li>
+                            <li>Live streaming options</li>
+                            <li>Special episode positioning</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="block-title">Podcast List Features:</div>
+                <ul class="info-list">
+                    <li>Separate views for BINA and FM podcasts</li>
+                    <li>Automatic episode ordering</li>
+                    <li>Special episode placement (above/below regular episodes)</li>
+                    <li>Active/Inactive status management</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <div class="subsection">
+            <h3 class="subsection-title">8.2 Creating Podcasts</h3>
+            <div class="content-block">
+                <div class="block-title">Steps to Create Podcast:</div>
+                <ul class="info-list">
+                    <li>Navigate to Podcasts section</li>
+                    <li>Click "Add New Podcast" button</li>
+                    <li>Fill in required details:
+                        <ul>
+                            <li>Type (BINA or FM)</li>
+                            <li>Episode number (required)</li>
+                            <li>Title (required, max 255 characters)</li>
+                            <li>Description (optional)</li>
+                            <li>YouTube URL (optional)</li>
+                            <li>Image URL (optional)</li>
+                            <li>Panelists (optional, one per line)</li>
+                        </ul>
+                    </li>
+                    <li>Configure additional options:
+                        <ul>
+                            <li>Live streaming toggle and event details</li>
+                            <li>"Coming Soon" status</li>
+                            <li>Display order (for manual ordering)</li>
+                            <li>Active status</li>
+                        </ul>
+                    </li>
+                    <li>For Special Episodes:
+                        <ul>
+                            <li>Enable "Special Episode" toggle</li>
+                            <li>Select position (above/below the regular episode)</li>
+                        </ul>
+                    </li>
+                    <li>Click "Create Podcast" to save</li>
+                </ul>
+
+                <div class="note-box">
+                    <div class="note-title">Important Notes</div>
+                    <ul class="info-list">
+                        <li>Episode numbers should follow a consistent format</li>
+                        <li>Special episodes are linked to regular episodes</li>
+                        <li>Image URLs should be accessible and valid</li>
+                        <li>YouTube URLs must be properly formatted</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <div class="subsection">
+            <h3 class="subsection-title">8.3 Editing Podcasts</h3>
+            <div class="content-block">
+                <div class="block-title">Steps to Edit Podcast:</div>
+                <ul class="info-list">
+                    <li>Find the podcast in the list</li>
+                    <li>Click the "Edit" button</li>
+                    <li>Modify available fields:
+                        <ul>
+                            <li>Update type, episode number, or title</li>
+                            <li>Modify description or YouTube URL</li>
+                            <li>Change image URL</li>
+                            <li>Edit panelist list</li>
+                            <li>Toggle live streaming settings</li>
+                            <li>Adjust special episode settings</li>
+                            <li>Change display order</li>
+                        </ul>
+                    </li>
+                    <li>Click "Update Podcast" to save changes</li>
+                </ul>
+
+                <div class="note-box">
+                    <div class="note-title">Content Management</div>
+                    <ul class="info-list">
+                        <li>Verify all URLs are valid and accessible</li>
+                        <li>Check special episode relationships</li>
+                        <li>Consider impact on display order</li>
+                        <li>Maintain consistent episode numbering</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <div class="subsection">
+            <h3 class="subsection-title">8.4 Deleting Podcasts</h3>
+            <div class="content-block">
+                <div class="block-title">Steps to Delete Podcast:</div>
+                <ul class="info-list">
+                    <li>Locate the podcast in the list</li>
+                    <li>Click the "Delete" button</li>
+                    <li>Review podcast details in confirmation modal</li>
+                    <li>Confirm deletion</li>
+                </ul>
+
+                <div class="note-box">
+                    <div class="note-title">Warning</div>
+                    <ul class="info-list">
+                        <li>Deletion is permanent and cannot be undone</li>
+                        <li>Associated images will be removed from storage</li>
+                        <li>Consider deactivating instead of deleting</li>
+                        <li>Check for related special episodes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

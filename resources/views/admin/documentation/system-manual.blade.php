@@ -363,6 +363,37 @@
                             </ul>
                         </td>
                     </tr>
+                    <tr>
+                        <td>podcasts</td>
+                        <td>Podcast episode management for BINA and FM podcasts</td>
+                        <td>
+                            <ul>
+                                <li>id (PK)</li>
+                                <li>type (bina/fm)</li>
+                                <li>episode_number</li>
+                                <li>title</li>
+                                <li>description (nullable)</li>
+                                <li>image (nullable)</li>
+                                <li>youtube_url (nullable)</li>
+                                <li>panelists (JSON, nullable)</li>
+                                <li>is_live_streaming (boolean)</li>
+                                <li>live_streaming_event (nullable)</li>
+                                <li>is_coming_soon (boolean)</li>
+                                <li>display_order (integer)</li>
+                                <li>is_active (boolean)</li>
+                                <li>is_special (boolean)</li>
+                                <li>special_position (above/below, nullable)</li>
+                                <li>created_at</li>
+                                <li>updated_at</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>Self-referential for special episodes</li>
+                                <li>Special episodes are linked to regular episodes by episode_number</li>
+                            </ul>
+                        </td>
+                    </tr>
                 </table>
             </div>
         </div>
