@@ -1598,8 +1598,9 @@ document.addEventListener('DOMContentLoaded', function() {
         quantitySelects.forEach(select => {
             const quantity = parseInt(select.value);
             if (quantity > 0) {
-                // Get the ticket ID from the closest row
-                const ticketId = select.closest('tr').dataset.ticketId;
+                // Get the ticket ID from either the closest row or the closest mobile-product-card
+                const container = select.closest('tr') || select.closest('.mobile-product-card');
+                const ticketId = container.dataset.ticketId;
                 selectedTickets.push({
                     ticket_id: ticketId,
                     quantity: quantity
