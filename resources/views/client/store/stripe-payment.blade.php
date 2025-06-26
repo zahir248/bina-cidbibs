@@ -276,18 +276,152 @@
 
         @media (max-width: 1024px) {
             .main-content {
-                flex-direction: column;
-                gap: 2rem;
-                margin-top: 80px;
-                padding: 1.5rem;
+                padding: 1rem;
+                margin-top: 60px;
             }
 
-            .payment-section {
-                max-width: 100%;
+            .content-wrapper {
+                display: flex;
+                flex-direction: column !important;
+                gap: 1.5rem;
             }
 
             .order-summary {
+                order: -1;
                 width: 100%;
+                margin-bottom: 1.5rem;
+            }
+
+            .payment-section {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+                margin-bottom: 1.25rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0.5rem 0;
+            }
+
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .logo {
+                height: 32px;
+            }
+
+            .security-badge {
+                font-size: 0.8rem;
+            }
+
+            .main-content {
+                padding: 0.75rem;
+                margin-top: 50px;
+            }
+
+            .payment-card {
+                padding: 1rem;
+                border-radius: 8px;
+            }
+
+            .country-selector {
+                font-size: 0.95rem;
+                height: 42px;
+            }
+
+            .order-summary {
+                padding: 1rem;
+                border-radius: 8px;
+            }
+
+            .order-summary-title {
+                font-size: 1.125rem;
+            }
+
+            .order-item {
+                font-size: 0.875rem;
+            }
+
+            .order-total {
+                font-size: 1rem;
+            }
+
+            .secure-badges {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.75rem;
+            }
+
+            .secure-badge {
+                font-size: 0.75rem;
+                padding: 0.375rem 0.75rem;
+            }
+
+            .payment-button {
+                padding: 0.875rem;
+                font-size: 0.95rem;
+            }
+
+            .fees-info {
+                font-size: 0.8125rem;
+                padding: 0.375rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 0.5rem;
+            }
+
+            .content-wrapper {
+                gap: 1rem;
+            }
+
+            .payment-card,
+            .order-summary {
+                padding: 0.875rem;
+            }
+
+            .secure-badges {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .secure-badge {
+                width: 100%;
+                justify-content: center;
+            }
+
+            #payment-message {
+                font-size: 0.8125rem;
+            }
+        }
+
+        /* Fix for iOS devices */
+        @supports (-webkit-touch-callout: none) {
+            .main-content {
+                min-height: -webkit-fill-available;
+            }
+        }
+
+        /* Fix for notched devices */
+        @supports (padding: max(0px)) {
+            .header {
+                padding-left: max(1rem, env(safe-area-inset-left));
+                padding-right: max(1rem, env(safe-area-inset-right));
+            }
+
+            .main-content {
+                padding-left: max(0.5rem, env(safe-area-inset-left));
+                padding-right: max(0.5rem, env(safe-area-inset-right));
+                padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
             }
         }
 
@@ -336,6 +470,54 @@
     <main class="main-content">
         <h1 class="section-title">Complete your payment</h1>
         <div class="content-wrapper">
+            <div class="order-summary">
+                <h2 class="order-summary-title">Order Summary</h2>
+                <div class="order-details">
+                    @php
+                        $cartItems = session('pending_cart', []);
+                        $cartTotal = session('pending_cart_total', 0);
+                        $originalTotal = 0;
+                    @endphp
+                    
+                    @foreach($cartItems as $item)
+                        @php
+                            $originalTotal += $item['quantity'] * $item['ticket']['price'];
+                        @endphp
+                        <div class="order-item">
+                            <div class="order-item-name">
+                                {{ $item['ticket']['name'] }} × {{ $item['quantity'] }}
+                            </div>
+                            <div class="order-item-price">
+                                RM {{ number_format($item['quantity'] * $item['ticket']['price'], 2) }}
+                            </div>
+                        </div>
+                    @endforeach
+                    
+                    @if($originalTotal > $cartTotal)
+                        <div class="order-item">
+                            <div class="order-item-name">Discount</div>
+                            <div class="order-item-price">
+                                -RM {{ number_format($originalTotal - $cartTotal, 2) }}
+                            </div>
+                        </div>
+                    @endif
+
+                    <div class="divider"></div>
+
+                    <div class="order-item" id="processing-fee">
+                        <div class="order-item-name">Total Processing Fee</div>
+                        <div class="order-item-price">RM 0.00</div>
+                    </div>
+                </div>
+                <div class="order-total">
+                    <span>Total</span>
+                    <span id="final-total">RM {{ number_format($cartTotal, 2) }}</span>
+                </div>
+                <div class="fees-info" id="fees-info">
+                    Processing fee: 3% + RM1.00
+                </div>
+            </div>
+            
             <div class="payment-section">
                 <div class="payment-card">
                     <div class="country-field-container">
@@ -457,54 +639,6 @@
                         <i class="fas fa-check-circle"></i>
                         <span>Guaranteed Safe</span>
                     </div>
-                </div>
-            </div>
-            
-            <div class="order-summary">
-                <h2 class="order-summary-title">Order Summary</h2>
-                <div class="order-details">
-                    @php
-                        $cartItems = session('pending_cart', []);
-                        $cartTotal = session('pending_cart_total', 0);
-                        $originalTotal = 0;
-                    @endphp
-                    
-                    @foreach($cartItems as $item)
-                        @php
-                            $originalTotal += $item['quantity'] * $item['ticket']['price'];
-                        @endphp
-                        <div class="order-item">
-                            <div class="order-item-name">
-                                {{ $item['ticket']['name'] }} × {{ $item['quantity'] }}
-                            </div>
-                            <div class="order-item-price">
-                                RM {{ number_format($item['quantity'] * $item['ticket']['price'], 2) }}
-                            </div>
-                        </div>
-                    @endforeach
-                    
-                    @if($originalTotal > $cartTotal)
-                        <div class="order-item">
-                            <div class="order-item-name">Discount</div>
-                            <div class="order-item-price">
-                                -RM {{ number_format($originalTotal - $cartTotal, 2) }}
-                            </div>
-                        </div>
-                    @endif
-
-                    <div class="divider"></div>
-
-                    <div class="order-item" id="processing-fee">
-                        <div class="order-item-name">Total Processing Fee</div>
-                        <div class="order-item-price">RM 0.00</div>
-                    </div>
-                </div>
-                <div class="order-total">
-                    <span>Total</span>
-                    <span id="final-total">RM {{ number_format($cartTotal, 2) }}</span>
-                </div>
-                <div class="fees-info" id="fees-info">
-                    Processing fee: 3% + RM1.00
                 </div>
             </div>
         </div>
