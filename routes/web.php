@@ -198,6 +198,8 @@ Route::middleware('auth')->group(function () {
 
         // Order routes
         Route::get('/orders/{order}/download-pdf', [OrderController::class, 'downloadPdf'])->name('orders.download-pdf');
+        Route::get('/orders/{order}/attendance-form', [OrderController::class, 'downloadSingleAttendanceForm'])->name('orders.attendance-form');
+        Route::get('/orders/attendance-form/compiled', [OrderController::class, 'downloadCompiledAttendanceForm'])->name('orders.attendance-form.compiled');
         Route::get('/orders/download-success-log', [OrderController::class, 'downloadSuccessLog'])->name('orders.download-success-log');
         Route::get('/orders/download-failed-log', [OrderController::class, 'downloadFailedLog'])->name('orders.download-failed-log');
 

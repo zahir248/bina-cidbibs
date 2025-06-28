@@ -9,22 +9,27 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="card-title">Orders</h3>
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="downloadLogsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-download me-1"></i> Download Transaction Log
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="downloadLogsDropdown">
-                            <li>
-                                <a class="dropdown-item" href="#" id="downloadSuccessLog">
-                                    <i class="bi bi-check-circle text-success me-2"></i>Successful Transactions
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#" id="downloadFailedLog">
-                                    <i class="bi bi-x-circle text-danger me-2"></i>Failed Transactions
-                                </a>
-                            </li>
-                        </ul>
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('admin.orders.attendance-form.compiled') }}" class="btn btn-primary">
+                            <i class="bi bi-file-earmark-text me-1"></i> Download Attendance Form
+                        </a>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="downloadLogsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-download me-1"></i> Download Transaction Log
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="downloadLogsDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="#" id="downloadSuccessLog">
+                                        <i class="bi bi-check-circle text-success me-2"></i>Successful Transactions
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#" id="downloadFailedLog">
+                                        <i class="bi bi-x-circle text-danger me-2"></i>Failed Transactions
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -198,14 +203,14 @@
                                     <td>{{ $order->payment_country ?? 'N/A' }}</td>
                                     <td>RM {{ number_format($order->processing_fee ?? 0, 2) }}</td>
                                     <td>{{ $order->payment_id ?? 'N/A' }}</td>
-                                    <td>{{ $order->created_at->format('Y-m-d H:i:s') }}</td>
+                                    <td>{{ $order->created_at->format('d M Y H:i:s') }}</td>
                                     <td>
                                         <span class="badge bg-{{ $order->status === 'paid' ? 'success' : 'warning' }}">
                                             {{ ucfirst($order->status) }}
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="{{ route('admin.orders.download-pdf', $order->id) }}" 
+                                        <a href="{{ route('admin.orders.download-pdf', $order) }}" 
                                            class="text-primary">
                                             Download PDF
                                         </a>
