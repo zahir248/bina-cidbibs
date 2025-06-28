@@ -3,6 +3,7 @@
 @section('title', 'BINA | Checkout')
 
 @push('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <style>
     html {
         scroll-behavior: smooth;
@@ -463,12 +464,12 @@
                 <div class="form-row">
                     <div>
                         <label for="first_name">First Name <span class="required">*</span></label>
-                        <input type="text" class="form-control" id="first_name" name="first_name" value="{{ old('first_name') }}" placeholder="e.g. John" required>
+                        <input type="text" class="form-control" id="first_name" name="first_name" value="{{ old('first_name') }}" placeholder="e.g. John" maxlength="10" required>
                         @error('first_name')<div class="error">Billing First name is a required field.</div>@enderror
                     </div>
                     <div>
                         <label for="last_name">Last Name <span class="required">*</span></label>
-                        <input type="text" class="form-control" id="last_name" name="last_name" value="{{ old('last_name') }}" placeholder="e.g. Doe" required>
+                        <input type="text" class="form-control" id="last_name" name="last_name" value="{{ old('last_name') }}" placeholder="e.g. Doe" maxlength="10" required>
                         @error('last_name')<div class="error">Billing Last name is a required field.</div>@enderror
                     </div>
                 </div>
@@ -911,23 +912,92 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('checkoutForm');
-    const button = document.querySelector('.btn-checkout[form="checkoutForm"]');
+    const firstName = document.getElementById('first_name');
+    const lastName = document.getElementById('last_name');
+    const companyName = document.getElementById('company_name');
+    const category = document.getElementById('category');
+
+    // Payment Method Modal
     const paymentMethodModal = new bootstrap.Modal(document.getElementById('paymentMethodModal'));
-    
-    if (form && button) {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
-            
-            // Show payment method modal
-            paymentMethodModal.show();
-        });
+
+    // Create validation modal
+    const validationModalHtml = `
+        <div class="modal fade" id="validationModal" tabindex="-1" aria-labelledby="validationModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title fw-bold" id="validationModalLabel" style="color: #dc3545;">
+                            <i class="fas fa-exclamation-circle me-2"></i>Validation Error
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center pb-4">
+                        <div class="validation-icon mb-3">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #dc3545;"></i>
+                        </div>
+                        <div id="validationMessage" style="font-size: 1.1rem; color: #dc3545; font-weight: 500;"></div>
+                    </div>
+                    <div class="modal-footer border-0 justify-content-center pb-4">
+                        <button type="button" class="btn px-4 py-2 rounded-pill" 
+                                data-bs-dismiss="modal" 
+                                style="background-color: #ff9900; color: white; font-weight: 500; min-width: 120px;">
+                            OK
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', validationModalHtml);
+    const validationModal = new bootstrap.Modal(document.getElementById('validationModal'));
+
+    function showValidationError(message) {
+        document.getElementById('validationMessage').textContent = message;
+        validationModal.show();
     }
-    
+
+    function validateName() {
+        // Check individual name lengths
+        if (firstName.value.length > 10) {
+            showValidationError('First name should not exceed 10 characters.');
+            return false;
+        }
+        if (lastName.value.length > 10) {
+            showValidationError('Last name should not exceed 10 characters.');
+            return false;
+        }
+
+        // Check combined name length
+        const fullName = `${firstName.value} ${lastName.value}`;
+        if (fullName.length > 20) {
+            showValidationError('Please use shorter first and last names. Combined name should not exceed 20 characters.');
+            return false;
+        }
+
+        // Check company name if organization is selected
+        if (category.value === 'organization' && companyName) {
+            if (companyName.value.length > 30) {
+                showValidationError('Company name should not exceed 30 characters.');
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // Handle form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Validate name lengths first
+        if (!validateName()) {
+            return;
+        }
+
+        // Show payment method modal if validation passes
+        paymentMethodModal.show();
+    });
+
     // Handle payment method selection
     document.getElementById('confirmPaymentMethod').addEventListener('click', function() {
         const selectedMethod = document.querySelector('input[name="modal_payment_method"]:checked');
@@ -949,6 +1019,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Submit form
         form.submit();
     });
+
+    // ... rest of your existing script ...
 });
 
 // Initialize tooltips

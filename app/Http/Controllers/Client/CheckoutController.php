@@ -7,6 +7,7 @@ use App\Models\BillingDetail;
 use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\Ticket;
+use App\Helpers\PaymentLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -47,8 +48,23 @@ class CheckoutController extends Controller
         \Log::info('Checkout process started', ['input' => $request->all()]);
 
         $validationRules = [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'first_name' => [
+                'required',
+                'string',
+                'max:10', // Limiting first name to 10 characters
+                function ($attribute, $value, $fail) use ($request) {
+                    // Check if combined name length exceeds 20 characters
+                    $fullName = $value . ' ' . $request->input('last_name');
+                    if (strlen($fullName) > 20) {
+                        $fail('Please use shorter first and last names. Combined name should not exceed 20 characters.');
+                    }
+                },
+            ],
+            'last_name' => [
+                'required',
+                'string',
+                'max:10', // Limiting last name to 10 characters
+            ],
             'gender' => 'required|in:male,female',
             'category' => 'required|in:individual,academician,organization',
             'country' => 'required|string|max:255',
@@ -64,7 +80,11 @@ class CheckoutController extends Controller
 
         // Add B2B validation rules if organization is selected
         if ($request->input('category') === 'organization') {
-            $validationRules['company_name'] = 'required|string|max:255';
+            $validationRules['company_name'] = [
+                'required',
+                'string',
+                'max:30', // Limiting company name to match ToyyibPay's limit
+            ];
             $validationRules['business_registration_number'] = 'required|string|max:50';
             $validationRules['tax_number'] = 'nullable|string|max:50';
         }
@@ -75,7 +95,11 @@ class CheckoutController extends Controller
             $validationRules['academic_institution'] = 'required|string|max:255';
         }
 
-        $validated = $request->validate($validationRules);
+        $validated = $request->validate($validationRules, [
+            'first_name.max' => 'First name should not exceed 10 characters.',
+            'last_name.max' => 'Last name should not exceed 10 characters.',
+            'company_name.max' => 'Company name should not exceed 30 characters.',
+        ]);
         
         // Add user_id to billing data if user is logged in
         if (auth()->check()) {
@@ -127,11 +151,15 @@ class CheckoutController extends Controller
             $phone = '6' . substr($phone, 1);
         }
 
+        // Create a bill name that won't exceed 30 characters
+        $customerName = $validated['first_name'] . ' ' . $validated['last_name'];
+        $billName = 'Order-' . substr($customerName, 0, 23); // "Order-" takes 6 chars, leaving 24 for name
+
         // Prepare ToyyibPay bill data
         $billData = [
             'userSecretKey' => config('services.toyyibpay.secret_key'),
             'categoryCode' => config('services.toyyibpay.category_code'),
-            'billName' => 'Order from ' . $validated['first_name'] . ' ' . $validated['last_name'],
+            'billName' => $billName,
             'billDescription' => 'Ticket purchase',
             'billPriceSetting' => 1,
             'billPayorInfo' => 1,
@@ -148,7 +176,9 @@ class CheckoutController extends Controller
         if ($validated['category'] === 'organization') {
             $billData['enableFPXB2B'] = '1';  // Enable FPX Corporate Banking
             $billData['chargeFPXB2B'] = '1';  // Charge on bill owner
-            // Add company name to bill description
+            // Add company name to bill description but ensure it doesn't exceed limit
+            $companyBillName = 'Order-' . substr($validated['company_name'], 0, 23);
+            $billData['billName'] = $companyBillName;
             $billData['billDescription'] = 'Ticket purchase - ' . $validated['company_name'];
             $billData['billTo'] = $validated['company_name'];
         }
@@ -159,17 +189,37 @@ class CheckoutController extends Controller
             $response = Http::asForm()->withOptions(['verify' => false])->post('https://toyyibpay.com/index.php/api/createBill', $billData);
             $result = $response->json();
             \Log::info('ToyyibPay response', ['result' => $result]);
-        } catch (\Exception $e) {
-            \Log::error('ToyyibPay API error', ['exception' => $e]);
-            return back()->with('error', 'Payment gateway error. Please try again.');
-        }
 
-        if (isset($result[0]['BillCode'])) {
-            $billCode = $result[0]['BillCode'];
-            \Log::info('Redirecting to ToyyibPay', ['bill_code' => $billCode]);
-            return redirect('https://toyyibpay.com/' . $billCode);
-        } else {
-            \Log::error('ToyyibPay did not return BillCode', ['result' => $result]);
+            if (isset($result[0]['BillCode'])) {
+                $billCode = $result[0]['BillCode'];
+                \Log::info('Redirecting to ToyyibPay', ['bill_code' => $billCode]);
+                return redirect('https://toyyibpay.com/' . $billCode);
+            } else {
+                PaymentLogger::logFailedPayment(
+                    'toyyibpay',
+                    'FAILED',
+                    'Bill creation failed - No bill code returned',
+                    [
+                        'customer_name' => $validated['first_name'] . ' ' . $validated['last_name'],
+                        'customer_email' => $validated['email'],
+                        'amount' => $cartTotal,
+                        'response' => $result
+                    ]
+                );
+                return back()->with('error', 'Payment gateway error. Please try again.');
+            }
+        } catch (\Exception $e) {
+            PaymentLogger::logFailedPayment(
+                'toyyibpay',
+                'ERROR',
+                'API Error: ' . $e->getMessage(),
+                [
+                    'customer_name' => $validated['first_name'] . ' ' . $validated['last_name'],
+                    'customer_email' => $validated['email'],
+                    'amount' => $cartTotal
+                ]
+            );
+            \Log::error('ToyyibPay API error', ['exception' => $e]);
             return back()->with('error', 'Payment gateway error. Please try again.');
         }
     }
@@ -237,6 +287,15 @@ class CheckoutController extends Controller
             $cartTotal = session('pending_cart_total');
             
             if (empty($cartItems) || empty($billingData)) {
+                PaymentLogger::logFailedPayment(
+                    'stripe',
+                    'ERROR',
+                    'Missing cart items or billing information',
+                    [
+                        'customer_email' => $billingData['email'] ?? 'Unknown',
+                        'amount' => $cartTotal ?? 0
+                    ]
+                );
                 return redirect()->route('client.cart.index')->with('error', 'No items in cart or missing billing information.');
             }
 
@@ -247,6 +306,16 @@ class CheckoutController extends Controller
             }
 
             if (!$payment_intent) {
+                PaymentLogger::logFailedPayment(
+                    'stripe',
+                    'ERROR',
+                    'Payment intent not found',
+                    [
+                        'customer_name' => $billingData['first_name'] . ' ' . $billingData['last_name'],
+                        'customer_email' => $billingData['email'],
+                        'amount' => $cartTotal
+                    ]
+                );
                 return redirect()->route('client.cart.index')->with('error', 'Payment failed. Please try again.');
             }
 
@@ -272,6 +341,22 @@ class CheckoutController extends Controller
                         'payment_country' => $country,
                         'processing_fee' => $calculatedTotal - $cartTotal
                     ]);
+
+                    // Log successful payment
+                    PaymentLogger::logSuccessfulPayment(
+                        'stripe',
+                        $order->reference_number,
+                        $calculatedTotal,
+                        [
+                            'customer_name' => $billingData['first_name'] . ' ' . $billingData['last_name'],
+                            'customer_email' => $billingData['email'],
+                            'payment_country' => $country,
+                            'processing_fee' => $calculatedTotal - $cartTotal,
+                            'payment_intent_id' => $payment_intent->id,
+                            'items_count' => count($cartItems),
+                            'order_id' => $order->id
+                        ]
+                    );
 
                     // Update ticket stock
                     foreach ($cartItems as $item) {
@@ -331,9 +416,32 @@ class CheckoutController extends Controller
                     return redirect()->route('client.cart.index')->with('error', 'An error occurred while processing your order. Please contact support.');
                 }
             } else {
+                PaymentLogger::logFailedPayment(
+                    'stripe',
+                    'FAILED',
+                    'Payment intent status: ' . $payment_intent->status,
+                    [
+                        'customer_name' => $billingData['first_name'] . ' ' . $billingData['last_name'],
+                        'customer_email' => $billingData['email'],
+                        'amount' => $cartTotal,
+                        'payment_intent_id' => $payment_intent->id,
+                        'payment_intent_status' => $payment_intent->status,
+                        'last_payment_error' => $payment_intent->last_payment_error ? $payment_intent->last_payment_error->message : null
+                    ]
+                );
                 return redirect()->route('client.cart.index')->with('error', 'Payment failed. Please try again.');
             }
         } catch (\Exception $e) {
+            PaymentLogger::logFailedPayment(
+                'stripe',
+                'ERROR',
+                'Stripe callback error: ' . $e->getMessage(),
+                [
+                    'customer_name' => $billingData['first_name'] . ' ' . $billingData['last_name'] ?? 'Unknown',
+                    'customer_email' => $billingData['email'] ?? 'Unknown',
+                    'amount' => $cartTotal ?? 0
+                ]
+            );
             \Log::error('Stripe callback error: ' . $e->getMessage());
             return redirect()->route('client.cart.index')->with('error', 'An error occurred while processing your payment.');
         }
@@ -347,6 +455,21 @@ class CheckoutController extends Controller
         if ($status == '1') {
             return $this->processSuccessfulPayment($reference_no);
         } else {
+            // Log the failed payment
+            $billingData = session('pending_billing');
+            PaymentLogger::logFailedPayment(
+                'toyyibpay',
+                'CANCELLED',
+                'Payment was not completed or was cancelled by user',
+                [
+                    'customer_name' => $billingData['first_name'] . ' ' . $billingData['last_name'] ?? 'Unknown',
+                    'customer_email' => $billingData['email'] ?? 'Unknown',
+                    'amount' => session('pending_cart_total', 0),
+                    'reference_no' => $reference_no,
+                    'status_id' => $status
+                ]
+            );
+
             return redirect()->route('client.store')->with([
                 'show_modal' => true,
                 'modal_type' => 'error',
@@ -390,6 +513,20 @@ class CheckoutController extends Controller
 
                 // Create order
                 $order = Order::create($orderData);
+
+                // Log successful payment
+                PaymentLogger::logSuccessfulPayment(
+                    'toyyibpay',
+                    $reference_no,
+                    $cartTotal,
+                    [
+                        'customer_name' => $billingData['first_name'] . ' ' . $billingData['last_name'],
+                        'customer_email' => $billingData['email'],
+                        'payment_country' => 'Malaysia',
+                        'items_count' => count($cartItems),
+                        'order_id' => $order->id
+                    ]
+                );
 
                 // Reduce stock for each item
                 foreach ($cartItems as $item) {
