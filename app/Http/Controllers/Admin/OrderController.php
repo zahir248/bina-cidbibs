@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\BillingDetail;
+use App\Helpers\PaymentLogger;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -101,5 +102,27 @@ class OrderController extends Controller
 
         $filename = "order-{$order->reference_number}.pdf";
         return $pdf->download($filename);
+    }
+
+    /**
+     * Download successful transactions log
+     */
+    public function downloadSuccessLog()
+    {
+        $content = PaymentLogger::getSuccessfulPaymentLogs();
+        return response($content)
+            ->header('Content-Type', 'text/plain')
+            ->header('Content-Disposition', 'attachment; filename="successful_transactions_' . date('Y-m-d') . '.log"');
+    }
+
+    /**
+     * Download failed transactions log
+     */
+    public function downloadFailedLog()
+    {
+        $content = PaymentLogger::getFailedPaymentLogs();
+        return response($content)
+            ->header('Content-Type', 'text/plain')
+            ->header('Content-Disposition', 'attachment; filename="failed_transactions_' . date('Y-m-d') . '.log"');
     }
 } 

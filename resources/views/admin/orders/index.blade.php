@@ -7,8 +7,25 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="card-title">Orders</h3>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="downloadLogsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-download me-1"></i> Download Transaction Log
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="downloadLogsDropdown">
+                            <li>
+                                <a class="dropdown-item" href="#" id="downloadSuccessLog">
+                                    <i class="bi bi-check-circle text-success me-2"></i>Successful Transactions
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" id="downloadFailedLog">
+                                    <i class="bi bi-x-circle text-danger me-2"></i>Failed Transactions
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="card-body">
                     <!-- Search Form -->
@@ -451,6 +468,47 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.disabled = false;
             }, 5000);
         });
+    });
+
+    // Function to download log file content
+    function downloadLog(content, filename) {
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+    }
+
+    // Handle successful transactions log download
+    document.getElementById('downloadSuccessLog').addEventListener('click', function(e) {
+        e.preventDefault();
+        fetch('/admin/orders/download-success-log')
+            .then(response => response.text())
+            .then(content => {
+                downloadLog(content, `successful_transactions_${new Date().toISOString().split('T')[0]}.log`);
+            })
+            .catch(error => {
+                console.error('Error downloading success log:', error);
+                alert('Error downloading success log. Please try again.');
+            });
+    });
+
+    // Handle failed transactions log download
+    document.getElementById('downloadFailedLog').addEventListener('click', function(e) {
+        e.preventDefault();
+        fetch('/admin/orders/download-failed-log')
+            .then(response => response.text())
+            .then(content => {
+                downloadLog(content, `failed_transactions_${new Date().toISOString().split('T')[0]}.log`);
+            })
+            .catch(error => {
+                console.error('Error downloading failed log:', error);
+                alert('Error downloading failed log. Please try again.');
+            });
     });
 });
 </script>
