@@ -323,32 +323,97 @@
 
 <!-- Main Content Section -->
 <div class="container py-5">
-    <div class="d-flex ma-flex-row flex-lg-row flex-column align-items-start justify-content-between gap-4">
-        <!-- Left: Logo, Title, Headline, Description -->
+    <!-- Main content wrapper -->
+    <div class="d-flex flex-column flex-lg-row align-items-start justify-content-between gap-4">
+        <!-- Left column content -->
         <div class="flex-grow-1" style="min-width: 300px;">
-            <div class="ma-title">
-                <img src="{{ asset('images/nextgen-logo.png') }}" alt="NextGen BINA Logo" class="ma-logo" onerror="this.style.display='none'">
+            <!-- Logo and Description Section - Always First -->
+            <div class="order-1">
+                <div class="ma-title text-center text-lg-start">
+                    <img src="{{ asset('images/nextgen-logo.png') }}" alt="NextGen BINA Logo" class="ma-logo mx-auto mx-lg-0" onerror="this.style.display='none'">
+                </div>
+                <div class="ma-headline">NEXTGEN TVET: MODULAR THINKERS</div>
+                <div class="ma-desc" style="max-width: 100%; text-align: justify; text-justify: inter-word;">
+                    BINA 2025 proudly introduces NextGen TVET: Modular Thinkers, an exciting competition designed to spark innovation and real-world problem-solving among TVET students through the lens of modular construction.
+                </div>
+                <div class="ma-desc" style="max-width: 100%; text-align: justify; text-justify: inter-word;">
+                    The competition challenges participants to design innovative, functional, and cost-effective modular building solutions that address critical global needs such as affordable housing, disaster relief shelters, and eco-friendly structures. Beyond design, students will also be tested on their ability to assemble modular structures quickly and accurately under time constraints, simulating the fast-paced demands of real-world construction scenarios.
+                </div>
+                <!-- Image Section with hover effect -->
+                <div class="ma-video-preview position-relative mt-4" style="width:100%; max-width:100%; max-height: 500px; overflow: hidden;">
+                    <img src="{{ asset('images/facility.jpg') }}" alt="NextGen BINA" 
+                         style="width:100%; height: 500px; border-radius: 2rem; display:block; object-fit: cover; transition: transform 0.3s ease;"
+                         onmouseover="this.style.transform='scale(1.02)'"
+                         onmouseout="this.style.transform='scale(1)'">
+                </div>
+                <div class="ma-desc" style="color:#6b7280; font-size:1.18rem; margin-top:2rem; margin-bottom:1.5rem; max-width:100%; text-align: justify; text-justify: inter-word;">
+                    NextGen TVET: Modular Thinkers is more than a competition—it's a platform to showcase the future talents who will drive innovation, sustainability, and smart urban development through modular technology.
+                </div>
             </div>
-            <div class="ma-headline">NEXTGEN TVET: MODULAR THINKERS</div>
-            <div class="ma-desc" style="max-width: 100%; text-align: justify; text-justify: inter-word;">
-                BINA 2025 proudly introduces NextGen TVET: Modular Thinkers, an exciting competition designed to spark innovation and real-world problem-solving among TVET students through the lens of modular construction.
+
+            <!-- Event Details Card - Second on Mobile -->
+            <div class="d-block d-lg-none order-2 mb-5">
+                <div class="ma-card animate-on-scroll mx-auto" style="min-width:270px;max-width:340px;">
+                    <div style="font-size:1.25rem;font-weight:600;color:#22223b;margin-bottom:1.5rem;border-bottom:2px solid #ff9800;padding-bottom:0.75rem;">
+                        Key objectives of the competition:
+                    </div>
+                    <ul class="objectives-list">
+                        <li>
+                            <div style="font-weight:500;">Encouraging Creativity</div>
+                            <div style="font-size:0.95rem;margin-top:0.25rem;line-height:1.5;">
+                                Fostering practicality in designing modular solutions that solve real-world challenges.
+                            </div>
+                        </li>
+                        <li>
+                            <div style="font-weight:500;">Testing Hands-on Skills</div>
+                            <div style="font-size:0.95rem;margin-top:0.25rem;line-height:1.5;">
+                                Mirroring industry expectations for speed and precision in modular assembly.
+                            </div>
+                        </li>
+                        <li>
+                            <div style="font-weight:500;">Promoting Sustainability</div>
+                            <div style="font-size:0.95rem;margin-top:0.25rem;line-height:1.5;">
+                                Inspiring students to build modular structures that prioritize environmental responsibility.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="ma-desc" style="max-width: 100%; text-align: justify; text-justify: inter-word;">
-                The competition challenges participants to design innovative, functional, and cost-effective modular building solutions that address critical global needs such as affordable housing, disaster relief shelters, and eco-friendly structures. Beyond design, students will also be tested on their ability to assemble modular structures quickly and accurately under time constraints, simulating the fast-paced demands of real-world construction scenarios.
+
+            <!-- Competition Modules Section - Third on Mobile -->
+            <div class="order-3">
+                <h2 class="mb-4" style="font-size: 1.8rem; font-weight: 700; color: #22223b;">Competition Modules</h2>
+                <div class="ma-video-preview position-relative" style="width:100%; max-width:100%; max-height: 800px; overflow: hidden; border-radius: 2.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+                    <img src="{{ $poster_image }}" alt="TVET Competition Modules" 
+                         style="width:100%; height: auto; display:block; object-fit: contain; transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                         onmouseover="this.style.transform='scale(1.02)'; this.parentElement.style.boxShadow='0 15px 40px rgba(0, 0, 0, 0.15)';"
+                         onmouseout="this.style.transform='scale(1)'; this.parentElement.style.boxShadow='0 10px 30px rgba(0, 0, 0, 0.1)';">
+                </div>
             </div>
-            <!-- Image Section with hover effect -->
-            <div class="ma-video-preview position-relative mt-4" style="width:100%; max-width:100%; max-height: 500px; overflow: hidden;">
-                <img src="{{ asset('images/facility.jpg') }}" alt="NextGen BINA" 
-                     style="width:100%; height: 500px; border-radius: 2rem; display:block; object-fit: cover; transition: transform 0.3s ease;"
-                     onmouseover="this.style.transform='scale(1.02)'"
-                     onmouseout="this.style.transform='scale(1)'">
-            </div>
-            <div class="ma-desc" style="color:#6b7280; font-size:1.18rem; margin-top:2rem; margin-bottom:1.5rem; max-width:100%; text-align: justify; text-justify: inter-word;">
-                NextGen TVET: Modular Thinkers is more than a competition—it's a platform to showcase the future talents who will drive innovation, sustainability, and smart urban development through modular technology.
+
+            <!-- Registration Form Download Section - Always Last -->
+            <div class="text-center mt-5 order-4">
+                <h3 class="mb-3" style="font-size: 1.5rem; font-weight: 600; color: #22223b;">Ready to Participate? / Sedia untuk Menyertai?</h3>
+                <p class="mb-4" style="color: #4b5563; font-size: 1.1rem;">Download the registration form below to join the NextGen TVET: Modular Thinkers Competition</p>
+                <div class="d-flex justify-content-center gap-5 flex-wrap">
+                    <div class="text-center">
+                        <a href="{{ $pdf_file }}" download="NextGen_TVET_Registration_Form.pdf" class="btn btn-primary btn-lg" style="background-color: #ff9800; border: none; padding: 1rem 2rem; border-radius: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease;">
+                            <i class="fas fa-file-download me-2"></i> Download Form (English)
+                        </a>
+                        <p class="mt-2" style="color: #6b7280; font-size: 0.9rem;">PDF format • Fill out and submit to participate</p>
+                    </div>
+                    <div class="text-center">
+                        <a href="{{ $pdf_file_bm }}" download="Borang_Pendaftaran_NextGen_TVET.pdf" class="btn btn-primary btn-lg" style="background-color: #ff9800; border: none; padding: 1rem 2rem; border-radius: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease;">
+                            <i class="fas fa-file-download me-2"></i> Muat Turun Borang (BM)
+                        </a>
+                        <p class="mt-2" style="color: #6b7280; font-size: 0.9rem;">Format PDF • Isi dan hantar untuk menyertai</p>
+                    </div>
+                </div>
             </div>
         </div>
-        <!-- Right: Event Details Card -->
-        <div class="sticky-sidebar">
+
+        <!-- Event Details Card - Desktop Only (Right Column) -->
+        <div class="d-none d-lg-block sticky-sidebar">
             <div class="ma-card animate-on-scroll" style="min-width:270px;max-width:340px;">
                 <div style="font-size:1.25rem;font-weight:600;color:#22223b;margin-bottom:1.5rem;border-bottom:2px solid #ff9800;padding-bottom:0.75rem;">
                     Key objectives of the competition:

@@ -88,7 +88,12 @@ class PageController extends Controller
 
     public function nextgen()
     {
-        return view('client.nextgen');
+        $data = [
+            'poster_image' => asset('images/nextgen-poster.jpg'),
+            'pdf_file' => asset('files/form-eng.pdf'),
+            'pdf_file_bm' => asset('files/form-bm.pdf')
+        ];
+        return view('client.nextgen', $data);
     }
 
     public function ibsHome()
