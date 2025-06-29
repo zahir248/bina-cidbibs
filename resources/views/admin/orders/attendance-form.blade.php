@@ -9,10 +9,6 @@
             font-size: 12px;
             line-height: 1.4;
         }
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
         .order-info {
             margin-bottom: 20px;
         }
@@ -72,10 +68,6 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <h2>ATTENDANCE FORM</h2>
-    </div>
-
     @if($isSingleOrder)
         <div class="order-info">
             <table>
