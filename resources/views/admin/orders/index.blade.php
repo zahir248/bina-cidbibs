@@ -178,7 +178,7 @@
                             <tbody>
                                 @foreach($orders as $index => $order)
                                 <tr>
-                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $orders->firstItem() + $index }}</td>
                                     <td>{{ $order->reference_number }}</td>
                                     <td>RM {{ number_format($order->total_amount, 2) }}</td>
                                     <td>
@@ -219,6 +219,16 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    Showing {{ $orders->firstItem() }} to {{ $orders->lastItem() }} of {{ $orders->total() }} results
+                                </div>
+                                <div>
+                                    {{ $orders->links('pagination::bootstrap-5') }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

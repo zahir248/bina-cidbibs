@@ -18,8 +18,8 @@ class OrderController extends Controller
     {
         $orders = Order::with('billingDetail')
             ->latest()
-            ->get()
-            ->map(function ($order) {
+            ->paginate(10)
+            ->through(function ($order) {
                 $order->cart_items_count = count($order->cart_items);
                 return $order;
             });
