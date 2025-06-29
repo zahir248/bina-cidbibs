@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Stripe\PaymentIntent;
 use Stripe\Stripe;
+use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CheckoutController extends Controller
 {
@@ -370,21 +372,37 @@ class CheckoutController extends Controller
 
                     // Send confirmation email
                     try {
-                        Mail::send('emails.order-confirmation', [
-                            'billingData' => $billingData,
-                            'cartItems' => $cartItems,
-                            'cartTotal' => $cartTotal,
-                            'referenceNo' => $order->reference_number,
-                            'processingFee' => $calculatedTotal - $cartTotal,
-                            'paymentCountry' => $country
-                        ], function($message) use ($billingData) {
-                            $message->to($billingData['email'])
-                                    ->subject('Order Confirmation - ' . config('app.name'));
-                        });
+                        // Generate QR codes first and validate
+                        $qrCodes = $order->generateTicketQRCodes();
+                        
+                        // Validate that QR codes were generated successfully
+                        if (empty($qrCodes)) {
+                            throw new \Exception('Failed to generate QR codes');
+                        }
+                        
+                        // Validate each QR code
+                        foreach ($qrCodes as $qrCode) {
+                            if (empty($qrCode['qr_code']) || !is_string($qrCode['qr_code'])) {
+                                throw new \Exception('Invalid QR code generated');
+                            }
+                        }
+
+                        // If QR codes are valid, send the email
+                        $this->sendOrderConfirmationEmail($order, $billingData);
+
                     } catch (\Exception $e) {
                         \Log::error('Failed to send order confirmation email', [
                             'error' => $e->getMessage(),
-                            'email' => $billingData['email']
+                            'email' => $billingData['email'],
+                            'trace' => $e->getTraceAsString()
+                        ]);
+
+                        // Don't throw the exception - we still want to complete the order
+                        // but let's notify admin about the email failure
+                        \Log::channel('slack')->error('Order email failed but order completed', [
+                            'order_id' => $order->id,
+                            'email' => $billingData['email'],
+                            'error' => $e->getMessage()
                         ]);
                     }
 
@@ -548,21 +566,37 @@ class CheckoutController extends Controller
 
                 // Send confirmation email
                 try {
-                    Mail::send('emails.order-confirmation', [
-                        'billingData' => $billingData,
-                        'cartItems' => $cartItems,
-                        'cartTotal' => $cartTotal,
-                        'referenceNo' => $reference_no,
-                        'processingFee' => 0.00,
-                        'paymentCountry' => 'Malaysia'
-                    ], function($message) use ($billingData) {
-                        $message->to($billingData['email'])
-                                ->subject('Order Confirmation - ' . config('app.name'));
-                    });
+                    // Generate QR codes first and validate
+                    $qrCodes = $order->generateTicketQRCodes();
+                    
+                    // Validate that QR codes were generated successfully
+                    if (empty($qrCodes)) {
+                        throw new \Exception('Failed to generate QR codes');
+                    }
+                    
+                    // Validate each QR code
+                    foreach ($qrCodes as $qrCode) {
+                        if (empty($qrCode['qr_code']) || !is_string($qrCode['qr_code'])) {
+                            throw new \Exception('Invalid QR code generated');
+                        }
+                    }
+
+                    // If QR codes are valid, send the email
+                    $this->sendOrderConfirmationEmail($order, $billingData);
+
                 } catch (\Exception $e) {
                     \Log::error('Failed to send order confirmation email', [
                         'error' => $e->getMessage(),
-                        'email' => $billingData['email']
+                        'email' => $billingData['email'],
+                        'trace' => $e->getTraceAsString()
+                    ]);
+
+                    // Don't throw the exception - we still want to complete the order
+                    // but let's notify admin about the email failure
+                    \Log::channel('slack')->error('Order email failed but order completed', [
+                        'order_id' => $order->id,
+                        'email' => $billingData['email'],
+                        'error' => $e->getMessage()
                     ]);
                 }
 
@@ -633,6 +667,76 @@ class CheckoutController extends Controller
         } catch (\Exception $e) {
             \Log::error('Error updating payment amount: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    private function sendOrderConfirmationEmail($order, $billingData)
+    {
+        try {
+            $qrCodes = $order->generateTicketQRCodes();
+            
+            // Add absolute paths for PDF generation
+            $qrCodesWithPaths = array_map(function($qrCode) {
+                $qrCode['qr_code_path'] = public_path('storage/' . $qrCode['filename']);
+                return $qrCode;
+            }, $qrCodes);
+
+            // Generate PDF
+            $pdf = PDF::loadView('emails.order-confirmation-pdf', [
+                'billingData' => $billingData,
+                'referenceNo' => $order->reference_number,
+                'cartItems' => $order->cart_items,
+                'qrCodes' => $qrCodesWithPaths,
+                'orderDate' => $order->created_at
+            ]);
+
+            // Configure PDF options
+            $pdf->setOption(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
+            
+            // Save PDF temporarily
+            $pdfPath = 'pdfs/order_' . $order->reference_number . '.pdf';
+            Storage::disk('public')->put($pdfPath, $pdf->output());
+            
+            Mail::send('emails.order-confirmation', [
+                'billingData' => $billingData,
+                'referenceNo' => $order->reference_number,
+                'cartItems' => $order->cart_items,
+                'qrCodes' => $qrCodes,
+                'orderDate' => $order->created_at
+            ], function ($message) use ($billingData, $qrCodes, $order, $pdfPath) {
+                $message->to($billingData['email'])
+                        ->subject('Order Confirmation - ' . config('app.name'));
+
+                // Attach QR code images
+                foreach ($qrCodes as $qrCode) {
+                    $message->attach(Storage::disk('public')->path($qrCode['filename']), [
+                        'as' => basename($qrCode['filename']),
+                        'mime' => 'image/svg+xml'
+                    ]);
+                }
+
+                // Attach PDF
+                $message->attach(Storage::disk('public')->path($pdfPath), [
+                    'as' => 'Order_Confirmation_' . $order->reference_number . '.pdf',
+                    'mime' => 'application/pdf'
+                ]);
+            });
+
+            // Clean up temporary PDF file
+            Storage::disk('public')->delete($pdfPath);
+
+            Log::info('Order confirmation email sent successfully', [
+                'order_id' => $order->id,
+                'email' => $billingData['email'],
+                'qr_codes_count' => count($qrCodes)
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to send order confirmation email', [
+                'error' => $e->getMessage(),
+                'email' => $billingData['email'],
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
         }
     }
 }

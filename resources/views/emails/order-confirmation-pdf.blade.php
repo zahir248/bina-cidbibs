@@ -1,6 +1,3 @@
-@php
-    use SimpleSoftwareIO\QrCode\Facades\QrCode;
-@endphp
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,27 +8,26 @@
             line-height: 1.6;
             color: #333;
         }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
+        .page {
+            page-break-after: always;
+        }
+        .page:last-child {
+            page-break-after: avoid;
         }
         .header {
             background: #ff9800;
             color: white;
             padding: 20px;
             text-align: center;
-            border-radius: 5px 5px 0 0;
+            margin-bottom: 20px;
         }
         .content {
-            background: #f9f9f9;
             padding: 20px;
-            border-radius: 0 0 5px 5px;
         }
         .order-details {
             margin: 20px 0;
             padding: 15px;
-            background: white;
+            border: 1px solid #ddd;
             border-radius: 5px;
         }
         .order-details h3 {
@@ -39,44 +35,76 @@
             padding-bottom: 8px;
             margin-bottom: 15px;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th {
+            background: #ff9800;
+            color: white;
+            padding: 8px;
+            text-align: left;
+        }
+        td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
         .total {
             font-weight: bold;
             color: #ff9800;
+        }
+        .qr-code-container {
+            text-align: center;
+            padding: 20px;
+            clear: both;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .qr-code-item {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            vertical-align: top;
+            width: 220px;
+        }
+        .qr-code-image {
+            margin-bottom: 10px;
+            background: white;
+            text-align: center;
+        }
+        .qr-code-image img {
+            width: 180px;
+            height: 180px;
+            display: block;
+            margin: 0 auto;
+            background: white;
+        }
+        .qr-code-text {
+            margin-top: 10px;
+            font-size: 13px;
+            text-align: center;
+            background: white;
         }
         .footer {
             text-align: center;
             margin-top: 20px;
             font-size: 12px;
             color: #666;
-        }
-        .qr-code-container {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .qr-code-item {
-            display: inline-block;
-            margin: 10px;
-            padding: 15px;
-            background: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .qr-code-text {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #333;
-        }
-        .qr-code-image {
-            width: 200px;
-            height: 200px;
-            display: inline-block;
-            background: white;
-            padding: 10px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Order Details Page -->
+    <div class="page">
         <div class="header">
             <h1>Order Confirmation</h1>
         </div>
@@ -88,17 +116,18 @@
             <div class="order-details">
                 <h3>Order Details</h3>
                 <p><strong>Reference Number:</strong> {{ $referenceNo }}</p>
+                <p><strong>Order Date:</strong> {{ $orderDate->format('d F Y, h:i A') }}</p>
                 
                 <h4>Tickets Purchased:</h4>
-                <table width="100%" cellpadding="6" cellspacing="0" style="border-collapse:collapse;">
+                <table>
                     <thead>
-                        <tr style="background:#ff9800;color:#fff;">
-                            <th align="left">Ticket</th>
-                            <th align="center">Quantity</th>
-                            <th align="right">Original Price</th>
-                            <th align="right">Discounted Price</th>
-                            <th align="right">Original Subtotal</th>
-                            <th align="right">Discounted Subtotal</th>
+                        <tr>
+                            <th>Ticket</th>
+                            <th style="text-align:center">Quantity</th>
+                            <th style="text-align:right">Original Price</th>
+                            <th style="text-align:right">Discounted Price</th>
+                            <th style="text-align:right">Original Subtotal</th>
+                            <th style="text-align:right">Discounted Subtotal</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -117,48 +146,70 @@
                                 $originalSubtotal += $origSub;
                                 $discountedSubtotal += $discSub;
                             @endphp
-                            <tr style="background:#fff;">
+                            <tr>
                                 <td>{{ $ticket->name }}</td>
-                                <td align="center">{{ $quantity }}</td>
-                                <td align="right">RM {{ number_format($originalPrice, 2) }}</td>
-                                <td align="right">RM {{ number_format($discountedPrice, 2) }}</td>
-                                <td align="right">RM {{ number_format($origSub, 2) }}</td>
-                                <td align="right">RM {{ number_format($discSub, 2) }}</td>
+                                <td style="text-align:center">{{ $quantity }}</td>
+                                <td style="text-align:right">RM {{ number_format($originalPrice, 2) }}</td>
+                                <td style="text-align:right">RM {{ number_format($discountedPrice, 2) }}</td>
+                                <td style="text-align:right">RM {{ number_format($origSub, 2) }}</td>
+                                <td style="text-align:right">RM {{ number_format($discSub, 2) }}</td>
                             </tr>
                         @endforeach
                         @php $discount = $originalSubtotal - $discountedSubtotal; @endphp
                     </tbody>
                 </table>
-                <div style="margin-top:10px;text-align:right;">
+                <div style="text-align:right;margin-top:10px;">
                     <div>Subtotal: RM {{ number_format($originalSubtotal, 2) }}</div>
                     <div>Discount: - RM {{ number_format($discount, 2) }}</div>
-                    <div style="font-weight:bold;">Total Amount: RM {{ number_format($discountedSubtotal, 2) }}</div>
-                </div>
-
-                <div class="qr-code-container">
-                    <h4>Ticket QR Codes:</h4>
-                    @foreach($qrCodes as $qrCode)
-                        <div class="qr-code-item">
-                            <div class="qr-code-image">
-                                <img src="cid:{{ basename($qrCode['filename']) }}" 
-                                     alt="QR Code for {{ $qrCode['ticket_name'] }}" 
-                                     style="width:200px;height:200px;">
-                            </div>
-                            <div class="qr-code-text">
-                                <strong>{{ $qrCode['ticket_name'] }}</strong><br>
-                                @if($qrCode['quantity'] > 1)
-                                    QR Code {{ $qrCode['ticket_number'] }} of {{ $qrCode['quantity'] }} tickets
-                                @else
-                                    Single Ticket QR Code
-                                @endif
-                            </div>
-                        </div>
-                    @endforeach
+                    <div class="total">Total Amount: RM {{ number_format($discountedSubtotal, 2) }}</div>
                 </div>
             </div>
+        </div>
+    </div>
 
+    <!-- QR Codes Pages -->
+    @php
+        $qrCodesChunks = array_chunk($qrCodes, 4);
+    @endphp
+
+    @foreach($qrCodesChunks as $chunk)
+    <div class="page">
+        <div class="header">
+            <h1>Ticket QR Codes</h1>
+        </div>
+        <div class="content">
+            <div class="qr-code-container">
+                @foreach($chunk as $qrCode)
+                    <div class="qr-code-item">
+                        <div class="qr-code-text">
+                            <strong>{{ $qrCode['ticket_name'] }}</strong>
+                        </div>
+                        <div class="qr-code-image">
+                            <img src="file://{{ $qrCode['qr_code_path'] }}" 
+                                 alt="QR Code for {{ $qrCode['ticket_name'] }}">
+                        </div>
+                        <div class="qr-code-text">
+                            @if($qrCode['quantity'] > 1)
+                                QR Code {{ $qrCode['ticket_number'] }} of {{ $qrCode['quantity'] }} tickets
+                            @else
+                                Single Ticket QR Code
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    @endforeach
+
+    <!-- Billing Information Page -->
+    <div class="page">
+        <div class="header">
+            <h1>Billing Information</h1>
+        </div>
+        <div class="content">
             <div class="order-details">
-                <h3>Billing Information</h3>
+                <p><strong>Reference Number:</strong> {{ $referenceNo }}</p>
                 <p><strong>Name:</strong> {{ $billingData['first_name'] }} {{ $billingData['last_name'] }}</p>
                 <p><strong>Gender:</strong> {{ ucfirst($billingData['gender']) }}</p>
                 <p><strong>Category:</strong> {{ ucfirst($billingData['category']) }}</p>
@@ -181,10 +232,8 @@
                 </p>
             </div>
 
-            <p>If you have any questions about your order, please don't hesitate to contact us.</p>
-
             <div class="footer">
-                <p>This is an automated message, please do not reply to this email.</p>
+                <p>This is an automated message. For any inquiries, please contact our support team.</p>
                 <p>&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
             </div>
         </div>
