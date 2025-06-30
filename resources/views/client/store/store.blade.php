@@ -259,9 +259,29 @@
         box-shadow: 0 2px 8px rgba(255,193,7,0.10);
     }
 
+    /* Updated more obvious blinking animation for announcement icon */
+    @keyframes blink {
+        0% {
+            opacity: 1;
+            transform: scale(1);
+            color: #ff9800;
+        }
+        50% {
+            opacity: 0.3;
+            transform: scale(1.15);
+            color: #f44336;
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+            color: #ff9800;
+        }
+    }
+
     .announcement-icon i {
         font-size: 1.7rem;
         color: #ff9800;
+        animation: blink 1.5s ease-in-out infinite;
     }
 
     .announcement-text {
