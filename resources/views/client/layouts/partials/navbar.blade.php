@@ -164,66 +164,77 @@
 
 <style>
 #mainNav {
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease;
     padding: 1rem 0;
     transform: translateY(0);
     z-index: 1030;
+    -webkit-transform: translateY(0);
+    -webkit-transition: -webkit-transform 0.3s ease;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    background: transparent;
+    box-shadow: none;
+    border: none;
 }
 
-#mainNav.navbar-transparent {
-    background: transparent !important;
-    box-shadow: none !important;
+#mainNav .container {
+    background: transparent;
+    box-shadow: none;
+    border: none;
 }
 
-#mainNav.navbar-transparent .navbar-brand,
-#mainNav.navbar-transparent .nav-link {
+#mainNav .navbar-collapse {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+#mainNav .navbar-brand,
+#mainNav .nav-link {
     color: white !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-#mainNav.navbar-transparent .navbar-brand span {
+#mainNav .navbar-brand span {
     color: white !important;
 }
 
-#mainNav.navbar-transparent .navbar-toggler {
+#mainNav .navbar-toggler {
     border: none;
     padding: 0;
+    background: transparent;
 }
 
-#mainNav.navbar-transparent .navbar-toggler:focus {
+#mainNav .navbar-toggler:focus {
     box-shadow: none;
+    outline: none;
 }
 
-#mainNav.navbar-transparent .navbar-toggler-icon {
+#mainNav .navbar-toggler-icon {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
 #mainNav.navbar-scrolled {
-    background: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-#mainNav.navbar-scrolled .navbar-brand,
-#mainNav.navbar-scrolled .nav-link {
-    color: var(--primary-blue) !important;
-}
-
-#mainNav.navbar-scrolled .navbar-brand span {
-    color: #1a1a1a !important;
+    visibility: hidden;
 }
 
 #mainNav .nav-link {
     font-weight: 500;
     padding: 0.5rem 1rem;
-    transition: all 0.3s ease;
+    transition: opacity 0.3s ease;
+    background: transparent;
 }
 
 #mainNav .nav-link:hover {
     color: #ff9800 !important;
+    opacity: 0.9;
+    background: transparent;
 }
 
 #mainNav .nav-link.active {
     color: #ff9800 !important;
+    background: transparent;
 }
 
 /* Mobile Sidebar Styles */
@@ -342,10 +353,10 @@
     }
     
     #mainNav .nav-link {
-        color: white;
+        color: white !important;
         padding: 0.5rem 1rem;
         font-weight: 500;
-        transition: all 0.3s ease;
+        background: transparent;
     }
     
     #mainNav.navbar-scrolled .nav-link {
@@ -355,6 +366,7 @@
     #mainNav .nav-link:hover,
     #mainNav .nav-link.active {
         color: #ff9800 !important;
+        background: transparent;
     }
     
     #mainNav .nav-link .fa-angle-down {
@@ -393,7 +405,8 @@
 .navbar-logo {
     height: 35px;
     width: auto;
-    transition: all 0.3s ease;
+    transition: opacity 0.3s ease;
+    filter: brightness(0) invert(1); /* Makes the logo white */
 }
 
 .sidebar-logo {
@@ -470,6 +483,45 @@
 #mainNav .nav-link:hover .fa-angle-down {
     color: #ff9800 !important;
 }
+
+/* Dropdown styles */
+#mainNav .dropdown-menu {
+    background: rgba(0, 0, 0, 0.8) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#mainNav .dropdown-item {
+    color: white !important;
+    transition: opacity 0.3s ease;
+    background: transparent;
+}
+
+#mainNav .dropdown-item:hover,
+#mainNav .dropdown-item:focus {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #ff9800 !important;
+}
+
+#mainNav .dropdown-item.active {
+    background: rgba(255, 152, 0, 0.2) !important;
+    color: #ff9800 !important;
+}
+
+#mainNav .fa-angle-down {
+    color: white !important;
+}
+
+/* Remove any Bootstrap default backgrounds */
+.bg-light {
+    background: transparent !important;
+}
+
+.navbar {
+    background: transparent !important;
+}
 </style>
 
 <script>
@@ -477,6 +529,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const mainNav = document.getElementById('mainNav');
     const isHomePage = window.location.pathname === '/' || window.location.pathname === '/home';
     let lastScrollTop = 0;
+    let isScrolling = false;
     
     // Sidebar functionality
     const sidebar = document.getElementById('mobileSidebar');
@@ -500,26 +553,43 @@ document.addEventListener('DOMContentLoaded', function() {
     sidebarClose.addEventListener('click', closeSidebar);
     overlay.addEventListener('click', closeSidebar);
     
-    // Apply transparent navbar to all pages
-    mainNav.classList.add('navbar-transparent');
+    // Apply transparent navbar initially only if at top
+    if (window.pageYOffset <= 0) {
+        mainNav.classList.add('navbar-transparent');
+        mainNav.style.transform = 'translateY(0)';
+    } else {
+        mainNav.style.transform = 'translateY(-100%)';
+    }
     
-    // Handle scroll behavior for all pages
-    window.addEventListener('scroll', function() {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
-        // Always hide navbar when scrolling down
-        if (scrollTop > lastScrollTop) {
-            mainNav.style.transform = 'translateY(-100%)';
-        } 
-        // Show navbar only when scrolling up AND at the top of the screen
-        else if (scrollTop <= 0) {
-            mainNav.style.transform = 'translateY(0)';
-            mainNav.classList.add('navbar-transparent');
-            mainNav.classList.remove('navbar-scrolled');
+    // Debounced scroll handler for better performance
+    function handleScroll() {
+        if (!isScrolling) {
+            window.requestAnimationFrame(() => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                // Only show navbar when at the very top
+                if (scrollTop <= 0) {
+                    mainNav.style.transform = 'translateY(0)';
+                    mainNav.classList.add('navbar-transparent');
+                    mainNav.classList.remove('navbar-scrolled');
+                } else {
+                    mainNav.style.transform = 'translateY(-100%)';
+                    mainNav.classList.remove('navbar-transparent');
+                    mainNav.classList.add('navbar-scrolled');
+                }
+                
+                lastScrollTop = scrollTop;
+                isScrolling = false;
+            });
         }
-        
-        lastScrollTop = scrollTop;
-    });
+        isScrolling = true;
+    }
+
+    // Add scroll event listener with passive flag for better performance
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Initial check
+    handleScroll();
 
     // Enable hover for Account submenu in desktop navbar
     if (window.innerWidth >= 992) {
