@@ -1091,6 +1091,244 @@
         margin-top: 4.5rem !important;
         margin-bottom: 4.5rem !important;
     }
+
+    /* Enhanced Mobile Responsiveness */
+    @media (max-width: 768px) {
+        .hero-title-store {
+            font-size: clamp(1.8rem, 6vw, 2.5rem);
+            padding: 0 1rem;
+        }
+
+        .breadcrumb-store {
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            padding: 0 1rem;
+        }
+
+        .about-section {
+            padding: 2rem 1.5rem;
+            margin: 2rem 1rem;
+        }
+
+        .about-logo-header-wrap {
+            align-items: center;
+            text-align: center;
+            margin: 0 auto 1.5rem auto;
+        }
+
+        .about-header-text {
+            font-size: 1.6rem;
+            text-align: center;
+        }
+
+        .about-section p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .summary-title, .showcase-title, .sponsorship-title, .cpd-title {
+            font-size: 1.8rem;
+            padding: 0 1rem;
+        }
+
+        .summary-card, .showcase-card, .unveil-card, .cpd-card {
+            padding: 1.2rem 1rem;
+            margin: 0 1rem 1.5rem 1rem;
+        }
+
+        .modular-asia-heading {
+            font-size: 1.8rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .modular-asia-logo {
+            margin: 0 auto 1.2rem auto;
+            display: block;
+        }
+
+        .modular-asia-section {
+            padding: 2rem 1.5rem;
+            margin: 2rem 1rem;
+        }
+
+        .audiences-section {
+            padding: 2.5rem 1.5rem;
+            margin: 2rem 1rem;
+        }
+
+        .audience-heading {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .audience-desc {
+            font-size: 1rem;
+        }
+
+        .speaker-card {
+            margin: 0 1rem 2rem 1rem;
+        }
+
+        .speaker-img {
+            width: 100px;
+            height: 100px;
+            margin-top: -30px;
+        }
+
+        .speaker-name {
+            font-size: 1rem;
+        }
+
+        .speaker-position {
+            font-size: 0.9rem;
+        }
+
+        /* Improved spacing for mobile */
+        .container {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .row {
+            margin-left: -10px;
+            margin-right: -10px;
+        }
+
+        [class*="col-"] {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        /* Fix image heights on mobile */
+        .modular-asia-img-main,
+        .modular-asia-img-secondary,
+        .modular-asia-img-wrap img {
+            height: 200px !important;
+        }
+
+        /* Adjust sponsor logos for mobile */
+        .sponsor-logo {
+            max-width: 100px;
+            margin: 0.5rem;
+        }
+
+        /* Improve button responsiveness */
+        .join-btn {
+            width: 100%;
+            text-align: center;
+            padding: 0.8rem 1rem;
+            font-size: 0.95rem;
+        }
+
+        /* Fix section spacing */
+        .summary-section,
+        .showcase-section,
+        .modular-asia-section,
+        .facility-mgmt-section,
+        .event-gallery-section,
+        .audiences-section,
+        .unveil-section,
+        .sponsorship-section,
+        .cpd-section,
+        .speakers-section {
+            margin-top: 3rem !important;
+            margin-bottom: 3rem !important;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        /* Improve text readability on mobile */
+        p {
+            font-size: 1rem !important;
+            line-height: 1.6 !important;
+        }
+
+        /* Better card layouts for mobile */
+        .summary-cards-row,
+        .showcase-cards-row {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .summary-card,
+        .showcase-card {
+            width: 100%;
+            max-width: none;
+        }
+
+        /* Improve spacing between sections */
+        .section-divider {
+            margin: 2rem 0;
+        }
+
+        /* Better video play button size for mobile */
+        .modular-asia-play-btn {
+            width: 50px;
+            height: 50px;
+            font-size: 1.8rem;
+        }
+    }
+
+    /* Additional breakpoint for very small devices */
+    @media (max-width: 375px) {
+        .hero-title-store {
+            font-size: clamp(1.5rem, 5vw, 2rem);
+        }
+
+        .about-header-text {
+            font-size: 1.4rem;
+        }
+
+        .sponsor-logo {
+            max-width: 80px;
+        }
+
+        .speaker-card {
+            min-width: auto;
+        }
+    }
+
+    /* Improve touch targets on mobile */
+    @media (hover: none) {
+        .speaker-social,
+        .join-btn,
+        .sponsor-logo {
+            min-width: 44px;
+            min-height: 44px;
+        }
+    }
+
+    /* Add text justification to paragraphs */
+    p, .about-section p, .summary-card-desc, .showcase-card-desc, .modular-asia-right p, .audience-desc {
+        text-align: justify;
+        text-justify: inter-word;
+        hyphens: auto;
+    }
+
+    /* Ensure justified text works well on mobile */
+    @media (max-width: 768px) {
+        p, .about-section p, .summary-card-desc, .showcase-card-desc, .modular-asia-right p, .audience-desc {
+            text-align: justify;
+            text-justify: inter-word;
+            hyphens: auto;
+            word-break: break-word;
+        }
+    }
+
+    /* Keep certain text elements center-aligned */
+    .hero-title-store,
+    .breadcrumb-store,
+    .summary-title,
+    .showcase-title,
+    .sponsorship-title,
+    .cpd-title,
+    .summary-card .summary-card-title,
+    .speaker-name,
+    .speaker-position,
+    .unveil-label,
+    .cpd-label {
+        text-align: center !important;
+    }
 </style>
 @endpush
 
@@ -1118,16 +1356,12 @@
                 <img src="{{ asset('images/about-bina-logo.png') }}" alt="BINA 2025 Logo" style="width: 100%; max-width: 150px; height: auto; display: block; margin-bottom: 1rem;">
                 <h1 style="font-size: 2.0rem; font-weight: 800; color: #22223b; margin-bottom: 1rem; letter-spacing: 1px; line-height: 1.1;">ABOUT BINA</h1>
             </div>
-            <div style="display: flex; align-items: flex-start; gap: 1.5rem;">
-                <!-- Vertical Accent Bar -->
-                <div style="width: 16px; min-width: 16px; height: 100%; border-radius: 12px; background: linear-gradient(180deg, #ff9800 0%, #ff5e62 100%); margin-right: 0.5rem;"></div>
-                <div style="flex: 1;">
-                    <div style="font-size: 1.08rem; color: #333; line-height: 1.7;">
-                        <p style="margin-bottom: 1.5rem;">Formerly known as CR4.0 Conference, BINA 2025 is a platform to introduce building technologies into the construction industry, including infrastructure, real estate and other built assets that are designed, constructed, operated and maintained. In-line with the vision of the International Construction Week (ICW) 2025, this premier event will be held on 28 – 30th October 2025 with two overarching platforms.</p>
-                        <p style="margin-bottom: 1.5rem;">As a premier platform for showcasing transformative building technologies, we aims to drive any innovation and efficiency within the IBS sector. By aligning with the government's vision, BINA 2025 aims to propel the IBS industry forward, delivering substantial economic and social impacts and establishing Malaysia as a leader in modern construction practices.</p>
-                        <p style="margin-bottom: 0;"><b>In conjunction with International Construction Week</b><br>
-                        BINA 2025 is one of the exclusive event of the ICW 2025. While ICW focuses on the overall aspect of construction industry in Malaysia, BINA 2025 will be the platform for the construction industry players especially in Industrialised Building System (IBS) to explore in person, the latest trends, developments and technologies in the construction industry</p>
-                    </div>
+            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <div style="font-size: 1.08rem; color: #333; line-height: 1.7;">
+                    <p style="margin-bottom: 1.5rem; text-align: justify; text-justify: inter-word; hyphens: auto;">Formerly known as CR4.0 Conference, BINA 2025 is a platform to introduce building technologies into the construction industry, including infrastructure, real estate and other built assets that are designed, constructed, operated and maintained. In-line with the vision of the International Construction Week (ICW) 2025, this premier event will be held on 28 – 30th October 2025 with two overarching platforms.</p>
+                    <p style="margin-bottom: 1.5rem; text-align: justify; text-justify: inter-word; hyphens: auto;">As a premier platform for showcasing transformative building technologies, we aims to drive any innovation and efficiency within the IBS sector. By aligning with the government's vision, BINA 2025 aims to propel the IBS industry forward, delivering substantial economic and social impacts and establishing Malaysia as a leader in modern construction practices.</p>
+                    <div style="text-align: center; margin-bottom: 0;"><b>In conjunction with International Construction Week</b></div>
+                    <p style="margin-bottom: 0; text-align: justify; text-justify: inter-word; hyphens: auto;">BINA 2025 is one of the exclusive event of the ICW 2025. While ICW focuses on the overall aspect of construction industry in Malaysia, BINA 2025 will be the platform for the construction industry players especially in Industrialised Building System (IBS) to explore in person, the latest trends, developments and technologies in the construction industry</p>
                 </div>
             </div>
         </div>
@@ -1143,7 +1377,7 @@
 <div class="container" style="max-width: 1100px; margin: 4.5rem auto;">
     <div style="text-align: center; margin-bottom: 3rem;">
         <h2 style="font-size: 2rem; font-weight: 800; color: #181818; margin-bottom: 0.5rem; text-transform: uppercase;">SUMMARY OF BINA 2025</h2>
-        <p style="font-size: 1.25rem; font-weight: 700; color: #181818; margin: 0;">-CONSTRUCTING THE FUTURE OF ASEAN-</p>
+        <p style="font-size: 1.25rem; font-weight: 700; color: #181818; margin: 0; text-align: center;">CONSTRUCTING THE FUTURE OF ASEAN</p>
     </div>
 
     <div style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 3rem;">
@@ -1221,9 +1455,9 @@
     <div class="container" style="max-width: 1100px; margin: 0 auto;">
         <div class="row g-5">
             <!-- Left Column: Logo and Heading -->
-            <div class="col-lg-5">
+            <div class="col-lg-5 d-flex flex-column align-items-center text-center">
                 <img src="{{ asset('images/modular-logo.png') }}" alt="Modular Asia Forum & Exhibition 2025 Logo" style="max-width: 260px; width: 100%; height: auto; margin-bottom: 1.5rem;">
-                <h2 style="font-size: 2.1rem; font-weight: 800; color: #181818; margin-bottom: 0.7rem; line-height: 1.1; letter-spacing: 0.5px; text-transform: uppercase;">TRANSFORMING SEN'S<br>CONSTRUCTION LANDSCAPE</h2>
+                <h2 style="font-size: 2.1rem; font-weight: 800; color: #181818; margin-bottom: 0.7rem; line-height: 1.1; letter-spacing: 0.5px; text-transform: uppercase; text-align: center;">TRANSFORMING SEN'S<br>CONSTRUCTION LANDSCAPE</h2>
             </div>
 
             <!-- Right Column: Description -->
@@ -1270,9 +1504,9 @@
 
             <!-- Right: Logo and Heading -->
             <div class="col-lg-6 order-lg-2 order-1">
-                <div style="max-width: 500px; margin: 0 auto;">
-                    <img src="{{ asset('images/facility-logo.png') }}" alt="Facility Management Engagement Day 2025 Logo" style="max-width: 200px; width: 100%; height: auto; margin-bottom: 1.5rem;">
-                    <h2 style="font-size: 2.5rem; font-weight: 900; color: #0a102f; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.5px;">
+                <div style="max-width: 500px; margin: 0 auto; text-align: center;">
+                    <img src="{{ asset('images/facility-logo.png') }}" alt="Facility Management Engagement Day 2025 Logo" style="max-width: 200px; width: 100%; height: auto; margin: 0 auto 1.5rem auto; display: block;">
+                    <h2 style="font-size: 2.5rem; font-weight: 900; color: #0a102f; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.5px; text-align: center;">
                         TRANSFORMING SEN'S<br>CONSTRUCTION<br>LANDSCAPE
                     </h2>
                 </div>
@@ -1306,45 +1540,50 @@
              OUR AUDIENCES 
         </h2>
     </div>
-    <div class="row g-5">
-        <!-- Left Column -->
-        <div class="col-md-6">
-            <div style="margin-bottom: 3rem;">
-                <h3 style="font-size: 1.35rem; font-weight: 800; color: #0a102f; text-transform: uppercase; margin-bottom: 0.7rem; letter-spacing: 0.5px;">CONSTRUCTION PROFESSIONALS</h3>
-                <div style="display: flex; align-items: flex-start;">
-                    <span style="display: inline-block; width: 6px; height: 1.5em; background: #ff9800; border-radius: 2px; margin-right: 0.7em; margin-top: 0.15em; flex-shrink: 0;"></span>
-                    <p style="font-size: 1.08rem; color: #22223b; line-height: 1.6; font-weight: 400; margin: 0;">Architects, engineers, contractors, and developers looking to stay ahead with cutting-edge technologies.</p>
+    <div class="row g-5 justify-content-center">
+        <!-- Content Column -->
+        <div class="col-lg-10">
+            <div class="row g-4">
+                <!-- Left Column -->
+                <div class="col-md-6">
+                    <div style="margin-bottom: 3rem; text-align: center;">
+                        <h3 style="font-size: 1.35rem; font-weight: 800; color: #0a102f; text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.5px; text-align: center;">CONSTRUCTION PROFESSIONALS</h3>
+                        <div style="display: flex; flex-direction: column; align-items: center;">
+                            <div style="width: 60px; height: 3px; background: #ff9800; border-radius: 2px; margin-bottom: 1rem;"></div>
+                            <p style="font-size: 1.08rem; color: #22223b; line-height: 1.6; font-weight: 400; margin: 0; text-align: center;">Architects, engineers, contractors, and developers looking to stay ahead with cutting-edge technologies.</p>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 3rem; text-align: center;">
+                        <h3 style="font-size: 1.35rem; font-weight: 800; color: #0a102f; text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.5px; text-align: center;">REAL ESTATE DEVELOPERS</h3>
+                        <div style="display: flex; flex-direction: column; align-items: center;">
+                            <div style="width: 60px; height: 3px; background: #ff9800; border-radius: 2px; margin-bottom: 1rem;"></div>
+                            <p style="font-size: 1.08rem; color: #22223b; line-height: 1.6; font-weight: 400; margin: 0; text-align: center;">Learn about the economic and social impacts of advanced building technologies</p>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <h3 style="font-size: 1.35rem; font-weight: 800; color: #0a102f; text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.5px; text-align: center;">TECHNOLOGY PROVIDERS</h3>
+                        <div style="display: flex; flex-direction: column; align-items: center;">
+                            <div style="width: 60px; height: 3px; background: #ff9800; border-radius: 2px; margin-bottom: 1rem;"></div>
+                            <p style="font-size: 1.08rem; color: #22223b; line-height: 1.6; font-weight: 400; margin: 0; text-align: center;">Showcase and explore innovations like IBS, BIM, 3D printing, and automation</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div style="margin-bottom: 3rem;">
-                <h3 style="font-size: 1.35rem; font-weight: 800; color: #0a102f; text-transform: uppercase; margin-bottom: 0.7rem; letter-spacing: 0.5px;">REAL ESTATE DEVELOPERS</h3>
-                <div style="display: flex; align-items: flex-start;">
-                    <span style="display: inline-block; width: 6px; height: 1.5em; background: #ff9800; border-radius: 2px; margin-right: 0.7em; margin-top: 0.15em; flex-shrink: 0;"></span>
-                    <p style="font-size: 1.08rem; color: #22223b; line-height: 1.6; font-weight: 400; margin: 0;">Learn about the economic and social impacts of advanced building technologies</p>
-                </div>
-            </div>
-            <div>
-                <h3 style="font-size: 1.35rem; font-weight: 800; color: #0a102f; text-transform: uppercase; margin-bottom: 0.7rem; letter-spacing: 0.5px;">TECHNOLOGY PROVIDERS</h3>
-                <div style="display: flex; align-items: flex-start;">
-                    <span style="display: inline-block; width: 6px; height: 1.5em; background: #ff9800; border-radius: 2px; margin-right: 0.7em; margin-top: 0.15em; flex-shrink: 0;"></span>
-                    <p style="font-size: 1.08rem; color: #22223b; line-height: 1.6; font-weight: 400; margin: 0;">Showcase and explore innovations like IBS, BIM, 3D printing, and automation</p>
-                </div>
-            </div>
-        </div>
-        <!-- Right Column -->
-        <div class="col-md-6">
-            <div style="margin-bottom: 3rem;">
-                <h3 style="font-size: 1.35rem; font-weight: 800; color: #0a102f; text-transform: uppercase; margin-bottom: 0.7rem; letter-spacing: 0.5px;">INVESTORS & BUSINESS LEADERS</h3>
-                <div style="display: flex; align-items: flex-start;">
-                    <span style="display: inline-block; width: 6px; height: 1.5em; background: #ff9800; border-radius: 2px; margin-right: 0.7em; margin-top: 0.15em; flex-shrink: 0;"></span>
-                    <p style="font-size: 1.08rem; color: #22223b; line-height: 1.6; font-weight: 400; margin: 0;">Explore new opportunities in current construction technology</p>
-                </div>
-            </div>
-            <div>
-                <h3 style="font-size: 1.35rem; font-weight: 800; color: #0a102f; text-transform: uppercase; margin-bottom: 0.7rem; letter-spacing: 0.5px;">ACADEMICIAN</h3>
-                <div style="display: flex; align-items: flex-start;">
-                    <span style="display: inline-block; width: 6px; height: 1.5em; background: #ff9800; border-radius: 2px; margin-right: 0.7em; margin-top: 0.15em; flex-shrink: 0;"></span>
-                    <p style="font-size: 1.08rem; color: #22223b; line-height: 1.6; font-weight: 400; margin: 0;">Researchers, professors and students specializing in construction, engineering and related fields can gain insights into the latest technologies and connect with industry professionals</p>
+                <!-- Right Column -->
+                <div class="col-md-6">
+                    <div style="margin-bottom: 3rem; text-align: center;">
+                        <h3 style="font-size: 1.35rem; font-weight: 800; color: #0a102f; text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.5px; text-align: center;">INVESTORS & BUSINESS LEADERS</h3>
+                        <div style="display: flex; flex-direction: column; align-items: center;">
+                            <div style="width: 60px; height: 3px; background: #ff9800; border-radius: 2px; margin-bottom: 1rem;"></div>
+                            <p style="font-size: 1.08rem; color: #22223b; line-height: 1.6; font-weight: 400; margin: 0; text-align: center;">Explore new opportunities in current construction technology</p>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <h3 style="font-size: 1.35rem; font-weight: 800; color: #0a102f; text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.5px; text-align: center;">ACADEMICIAN</h3>
+                        <div style="display: flex; flex-direction: column; align-items: center;">
+                            <div style="width: 60px; height: 3px; background: #ff9800; border-radius: 2px; margin-bottom: 1rem;"></div>
+                            <p style="font-size: 1.08rem; color: #22223b; line-height: 1.6; font-weight: 400; margin: 0; text-align: center;">Researchers, professors and students specializing in construction, engineering and related fields can gain insights into the latest technologies and connect with industry professionals</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1355,7 +1594,7 @@
 <div class="unveil-section" style="background:#f5f5f5;padding:3.5rem 0 2.5rem 0;">
     <div class="container" style="max-width:1200px;">
         <div class="unveil-title" style="text-align:center;font-size:2.5rem;font-weight:900;color:#0a102f;letter-spacing:1px;margin-bottom:2.8rem;">
-            UNVEIL THE EXTRAORDINRY AT BINA<br>2025
+            UNVEIL THE EXTRAORDINARY AT BINA<br>2025
         </div>
         <div class="row g-4 justify-content-center">
             <!-- Card 1 -->
@@ -1492,7 +1731,7 @@
             <div class="col-lg-3 d-flex flex-column align-items-lg-start align-items-center mb-4 mb-lg-0">
                 <div style="color:#ff9800;font-size:1rem;font-weight:600;letter-spacing:1px;margin-bottom:0.5rem;">OUR SPEAKER</div>
                 <div style="font-size:2.1rem;font-weight:900;color:#0a102f;letter-spacing:1px;margin-bottom:1.5rem;text-align:left;">OUR SPEAKERS</div>
-                <a href="#" class="join-btn">JOIN WITH US</a>
+                <span style="display: inline-block; background: #ff9800; color: #fff; font-weight: 700; font-size: 1rem; border-radius: 24px; padding: 0.6rem 1.6rem; margin-top: 0.5rem; letter-spacing: 1px; box-shadow: 0 2px 8px rgba(255,152,0,0.08); cursor: default;">JOIN WITH US</span>
             </div>
             <!-- Right Column: Speaker Cards -->
             <div class="col-lg-9">
