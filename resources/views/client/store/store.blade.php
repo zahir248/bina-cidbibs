@@ -673,17 +673,38 @@
     /* Cart Buttons */
     .cart-buttons-container {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        align-items: center;
         margin-top: 2rem;
-        padding-right: 1.5rem;
+        padding: 0 1.5rem;
+        gap: 1rem;
     }
 
-    .cart-buttons {
+    .cart-buttons-left {
+        flex: 0 0 auto;
+    }
+
+    .cart-buttons-right {
         display: flex;
         flex-direction: row;
         gap: 1rem;
-        width: 25%;
-        min-width: 200px;
+        justify-content: flex-end;
+    }
+
+    .cart-buttons-right form {
+        margin: 0;
+    }
+
+    .download-guide {
+        background: #e9ecef;
+        color: #495057;
+        border: none;
+        padding: 0.875rem 2rem;
+    }
+
+    .download-guide:hover {
+        background: #dee2e6;
+        color: #212529;
     }
 
     .cart-button {
@@ -721,6 +742,18 @@
     .view-cart:hover {
         background: #ffb300;
         color: white;
+    }
+
+    .download-guide {
+        background: #f1f3f5;
+        color: #495057;
+        border: none;
+        text-decoration: none;
+    }
+
+    .download-guide:hover {
+        background: #e9ecef;
+        color: #212529;
     }
 
     .quantity-select {
@@ -891,27 +924,42 @@
 
     /* Responsive adjustments */
     @media (max-width: 992px) {
-        .cart-buttons {
-            width: 40%;
+        .cart-buttons-right {
+            gap: 0.75rem;
         }
     }
 
     @media (max-width: 768px) {
-        .cart-buttons {
-            width: 50%;
+        .cart-buttons-container {
+            flex-direction: column;
+            gap: 1rem;
+            align-items: stretch;
+            padding: 0 1rem;
+        }
+        .cart-buttons-left {
+            display: flex;
+            justify-content: center;
+        }
+        .cart-buttons-right {
+            flex-direction: row;
+            width: 100%;
+        }
+        .cart-buttons-right form {
+            flex: 1;
+        }
+        .cart-buttons-right .add-to-cart {
+            width: 100%;
         }
         .cart-button {
             font-size: 0.9rem;
             padding: 0.75rem 0.875rem;
+            white-space: nowrap;
         }
     }
 
     @media (max-width: 576px) {
         .cart-buttons-container {
-            padding-right: 0;
-        }
-        .cart-buttons {
-            width: 100%;
+            padding: 0 1rem;
         }
         .cart-button {
             font-size: 1rem;
@@ -1301,8 +1349,14 @@
 
             <!-- Cart Buttons -->
             <div class="cart-buttons-container">
-                <div class="cart-buttons">
-                    <form id="addToCartForm" action="{{ route('client.cart.add') }}" method="POST">
+                <div class="cart-buttons-left">
+                    <a href="{{ asset('files/Ticket-Guideline.pdf') }}" class="cart-button download-guide" download>
+                        <i class="fas fa-download"></i>
+                        <span>Ticket Purchase Guideline</span>
+                    </a>
+                </div>
+                <div class="cart-buttons-right">
+                    <form id="addToCartForm" action="{{ route('client.cart.add') }}" method="POST" class="d-inline-block">
                         @csrf
                         <input type="hidden" name="ticket_data" id="ticketData" value="">
                         <button type="submit" class="cart-button add-to-cart">
