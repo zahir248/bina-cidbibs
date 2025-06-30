@@ -486,27 +486,27 @@
 
 /* Dropdown styles */
 #mainNav .dropdown-menu {
-    background: rgba(0, 0, 0, 0.8) !important;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: none;
+    background: white !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 #mainNav .dropdown-item {
-    color: white !important;
-    transition: opacity 0.3s ease;
+    color: #333 !important;
+    transition: all 0.3s ease;
     background: transparent;
 }
 
 #mainNav .dropdown-item:hover,
 #mainNav .dropdown-item:focus {
-    background: rgba(255, 255, 255, 0.1) !important;
+    background: #f8f9fa !important;
     color: #ff9800 !important;
 }
 
 #mainNav .dropdown-item.active {
-    background: rgba(255, 152, 0, 0.2) !important;
+    background: rgba(255, 152, 0, 0.1) !important;
     color: #ff9800 !important;
 }
 
