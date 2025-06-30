@@ -141,16 +141,48 @@
             <div class="content-block">
                 <div class="block-title">Steps to Browse Tickets:</div>
                 <ul class="info-list">
-                    <li>Visit the BINA store page</li>
-                    <li>Browse through available tickets</li>
-                    <li>View ticket details including:
+                    <li>Available Ticket Categories:
                         <ul>
-                            <li>Event name and description</li>
-                            <li>Ticket price</li>
-                            <li>Available quantity</li>
-                            <li>Quantity discounts (if applicable)</li>
+                            <li>Facility Management Tickets:
+                                <ul>
+                                    <li>Access to Facility Management Engagement Day (29 Oct 2025)</li>
+                                    <li>Practical strategies for workplace dynamics</li>
+                                    <li>Conflict management and stakeholder engagement sessions</li>
+                                    <li>Professional networking opportunities</li>
+                                </ul>
+                            </li>
+                            <li>Modular Asia Tickets:
+                                <ul>
+                                    <li>Access to Modular Asia Forum & Exhibition (30 Oct 2025)</li>
+                                    <li>Focus on Modular Technology and Modern Methods of Construction (MMC)</li>
+                                    <li>Industrialised Building Systems (IBS) sessions</li>
+                                    <li>Networking with global modular leaders and innovators</li>
+                                    <li>Latest trends in construction efficiency and sustainability</li>
+                                </ul>
+                            </li>
+                            <li>BINA Conference Combo Ticket:
+                                <ul>
+                                    <li>Combined access to both events (29-30 Oct 2025)</li>
+                                    <li>Full access to all sessions at both conferences</li>
+                                    <li>Special package pricing at RM 450.00</li>
+                                    <li>Comprehensive coverage of both facility management and modular construction</li>
+                                    <li>Maximum networking and learning opportunities</li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
+                    <li>All events take place at MITEC, Kuala Lumpur</li>
+                    <li>Navigate to the "Store" section to purchase tickets</li>
+                    <li>Click on a ticket to view:
+                        <ul>
+                            <li>Detailed description</li>
+                            <li>Price information</li>
+                            <li>Available quantity</li>
+                            <li>Event dates and times</li>
+                        </ul>
+                    </li>
+                    <li>Select desired quantity</li>
+                    <li>Click "Add to Cart" to proceed</li>
                 </ul>
             </div>
         </div>
@@ -222,6 +254,13 @@
                 <div class="block-title">Steps for ToyyibPay Payment:</div>
                 <ul class="info-list">
                     <li>Select "FPX Online Banking" as payment method</li>
+                    <li>For Business-to-Business (B2B) payments:
+                        <ul>
+                            <li>Select "Organization" as your category</li>
+                            <li>Fill in your organization details</li>
+                            <li>Choose B2B payment option in ToyyibPay portal</li>
+                        </ul>
+                    </li>
                     <li>Click "Proceed to Payment"</li>
                     <li>Choose your bank from the FPX list</li>
                     <li>Log in to your online banking</li>
