@@ -212,12 +212,26 @@
         box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
     }
 
+    .ticket-btn-wrapper {
+        margin-top: 2rem;
+    }
+
     .ticket-btn {
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
         opacity: 0;
         animation: fadeInUp 0.8s ease 0.6s forwards;
+        display: inline-block;
+        padding: 0.9rem 2.5rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        font-size: 1.1rem;
+        border-radius: 2.5rem;
+        background: #ff9800;
+        color: #fff;
+        text-decoration: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
     .ticket-btn:hover {
@@ -252,6 +266,45 @@
         transform: translateY(0);
     }
 
+    /* Schedule styles */
+    .ma-schedule-row {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+    }
+
+    .ma-schedule-time {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #22223b;
+        min-width: 170px;
+    }
+
+    .ma-schedule-separator {
+        color: #ff9800;
+        font-size: 2rem;
+        margin: 0 18px 0 18px;
+    }
+
+    .ma-schedule-content {
+        flex: 1;
+    }
+
+    .ma-schedule-title {
+        font-weight: 800;
+        font-size: 1.1rem;
+        color: #0a183d;
+        letter-spacing: 0.5px;
+    }
+
+    .ma-schedule-description {
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        color: #22223b;
+        font-size: 1.08rem;
+        max-width: 500px;
+    }
+
     @media (max-width: 991px) {
         .ma-flex-row {
             flex-direction: column;
@@ -261,6 +314,55 @@
         }
         .sticky-sidebar {
             position: static;
+        }
+        .ma-title {
+            justify-content: center;
+        }
+        .ma-headline {
+            text-align: center;
+            font-size: 1.5rem;
+            line-height: 1.3;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .ma-schedule-row {
+            flex-direction: column;
+            padding-left: 1rem;
+            border-left: 3px solid #ff9800;
+        }
+        .ma-schedule-time {
+            margin-bottom: 0.75rem;
+        }
+        .ma-schedule-separator {
+            display: none;
+        }
+        .ma-schedule-content {
+            padding-left: 0;
+        }
+        .ma-schedule-description {
+            margin-top: 0.5rem;
+        }
+        .ticket-btn-wrapper {
+            text-align: center;
+            width: 100%;
+        }
+        .sticky-sidebar {
+            position: static;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .ma-card {
+            margin: 2rem auto 0;
+            width: 100%;
+            max-width: 340px;
+        }
+        .speaker-card {
+            width: 100%;
+            max-width: 340px;
+            margin: 2rem auto 0;
         }
     }
 </style>
@@ -295,8 +397,8 @@
             </div>
             <!-- Important Points and Schedule Section -->
             <div class="ma-session-points mt-5">
-                <div style="font-size:1.25rem;font-weight:600;letter-spacing:0.5px;color:#22223b;margin-bottom:1rem;">IMPORTANT POINTS IN THIS SESSION :</div>
-                <ul style="color:#4b5563;font-size:1.08rem;margin-bottom:2rem;">
+                <div style="font-size:1.1rem;font-weight:600;letter-spacing:0.5px;color:#22223b;margin-bottom:1rem;">IMPORTANT POINTS IN THIS SESSION :</div>
+                <ul style="color:#4b5563;font-size:1rem;margin-bottom:2rem;">
                     <li style="margin-bottom:0.5rem;">Conflict management strategies for facility managers.</li>
                     <li style="margin-bottom:0.5rem;">Best practices for engaging challenging stakeholders.</li>
                     <li>Building a resilient and collaborative workplace.</li>
@@ -319,30 +421,20 @@
                                 </div>
                             @endif
                             
-                            @if(!empty($schedule->description))
-                                <div class="ma-schedule-row" style="display:flex;align-items:flex-start;margin-bottom:2rem;">
-                                    <span style="font-weight:700;font-size:1.1rem;color:#22223b;min-width:170px;">{{ $schedule->formatted_time }}</span>
-                                    <span style="color:#ff9800;font-size:2rem;margin:0 18px 0 18px;">|</span>
-                                    <div>
-                                        <div style="font-weight:800;font-size:1.1rem;color:#0a183d;letter-spacing:0.5px;">{{ $schedule->title }}</div>
-                                        <div style="margin-top:1rem;margin-bottom:0.5rem;color:#22223b;font-size:1.08rem;max-width:500px;">
-                                            {!! nl2br(e($schedule->description)) !!}
-                                        </div>
-                                    </div>
+                            <div class="ma-schedule-row">
+                                <span class="ma-schedule-time">{{ $schedule->formatted_time }}</span>
+                                <span class="ma-schedule-separator">|</span>
+                                <div class="ma-schedule-content">
+                                    <div class="ma-schedule-title">{{ $schedule->title }}</div>
+                                    @if(!empty($schedule->description))
+                                        <div class="ma-schedule-description">{!! nl2br(e($schedule->description)) !!}</div>
+                                    @endif
                                 </div>
-                            @else
-                                <div class="ma-schedule-row" style="display:flex;align-items:center;margin-bottom:2rem;">
-                                    <span style="font-weight:700;font-size:1.1rem;color:#22223b;min-width:170px;">{{ $schedule->formatted_time }}</span>
-                                    <span style="color:#ff9800;font-size:2rem;margin:0 18px 0 18px;">|</span>
-                                    <div style="font-weight:800;font-size:1.1rem;color:#0a183d;letter-spacing:0.5px;">
-                                        {{ $schedule->title }}
-                                    </div>
-                                </div>
-                            @endif
+                            </div>
                         @endforeach
                     </div>
-                    <div class="mt-4">
-                        <a href="{{ route('client.store') }}" style="display:inline-block;padding:0.9rem 2.5rem;font-weight:700;letter-spacing:0.15em;font-size:1.1rem;border-radius:2.5rem;background:#ff9800;color:#fff;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,0.08);transition:background 0.2s;">GET TICKET</a>
+                    <div class="ticket-btn-wrapper">
+                        <a href="{{ route('client.store') }}" class="ticket-btn">GET TICKET</a>
                     </div>
                 </div>
             </div>
