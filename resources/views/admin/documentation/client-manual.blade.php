@@ -236,9 +236,46 @@
                     <li>Order confirmation email is sent containing:
                         <ul>
                             <li>Reference number (format: ORDER-xxxxxx)</li>
-                            <li>Detailed list of purchased tickets</li>
-                            <li>Original and discounted prices</li>
-                            <li>Complete billing information</li>
+                            <li>Tickets purchased with:
+                                <ul>
+                                    <li>Ticket name</li>
+                                    <li>Quantity</li>
+                                    <li>Original price</li>
+                                    <li>Discounted price (if applicable)</li>
+                                    <li>Original subtotal</li>
+                                    <li>Discounted subtotal</li>
+                                </ul>
+                            </li>
+                            <li>Billing information:
+                                <ul>
+                                    <li>Full name</li>
+                                    <li>Gender</li>
+                                    <li>Category (Individual/Organization/Academician)</li>
+                                    <li>Organization details (if applicable)</li>
+                                    <li>Contact information</li>
+                                    <li>Complete address</li>
+                                </ul>
+                            </li>
+                            <li>Individual QR codes for each ticket</li>
+                        </ul>
+                    </li>
+                    <li>Attached PDF includes:
+                        <ul>
+                            <li>Order details page:
+                                <ul>
+                                    <li>Reference number</li>
+                                    <li>Order date and time</li>
+                                    <li>Complete ticket purchase details</li>
+                                    <li>Price breakdowns</li>
+                                </ul>
+                            </li>
+                            <li>QR code pages:
+                                <ul>
+                                    <li>Individual QR code for each ticket</li>
+                                    <li>Ticket name</li>
+                                    <li>Ticket number (e.g., "QR Code 1 of 3 tickets")</li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                     <li>Cart is automatically cleared</li>
@@ -252,6 +289,19 @@
                         <li>No processing fees for FPX payments</li>
                         <li>Instant payment confirmation</li>
                         <li>Check your email for order confirmation</li>
+                        <li>Keep QR codes secure and confidential</li>
+                        <li>Each QR code is unique per ticket</li>
+                        <li><strong>Important:</strong> Download and save the PDF attachment - it contains your QR codes which are required for event entry verification</li>
+                    </ul>
+                </div>
+
+                <div class="note-box">
+                    <div class="note-title">Event Day Verification</div>
+                    <ul class="info-list">
+                        <li>The PDF with QR codes is your official ticket</li>
+                        <li>You must present the QR codes for scanning at the event</li>
+                        <li>Save the PDF on your mobile device or bring a printed copy</li>
+                        <li>Each QR code can only be used once</li>
                     </ul>
                 </div>
             </div>
@@ -284,10 +334,46 @@
                     <li>Order confirmation email is sent containing:
                         <ul>
                             <li>Reference number (format: STR-xxxxxx)</li>
-                            <li>Detailed list of purchased tickets</li>
-                            <li>Original and discounted prices</li>
-                            <li>Processing fees breakdown</li>
-                            <li>Complete billing information</li>
+                            <li>Tickets purchased with:
+                                <ul>
+                                    <li>Ticket name</li>
+                                    <li>Quantity</li>
+                                    <li>Original price</li>
+                                    <li>Discounted price (if applicable)</li>
+                                    <li>Original subtotal</li>
+                                    <li>Discounted subtotal</li>
+                                </ul>
+                            </li>
+                            <li>Billing information:
+                                <ul>
+                                    <li>Full name</li>
+                                    <li>Gender</li>
+                                    <li>Category (Individual/Organization/Academician)</li>
+                                    <li>Organization details (if applicable)</li>
+                                    <li>Contact information</li>
+                                    <li>Complete address</li>
+                                </ul>
+                            </li>
+                            <li>Individual QR codes for each ticket</li>
+                        </ul>
+                    </li>
+                    <li>Attached PDF includes:
+                        <ul>
+                            <li>Order details page:
+                                <ul>
+                                    <li>Reference number</li>
+                                    <li>Order date and time</li>
+                                    <li>Complete ticket purchase details</li>
+                                    <li>Price breakdowns</li>
+                                </ul>
+                            </li>
+                            <li>QR code pages:
+                                <ul>
+                                    <li>Individual QR code for each ticket</li>
+                                    <li>Ticket name</li>
+                                    <li>Ticket number (e.g., "QR Code 1 of 3 tickets")</li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                     <li>Cart is automatically cleared</li>
@@ -303,6 +389,27 @@
                         <li>All fees are displayed before payment</li>
                     </ul>
                 </div>
+
+                <div class="note-box">
+                    <div class="note-title">Important Notes</div>
+                    <ul class="info-list">
+                        <li>Keep QR codes secure and confidential</li>
+                        <li>Each QR code is unique per ticket</li>
+                        <li>Save the PDF for your records</li>
+                        <li>QR codes will be scanned at the event</li>
+                        <li><strong>Important:</strong> Download and save the PDF attachment - it contains your QR codes which are required for event entry verification</li>
+                    </ul>
+                </div>
+
+                <div class="note-box">
+                    <div class="note-title">Event Day Verification</div>
+                    <ul class="info-list">
+                        <li>The PDF with QR codes is your official ticket</li>
+                        <li>You must present the QR codes for scanning at the event</li>
+                        <li>Save the PDF on your mobile device or bring a printed copy</li>
+                        <li>Each QR code can only be used once</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -310,29 +417,35 @@
     <div class="page-break"></div>
 
     <div class="section">
-        <h2 class="section-title">2. BINA Community</h2>
+        <h2 class="section-title">2. Community Features</h2>
         
         <div class="subsection">
-            <h3 class="subsection-title">2.1 Joining the Community</h3>
+            <h3 class="subsection-title">2.1 Profile Setup</h3>
             <div class="content-block">
-                <div class="block-title">Steps to Join:</div>
+                <div class="block-title">Creating Your Profile:</div>
                 <ul class="info-list">
-                    <li>Create a BINA account</li>
-                    <li>Complete your profile:
+                    <li>Create a BINA account (required for community access)</li>
+                    <li>Complete required information:
                         <ul>
                             <li>Personal information</li>
-                            <li>Professional details</li>
-                            <li>Profile picture (optional)</li>
+                            <li>Professional background</li>
+                            <li>Academic qualifications</li>
+                            <li>Business details</li>
                             <li>Nature of business</li>
+                            <li>Areas of interest</li>
                         </ul>
                     </li>
-                    <li>Access the Community section</li>
+                    <li>Upload profile picture (optional)</li>
+                    <li>Set privacy preferences</li>
                 </ul>
 
                 <div class="note-box">
-                    <div class="note-title">Important Notes</div>
+                    <div class="note-title">Profile Tips</div>
                     <ul class="info-list">
-                        <li>Account required for community access</li>
+                        <li>Keep information up-to-date</li>
+                        <li>Be specific about expertise</li>
+                        <li>Add relevant achievements</li>
+                        <li>Review privacy settings regularly</li>
                         <li>Complete profile improves matching</li>
                         <li>All information is secure and private</li>
                     </ul>
@@ -340,23 +453,33 @@
             </div>
         </div>
 
-        <div class="page-break"></div>
-
         <div class="subsection">
-            <h3 class="subsection-title">2.2 Profile Matching</h3>
+            <h3 class="subsection-title">2.2 Making Connections</h3>
             <div class="content-block">
-                <div class="block-title">Steps for Profile Matching:</div>
+                <div class="block-title">Finding Connections:</div>
                 <ul class="info-list">
-                    <li>Navigate to Profile Matching section</li>
-                    <li>Browse suggested connections</li>
-                    <li>Filter profiles by:
+                    <li>Use Profile Matching:
                         <ul>
-                            <li>Location</li>
-                            <li>Nature of business</li>
+                            <li>View suggested matches</li>
+                            <li>Filter by criteria</li>
+                            <li>Review detailed profiles</li>
                         </ul>
                     </li>
-                    <li>View detailed profiles</li>
-                    <li>Send connection requests</li>
+                    <li>Send Connection Requests:
+                        <ul>
+                            <li>Add personalized message</li>
+                            <li>Track request status</li>
+                            <li>Manage pending requests</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="block-title">Managing Connections:</div>
+                <ul class="info-list">
+                    <li>View your network</li>
+                    <li>Organize connections by categories</li>
+                    <li>Remove or block connections</li>
+                    <li>Export connection list</li>
                 </ul>
 
                 <div class="note-box">
@@ -370,23 +493,28 @@
             </div>
         </div>
 
-        <div class="page-break"></div>
-
         <div class="subsection">
-            <h3 class="subsection-title">2.3 Messaging</h3>
+            <h3 class="subsection-title">2.3 Messaging System</h3>
             <div class="content-block">
-                <div class="block-title">Steps to Message Connections:</div>
+                <div class="block-title">Using Messages:</div>
                 <ul class="info-list">
-                    <li>Access the Messages section</li>
-                    <li>Select a connection from your list</li>
-                    <li>Start a conversation:
+                    <li>Start Conversations:
                         <ul>
-                            <li>Type your message</li>
-                            <li>Send message</li>
-                            <li>View message history</li>
+                            <li>Select connection from list</li>
+                            <li>Use quick message templates</li>
+                            <li>Attach files (if allowed)</li>
                         </ul>
                     </li>
-                    <li>Manage conversations:
+                    <li>Message Features:
+                        <ul>
+                            <li>Real-time chat</li>
+                            <li>Read receipts</li>
+                            <li>Message history</li>
+                            <li>Search functionality</li>
+                            <li>Real-time notifications</li>
+                        </ul>
+                    </li>
+                    <li>Manage Conversations:
                         <ul>
                             <li>View unread messages</li>
                             <li>Switch between conversations</li>
@@ -396,11 +524,57 @@
                 </ul>
 
                 <div class="note-box">
-                    <div class="note-title">Important Notes</div>
+                    <div class="note-title">Messaging Guidelines</div>
                     <ul class="info-list">
+                        <li>Maintain professional communication</li>
+                        <li>Respect response times</li>
+                        <li>Report inappropriate content</li>
+                        <li>Follow community guidelines</li>
                         <li>Messages are private between connections</li>
-                        <li>Real-time message notifications</li>
                         <li>Chat history is preserved</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="subsection">
+            <h3 class="subsection-title">2.4 Profile Matching</h3>
+            <div class="content-block">
+                <div class="block-title">Using Profile Matching:</div>
+                <ul class="info-list">
+                    <li>Access Matching System:
+                        <ul>
+                            <li>View match percentage</li>
+                            <li>See matching criteria</li>
+                            <li>Review common interests</li>
+                        </ul>
+                    </li>
+                    <li>Filter Matches:
+                        <ul>
+                            <li>By industry sector</li>
+                            <li>By expertise level</li>
+                            <li>By location</li>
+                            <li>By business category</li>
+                            <li>By nature of business</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="block-title">Improving Match Quality:</div>
+                <ul class="info-list">
+                    <li>Update profile regularly</li>
+                    <li>Add detailed information</li>
+                    <li>Specify preferences</li>
+                    <li>Provide feedback on matches</li>
+                </ul>
+
+                <div class="note-box">
+                    <div class="note-title">Matching Tips</div>
+                    <ul class="info-list">
+                        <li>Complete all profile sections</li>
+                        <li>Be specific about goals</li>
+                        <li>Review matches regularly</li>
+                        <li>Engage with quality connections</li>
                     </ul>
                 </div>
             </div>
