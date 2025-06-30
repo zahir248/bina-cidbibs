@@ -111,11 +111,12 @@
         font-size: 1.2em;
     }
 
-    /* Contact Info Section Animations */
+    /* Contact Info Section */
     .contact-info-item {
         opacity: 0;
         transform: translateY(20px);
         animation: fadeInUp 0.8s ease forwards;
+        padding: 1.5rem 1rem;
     }
 
     .contact-info-item:nth-child(1) { animation-delay: 0.2s; }
@@ -124,6 +125,20 @@
 
     .contact-info-icon {
         transition: all 0.3s ease;
+        font-size: 2.5rem;
+        color: #6b7280;
+        margin-bottom: 0.75rem;
+    }
+
+    @media (max-width: 768px) {
+        .contact-info-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-info-item {
+            padding: 1rem 0.5rem;
+        }
     }
 
     .contact-info-item:hover .contact-info-icon {
@@ -131,17 +146,75 @@
         color: #ff9800;
     }
 
-    /* Schedule Section Animations */
+    /* Schedule Section */
     .schedule-header {
         opacity: 0;
         transform: translateY(20px);
         animation: fadeInUp 0.8s ease forwards;
+        padding: 0 1rem;
+    }
+
+    .schedule-header h2 {
+        font-size: clamp(1.8rem, 5vw, 2.7rem);
+        font-weight: 900;
+        color: #181b2c;
+        letter-spacing: 1px;
+        margin-bottom: 0.5rem;
+        line-height: 1.2;
     }
 
     .schedule-card {
         opacity: 0;
         transform: translateY(20px);
         transition: all 0.3s ease;
+        margin: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .schedule-card {
+            margin: 1rem 0.5rem;
+        }
+
+        .schedule-card .event-image-container {
+            max-width: 100% !important;
+            margin-bottom: 1.5rem;
+        }
+
+        .schedule-card .event-image {
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+
+        .schedule-card .event-info {
+            padding: 0 !important;
+            border: none !important;
+            margin-bottom: 1.5rem;
+        }
+
+        .schedule-card .event-meta {
+            font-size: 0.95rem !important;
+            gap: 1rem !important;
+        }
+
+        .schedule-card .event-title {
+            font-size: 1.2rem !important;
+        }
+
+        .schedule-card .event-description {
+            font-size: 1rem !important;
+        }
+
+        .schedule-card .event-buttons {
+            width: 100%;
+            flex-direction: row !important;
+            gap: 1rem !important;
+        }
+
+        .schedule-card .btn {
+            width: 100%;
+            padding: 0.6rem 1rem !important;
+            font-size: 1rem !important;
+        }
     }
 
     .schedule-card.visible {
@@ -156,10 +229,14 @@
 
     .view-more-btn, .get-ticket-btn {
         transition: all 0.3s ease;
+        white-space: nowrap;
     }
 
     .view-more-btn:hover, .get-ticket-btn:hover {
         transform: translateY(-2px);
+    }
+
+    .view-more-btn:hover {
         box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3) !important;
     }
 
@@ -167,7 +244,6 @@
         box-shadow: 0 5px 15px rgba(24, 27, 44, 0.3) !important;
     }
 
-    /* Animate on scroll class */
     .animate-on-scroll {
         opacity: 0;
         transform: translateY(20px);
@@ -193,11 +269,11 @@
 </div>
 
 <!-- Contact Info Section -->
-<div class="container py-5">
+<div class="container py-4">
     <div class="row justify-content-center text-center align-items-start" style="gap:0;">
         <!-- Email -->
-        <div class="col-12 col-md-4 mb-4 mb-md-0 contact-info-item">
-            <div class="contact-info-icon" style="font-size:3rem;color:#6b7280;margin-bottom:0.5rem;">
+        <div class="col-12 col-md-4 mb-3 mb-md-0 contact-info-item">
+            <div class="contact-info-icon">
                 <i class="fas fa-envelope"></i>
             </div>
             <div style="font-size:1.1rem;color:#22223b;">
@@ -205,8 +281,8 @@
             </div>
         </div>
         <!-- Phone -->
-        <div class="col-12 col-md-4 mb-4 mb-md-0 contact-info-item">
-            <div class="contact-info-icon" style="font-size:3rem;color:#6b7280;margin-bottom:0.5rem;">
+        <div class="col-12 col-md-4 mb-3 mb-md-0 contact-info-item">
+            <div class="contact-info-icon">
                 <i class="fas fa-phone-alt"></i>
             </div>
             <div style="font-size:1.1rem;color:#22223b;">
@@ -215,7 +291,7 @@
         </div>
         <!-- WhatsApp -->
         <div class="col-12 col-md-4 contact-info-item">
-            <div class="contact-info-icon" style="font-size:3rem;color:#6b7280;margin-bottom:0.5rem;">
+            <div class="contact-info-icon">
                 <i class="far fa-comment-dots"></i>
             </div>
             <div style="font-size:1.1rem;color:#22223b;">
@@ -226,40 +302,42 @@
 </div>
 
 <!-- Schedule Plan Section -->
-<div class="container py-5">
-    <div class="text-center mb-4 schedule-header">
-        <div style="color:#ff9800;font-size:1.1rem;font-weight:600;letter-spacing:0.5px;">OUR TIMETABLE</div>
-        <h2 style="font-size:2.7rem;font-weight:900;color:#181b2c;letter-spacing:1px;margin-bottom:0.5rem;">OUR SCHEDULE PLAN</h2>
+<div class="container-fluid py-5" style="background-color: #f8f9fa;">
+    <div class="container">
+        <div class="text-center mb-4 schedule-header">
+            <div style="color:#ff9800;font-size:1.1rem;font-weight:600;letter-spacing:0.5px;">OUR TIMETABLE</div>
+            <h2>OUR SCHEDULE PLAN</h2>
+        </div>
+        
+        @foreach($events as $event)
+        <div class="schedule-card d-flex flex-column flex-lg-row align-items-stretch p-3 p-md-4" style="background:#fff;border:1.5px solid #d1d5db;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);gap:2rem;max-width:1200px;margin:0 auto;margin-bottom:2rem;">
+            <!-- Left: Event Image -->
+            <div class="event-image-container flex-shrink-0 d-flex align-items-center justify-content-center" style="max-width:240px;width:100%;">
+                <img class="event-image" src="{{ asset($event->image ?? 'images/event-home-2.jpg') }}" alt="{{ $event->title }}" style="width:100%;max-width:220px;aspect-ratio:1/1;object-fit:cover;border-radius:1.1rem;">
+            </div>
+            <!-- Center: Event Info -->
+            <div class="event-info flex-grow-1 d-flex flex-column justify-content-center px-lg-3 text-center text-lg-start" style="min-width:0;border-left:1.5px solid #eee;border-right:1.5px solid #eee;">
+                <div class="event-meta d-flex align-items-center justify-content-center justify-content-lg-start gap-4 mb-2 flex-wrap" style="font-size:1.08rem;color:#ff9800;font-weight:600;">
+                    <span><i class="fas fa-map-marker-alt me-1"></i> {{ $event->location }}</span>
+                    <span><i class="fas fa-calendar-alt me-1"></i> {{ $event->start_date->format('d M Y') }}</span>
+                    <span><i class="fas fa-clock me-1"></i> {{ $event->start_date->format('h:i A') }} - {{ $event->end_date->format('h:i A') }}</span>
+                </div>
+                <div class="event-title text-center" style="font-size:1.35rem;font-weight:900;color:#181b2c;line-height:1.3;margin-bottom:0.7rem;">
+                    {{ $event->title }}
+                </div>
+                <div class="event-description text-justify px-3 px-lg-0" style="font-size:1.08rem;color:#6b7280;line-height:1.7;margin-bottom:1.2rem;">
+                    {{ $event->description }}
+                </div>
+                <div class="text-center" style="font-size:1.05rem;color:#181b2c;font-weight:600;">by {{ $event->organizer }}</div>
+            </div>
+            <!-- Right: Buttons -->
+            <div class="event-buttons d-flex flex-column align-items-center justify-content-center gap-3 py-3 px-lg-3" style="min-width:180px;">
+                <a href="{{ $event->slug }}" class="btn view-more-btn" style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">VIEW MORE</a>
+                <a href="{{ route('client.store') }}" class="btn get-ticket-btn" style="background:#181b2c;color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">GET TICKET</a>
+            </div>
+        </div>
+        @endforeach
     </div>
-    
-    @foreach($events as $event)
-    <div class="schedule-card d-flex flex-column flex-lg-row align-items-stretch p-3 p-md-4" style="background:#fff;border:1.5px solid #d1d5db;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);gap:2rem;max-width:1200px;margin:0 auto;margin-bottom:2rem;">
-        <!-- Left: Event Image -->
-        <div class="flex-shrink-0 d-flex align-items-center justify-content-center" style="max-width:240px;width:100%;">
-            <img src="{{ asset($event->image ?? 'images/event-home-2.jpg') }}" alt="{{ $event->title }}" style="width:100%;max-width:220px;aspect-ratio:1/1;object-fit:cover;border-radius:1.1rem;">
-        </div>
-        <!-- Center: Event Info -->
-        <div class="flex-grow-1 d-flex flex-column justify-content-center px-lg-3" style="min-width:0;border-left:1.5px solid #eee;border-right:1.5px solid #eee;">
-            <div class="d-flex align-items-center gap-4 mb-2 flex-wrap" style="font-size:1.08rem;color:#ff9800;font-weight:600;">
-                <span><i class="fas fa-map-marker-alt me-1"></i> {{ $event->location }}</span>
-                <span><i class="fas fa-calendar-alt me-1"></i> {{ $event->start_date->format('d M Y') }}</span>
-                <span><i class="fas fa-clock me-1"></i> {{ $event->start_date->format('h:i A') }} - {{ $event->end_date->format('h:i A') }}</span>
-            </div>
-            <div style="font-size:1.35rem;font-weight:900;color:#181b2c;line-height:1.3;margin-bottom:0.7rem;">
-                {{ $event->title }}
-            </div>
-            <div style="font-size:1.08rem;color:#6b7280;line-height:1.7;margin-bottom:1.2rem;">
-                {{ $event->description }}
-            </div>
-            <div style="font-size:1.05rem;color:#181b2c;font-weight:600;">by {{ $event->organizer }}</div>
-        </div>
-        <!-- Right: Buttons -->
-        <div class="d-flex flex-column align-items-center justify-content-center gap-3 py-3 px-lg-3" style="min-width:180px;">
-            <a href="{{ $event->slug }}" class="btn view-more-btn" style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">VIEW MORE</a>
-            <a href="{{ route('client.store') }}" class="btn get-ticket-btn" style="background:#181b2c;color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">GET TICKET</a>
-        </div>
-    </div>
-    @endforeach
 </div>
 @endsection
 
@@ -277,10 +355,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry, index) => {
             if (entry.isIntersecting) {
-                // Add delay based on index
                 setTimeout(() => {
                     entry.target.classList.add('visible');
-                }, index * 200); // 200ms delay between each card
+                }, index * 200);
                 observer.unobserve(entry.target);
             }
         });
@@ -291,12 +368,14 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(card);
     });
 
-    // Parallax effect for hero section
-    window.addEventListener('scroll', function() {
-        const heroSection = document.querySelector('.hero-section-store');
-        const scrolled = window.pageYOffset;
-        heroSection.style.backgroundPositionY = -(scrolled * 0.5) + 'px';
-    });
+    // Disable parallax effect on mobile devices
+    if (window.innerWidth > 768) {
+        window.addEventListener('scroll', function() {
+            const heroSection = document.querySelector('.hero-section-store');
+            const scrolled = window.pageYOffset;
+            heroSection.style.backgroundPositionY = -(scrolled * 0.5) + 'px';
+        });
+    }
 });
 </script>
 @endpush 
