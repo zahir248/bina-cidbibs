@@ -687,7 +687,8 @@ class CheckoutController extends Controller
                 'referenceNo' => $order->reference_number,
                 'cartItems' => $order->cart_items,
                 'qrCodes' => $qrCodesWithPaths,
-                'orderDate' => $order->created_at
+                'orderDate' => $order->created_at,
+                'order' => $order
             ]);
 
             // Configure PDF options
