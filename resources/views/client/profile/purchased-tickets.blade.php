@@ -606,7 +606,7 @@
                         <th>Date</th>
                         <th>Total Amount</th>
                         <th>Status</th>
-                        <th>Actions</th>
+                        <th style="text-align: center;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
