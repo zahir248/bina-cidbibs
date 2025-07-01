@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\DocumentationController;
 use App\Http\Controllers\Admin\PodcastController;
+use App\Http\Controllers\Admin\ScannerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -226,3 +227,7 @@ Route::middleware('auth')->group(function () {
         Route::post('podcasts/update-order', [PodcastController::class, 'updateOrder'])->name('podcasts.updateOrder');
     });
 });
+
+// Scanner routes (no auth required)
+Route::get('/scanner', [ScannerController::class, 'show'])->name('scanner.show');
+Route::post('/scanner/verify', [ScannerController::class, 'verify'])->name('scanner.verify');
