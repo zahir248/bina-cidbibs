@@ -474,8 +474,8 @@
                 </div>
             </div>
             <!-- Speaker Card -->
-            <div class="speaker-card-upgraded" style="background:#fff; border-radius:1.5rem; box-shadow:0 8px 32px rgba(80,80,120,0.08); border:0px solid #ff9800; padding:0 0 2rem 0; margin-top:2.2rem; max-width:340px; min-width:270px; width:100%; text-align:center; position:relative; overflow:hidden; margin-left:auto; margin-right:auto;">
-                <div style="width:100%; background:#ff9800; color:#fff; font-weight:700; font-size:1.1rem; padding:1.1rem 0 0.9rem 0; border-top-left-radius:1.5rem; border-top-right-radius:1.5rem; letter-spacing:0.5px;">
+            <div class="speaker-card-upgraded" style="background:#fff; border-radius:1.5rem; box-shadow:0 8px 32px rgba(80,80,120,0.08); border:0px solid #1B1F31; padding:0 0 2rem 0; margin-top:2.2rem; max-width:340px; min-width:270px; width:100%; text-align:center; position:relative; overflow:hidden; margin-left:auto; margin-right:auto;">
+                <div style="width:100%; background:#1B1F31; color:#fff; font-weight:700; font-size:1.1rem; padding:1.1rem 0 0.9rem 0; border-top-left-radius:1.5rem; border-top-right-radius:1.5rem; letter-spacing:0.5px;">
                     EVENT SPEAKERS
                 </div>
                 <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
@@ -483,9 +483,9 @@
                          style="width:80px; height:80px; object-fit:cover; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage">
                     <div style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
                         <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem;">Br. Dr. Hj. Azrin Bin Ahmad</div>
-                        <span style="background:#ff9800; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">Best Practices Sharing 6</span>
+                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">Best Practices Sharing 6</span>
                     </div>
-                    <div style="color:#ff9800; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Project Director</div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Project Director</div>
                     <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;">Maltimur Aktif Unggul Jv Sdn Bhd</div>
                 </div>
             </div>
