@@ -161,7 +161,8 @@
                 <div style="text-align:right;margin-top:10px;">
                     <div>Subtotal: RM {{ number_format($originalSubtotal, 2) }}</div>
                     <div>Discount: - RM {{ number_format($discount, 2) }}</div>
-                    <div class="total">Total Amount: RM {{ number_format($discountedSubtotal, 2) }}</div>
+                    <div>Processing Fee: RM {{ number_format($order->processing_fee ?? 0, 2) }}</div>
+                    <div class="total">Total Amount: RM {{ number_format($discountedSubtotal + ($order->processing_fee ?? 0), 2) }}</div>
                 </div>
             </div>
         </div>
@@ -186,7 +187,8 @@
                         </div>
                         <div class="qr-code-image">
                             <img src="file://{{ $qrCode['qr_code_path'] }}" 
-                                 alt="QR Code for {{ $qrCode['ticket_name'] }}">
+                                 alt="QR Code for {{ $qrCode['ticket_name'] }}"
+                                 style="width:200px;height:200px;background-color:white;">
                         </div>
                         <div class="qr-code-text">
                             @if($qrCode['quantity'] > 1)

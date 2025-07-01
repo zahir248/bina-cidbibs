@@ -56,6 +56,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/searches', [App\Http\Controllers\Client\ProfileController::class, 'savedSearches'])->name('client.profile.searches');
     Route::post('/profile/avatar', [App\Http\Controllers\Client\ProfileController::class, 'updateAvatar'])->name('client.profile.update.avatar');
     Route::delete('/profile/avatar', [App\Http\Controllers\Client\ProfileController::class, 'removeAvatar'])->name('client.profile.remove.avatar');
+    Route::get('/purchased-tickets', [App\Http\Controllers\Client\ProfileController::class, 'purchasedTickets'])->name('client.purchased-tickets');
+    Route::get('/profile/purchased-tickets', [App\Http\Controllers\Client\ProfileController::class, 'purchasedTickets'])->name('client.profile.purchased-tickets');
+    Route::get('/profile/orders/{order}/download-pdf', [App\Http\Controllers\Client\ProfileController::class, 'downloadOrderPdf'])->name('client.profile.orders.download-pdf');
+    Route::get('/profile/orders/{order}/download-qr-codes', [App\Http\Controllers\Client\ProfileController::class, 'downloadQrCodes'])->name('client.profile.orders.download-qr-codes');
 });
 
 // Route to serve avatar images

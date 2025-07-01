@@ -73,6 +73,73 @@
             background: white;
             padding: 10px;
         }
+        .ticket-card {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .ticket-card-header {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #ff9800;
+        }
+        .ticket-card-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 4px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .ticket-card-label {
+            color: #666;
+            font-size: 14px;
+            padding-right: 8px;
+        }
+        .ticket-card-label::after {
+            content: " ";
+            white-space: pre;
+        }
+        .ticket-card-value {
+            font-weight: bold;
+            text-align: right;
+        }
+        .order-summary {
+            background: #f8f9fa;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .order-summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 4px 0;
+        }
+        .summary-label {
+            color: #666;
+            font-size: 14px;
+            padding-right: 8px;
+        }
+        .summary-value {
+            font-weight: bold;
+            text-align: right;
+        }
+        .order-total {
+            border-top: 2px solid #ff9800;
+            padding-top: 10px;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .order-total .summary-label,
+        .order-total .summary-value {
+            font-weight: bold;
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -87,52 +154,69 @@
 
             <div class="order-details">
                 <h3>Order Details</h3>
-                <p><strong>Reference Number:</strong> {{ $referenceNo }}</p>
+                <p><strong>Reference Number: </strong> {{ $referenceNo }}</p>
                 
                 <h4>Tickets Purchased:</h4>
-                <table width="100%" cellpadding="6" cellspacing="0" style="border-collapse:collapse;">
-                    <thead>
-                        <tr style="background:#ff9800;color:#fff;">
-                            <th align="left">Ticket</th>
-                            <th align="center">Quantity</th>
-                            <th align="right">Original Price</th>
-                            <th align="right">Discounted Price</th>
-                            <th align="right">Original Subtotal</th>
-                            <th align="right">Discounted Subtotal</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                            $originalSubtotal = 0;
-                            $discountedSubtotal = 0;
-                        @endphp
-                        @foreach($cartItems as $item)
-                            @php
-                                $ticket = \App\Models\Ticket::find($item['ticket_id']);
-                                $quantity = $item['quantity'];
-                                $originalPrice = $ticket->price;
-                                $discountedPrice = $ticket->getDiscountedPrice($quantity);
-                                $origSub = $originalPrice * $quantity;
-                                $discSub = $discountedPrice * $quantity;
-                                $originalSubtotal += $origSub;
-                                $discountedSubtotal += $discSub;
-                            @endphp
-                            <tr style="background:#fff;">
-                                <td>{{ $ticket->name }}</td>
-                                <td align="center">{{ $quantity }}</td>
-                                <td align="right">RM {{ number_format($originalPrice, 2) }}</td>
-                                <td align="right">RM {{ number_format($discountedPrice, 2) }}</td>
-                                <td align="right">RM {{ number_format($origSub, 2) }}</td>
-                                <td align="right">RM {{ number_format($discSub, 2) }}</td>
-                            </tr>
-                        @endforeach
-                        @php $discount = $originalSubtotal - $discountedSubtotal; @endphp
-                    </tbody>
-                </table>
-                <div style="margin-top:10px;text-align:right;">
-                    <div>Subtotal: RM {{ number_format($originalSubtotal, 2) }}</div>
-                    <div>Discount: - RM {{ number_format($discount, 2) }}</div>
-                    <div style="font-weight:bold;">Total Amount: RM {{ number_format($discountedSubtotal, 2) }}</div>
+                @php
+                    $originalSubtotal = 0;
+                    $discountedSubtotal = 0;
+                @endphp
+                
+                @foreach($cartItems as $item)
+                    @php
+                        $ticket = \App\Models\Ticket::find($item['ticket_id']);
+                        $quantity = $item['quantity'];
+                        $originalPrice = $ticket->price;
+                        $discountedPrice = $ticket->getDiscountedPrice($quantity);
+                        $origSub = $originalPrice * $quantity;
+                        $discSub = $discountedPrice * $quantity;
+                        $originalSubtotal += $origSub;
+                        $discountedSubtotal += $discSub;
+                    @endphp
+                    <div class="ticket-card">
+                        <div class="ticket-card-header">{{ $ticket->name }}</div>
+                        <div class="ticket-card-row">
+                            <span class="ticket-card-label">Quantity:</span>
+                            <span class="ticket-card-value">{{ $quantity }}</span>
+                        </div>
+                        <div class="ticket-card-row">
+                            <span class="ticket-card-label">Original Price:</span>
+                            <span class="ticket-card-value">RM {{ number_format($originalPrice, 2) }}</span>
+                        </div>
+                        <div class="ticket-card-row">
+                            <span class="ticket-card-label">Discounted Price:</span>
+                            <span class="ticket-card-value">RM {{ number_format($discountedPrice, 2) }}</span>
+                        </div>
+                        <div class="ticket-card-row">
+                            <span class="ticket-card-label">Original Subtotal:</span>
+                            <span class="ticket-card-value">RM {{ number_format($origSub, 2) }}</span>
+                        </div>
+                        <div class="ticket-card-row">
+                            <span class="ticket-card-label">Discounted Subtotal:</span>
+                            <span class="ticket-card-value">RM {{ number_format($discSub, 2) }}</span>
+                        </div>
+                    </div>
+                @endforeach
+                
+                @php $discount = $originalSubtotal - $discountedSubtotal; @endphp
+                
+                <div class="order-summary">
+                    <div class="order-summary-row">
+                        <span class="summary-label">Subtotal: </span>
+                        <span class="summary-value">RM {{ number_format($originalSubtotal, 2) }}</span>
+                    </div>
+                    <div class="order-summary-row">
+                        <span class="summary-label">Discount: </span>
+                        <span class="summary-value">- RM {{ number_format($discount, 2) }}</span>
+                    </div>
+                    <div class="order-summary-row">
+                        <span class="summary-label">Processing Fee: </span>
+                        <span class="summary-value">RM {{ number_format($order->processing_fee ?? 0, 2) }}</span>
+                    </div>
+                    <div class="order-summary-row order-total">
+                        <span class="summary-label">Total Amount: </span>
+                        <span class="summary-value">RM {{ number_format($discountedSubtotal + ($order->processing_fee ?? 0), 2) }}</span>
+                    </div>
                 </div>
 
                 <div class="qr-code-container">
@@ -142,7 +226,7 @@
                             <div class="qr-code-image">
                                 <img src="cid:{{ basename($qrCode['filename']) }}" 
                                      alt="QR Code for {{ $qrCode['ticket_name'] }}" 
-                                     style="width:200px;height:200px;">
+                                     style="width:200px;height:200px;background-color:white;">
                             </div>
                             <div class="qr-code-text">
                                 <strong>{{ $qrCode['ticket_name'] }}</strong><br>
@@ -159,19 +243,19 @@
 
             <div class="order-details">
                 <h3>Billing Information</h3>
-                <p><strong>Name:</strong> {{ $billingData['first_name'] }} {{ $billingData['last_name'] }}</p>
-                <p><strong>Gender:</strong> {{ ucfirst($billingData['gender']) }}</p>
-                <p><strong>Category:</strong> {{ ucfirst($billingData['category']) }}</p>
+                <p><strong>Name: </strong> {{ $billingData['first_name'] }} {{ $billingData['last_name'] }}</p>
+                <p><strong>Gender: </strong> {{ ucfirst($billingData['gender']) }}</p>
+                <p><strong>Category: </strong> {{ ucfirst($billingData['category']) }}</p>
                 @if($billingData['category'] === 'organization')
-                    <p><strong>Company Name:</strong> {{ $billingData['company_name'] }}</p>
-                    <p><strong>Business Registration Number:</strong> {{ $billingData['business_registration_number'] }}</p>
+                    <p><strong>Company Name: </strong> {{ $billingData['company_name'] }}</p>
+                    <p><strong>Business Registration Number: </strong> {{ $billingData['business_registration_number'] }}</p>
                     @if($billingData['tax_number'])
-                        <p><strong>Tax Number:</strong> {{ $billingData['tax_number'] }}</p>
+                        <p><strong>Tax Number: </strong> {{ $billingData['tax_number'] }}</p>
                     @endif
                 @endif
-                <p><strong>Email:</strong> {{ $billingData['email'] }}</p>
-                <p><strong>Phone:</strong> {{ $billingData['phone'] }}</p>
-                <p><strong>Address:</strong><br>
+                <p><strong>Email: </strong> {{ $billingData['email'] }}</p>
+                <p><strong>Phone: </strong> {{ $billingData['phone'] }}</p>
+                <p><strong>Address: </strong><br>
                     {{ $billingData['address1'] }}<br>
                     @if($billingData['address2'])
                         {{ $billingData['address2'] }}<br>

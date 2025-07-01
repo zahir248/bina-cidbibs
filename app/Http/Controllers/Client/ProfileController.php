@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\UserProfile;
+use App\Models\Order;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Http;
 
 class ProfileController extends Controller
 {
@@ -237,5 +241,171 @@ class ProfileController extends Controller
     {
         session()->forget('show_profile_reminder');
         return response()->json(['success' => true]);
+    }
+
+    public function purchasedTickets()
+    {
+        $userEmail = auth()->user()->email;
+        
+        $orders = \App\Models\Order::whereHas('billingDetail', function($query) use ($userEmail) {
+                $query->where('email', $userEmail);
+            })
+            ->with(['billingDetail'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('client.profile.purchased-tickets', compact('orders'));
+    }
+
+    public function downloadOrderPdf(Order $order)
+    {
+        // Verify the order belongs to the authenticated user
+        if ($order->billingDetail->email !== auth()->user()->email) {
+            abort(403);
+        }
+
+        try {
+            // Generate QR codes
+            $qrCodes = $order->generateTicketQRCodes();
+            
+            // Add absolute paths for PDF generation
+            $qrCodesWithPaths = array_map(function($qrCode) {
+                $qrCode['qr_code_path'] = public_path('storage/' . $qrCode['filename']);
+                return $qrCode;
+            }, $qrCodes);
+
+            // Prepare billing data
+            $billingData = [
+                'first_name' => $order->billingDetail->first_name,
+                'last_name' => $order->billingDetail->last_name,
+                'gender' => $order->billingDetail->gender,
+                'category' => $order->billingDetail->category,
+                'company_name' => $order->billingDetail->company_name,
+                'business_registration_number' => $order->billingDetail->business_registration_number,
+                'tax_number' => $order->billingDetail->tax_number,
+                'email' => $order->billingDetail->email,
+                'phone' => $order->billingDetail->phone,
+                'address1' => $order->billingDetail->address1,
+                'address2' => $order->billingDetail->address2,
+                'city' => $order->billingDetail->city,
+                'state' => $order->billingDetail->state,
+                'postcode' => $order->billingDetail->postcode,
+                'country' => $order->billingDetail->country,
+            ];
+
+            // Generate PDF
+            $pdf = Pdf::loadView('emails.order-confirmation-pdf', [
+                'billingData' => $billingData,
+                'referenceNo' => $order->reference_number,
+                'cartItems' => $order->cart_items,
+                'qrCodes' => $qrCodesWithPaths,
+                'orderDate' => $order->created_at,
+                'order' => $order
+            ]);
+
+            // Configure PDF options
+            $pdf->setOption(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
+            
+            $filename = "order-{$order->reference_number}.pdf";
+            return $pdf->download($filename);
+
+        } catch (\Exception $e) {
+            \Log::error('Failed to generate order PDF', [
+                'error' => $e->getMessage(),
+                'order_id' => $order->id,
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return back()->with('error', 'Failed to generate PDF. Please try again.');
+        }
+    }
+
+    public function downloadQrCodes(Order $order)
+    {
+        // Verify the order belongs to the authenticated user
+        if ($order->billingDetail->email !== auth()->user()->email) {
+            abort(403);
+        }
+
+        try {
+            $qrCodes = [];
+            $useLocalGeneration = false;
+
+            // First try to check if QR Server is accessible
+            try {
+                $testResponse = Http::timeout(10)->get('https://api.qrserver.com/v1/create-qr-code/', [
+                    'data' => 'test',
+                    'size' => '100x100'
+                ]);
+                
+                if (!$testResponse->successful()) {
+                    $useLocalGeneration = true;
+                }
+            } catch (\Exception $e) {
+                $useLocalGeneration = true;
+            }
+
+            if ($useLocalGeneration) {
+                // Use local SVG generation as fallback
+                $generatedQrCodes = $order->generateTicketQRCodes();
+                
+                foreach ($generatedQrCodes as $qrCode) {
+                    $qrCodes[] = [
+                        'url' => asset('storage/' . $qrCode['filename']),
+                        'filename' => str_replace('.svg', '.png', 'QR_' . basename($qrCode['filename'])),
+                        'ticket_name' => $qrCode['ticket_name'],
+                        'ticket_number' => $qrCode['ticket_number'],
+                        'total_tickets' => $qrCode['quantity'],
+                        'is_svg' => true
+                    ];
+                }
+            } else {
+                // Use QR Server API
+                foreach ($order->cart_items as $index => $item) {
+                    $ticket = \App\Models\Ticket::find($item['ticket_id']);
+                    
+                    for ($i = 0; $i < $item['quantity']; $i++) {
+                        $data = json_encode([
+                            'ref' => $order->reference_number,
+                            'tkt' => $ticket->name
+                        ]);
+                        
+                        $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?' . http_build_query([
+                            'data' => $data,
+                            'size' => '300x300',
+                            'format' => 'png',
+                            'qzone' => 2,
+                            'ecc' => 'H'
+                        ]);
+
+                        $filename = 'QR_' . $order->reference_number . '_' . str_replace([' ', '/', '\\', ':', '*', '?', '"', '<', '>', '|'], '_', $ticket->name);
+                        if ($item['quantity'] > 1) {
+                            $filename .= '_' . ($i + 1);
+                        }
+                        $filename .= '.png';
+
+                        $qrCodes[] = [
+                            'url' => $qrUrl,
+                            'filename' => $filename,
+                            'ticket_name' => $ticket->name,
+                            'ticket_number' => $i + 1,
+                            'total_tickets' => $item['quantity'],
+                            'is_svg' => false
+                        ];
+                    }
+                }
+            }
+            
+            return response()->json([
+                'success' => true,
+                'qr_codes' => $qrCodes,
+                'using_local_generation' => $useLocalGeneration
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to generate QR codes.'
+            ], 500);
+        }
     }
 } 

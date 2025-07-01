@@ -702,8 +702,9 @@ class CheckoutController extends Controller
                 'referenceNo' => $order->reference_number,
                 'cartItems' => $order->cart_items,
                 'qrCodes' => $qrCodes,
-                'orderDate' => $order->created_at
-            ], function ($message) use ($billingData, $qrCodes, $order, $pdfPath) {
+                'orderDate' => $order->created_at,
+                'order' => $order
+            ], function($message) use ($billingData, $order, $qrCodes, $pdfPath) {
                 $message->to($billingData['email'])
                         ->subject('Order Confirmation - ' . config('app.name'));
 

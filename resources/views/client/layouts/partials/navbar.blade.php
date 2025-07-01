@@ -34,6 +34,7 @@
                                 @endguest
                                 @auth
                                     <li><a class="dropdown-item" href="{{ route('client.profile') }}">Profile</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('client.purchased-tickets') }}">Purchased Tickets</a></li>
                                     <li>
                                         <form method="POST" action="{{ route('client.logout') }}">
                                             @csrf
@@ -115,6 +116,7 @@
                             @endguest
                             @auth
                                 <li><a class="sidebar-link" href="{{ route('client.profile') }}">Profile</a></li>
+                                <li><a class="sidebar-link" href="{{ route('client.purchased-tickets') }}">Purchased Tickets</a></li>
                                 <li>
                                     <form method="POST" action="{{ route('client.logout') }}">
                                         @csrf
