@@ -365,6 +365,21 @@
             margin: 2rem auto 0;
         }
     }
+
+    @media (max-width: 480px) {
+        .speaker-card-upgraded .speaker-name {
+            font-size: 1rem !important;
+        }
+    }
+
+    .speaker-card-upgraded {
+        transition: box-shadow 0.3s cubic-bezier(.4,2,.6,1), transform 0.3s cubic-bezier(.4,2,.6,1);
+    }
+    .speaker-card-upgraded:hover {
+        box-shadow: 0 12px 32px rgba(255,152,0,0.18), 0 2px 12px rgba(80,80,120,0.10);
+        transform: translateY(-8px) scale(1.025);
+        z-index: 2;
+    }
 </style>
 @endpush
 
@@ -441,7 +456,7 @@
         </div>
         <!-- Right: Event Details Card -->
         <div class="sticky-sidebar">
-            <div class="ma-card" style="min-width:270px;max-width:340px;">
+            <div class="ma-card" style="min-width:270px;max-width:340px;width:100%;margin-left:auto;margin-right:auto;">
                 <div class="mb-3" style="font-weight:700;font-size:1.1rem;">
                     Join us at <span style="font-weight:900;">Facility Management Engagement Day 2025</span> to explore innovative strategies and best practices in facility management. Connect with industry leaders and experts.
                 </div>
@@ -459,22 +474,25 @@
                 </div>
             </div>
             <!-- Speaker Card -->
-            <div class="speaker-card" style="background:#ffefdf;border-radius:1.5rem;padding:2rem 1.5rem 1.5rem 1.5rem;margin-top:2rem;max-width:340px;">
-                <div style="font-size:1.35rem;font-weight:500;color:#181b2c;margin-bottom:1.2rem;">SPEAKER :</div>
-                <div style="display:flex;align-items:center;margin-bottom:1.2rem;">
-                    <div style="width:60px;height:60px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-right:1.2rem;">
-                        <img src='https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg' alt='Speaker Avatar' style='width:60px;height:60px;object-fit:cover;border-radius:50%;'>
-                    </div>
-                    <div>
-                        <div style="font-weight:700;font-size:1.15rem;color:#181b2c;">SPEAKER NAME</div>
-                        <div style="color:#6b7280;font-size:1rem;">Event Conference</div>
-                    </div>
+            <div class="speaker-card-upgraded" style="background:#fff; border-radius:1.5rem; box-shadow:0 8px 32px rgba(80,80,120,0.08); border:0px solid #ff9800; padding:0 0 2rem 0; margin-top:2.2rem; max-width:340px; min-width:270px; width:100%; text-align:center; position:relative; overflow:hidden; margin-left:auto; margin-right:auto;">
+                <div style="width:100%; background:#ff9800; color:#fff; font-weight:700; font-size:1.1rem; padding:1.1rem 0 0.9rem 0; border-top-left-radius:1.5rem; border-top-right-radius:1.5rem; letter-spacing:0.5px;">
+                    EVENT SPEAKERS
                 </div>
-                <div style="font-size:1.08rem;color:#181b2c;margin-bottom:0.7rem;">Share This :</div>
-                <div style="display:flex;gap:0.7rem;">
-                    <a href="#" class="social-icon" style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;background:#ff9800;border-radius:50%;color:#fff;font-size:1.3rem;text-decoration:none;"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-icon" style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;background:#ff9800;border-radius:50%;color:#fff;font-size:1.3rem;text-decoration:none;"><i class="fab fa-linkedin-in"></i></a>
+                <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
+                    <img src="{{ asset('images/dr-azrin-ahmad.jpg') }}" alt="Br. Dr. Hj. Azrin Bin Ahmad"
+                         style="width:80px; height:80px; object-fit:cover; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage">
+                    <div style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem;">Br. Dr. Hj. Azrin Bin Ahmad</div>
+                        <span style="background:#ff9800; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">Best Practices Sharing 6</span>
+                    </div>
+                    <div style="color:#ff9800; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Project Director</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;">Maltimur Aktif Unggul Jv Sdn Bhd</div>
                 </div>
+            </div>
+            <!-- Speaker Image Modal -->
+            <div id="speakerImageModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
+                <span id="closeSpeakerModal" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
+                <img src="{{ asset('images/dr-azrin-ahmad.jpg') }}" alt="Br. Dr. Hj. Azrin Bin Ahmad" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
             </div>
         </div>
     </div>
@@ -512,6 +530,24 @@ document.addEventListener('DOMContentLoaded', function() {
         const scrolled = window.pageYOffset;
         heroSection.style.backgroundPositionY = -(scrolled * 0.5) + 'px';
     });
+
+    // Speaker image modal logic
+    const speakerImg = document.getElementById('speakerImage');
+    const modal = document.getElementById('speakerImageModal');
+    const closeModal = document.getElementById('closeSpeakerModal');
+    if (speakerImg && modal && closeModal) {
+        speakerImg.addEventListener('click', function() {
+            modal.style.display = 'flex';
+        });
+        closeModal.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    }
 });
 </script>
 @endpush 
