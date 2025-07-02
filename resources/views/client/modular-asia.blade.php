@@ -515,6 +515,21 @@
             text-align: center;
         }
     }
+
+    @media (max-width: 480px) {
+        .speaker-card-upgraded .speaker-name {
+            font-size: 1rem !important;
+        }
+    }
+
+    .speaker-card-upgraded {
+        transition: box-shadow 0.3s cubic-bezier(.4,2,.6,1), transform 0.3s cubic-bezier(.4,2,.6,1);
+    }
+    .speaker-card-upgraded:hover {
+        box-shadow: 0 12px 32px rgba(255,152,0,0.18), 0 2px 12px rgba(80,80,120,0.10);
+        transform: translateY(-8px) scale(1.025);
+        z-index: 2;
+    }
 </style>
 @endpush
 
@@ -686,23 +701,78 @@
                     <span>08 AM – 05 PM</span>
                 </div>
             </div>
-            <!-- Speaker Card -->
-            <div class="speaker-card" style="background:#ffefdf;border-radius:1.5rem;padding:2rem 1.5rem 1.5rem 1.5rem;margin-top:2rem;max-width:340px;">
-                <div style="font-size:1.35rem;font-weight:500;color:#181b2c;margin-bottom:1.2rem;">SPEAKER :</div>
-                <div style="display:flex;align-items:center;margin-bottom:1.2rem;">
-                    <div style="width:60px;height:60px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-right:1.2rem;">
-                        <img src='https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg' alt='Speaker Avatar' style='width:60px;height:60px;object-fit:cover;border-radius:50%;'>
+            <!-- Unified Speakers Card -->
+            <div class="speaker-card-upgraded" style="background:#fff; border-radius:1.5rem; box-shadow:0 8px 32px rgba(80,80,120,0.08); border:0px solid #1B1F31; padding:0 0 2rem 0; margin-top:2.2rem; max-width:340px; min-width:270px; width:100%; text-align:center; position:relative; overflow:hidden; margin-left:auto; margin-right:auto;">
+                <div style="width:100%; background:#1B1F31; color:#fff; font-weight:700; font-size:1.1rem; padding:1.1rem 0 0.9rem 0; border-top-left-radius:1.5rem; border-top-right-radius:1.5rem; letter-spacing:0.5px;">
+                    EVENT SPEAKERS
+                </div>
+                <!-- First Speaker -->
+                <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem; padding:0 1.5rem;">
+                    <img src="{{ asset('images/erlend-spets.jpg') }}" alt='Erlend Spets'
+                         style="width:80px; height:80px; object-fit:cover; object-position: center 15%; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage">
+                    <div style="display:flex; flex-direction:column; align-items:center; gap:0.3rem; justify-content:center;">
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0;">Erlend Spets</div>
+                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block; margin-bottom:0.2rem;">KEYNOTE SPEECH</span>
                     </div>
-                    <div>
-                        <div style="font-weight:700;font-size:1.15rem;color:#181b2c;">SPEAKER NAME</div>
-                        <div style="color:#6b7280;font-size:1rem;">Event Conference</div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Associate Partner</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1rem;">McKinsey & Company</div>
+                    <div style="display:flex; gap:0.7rem;">
+                        <a href="https://www.linkedin.com/in/erlend-spets-b533106a/" target="_blank" rel="noopener noreferrer" class="social-icon" style="display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; background:#1B1F31; border-radius:50%; color:#fff; font-size:1.2rem; text-decoration:none; transition:all 0.3s ease;"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-                <div style="font-size:1.08rem;color:#181b2c;margin-bottom:0.7rem;">Share This :</div>
-                <div style="display:flex;gap:0.7rem;">
-                    <a href="#" class="social-icon" style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;background:#ff9800;border-radius:50%;color:#fff;font-size:1.3rem;text-decoration:none;"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-icon" style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;background:#ff9800;border-radius:50%;color:#fff;font-size:1.3rem;text-decoration:none;"><i class="fab fa-linkedin-in"></i></a>
+
+                <!-- Divider -->
+                <div style="width:80%; height:1px; background:rgba(27,31,49,0.1); margin:2rem auto;"></div>
+
+                <!-- Second Speaker -->
+                <div style="display:flex; flex-direction:column; align-items:center; padding:0 1.5rem;">
+                    <img src="{{ asset('images/tobias-schaefer.jpg') }}" alt='Tobias Schaefer'
+                         style="width:80px; height:80px; object-fit:cover; object-position: center 15%; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage2">
+                    <div style="display:flex; flex-direction:column; align-items:center; gap:0.3rem; justify-content:center;">
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0;">Tobias Schaefer</div>
+                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block; margin-bottom:0.2rem;">DIALOGUE SESSION 1</span>
+                    </div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Global Head of Prefab</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1rem;">ARDEX Group</div>
+                    <div style="display:flex; gap:0.7rem;">
+                        <a href="https://www.linkedin.com/in/tobias1schaefer/" target="_blank" rel="noopener noreferrer" class="social-icon" style="display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; background:#1B1F31; border-radius:50%; color:#fff; font-size:1.2rem; text-decoration:none; transition:all 0.3s ease;"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
                 </div>
+
+                <!-- Divider -->
+                <div style="width:80%; height:1px; background:rgba(27,31,49,0.1); margin:2rem auto;"></div>
+
+                <!-- Third Speaker -->
+                <div style="display:flex; flex-direction:column; align-items:center; padding:0 1.5rem;">
+                    <img src="{{ asset('images/martins-motivans.jpg') }}" alt='Martins Motivans'
+                         style="width:80px; height:80px; object-fit:cover; object-position: center 15%; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage3">
+                    <div style="display:flex; flex-direction:column; align-items:center; gap:0.3rem; justify-content:center;">
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0;">Martins Motivans</div>
+                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block; margin-bottom:0.2rem;">DIALOGUE SESSION 2</span>
+                    </div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">CEO</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1rem;">LAMOD</div>
+                    <div style="display:flex; gap:0.7rem;">
+                        <a href="https://www.linkedin.com/in/martins-motivans-75b15724/" target="_blank" rel="noopener noreferrer" class="social-icon" style="display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; background:#1B1F31; border-radius:50%; color:#fff; font-size:1.2rem; text-decoration:none; transition:all 0.3s ease;"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.lamod.eu/" target="_blank" rel="noopener noreferrer" class="social-icon" style="display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; background:#1B1F31; border-radius:50%; color:#fff; font-size:1.2rem; text-decoration:none; transition:all 0.3s ease;"><i class="fas fa-globe"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Speaker Image Modals -->
+            <div id="speakerImageModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
+                <span id="closeSpeakerModal" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
+                <img src="{{ asset('images/erlend-spets.jpg') }}" alt='Erlend Spets' style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff; object-fit: contain;">
+            </div>
+
+            <div id="speakerImageModal2" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
+                <span id="closeSpeakerModal2" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
+                <img src="{{ asset('images/tobias-schaefer.jpg') }}" alt='Tobias Schaefer' style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff; object-fit: contain;">
+            </div>
+
+            <div id="speakerImageModal3" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
+                <span id="closeSpeakerModal3" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
+                <img src="{{ asset('images/martins-motivans.jpg') }}" alt='Martins Motivans' style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff; object-fit: contain;">
             </div>
         </div>
     </div>
@@ -734,6 +804,69 @@ document.addEventListener('DOMContentLoaded', function() {
             iframe.src = '';
         }
     });
+
+    // Speaker Image Modal
+    const speakerImage = document.getElementById('speakerImage');
+    const speakerModal = document.getElementById('speakerImageModal');
+    const closeSpeakerModal = document.getElementById('closeSpeakerModal');
+
+    if (speakerImage && speakerModal && closeSpeakerModal) {
+        speakerImage.addEventListener('click', function() {
+            speakerModal.style.display = 'flex';
+        });
+
+        closeSpeakerModal.addEventListener('click', function() {
+            speakerModal.style.display = 'none';
+        });
+
+        speakerModal.addEventListener('click', function(e) {
+            if (e.target === speakerModal) {
+                speakerModal.style.display = 'none';
+            }
+        });
+    }
+
+    // Second Speaker Image Modal
+    const speakerImage2 = document.getElementById('speakerImage2');
+    const speakerModal2 = document.getElementById('speakerImageModal2');
+    const closeSpeakerModal2 = document.getElementById('closeSpeakerModal2');
+
+    if (speakerImage2 && speakerModal2 && closeSpeakerModal2) {
+        speakerImage2.addEventListener('click', function() {
+            speakerModal2.style.display = 'flex';
+        });
+
+        closeSpeakerModal2.addEventListener('click', function() {
+            speakerModal2.style.display = 'none';
+        });
+
+        speakerModal2.addEventListener('click', function(e) {
+            if (e.target === speakerModal2) {
+                speakerModal2.style.display = 'none';
+            }
+        });
+    }
+
+    // Third Speaker Image Modal
+    const speakerImage3 = document.getElementById('speakerImage3');
+    const speakerModal3 = document.getElementById('speakerImageModal3');
+    const closeSpeakerModal3 = document.getElementById('closeSpeakerModal3');
+
+    if (speakerImage3 && speakerModal3 && closeSpeakerModal3) {
+        speakerImage3.addEventListener('click', function() {
+            speakerModal3.style.display = 'flex';
+        });
+
+        closeSpeakerModal3.addEventListener('click', function() {
+            speakerModal3.style.display = 'none';
+        });
+
+        speakerModal3.addEventListener('click', function(e) {
+            if (e.target === speakerModal3) {
+                speakerModal3.style.display = 'none';
+            }
+        });
+    }
 
     // Animate elements on scroll
     const animateElements = document.querySelectorAll('.tech-card, .ma-desc, .ma-video-preview, .ma-card');
