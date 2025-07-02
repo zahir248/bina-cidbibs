@@ -483,7 +483,7 @@
                          style="width:80px; height:80px; object-fit:cover; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage">
                     <div style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
                         <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem;">Br. Dr. Hj. Azrin Bin Ahmad</div>
-                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">Best Practices Sharing 6</span>
+                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">BEST PRACTICES SHARING 6</span>
                     </div>
                     <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Project Director</div>
                     <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;">Maltimur Aktif Unggul Jv Sdn Bhd</div>
