@@ -49,30 +49,6 @@
             font-size: 12px;
             color: #666;
         }
-        .qr-code-container {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .qr-code-item {
-            display: inline-block;
-            margin: 10px;
-            padding: 15px;
-            background: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .qr-code-text {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #333;
-        }
-        .qr-code-image {
-            width: 200px;
-            height: 200px;
-            display: inline-block;
-            background: white;
-            padding: 10px;
-        }
         .ticket-card {
             background: white;
             border: 1px solid #eee;
@@ -140,6 +116,23 @@
             font-weight: bold;
             color: #333;
         }
+        .important-notice {
+            background: #f8f9fa;
+            border-left: 4px solid #ff9800;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .important-notice h4 {
+            color: #ff9800;
+            margin: 0 0 10px 0;
+        }
+        .important-notice p {
+            margin: 0;
+            color: #555;
+            font-size: 14px;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
@@ -155,6 +148,7 @@
             <div class="order-details">
                 <h3>Order Details</h3>
                 <p><strong>Reference Number: </strong> {{ $referenceNo }}</p>
+                <p><strong>Order Date: </strong> {{ $orderDate->format('d F Y, h:i A') }}</p>
                 
                 <h4>Tickets Purchased:</h4>
                 @php
@@ -218,27 +212,11 @@
                         <span class="summary-value">RM {{ number_format($discountedSubtotal + ($order->processing_fee ?? 0), 2) }}</span>
                     </div>
                 </div>
+            </div>
 
-                <div class="qr-code-container">
-                    <h4>Ticket QR Codes:</h4>
-                    @foreach($qrCodes as $qrCode)
-                        <div class="qr-code-item">
-                            <div class="qr-code-image">
-                                <img src="cid:{{ basename($qrCode['filename']) }}" 
-                                     alt="QR Code for {{ $qrCode['ticket_name'] }}" 
-                                     style="width:200px;height:200px;background-color:white;">
-                            </div>
-                            <div class="qr-code-text">
-                                <strong>{{ $qrCode['ticket_name'] }}</strong><br>
-                                @if($qrCode['quantity'] > 1)
-                                    QR Code {{ $qrCode['ticket_number'] }} of {{ $qrCode['quantity'] }} tickets
-                                @else
-                                    Single Ticket QR Code
-                                @endif
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
+            <div class="important-notice">
+                <h4>Important: Your Ticket QR Codes</h4>
+                <p>We have attached a PDF document containing your official ticket QR codes to this email. For security purposes, the QR codes are only available in the attached PDF. Please download and save this PDF as you will need to present these QR codes for entry validation at the event. We recommend keeping a copy on your mobile device for easy access.</p>
             </div>
 
             <div class="order-details">

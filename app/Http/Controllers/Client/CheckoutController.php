@@ -702,22 +702,13 @@ class CheckoutController extends Controller
                 'billingData' => $billingData,
                 'referenceNo' => $order->reference_number,
                 'cartItems' => $order->cart_items,
-                'qrCodes' => $qrCodes,
                 'orderDate' => $order->created_at,
                 'order' => $order
-            ], function($message) use ($billingData, $order, $qrCodes, $pdfPath) {
+            ], function($message) use ($billingData, $order, $pdfPath) {
                 $message->to($billingData['email'])
                         ->subject('Order Confirmation - ' . config('app.name'));
 
-                // Attach QR code images
-                foreach ($qrCodes as $qrCode) {
-                    $message->attach(Storage::disk('public')->path($qrCode['filename']), [
-                        'as' => basename($qrCode['filename']),
-                        'mime' => 'image/svg+xml'
-                    ]);
-                }
-
-                // Attach PDF
+                // Attach PDF only
                 $message->attach(Storage::disk('public')->path($pdfPath), [
                     'as' => 'Order_Confirmation_' . $order->reference_number . '.pdf',
                     'mime' => 'application/pdf'
@@ -727,10 +718,14 @@ class CheckoutController extends Controller
             // Clean up temporary PDF file
             Storage::disk('public')->delete($pdfPath);
 
+            // Clean up QR code files after sending email
+            foreach ($qrCodes as $qrCode) {
+                Storage::disk('public')->delete($qrCode['filename']);
+            }
+
             Log::info('Order confirmation email sent successfully', [
                 'order_id' => $order->id,
-                'email' => $billingData['email'],
-                'qr_codes_count' => count($qrCodes)
+                'email' => $billingData['email']
             ]);
         } catch (\Exception $e) {
             Log::error('Failed to send order confirmation email', [
