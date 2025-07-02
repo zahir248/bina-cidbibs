@@ -141,7 +141,7 @@
             <div class="content-block">
                 <div class="block-title">Steps to Access Dashboard:</div>
                 <ul class="info-list">
-                    <li>Navigate to the admin login page</li>
+                    <li>Access admin login page directly at https://bina-cidbibs.my/admin/login</li>
                     <li>Enter your admin credentials:
                         <ul>
                             <li>Email (required)</li>
@@ -291,10 +291,100 @@
     <div class="page-break"></div>
 
     <div class="section">
-        <h2 class="section-title">3. Ticket Management</h2>
+        <h2 class="section-title">3. Ticket Scanner</h2>
         
         <div class="subsection">
-            <h3 class="subsection-title">3.1 Creating Tickets</h3>
+            <h3 class="subsection-title">3.1 Using the Scanner</h3>
+            <div class="content-block">
+                <div class="block-title">Accessing the Scanner:</div>
+                <ul class="info-list">
+                    <li>Access the scanner directly at https://bina-cidbibs.my/scanner</li>
+                    <li>Allow camera access when prompted</li>
+                    <li>Position the QR code within the scanner frame</li>
+                    <li>The scanner will automatically detect and verify the QR code</li>
+                </ul>
+
+                <div class="block-title">Verification Results:</div>
+                <ul class="info-list">
+                    <li>Order Information:
+                        <ul>
+                            <li>Reference number</li>
+                            <li>Payment status (Paid/Pending/Cancelled)</li>
+                            <li>Purchase date and time</li>
+                        </ul>
+                    </li>
+                    <li>Ticket Details:
+                        <ul>
+                            <li>Ticket name</li>
+                            <li>Quantity purchased</li>
+                            <li>Original price</li>
+                            <li>Discounted price (if applicable)</li>
+                        </ul>
+                    </li>
+                    <li>Payment Summary:
+                        <ul>
+                            <li>Payment method</li>
+                            <li>Subtotal</li>
+                            <li>Processing fee</li>
+                            <li>Total amount</li>
+                        </ul>
+                    </li>
+                    <li>Attendee Information:
+                        <ul>
+                            <li>Full name</li>
+                            <li>Email address</li>
+                            <li>Phone number</li>
+                            <li>Gender</li>
+                            <li>Category (Individual/Organization/Academician)</li>
+                            <li>Complete address</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="note-box">
+                    <div class="note-title">Important Notes</div>
+                    <ul class="info-list">
+                        <li>The scanner works on both mobile and desktop devices with a camera</li>
+                        <li>Ensure good lighting for optimal QR code scanning</li>
+                        <li>Invalid or unrecognized QR codes will show an error message</li>
+                        <li>Additional details will be shown for business or academic registrations</li>
+                        <li>The scanner interface is optimized for quick verification at event entrances</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="subsection">
+            <h3 class="subsection-title">3.2 Error Handling</h3>
+            <div class="content-block">
+                <div class="block-title">Common Error Messages:</div>
+                <ul class="info-list">
+                    <li>"Invalid QR code format" - The QR code is not in the correct BINA ticket format</li>
+                    <li>"Ticket not found" - The order reference number does not exist in the system</li>
+                    <li>"Ticket does not match order" - The ticket name in the QR code doesn't match the order details</li>
+                    <li>"Error verifying ticket" - A system error occurred during verification</li>
+                </ul>
+
+                <div class="note-box">
+                    <div class="note-title">Troubleshooting Tips</div>
+                    <ul class="info-list">
+                        <li>Ensure the QR code is clearly visible and not damaged</li>
+                        <li>Check internet connectivity if verification fails</li>
+                        <li>Try refreshing the page if the scanner stops working</li>
+                        <li>Contact technical support for persistent issues</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="section">
+        <h2 class="section-title">4. Ticket Management</h2>
+        
+        <div class="subsection">
+            <h3 class="subsection-title">4.1 Creating Tickets</h3>
             <div class="content-block">
                 <div class="block-title">Steps to Create a Ticket:</div>
                 <ul class="info-list">
@@ -332,7 +422,7 @@
         <div class="page-break"></div>
 
         <div class="subsection">
-            <h3 class="subsection-title">3.2 Editing Tickets</h3>
+            <h3 class="subsection-title">4.2 Editing Tickets</h3>
             <div class="content-block">
                 <div class="block-title">Steps to Edit a Ticket:</div>
                 <ul class="info-list">
@@ -354,7 +444,7 @@
         <div class="page-break"></div>
 
         <div class="subsection">
-            <h3 class="subsection-title">3.3 Deleting Tickets</h3>
+            <h3 class="subsection-title">4.3 Deleting Tickets</h3>
             <div class="content-block">
                 <div class="block-title">Steps to Delete a Ticket:</div>
                 <ul class="info-list">
@@ -379,10 +469,10 @@
     <div class="page-break"></div>
 
     <div class="section">
-        <h2 class="section-title">4. Reports Management</h2>
+        <h2 class="section-title">5. Reports Management</h2>
         
         <div class="subsection">
-            <h3 class="subsection-title">4.1 Available Reports</h3>
+            <h3 class="subsection-title">5.1 Available Reports</h3>
             <div class="content-block">
                 <div class="block-title">Report Types:</div>
                 <ul class="info-list">
@@ -413,7 +503,7 @@
         </div>
 
         <div class="subsection">
-            <h3 class="subsection-title">4.2 Generating Reports</h3>
+            <h3 class="subsection-title">5.2 Generating Reports</h3>
             <div class="content-block">
                 <div class="block-title">Steps to Generate Reports:</div>
                 <ul class="info-list">
@@ -451,10 +541,10 @@
     <div class="page-break"></div>
 
     <div class="section">
-        <h2 class="section-title">5. Order Management</h2>
+        <h2 class="section-title">6. Order Management</h2>
         
         <div class="subsection">
-            <h3 class="subsection-title">5.1 Viewing Orders</h3>
+            <h3 class="subsection-title">6.1 Viewing Orders</h3>
             <div class="content-block">
                 <div class="block-title">Steps to View Orders:</div>
                 <ul class="info-list">
@@ -479,7 +569,7 @@
         </div>
 
         <div class="subsection">
-            <h3 class="subsection-title">5.2 Generating Order Documents</h3>
+            <h3 class="subsection-title">6.2 Generating Order Documents</h3>
             <div class="content-block">
                 <div class="block-title">Steps to Generate Order PDF:</div>
                 <ul class="info-list">
@@ -517,10 +607,10 @@
     <div class="page-break"></div>
 
     <div class="section">
-        <h2 class="section-title">6. User Management</h2>
+        <h2 class="section-title">7. User Management</h2>
         
         <div class="subsection">
-            <h3 class="subsection-title">6.1 Managing Users</h3>
+            <h3 class="subsection-title">7.1 Managing Users</h3>
             <div class="content-block">
                 <div class="block-title">User Types:</div>
                 <ul class="info-list">
@@ -560,7 +650,7 @@
         </div>
 
         <div class="subsection">
-            <h3 class="subsection-title">6.2 Creating Admin Users</h3>
+            <h3 class="subsection-title">7.2 Creating Admin Users</h3>
             <div class="content-block">
                 <div class="block-title">Steps to Create Admin User:</div>
                 <ul class="info-list">
@@ -589,7 +679,7 @@
         </div>
 
         <div class="subsection">
-            <h3 class="subsection-title">6.3 Editing Users</h3>
+            <h3 class="subsection-title">7.3 Editing Users</h3>
             <div class="content-block">
                 <div class="block-title">Steps to Edit Admin User:</div>
                 <ul class="info-list">
@@ -607,7 +697,7 @@
         </div>
 
         <div class="subsection">
-            <h3 class="subsection-title">6.4 Deleting Users</h3>
+            <h3 class="subsection-title">7.4 Deleting Users</h3>
             <div class="content-block">
                 <div class="block-title">Steps to Delete Admin User:</div>
                 <ul class="info-list">
@@ -631,10 +721,10 @@
     <div class="page-break"></div>
 
     <div class="section">
-        <h2 class="section-title">7. Schedule Management</h2>
+        <h2 class="section-title">8. Schedule Management</h2>
         
         <div class="subsection">
-            <h3 class="subsection-title">7.1 Creating Schedules</h3>
+            <h3 class="subsection-title">8.1 Creating Schedules</h3>
             <div class="content-block">
                 <div class="block-title">Steps to Create a Schedule:</div>
                 <ul class="info-list">
@@ -665,7 +755,7 @@
         </div>
 
         <div class="subsection">
-            <h3 class="subsection-title">7.2 Editing Schedules</h3>
+            <h3 class="subsection-title">8.2 Editing Schedules</h3>
             <div class="content-block">
                 <div class="block-title">Steps to Edit a Schedule:</div>
                 <ul class="info-list">
@@ -684,7 +774,7 @@
         </div>
 
         <div class="subsection">
-            <h3 class="subsection-title">7.3 Deleting Schedules</h3>
+            <h3 class="subsection-title">8.3 Deleting Schedules</h3>
             <div class="content-block">
                 <div class="block-title">Steps to Delete a Schedule:</div>
                 <ul class="info-list">
@@ -708,10 +798,10 @@
     <div class="page-break"></div>
 
     <div class="section">
-        <h2 class="section-title">8. Podcast Management</h2>
+        <h2 class="section-title">9. Podcast Management</h2>
         
         <div class="subsection">
-            <h3 class="subsection-title">8.1 Creating Podcasts</h3>
+            <h3 class="subsection-title">9.1 Creating Podcasts</h3>
             <div class="content-block">
                 <div class="block-title">Steps to Create a Podcast:</div>
                 <ul class="info-list">
@@ -757,7 +847,7 @@
         </div>
 
         <div class="subsection">
-            <h3 class="subsection-title">8.2 Editing Podcasts</h3>
+            <h3 class="subsection-title">9.2 Editing Podcasts</h3>
             <div class="content-block">
                 <div class="block-title">Steps to Edit a Podcast:</div>
                 <ul class="info-list">
@@ -776,7 +866,7 @@
         </div>
 
         <div class="subsection">
-            <h3 class="subsection-title">8.3 Deleting Podcasts</h3>
+            <h3 class="subsection-title">9.3 Deleting Podcasts</h3>
             <div class="content-block">
                 <div class="block-title">Steps to Delete a Podcast:</div>
                 <ul class="info-list">
@@ -800,10 +890,10 @@
     <div class="page-break"></div>
 
     <div class="section">
-        <h2 class="section-title">9. Attendance Form Management</h2>
+        <h2 class="section-title">10. Attendance Form Management</h2>
         
         <div class="subsection">
-            <h3 class="subsection-title">9.1 Generating Attendance Form</h3>
+            <h3 class="subsection-title">10.1 Generating Attendance Form</h3>
             <div class="content-block">
                 <div class="block-title">Steps to Generate Attendance Form:</div>
                 <ul class="info-list">
@@ -854,10 +944,10 @@
     <div class="page-break"></div>
 
     <div class="section">
-        <h2 class="section-title">10. Payment Logging</h2>
+        <h2 class="section-title">11. Payment Logging</h2>
         
         <div class="subsection">
-            <h3 class="subsection-title">10.1 Accessing Transaction Logs</h3>
+            <h3 class="subsection-title">11.1 Accessing Transaction Logs</h3>
             <div class="content-block">
                 <div class="block-title">Steps to Download Success Logs:</div>
                 <ul class="info-list">
@@ -905,10 +995,10 @@
     <div class="page-break"></div>
 
     <div class="section">
-        <h2 class="section-title">11. Documentation Management</h2>
+        <h2 class="section-title">12. Documentation Management</h2>
         
         <div class="subsection">
-            <h3 class="subsection-title">11.1 Accessing Documentation</h3>
+            <h3 class="subsection-title">12.1 Accessing Documentation</h3>
             <div class="content-block">
                 <div class="block-title">Available Documentation Types:</div>
                 <ul class="info-list">
@@ -938,7 +1028,7 @@
         </div>
 
         <div class="subsection">
-            <h3 class="subsection-title">11.2 Downloading Documentation</h3>
+            <h3 class="subsection-title">12.2 Downloading Documentation</h3>
             <div class="content-block">
                 <div class="block-title">Steps to Download Documentation:</div>
                 <ul class="info-list">

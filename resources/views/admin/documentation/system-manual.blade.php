@@ -147,6 +147,7 @@
                             <li>Laravel Sanctum - Authentication</li>
                             <li>DomPDF - PDF generation</li>
                             <li>chillerlan/php-qrcode - QR code generation</li>
+                            <li>HTML5-QRCode - QR code scanning</li>
                         </ul>
                     </li>
                     <li>Frontend:
@@ -154,6 +155,7 @@
                             <li>Blade Templates - View rendering</li>
                             <li>Bootstrap 5 - UI framework</li>
                             <li>JavaScript/jQuery - Client-side interactions</li>
+                            <li>Inter Font - Typography</li>
                         </ul>
                     </li>
                     <li>Database:
@@ -182,6 +184,7 @@
                                 <li>SSL certificate (for secure transactions)</li>
                                 <li>Composer (dependency management)</li>
                                 <li>Node.js and NPM (asset compilation)</li>
+                                <li>Web server (Apache/Nginx)</li>
                             </ul>
                         </li>
                         <li>PHP Extensions:
@@ -194,6 +197,8 @@
                                 <li>Ctype</li>
                                 <li>JSON</li>
                                 <li>GD (for image processing)</li>
+                                <li>BCMath</li>
+                                <li>Fileinfo</li>
                             </ul>
                         </li>
                     </ul>
@@ -213,44 +218,72 @@
                             <li>Http/Controllers/
                                 <ul>
                                     <li>Admin/ - Administrative controllers</li>
-                                    <li>Client/ - Client-facing controllers</li>
+                                    <li>Client/ - Client-facing controllers
+                                        <ul>
+                                            <li>Auth/ - Authentication controllers</li>
+                                            <li>Community/ - Community feature controllers</li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
-                            <li>Models/ - Eloquent models</li>
-                            <li>Helpers/ - Utility classes</li>
-                            <li>Providers/ - Service providers</li>
-                            <li>Middleware/ - Request filters</li>
+                            <li>Models/ - Eloquent models
+                                <ul>
+                                    <li>User.php - User model with role management</li>
+                                    <li>Order.php - Order management</li>
+                                    <li>Ticket.php - Ticket management</li>
+                                    <li>Event.php - Event management</li>
+                                    <li>Podcast.php - Podcast management</li>
+                                    <li>Schedule.php - Schedule management</li>
+                                    <li>BillingDetail.php - Billing information</li>
+                                </ul>
+                            </li>
+                            <li>Helpers/ - Utility classes
+                                <ul>
+                                    <li>PaymentLogger.php - Payment transaction logging</li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                     <li>resources/
                         <ul>
-                            <li>views/ - Blade templates
+                            <li>views/
                                 <ul>
-                                    <li>admin/ - Admin panel views</li>
-                                    <li>client/ - Client-facing views</li>
-                                    <li>emails/ - Email templates</li>
+                                    <li>admin/ - Admin panel views
+                                        <ul>
+                                            <li>auth/ - Admin authentication</li>
+                                            <li>documentation/ - System manuals</li>
+                                            <li>scanner/ - Ticket verification</li>
+                                        </ul>
+                                    </li>
+                                    <li>client/ - Client-facing views
+                                        <ul>
+                                            <li>auth/ - Client authentication</li>
+                                            <li>community/ - Community features</li>
+                                            <li>profile/ - User profile management</li>
+                                            <li>store/ - Ticket store</li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
-                            <li>css/ - SCSS/CSS files</li>
-                            <li>js/ - JavaScript files</li>
                         </ul>
                     </li>
                     <li>storage/
                         <ul>
-                            <li>app/ - Application files</li>
-                            <li>logs/ - System logs
+                            <li>app/public/
                                 <ul>
-                                    <li>payments/ - Payment transaction logs</li>
+                                    <li>avatars/ - User profile pictures</li>
                                 </ul>
                             </li>
-                        </ul>
-                    </li>
-                    <li>public/
-                        <ul>
-                            <li>images/ - Uploaded and static images</li>
-                            <li>css/ - Compiled CSS</li>
-                            <li>js/ - Compiled JavaScript</li>
-                            <li>files/ - Public downloadable files</li>
+                            <li>logs/
+                                <ul>
+                                    <li>payments/ - Payment transaction logs
+                                        <ul>
+                                            <li>payment_success.log - Successful transactions</li>
+                                            <li>payment_failures.log - Failed transactions</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -260,139 +293,90 @@
         <div class="page-break"></div>
 
         <div class="subsection">
-            <h3 class="subsection-title">1.3 Payment System</h3>
+            <h3 class="subsection-title">1.3 Authentication System</h3>
             <div class="content-block">
-                <div class="block-title">Components and Flow:</div>
+                <div class="block-title">User Authentication:</div>
                 <ul class="info-list">
-                    <li>Core Components:
+                    <li>Client Authentication:
                         <ul>
-                            <li>CheckoutController - Payment processing</li>
-                            <li>PaymentLogger - Transaction logging</li>
-                            <li>PDF Generator - Order documents</li>
-                            <li>Email Service - Notifications</li>
-                        </ul>
-                    </li>
-                    <li>Payment Methods:
-                        <ul>
-                            <li>ToyyibPay (FPX):
+                            <li>Traditional email/password login</li>
+                            <li>Social authentication:
                                 <ul>
-                                    <li>Personal and corporate banking</li>
-                                    <li>B2B transaction support</li>
-                                    <li>Malaysian banks only</li>
+                                    <li>Google OAuth2</li>
                                 </ul>
                             </li>
-                            <li>Stripe:
-                                <ul>
-                                    <li>International cards</li>
-                                    <li>Dynamic currency conversion</li>
-                                    <li>Automatic fee calculation</li>
-                                </ul>
-                            </li>
+                            <li>Password reset functionality</li>
+                            <li>Remember me option</li>
                         </ul>
                     </li>
-                    <li>Transaction Process:
+                    <li>Admin Authentication:
                         <ul>
-                            <li>Input validation</li>
-                            <li>Cart verification</li>
-                            <li>Payment processing</li>
-                            <li>Order creation</li>
-                            <li>Stock update</li>
-                            <li>Document generation</li>
-                            <li>Email notification</li>
+                            <li>Separate admin login system</li>
+                            <li>Role-based access control (client/admin)</li>
+                            <li>Session management</li>
                         </ul>
                     </li>
                 </ul>
 
-                <div class="note-box">
-                    <div class="note-title">Technical Specifications</div>
-                    <ul class="info-list">
-                        <li>Monetary values stored in smallest currency unit</li>
-                        <li>Automatic phone number formatting</li>
-                        <li>Name length restrictions for payment gateways</li>
-                        <li>Transaction logging in storage/logs/payments/</li>
-                        <li>PDF generation with DomPDF library</li>
-                        <li>QR code generation for tickets</li>
-                    </ul>
-                </div>
+                <div class="block-title">Security Features:</div>
+                <ul class="info-list">
+                    <li>CSRF protection on all forms</li>
+                    <li>Session-based authentication</li>
+                    <li>Secure password hashing</li>
+                    <li>IP address tracking</li>
+                    <li>User agent logging</li>
+                </ul>
             </div>
         </div>
 
-        <div class="page-break"></div>
-
         <div class="subsection">
-            <h3 class="subsection-title">1.4 QR Code System</h3>
+            <h3 class="subsection-title">1.4 Payment System</h3>
             <div class="content-block">
-                <div class="block-title">QR Code Generation:</div>
+                <div class="block-title">Payment Gateways:</div>
                 <ul class="info-list">
-                    <li>Library: chillerlan/php-qrcode v5.0
+                    <li>ToyyibPay Integration:
                         <ul>
-                            <li>High error correction level (EccLevel::H)</li>
-                            <li>SVG output format</li>
-                            <li>Automatic version selection</li>
-                            <li>Custom styling capabilities</li>
+                            <li>FPX payment processing</li>
+                            <li>B2B payment support</li>
+                            <li>Instant payment confirmation</li>
+                            <li>Malaysian banks support</li>
                         </ul>
                     </li>
-                    <li>Configuration Options:
+                    <li>Stripe Integration:
                         <ul>
-                            <li>Scale factor: 10x</li>
-                            <li>Quiet zone size: 2 units</li>
-                            <li>Circular modules with 0.45 radius</li>
-                            <li>Custom color scheme (black and white)</li>
-                        </ul>
-                    </li>
-                    <li>Data Structure:
-                        <ul>
-                            <li>JSON encoded data:
+                            <li>International credit/debit cards</li>
+                            <li>Processing fees:
                                 <ul>
-                                    <li>Reference number (ref)</li>
-                                    <li>Ticket name (tkt)</li>
+                                    <li>Malaysian cards: 3% + RM1.00</li>
+                                    <li>International cards: 4% + RM1.00</li>
+                                    <li>Currency conversion: Additional 2%</li>
                                 </ul>
                             </li>
-                            <li>Unique per ticket instance</li>
-                            <li>Compact data format for optimal scanning</li>
-                        </ul>
-                    </li>
-                    <li>Storage and Naming:
-                        <ul>
-                            <li>Storage location: public/storage/qrcodes/</li>
-                            <li>Filename format: reference_number_ticket_name_number.svg</li>
-                            <li>Special character handling in filenames</li>
-                            <li>Public accessibility for email embedding</li>
                         </ul>
                     </li>
                 </ul>
 
-                <div class="block-title">Implementation Details:</div>
+                <div class="block-title">Payment Logging:</div>
                 <ul class="info-list">
-                    <li>Generation Process:
+                    <li>Transaction Logging:
                         <ul>
-                            <li>Triggered after successful order creation</li>
-                            <li>Generated per individual ticket (not per order)</li>
-                            <li>Sequential numbering for multiple quantities</li>
-                            <li>Error handling with logging</li>
+                            <li>Separate logs for successful and failed transactions</li>
+                            <li>Timestamp recording</li>
+                            <li>Payment method tracking</li>
+                            <li>Reference number generation</li>
+                            <li>Detailed error logging</li>
                         </ul>
                     </li>
-                    <li>Output Handling:
+                    <li>Log File Structure:
                         <ul>
-                            <li>SVG format for high quality scaling</li>
-                            <li>Direct storage disk writing</li>
-                            <li>URL generation for email embedding</li>
-                            <li>Metadata tracking for each QR code</li>
+                            <li>Timestamp</li>
+                            <li>Payment method</li>
+                            <li>Status</li>
+                            <li>Reason/Description</li>
+                            <li>Additional transaction details</li>
                         </ul>
                     </li>
                 </ul>
-
-                <div class="note-box">
-                    <div class="note-title">Important Considerations</div>
-                    <ul class="info-list">
-                        <li>High error correction level ensures reliable scanning</li>
-                        <li>SVG format maintains quality at any size</li>
-                        <li>Circular modules improve aesthetic appearance</li>
-                        <li>Each QR code contains minimal but sufficient data</li>
-                        <li>Filenames are sanitized for cross-platform compatibility</li>
-                        <li>Debug logging enabled for troubleshooting</li>
-                    </ul>
-                </div>
             </div>
         </div>
 

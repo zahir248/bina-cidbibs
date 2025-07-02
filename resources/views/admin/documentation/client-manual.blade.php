@@ -295,7 +295,6 @@
                                     <li>Complete address</li>
                                 </ul>
                             </li>
-                            <li>Individual QR codes for each ticket</li>
                         </ul>
                     </li>
                     <li>Attached PDF includes:
@@ -340,7 +339,6 @@
                         <li>The PDF with QR codes is your official ticket</li>
                         <li>You must present the QR codes for scanning at the event</li>
                         <li>Save the PDF on your mobile device or bring a printed copy</li>
-                        <li>Each QR code can only be used once</li>
                     </ul>
                 </div>
             </div>
@@ -393,7 +391,6 @@
                                     <li>Complete address</li>
                                 </ul>
                             </li>
-                            <li>Individual QR codes for each ticket</li>
                         </ul>
                     </li>
                     <li>Attached PDF includes:
@@ -446,7 +443,63 @@
                         <li>The PDF with QR codes is your official ticket</li>
                         <li>You must present the QR codes for scanning at the event</li>
                         <li>Save the PDF on your mobile device or bring a printed copy</li>
-                        <li>Each QR code can only be used once</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <div class="subsection">
+            <h3 class="subsection-title">1.6 Viewing Purchased Tickets</h3>
+            <div class="content-block">
+                <div class="block-title">Accessing Your Tickets:</div>
+                <ul class="info-list">
+                    <li>Navigate to "Purchased Tickets" page from the navigation menu</li>
+                    <li>View list of all your orders with:
+                        <ul>
+                            <li>Order number</li>
+                            <li>Reference number</li>
+                            <li>Purchase date and time</li>
+                            <li>Total amount (in RM)</li>
+                            <li>Payment status (Paid/Pending/Failed)</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="block-title">Managing Orders:</div>
+                <ul class="info-list">
+                    <li>For paid orders, you can:
+                        <ul>
+                            <li>Download Order Details:
+                                <ul>
+                                    <li>Complete order information</li>
+                                    <li>Reference number</li>
+                                    <li>Order date and time</li>
+                                    <li>Ticket purchase details</li>
+                                    <li>Price breakdown</li>
+                                </ul>
+                            </li>
+                            <li>Download QR Codes:
+                                <ul>
+                                    <li>Individual QR code for each ticket</li>
+                                    <li>Ticket name</li>
+                                    <li>Ticket number (e.g., "QR Code 1 of 3 tickets")</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="note-box">
+                    <div class="note-title">Important Notes</div>
+                    <ul class="info-list">
+                        <li>The page is accessible on both desktop and mobile devices</li>
+                        <li>Desktop view shows a table format</li>
+                        <li>Mobile view shows a card format for better readability</li>
+                        <li>Download buttons are only available for paid orders</li>
+                        <li>Keep your QR codes secure - they are required for event entry</li>
+                        <li>Save the downloaded PDFs for your records</li>
                     </ul>
                 </div>
             </div>
