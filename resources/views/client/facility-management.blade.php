@@ -470,7 +470,7 @@
                 </div>
                 <div class="ma-detail-row">
                     <span class="ma-icon"><i class="fas fa-clock"></i></span>
-                    <span>08 AM – 04.30 PM</span>
+                    <span>08:00 AM – 05.00 PM</span>
                 </div>
             </div>
             <!-- Speaker Card -->
