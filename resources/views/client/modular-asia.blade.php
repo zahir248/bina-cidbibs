@@ -56,12 +56,43 @@
     }
 
     .tech-icon {
+        width: 60px;
+        height: 60px;
+        background: #ff9800;
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        margin-left: auto;
+        margin-right: auto;
         transition: all 0.3s ease;
     }
 
     .tech-card:hover .tech-icon {
         animation: pulse 1s infinite;
         background: var(--primary-dark);
+    }
+
+    .tech-icon i {
+        font-size: 1.75rem;
+        color: white;
+    }
+
+    .tech-card h3 {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #22223b;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+    .tech-card p {
+        color: #4b5563;
+        line-height: 1.6;
+        font-size: 1.1rem;
+        text-align: justify;
+        text-justify: inter-word;
     }
 
     /* Video preview interactions */
@@ -224,14 +255,6 @@
         color: #22223b;
     }
 
-    .ma-icon {
-        color: #ff9800;
-        font-size: 1.25rem;
-        width: 1.75rem;
-        display: inline-block;
-        text-align: center;
-    }
-
     .ma-detail-row {
         margin-bottom: 1rem;
         display: flex;
@@ -274,176 +297,6 @@
         .ma-card {
             margin-top: 2rem;
         }
-    }
-
-    .ma-tech-categories {
-        padding: 2rem 0;
-    }
-
-    .tech-section-title {
-        font-size: 2.5rem;
-        font-weight: 800;
-        color: #22223b;
-        text-align: center;
-        margin-bottom: 1rem;
-    }
-
-    .tech-section-subtitle {
-        text-align: center;
-        color: #4b5563;
-        font-size: 1.2rem;
-        margin-bottom: 3rem;
-        max-width: 800px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .tech-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
-        padding: 1rem;
-    }
-
-    .tech-card {
-        background: white;
-        border-radius: 1.5rem;
-        padding: 2rem;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border: 1px solid rgba(0, 0, 0, 0.05);
-    }
-
-    .tech-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-    }
-
-    .tech-icon {
-        width: 60px;
-        height: 60px;
-        background: #ff9800;
-        border-radius: 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 1.5rem;
-    }
-
-    .tech-icon i {
-        font-size: 1.75rem;
-        color: white;
-    }
-
-    .tech-card h3 {
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: #22223b;
-        margin-bottom: 1rem;
-    }
-
-    .tech-card p {
-        color: #4b5563;
-        line-height: 1.6;
-        font-size: 1.1rem;
-    }
-
-    @media (max-width: 768px) {
-        .tech-section-title {
-            font-size: 2rem;
-        }
-
-        .tech-grid {
-            grid-template-columns: 1fr;
-            padding: 0.5rem;
-        }
-
-        .tech-card {
-            padding: 1.5rem;
-        }
-    }
-
-    .sticky-sidebar {
-        position: sticky;
-        top: 2rem;
-        height: fit-content;
-    }
-
-    @media (max-width: 991px) {
-        .sticky-sidebar {
-            position: static;
-        }
-    }
-
-    /* Schedule styles */
-    .ma-schedule-row {
-        display: flex;
-        align-items: flex-start;
-        margin-bottom: 2rem;
-    }
-
-    .ma-schedule-time {
-        font-weight: 700;
-        font-size: 1.1rem;
-        color: #22223b;
-        min-width: 170px;
-    }
-
-    .ma-schedule-separator {
-        color: #ff9800;
-        font-size: 2rem;
-        margin: 0 18px 0 18px;
-    }
-
-    .ma-schedule-content {
-        flex: 1;
-    }
-
-    .ma-schedule-title {
-        font-weight: 800;
-        font-size: 1.1rem;
-        color: #0a183d;
-        letter-spacing: 0.5px;
-    }
-
-    .ma-schedule-description {
-        margin-top: 1rem;
-        margin-bottom: 0.5rem;
-        color: #22223b;
-        font-size: 1.08rem;
-        max-width: 500px;
-    }
-
-    .ticket-btn-wrapper {
-        margin-top: 2rem;
-    }
-
-    .ticket-btn {
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-        opacity: 0;
-        animation: fadeInUp 0.8s ease 0.6s forwards;
-        display: inline-block;
-        padding: 0.9rem 2.5rem;
-        font-weight: 700;
-        letter-spacing: 0.15em;
-        font-size: 1.1rem;
-        border-radius: 2.5rem;
-        background: #ff9800;
-        color: #fff;
-        text-decoration: none;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    @media (max-width: 991px) {
-        .ma-flex-row {
-            flex-direction: column;
-        }
-
-        .ma-card {
-            margin-top: 2rem;
-        }
 
         .sticky-sidebar {
             position: static;
@@ -457,6 +310,11 @@
             margin: 2rem auto 0;
             width: 100%;
             max-width: 340px;
+        }
+
+        .ma-detail-row {
+            justify-content: center;
+            text-align: center;
         }
 
         .speaker-card {
@@ -529,6 +387,139 @@
         box-shadow: 0 12px 32px rgba(255,152,0,0.18), 0 2px 12px rgba(80,80,120,0.10);
         transform: translateY(-8px) scale(1.025);
         z-index: 2;
+    }
+
+    .ma-icon {
+        color: #ff9800;
+        font-size: 1.25rem;
+        width: 1.75rem;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .ma-tech-categories {
+        padding: 2rem 0;
+    }
+
+    .tech-section-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #22223b;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .tech-section-subtitle {
+        text-align: center;
+        color: #4b5563;
+        font-size: 1.2rem;
+        margin-bottom: 3rem;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 1rem;
+    }
+
+    .tech-card {
+        background: white;
+        border-radius: 1.5rem;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .tech-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .sticky-sidebar {
+        position: sticky;
+        top: 2rem;
+        height: fit-content;
+    }
+
+    /* Schedule styles */
+    .ma-schedule-row {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+    }
+
+    .ma-schedule-time {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #22223b;
+        min-width: 170px;
+    }
+
+    .ma-schedule-separator {
+        color: #ff9800;
+        font-size: 2rem;
+        margin: 0 18px 0 18px;
+    }
+
+    .ma-schedule-content {
+        flex: 1;
+    }
+
+    .ma-schedule-title {
+        font-weight: 800;
+        font-size: 1.1rem;
+        color: #0a183d;
+        letter-spacing: 0.5px;
+    }
+
+    .ma-schedule-description {
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        color: #22223b;
+        font-size: 1.08rem;
+        max-width: 500px;
+    }
+
+    .ticket-btn-wrapper {
+        margin-top: 2rem;
+    }
+
+    .ticket-btn {
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease 0.6s forwards;
+        display: inline-block;
+        padding: 0.9rem 2.5rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        font-size: 1.1rem;
+        border-radius: 2.5rem;
+        background: #ff9800;
+        color: #fff;
+        text-decoration: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    @media (max-width: 768px) {
+        .tech-section-title {
+            font-size: 2rem;
+        }
+
+        .tech-grid {
+            grid-template-columns: 1fr;
+            padding: 0.5rem;
+        }
+
+        .tech-card {
+            padding: 1.5rem;
+        }
     }
 </style>
 @endpush
@@ -685,7 +676,7 @@
         <!-- Right: Event Details Card -->
         <div class="sticky-sidebar">
             <div class="ma-card" style="min-width:270px;max-width:340px;">
-                <div class="mb-3" style="font-weight:700;font-size:1.1rem;">
+                <div class="mb-3" style="font-weight:700;font-size:1.1rem;text-align:center;">
                     Join us at <span style="font-weight:900;">Modular Asia Forum & Exhibition 2025</span>, where innovation meets sustainability. Discover how modular designs are transforming industries and shaping a smarter future.
                 </div>
                 <div class="ma-detail-row">
