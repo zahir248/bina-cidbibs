@@ -262,6 +262,8 @@
         justify-content: center;
         gap: 2rem;
         flex-wrap: wrap;
+        max-width: 600px;
+        margin: 0 auto;
     }
 
     .countdown-item {
@@ -385,6 +387,7 @@
         margin-bottom: 0.5rem;
         text-transform: uppercase;
         line-height: 1.2;
+        text-align: center;
     }
 
     .intro-title {
@@ -393,6 +396,7 @@
         color: var(--text-dark);
         margin-bottom: 1rem;
         line-height: 1.2;
+        text-align: center;
     }
 
     .intro-title span {
@@ -416,6 +420,7 @@
         line-height: 1.8;
         color: var(--text-light);
         margin-bottom: 2rem;
+        text-align: justify;
     }
 
     .intro-highlights {
@@ -476,6 +481,10 @@
         flex-shrink: 0;
     }
 
+    .intro-feature-icon i {
+        color: white;
+    }
+
     .intro-feature-content {
         flex: 1;
     }
@@ -487,6 +496,7 @@
         margin-bottom: 0.75rem;
         line-height: 1.3;
         letter-spacing: -0.025em;
+        text-align: left;
     }
 
     .intro-feature-text {
@@ -494,6 +504,7 @@
         line-height: 1.6;
         color: var(--text-light);
         margin: 0;
+        text-align: justify;
     }
 
     /* Read More Button */
@@ -567,6 +578,7 @@
         
         .intro-feature-title {
             font-size: 1rem;
+            text-align: center;
         }
         
         .intro-feature-text {
@@ -664,20 +676,25 @@
         }
 
         .countdown-timer {
-            gap: 1rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            max-width: 400px;
+            padding: 0 1rem;
         }
 
         .countdown-item {
-            min-width: 100px;
-            padding: 1rem 0.75rem;
+            width: 100%;
+            min-width: unset;
+            padding: 1.25rem 0.75rem;
         }
 
         .countdown-number {
-            font-size: 2rem;
+            font-size: 2.25rem;
         }
 
-        .countdown-title {
-            font-size: 1.5rem;
+        .countdown-label {
+            font-size: 0.8rem;
         }
     }
 
@@ -852,7 +869,7 @@
 
 /* New Counters Section */
 .counters-section {
-    background-color: #F8F4F8; /* Light peachy background */
+    background-color: #F8F4F8;
     padding: 4rem 1.5rem;
     text-align: center;
 }
@@ -861,17 +878,20 @@
     display: flex;
     justify-content: center;
     gap: 2rem;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .counter-card {
     background-color: white;
     padding: 2rem 1.5rem;
-    border-radius: 1.5rem; /* More rounded corners */
-    border: 1px solid #f0e6db; /* Light border matching background */
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08); /* Soft shadow */
+    border-radius: 1.5rem;
+    border: 1px solid #f0e6db;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
+    flex: 1;
     min-width: 220px;
-    max-width: 280px; /* Limit width on larger screens */
+    max-width: 280px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -879,28 +899,28 @@
 }
 
 .counter-card:hover {
-    transform: translateY(-8px); /* Lift effect on hover */
+    transform: translateY(-8px);
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.12);
 }
 
 .counter-number {
-    font-size: 4rem; /* Large font size */
-    font-weight: 900; /* Extra bold */
-    color: black; /* Black for number */
+    font-size: 4rem;
+    font-weight: 900;
+    color: black;
     line-height: 1;
     margin-bottom: 0.5rem;
 }
 
 .counter-number span.plus {
-    color: #ff9800; /* Orange for plus sign */
-    font-size: 0.8em; /* Slightly smaller plus */
+    color: #ff9800;
+    font-size: 0.8em;
     vertical-align: top;
 }
 
 .counter-label {
-    font-size: 1.1rem; /* Slightly larger label */
+    font-size: 1.1rem;
     font-weight: 600;
-    color: #546e7a; /* Greyish blue for label */
+    color: #546e7a;
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
@@ -912,20 +932,23 @@
     }
 
     .counters-container {
-        gap: 1.5rem;
+        gap: 0.75rem;
+        padding: 0;
     }
 
     .counter-card {
-        min-width: 180px;
-        padding: 1.5rem 1rem;
+        flex: 1;
+        min-width: 0;
+        max-width: none;
+        padding: 1rem;
     }
 
     .counter-number {
-        font-size: 3.5rem;
+        font-size: 2.5rem;
     }
 
     .counter-label {
-        font-size: 1rem;
+        font-size: 0.85rem;
     }
 }
 
@@ -934,22 +957,17 @@
         padding: 2rem 0.5rem;
     }
 
-    .counters-container {
-        gap: 1rem;
-    }
-
     .counter-card {
-        min-width: 140px;
-        padding: 1rem 0.75rem;
-        border-radius: 1rem;
+        padding: 0.75rem 0.5rem;
     }
 
     .counter-number {
-        font-size: 3rem;
+        font-size: 2rem;
     }
 
     .counter-label {
-        font-size: 0.9rem;
+        font-size: 0.75rem;
+        letter-spacing: 0.02em;
     }
 }
 
@@ -978,6 +996,10 @@
     font-weight: 600;
     color: #ff9800; /* Orange color */
     margin-bottom: 0;
+    text-align: center;
+    max-width: 800px; /* Limit width for better readability */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .event-detail-card {
@@ -1026,6 +1048,45 @@
     color: #ff9800; /* Orange icon color */
 }
 
+/* Add classes for specific meta items */
+.event-meta-item.location {
+    order: 1;
+}
+
+.event-meta-item.date {
+    order: 2;
+}
+
+.event-meta-item.time {
+    order: 3;
+}
+
+@media (max-width: 768px) {
+    .event-meta {
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    .event-meta-item {
+        font-size: 0.95rem;
+    }
+
+    /* Reorder items on mobile */
+    .event-meta-item.location {
+        order: 1;
+        flex-basis: 100%; /* Full width */
+        justify-content: center;
+    }
+
+    .event-meta-item.date {
+        order: 2;
+    }
+
+    .event-meta-item.time {
+        order: 3;
+    }
+}
+
 .event-detail-title {
     font-size: 2rem;
     font-weight: 800;
@@ -1033,11 +1094,19 @@
     margin-bottom: 1rem;
 }
 
+@media (max-width: 768px) {
+    .event-detail-title {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+}
+
 .event-detail-description {
     font-size: 1rem;
     line-height: 1.6;
     color: #b0bec5;
     margin-bottom: 2rem;
+    text-align: justify;
 }
 
 .event-buttons {
@@ -1169,6 +1238,8 @@
     justify-content: center;
     gap: 2rem;
     flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .offering-card {
@@ -1177,7 +1248,8 @@
     border-radius: 1rem;
     border: 1px solid #e0e0e0; /* Light grey border */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    min-width: 220px;
+    flex: 1;
+    min-width: 200px;
     max-width: 280px;
     display: flex;
     flex-direction: column;
@@ -1203,6 +1275,10 @@
     margin-bottom: 1.5rem;
 }
 
+.offering-icon i {
+    color: white;
+}
+
 .offering-label {
     font-size: 1.1rem;
     font-weight: 700;
@@ -1212,11 +1288,23 @@
 }
 
 /* Responsive adjustments for Offering Section */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
     .offering-section {
         padding: 3rem 1rem;
     }
 
+    .offering-cards-container {
+        gap: 1.5rem;
+    }
+
+    .offering-card {
+        min-width: 180px;
+        max-width: 250px;
+        padding: 1.5rem 1rem;
+    }
+}
+
+@media (max-width: 768px) {
     .offering-header {
         margin-bottom: 2rem;
     }
@@ -1226,12 +1314,14 @@
     }
 
     .offering-cards-container {
-        gap: 1.5rem;
+        gap: 1rem;
     }
 
     .offering-card {
-        min-width: 180px;
-        padding: 1.5rem 1rem;
+        flex: 0 1 calc(50% - 1rem); /* Two cards per row with gap */
+        min-width: 150px;
+        max-width: none;
+        padding: 1.25rem 1rem;
     }
 
     .offering-icon {
@@ -1248,7 +1338,7 @@
 
 @media (max-width: 480px) {
     .offering-section {
-        padding: 2rem 0.5rem;
+        padding: 2rem 0.75rem;
     }
 
     .offering-title {
@@ -1257,11 +1347,14 @@
 
     .offering-cards-container {
         gap: 1rem;
+        flex-direction: column;
+        align-items: center;
     }
 
     .offering-card {
-        min-width: 140px;
-        padding: 1rem 0.75rem;
+        width: 100%;
+        max-width: 280px;
+        padding: 1.25rem;
     }
 
     .offering-icon {
@@ -1301,13 +1394,18 @@
     font-weight: 600;
     color: #ff9800; /* Orange color */
     margin-bottom: 0;
+    text-align: center;
+    max-width: 800px; /* Limit width for better readability */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .why-attend-cards-container {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
-    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .why-attend-card {
@@ -1315,8 +1413,9 @@
     padding: 2rem;
     border-radius: 1rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    max-width: 400px; /* Limit card width */
-    text-align: left;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .why-attend-card-title {
@@ -1324,6 +1423,8 @@
     font-weight: 700;
     color: #1a1a1a; /* Dark text */
     margin-bottom: 1rem;
+    text-align: center;
+    text-align-last: center; /* For the last line when justified */
 }
 
 .why-attend-card-description {
@@ -1331,72 +1432,35 @@
     line-height: 1.6;
     color: #546e7a; /* Greyish blue text */
     margin-bottom: 0;
+    text-align: justify;
 }
 
 /* Responsive adjustments for Why Should Attend Section */
-@media (max-width: 768px) {
-    .why-attend-section {
-        padding: 3rem 1rem;
-    }
-
-    .why-attend-header {
-        margin-bottom: 2rem;
-    }
-
-    .why-attend-title {
-        font-size: 2rem;
-    }
-
-    .why-attend-subtitle {
-        font-size: 1rem;
-    }
-
+@media (max-width: 992px) {
     .why-attend-cards-container {
+        grid-template-columns: 1fr;
         gap: 1.5rem;
+        padding: 0 1rem;
     }
 
     .why-attend-card {
         padding: 1.5rem;
     }
-
-    .why-attend-card-title {
-        font-size: 1.1rem;
-    }
-
-    .why-attend-card-description {
-        font-size: 0.95rem;
-    }
 }
 
 @media (max-width: 480px) {
-    .why-attend-section {
-        padding: 2rem 0.5rem;
-    }
-
-    .why-attend-title {
-        font-size: 1.75rem;
-    }
-
     .why-attend-cards-container {
         gap: 1rem;
     }
 
     .why-attend-card {
-        padding: 1rem;
-    }
-
-    .why-attend-card-title {
-        font-size: 1rem;
-    }
-
-    .why-attend-card-description {
-        font-size: 0.9rem;
+        padding: 1.25rem;
     }
 }
 
 .event-highlight-section {
-    background-color: white; /* Light peachy background */
-    padding: 5rem 1.5rem;
+    background-color: white;
+    padding: 5rem 0;
 }
 
 .event-highlight-header {
@@ -1404,8 +1468,12 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 3rem;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
-    gap: 1rem; /* Space between title/subtitle and button */
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0 1.5rem;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .event-highlight-title-container {
@@ -1416,7 +1484,7 @@
 .event-highlight-subtitle {
     font-size: 1.1rem;
     font-weight: 600;
-    color: #ff9800; /* Orange color */
+    color: #ff9800;
     margin-bottom: 0.5rem;
     text-transform: uppercase;
 }
@@ -1424,14 +1492,14 @@
 .event-highlight-title {
     font-size: 2.5rem;
     font-weight: 800;
-    color: #1a1a1a; /* Dark text */
+    color: #1a1a1a;
     margin-bottom: 0;
     line-height: 1.2;
     text-transform: uppercase;
 }
 
 .btn-see-more {
-    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); /* Orange gradient */
+    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
     color: white !important;
     border: none;
     padding: 0.75rem 2rem;
@@ -1444,19 +1512,22 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0; /* Prevent shrinking */
+    flex-shrink: 0;
 }
 
 .btn-see-more:hover {
-     background: linear-gradient(135deg, #f57c00 0%, #ef6c00 100%);
-     transform: translateY(-2px);
-     box-shadow: 0 6px 12px rgba(255, 152, 0, 0.4);
+    background: linear-gradient(135deg, #f57c00 0%, #ef6c00 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(255, 152, 0, 0.4);
 }
 
 .event-highlight-cards-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
 }
 
 .event-highlight-card {
@@ -1465,6 +1536,7 @@
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    aspect-ratio: 16/9;
 }
 
 .event-highlight-card:hover {
@@ -1474,17 +1546,28 @@
 
 .event-highlight-card img {
     width: 100%;
-    height: 200px; /* Fixed height for images */
+    height: 100%;
     object-fit: cover;
     display: block;
 }
 
-/* Responsive adjustments for Event Highlight Section */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
     .event-highlight-section {
-        padding: 3rem 1rem;
+        padding: 4rem 0;
     }
 
+    .event-highlight-cards-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        padding: 0 1rem;
+    }
+
+    .event-highlight-header {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 768px) {
     .event-highlight-header {
         flex-direction: column;
         align-items: flex-start;
@@ -1492,7 +1575,7 @@
     }
 
     .event-highlight-title-container {
-        text-align: center; /* Center title on small screens */
+        text-align: center;
         width: 100%;
     }
 
@@ -1506,22 +1589,23 @@
     }
 
     .btn-see-more {
-        width: 100%; /* Full width button on small screens */
-        margin-top: 1rem; /* Add space above button */
-    }
-
-    .event-highlight-cards-container {
-         gap: 1rem;
-    }
-
-    .event-highlight-card img {
-        height: 180px;
+        width: 100%;
+        margin-top: 1rem;
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 576px) {
     .event-highlight-section {
-        padding: 2rem 0.5rem;
+        padding: 3rem 0;
+    }
+
+    .event-highlight-cards-container {
+        grid-template-columns: 1fr;
+        padding: 0 0.75rem;
+    }
+
+    .event-highlight-header {
+        padding: 0 0.75rem;
     }
 
     .event-highlight-title {
@@ -1529,16 +1613,7 @@
     }
 
     .event-highlight-subtitle {
-         font-size: 1rem;
-    }
-
-    .event-highlight-cards-container {
-         grid-template-columns: 1fr; /* Stack cards on extra small screens */
-         gap: 1rem;
-    }
-
-    .event-highlight-card img {
-        height: 160px;
+        font-size: 1rem;
     }
 }
 
@@ -1801,6 +1876,7 @@
     margin-bottom: 1.5rem;
     line-height: 1.2;
     text-transform: uppercase;
+    text-align: center;
 }
 
 .location-description {
@@ -1808,6 +1884,7 @@
     line-height: 1.8;
     color: #546e7a; /* Greyish blue text */
     margin-bottom: 0;
+    text-align: justify;
 }
 
 .location-map {
@@ -1876,7 +1953,7 @@
 
 /* New Partners Section */
 .partners-section {
-    background-color: #F8F8F8; /* White background */
+    background-color: #F8F8F8;
     padding: 5rem 1.5rem;
 }
 
@@ -1887,7 +1964,7 @@
 .partners-subtitle {
     font-size: 1.1rem;
     font-weight: 600;
-    color: #ff9800; /* Orange color */
+    color: #ff9800;
     margin-bottom: 0.5rem;
     text-transform: uppercase;
 }
@@ -1895,7 +1972,7 @@
 .partners-title {
     font-size: 2.5rem;
     font-weight: 800;
-    color: #1a1a1a; /* Dark text */
+    color: #1a1a1a;
     margin-bottom: 0;
     line-height: 1.2;
     text-transform: uppercase;
@@ -1903,39 +1980,39 @@
 
 .partners-content {
     display: flex;
-    gap: 3rem; /* Space between text and images */
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 3rem;
+    flex-wrap: wrap;
 }
 
 .partners-text-container {
     flex: 1;
-    min-width: 300px; /* Ensure text has a minimum width */
+    min-width: 300px;
 }
 
 .partners-description {
     font-size: 1.125rem;
     line-height: 1.8;
-    color: #546e7a; /* Greyish blue text */
+    color: #546e7a;
     margin-bottom: 2rem;
+    text-align: justify;
 }
 
 .partners-logo-grid {
     flex: 1;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid for logos */
-    gap: 1.5rem;
-    align-items: center; /* Vertically center logos */
-    justify-items: center; /* Horizontally center logos */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    align-items: center;
+    justify-items: center;
+    min-width: 300px;
 }
 
 .partner-logo-item {
-    background-color: white; /* Light peachy background for logo container */
-    border-radius: 0.5rem;
-    padding: 1.5rem;
+    width: 100%;
+    aspect-ratio: 16/9;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease;
 }
 
@@ -1944,66 +2021,75 @@
 }
 
 .partner-logo-item img {
-    max-width: 100%;
-    height: auto;
-    max-height: 80px; /* Limit logo height */
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 /* Responsive adjustments for Partners Section */
 @media (max-width: 992px) {
+    .partners-logo-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .partners-section {
+        padding: 3rem 1rem;
+    }
+
     .partners-content {
         flex-direction: column;
         gap: 2rem;
     }
 
     .partners-header {
-        text-align: center; /* Center header text on smaller screens */
+        text-align: center;
     }
 
     .partners-text-container {
-        min-width: unset; /* Remove min-width for stacking */
+        min-width: unset;
         text-align: center;
     }
 
     .partners-logo-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Adjust grid for smaller screens */
-        gap: 1rem;
+        grid-template-columns: 1fr;
+        max-width: 300px;
+        margin: 0 auto;
+        gap: 2rem;
     }
 
     .partner-logo-item {
-        padding: 1rem;
+        width: 100%;
+        aspect-ratio: 3/2;
     }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 480px) {
     .partners-section {
-        padding: 3rem 1rem;
-    }
-
-    .partners-header {
-        margin-bottom: 2rem;
-    }
-
-    .partners-subtitle {
-        font-size: 1rem;
+        padding: 2rem 0.75rem;
     }
 
     .partners-title {
         font-size: 2rem;
     }
 
-    .partners-logo-grid {
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Adjust grid for even smaller screens */
+    .partners-subtitle {
+        font-size: 1rem;
     }
 
-    .partner-logo-item img {
-        max-height: 60px;
+    .partners-description {
+        font-size: 1rem;
     }
-}
 
-@media (max-width: 400px) {
     .partners-logo-grid {
-        grid-template-columns: 1fr; /* Stack logos on very small screens */
+        max-width: 250px;
+        gap: 1.5rem;
+    }
+
+    .partner-logo-item {
+        aspect-ratio: 4/3;
     }
 }
 
@@ -2058,6 +2144,7 @@
     line-height: 1.8;
     margin-bottom: 1.5rem;
     font-style: italic; /* Italicize the quote text */
+    text-align: justify;
 }
 
 .feedback-avatar {
@@ -2214,6 +2301,54 @@
 }
 .btn-trailer .fa-play-circle {
     color: #fff !important;
+}
+
+.desktop-only {
+    display: inline-flex;
+}
+
+.mobile-see-more {
+    display: none;
+    margin-top: 2rem;
+    text-align: center;
+    padding: 0 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none;
+    }
+
+    .mobile-see-more {
+        display: block;
+    }
+
+    .mobile-see-more .btn-see-more {
+        width: 100%;
+    }
+}
+
+/* Update existing mobile-see-more styles to handle both buttons */
+.mobile-see-more {
+    display: none;
+    margin-top: 2rem;
+    text-align: center;
+    padding: 0 1.5rem;
+}
+
+.mobile-see-more .btn-see-more,
+.mobile-see-more .btn-speaker-see-more {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none;
+    }
+
+    .mobile-see-more {
+        display: block;
+    }
 }
 </style>
 @endpush
@@ -2432,15 +2567,15 @@
             </div>
             <div class="event-content-container">
                 <div class="event-meta">
-                    <div class="event-meta-item">
+                    <div class="event-meta-item location">
                         <i class="fas fa-map-marker-alt"></i>
                         <span>MITEC, Kuala Lumpur</span>
                     </div>
-                    <div class="event-meta-item">
+                    <div class="event-meta-item date">
                         <i class="fas fa-calendar-alt"></i>
                         <span>29 Oct 2025</span>
                     </div>
-                    <div class="event-meta-item">
+                    <div class="event-meta-item time">
                         <i class="fas fa-clock"></i>
                         <span>08 AM - 04 PM</span>
                     </div>
@@ -2469,15 +2604,15 @@
             </div>
             <div class="event-content-container">
                 <div class="event-meta">
-                    <div class="event-meta-item">
+                    <div class="event-meta-item location">
                         <i class="fas fa-map-marker-alt"></i>
                         <span>MITEC, Kuala Lumpur</span>
                     </div>
-                    <div class="event-meta-item">
+                    <div class="event-meta-item date">
                         <i class="fas fa-calendar-alt"></i>
                         <span>30 Oct 2025</span>
                     </div>
-                    <div class="event-meta-item">
+                    <div class="event-meta-item time">
                         <i class="fas fa-clock"></i>
                         <span>08 AM - 04 PM</span>
                     </div>
@@ -2563,7 +2698,7 @@
     </div>
 </div>
 
-<!-- New Event Highlight Section -->
+<!-- Event Highlight Section -->
 <div class="event-highlight-section">
     <div class="container">
         <div class="event-highlight-header">
@@ -2571,19 +2706,19 @@
                 <p class="event-highlight-subtitle">OUR BLOG</p>
                 <h2 class="event-highlight-title">EVENT AND HIGHLIGHT</h2>
             </div>
-            <a href="{{ route('client.gallery') }}" class="btn-see-more">SEE MORE</a>
+            <a href="{{ route('client.gallery') }}" class="btn-see-more desktop-only">SEE MORE</a>
         </div>
         <div class="event-highlight-cards-container">
             <div class="event-highlight-card">
                 <img src="{{ asset('images/event-hightlight-1.jpg') }}" alt="Event Highlight Image 1">
             </div>
-             <div class="event-highlight-card">
+            <div class="event-highlight-card">
                 <img src="{{ asset('images/event-hightlight-2.jpg') }}" alt="Event Highlight Image 2">
             </div>
-             <div class="event-highlight-card">
+            <div class="event-highlight-card">
                 <img src="{{ asset('images/event-hightlight-3.jpg') }}" alt="Event Highlight Image 3">
             </div>
-             <div class="event-highlight-card">
+            <div class="event-highlight-card">
                 <img src="{{ asset('images/event-hightlight-4.jpg') }}" alt="Event Highlight Image 4">
             </div>
             <div class="event-highlight-card">
@@ -2592,6 +2727,9 @@
             <div class="event-highlight-card">
                 <img src="{{ asset('images/event-hightlight-6.jpg') }}" alt="Event Highlight Image 6">
             </div>
+        </div>
+        <div class="mobile-see-more">
+            <a href="{{ route('client.gallery') }}" class="btn-see-more">SEE MORE</a>
         </div>
     </div>
 </div>
@@ -2604,7 +2742,7 @@
                 <p class="speaker-subtitle">OUR SPEAKER</p>
                 <h2 class="speaker-title">MEET OUR SPEAKERS</h2>
             </div>
-            <a href="{{ route('client.home') }}" class="btn-speaker-see-more">SEE MORE</a>
+            <a href="{{ route('client.home') }}" class="btn-speaker-see-more desktop-only">SEE MORE</a>
         </div>
         <div class="speaker-cards-container">
             <div class="speaker-card">
@@ -2640,7 +2778,7 @@
                     <a href="#"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
-             <div class="speaker-card">
+            <div class="speaker-card">
                 <div class="speaker-image-container">
                     <img src="{{ asset('https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg') }}" alt="Speaker Name">
                 </div>
@@ -2651,6 +2789,9 @@
                     <a href="#"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
+        </div>
+        <div class="mobile-see-more">
+            <a href="{{ route('client.home') }}" class="btn-speaker-see-more">SEE MORE</a>
         </div>
     </div>
 </div>

@@ -1247,22 +1247,46 @@
     .feature-point {
         display: flex;
         align-items: flex-start;
-        gap: 1rem;
+        gap: 1.25rem;
+        padding: 0.75rem 0;
+        position: relative;
     }
 
     .point-bullet {
-        width: 8px;
-        height: 8px;
-        background: black;
-        border-radius: 50%;
-        margin-top: 0.5rem;
+        width: 24px;
+        height: 24px;
+        background: transparent;
+        position: relative;
+        margin-top: 0.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .point-bullet::before {
+        content: '';
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: #ff9800;
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        transform: rotate(90deg);
+    }
+
+    .point-bullet::after {
+        content: '';
+        position: absolute;
+        width: 12px;
+        height: 2px;
+        background: #ff9800;
+        right: 0;
     }
 
     .feature-point p {
         font-size: 1.1rem;
         line-height: 1.6;
-        color: var(--text-dark);
-        margin: 0;
+        color: #333;
+        flex: 1;
     }
 
     @media (max-width: 992px) {
@@ -1289,14 +1313,37 @@
             padding: 4rem 1.5rem;
         }
 
+        .feature-point {
+            gap: 1rem;
+        }
+
         .feature-point p {
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
     }
 
     @media (max-width: 480px) {
         .pocket-talk-section {
             padding: 3rem 1rem;
+        }
+
+        .point-bullet {
+            width: 20px;
+            height: 20px;
+        }
+
+        .point-bullet::before {
+            width: 5px;
+            height: 5px;
+        }
+
+        .point-bullet::after {
+            width: 10px;
+        }
+
+        .feature-point p {
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
     }
 
@@ -1466,9 +1513,10 @@
         }
 
         .description-col {
-            padding: 1rem;
+            padding: 1.5rem;
             text-align: center;
             border-bottom: 1px solid #eee;
+            justify-content: center;
         }
     }
 
@@ -1482,8 +1530,17 @@
         }
 
         .benefits-col, .description-col {
-            padding: 0.875rem;
-            font-size: 0.9rem;
+            padding: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .description-col {
+            padding: 1.25rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 80px;
         }
     }
 </style>
@@ -1693,7 +1750,7 @@
             <div class="feature-item">
                 <div class="feature-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 14H6l-2 2V4h16v12z M11.5 11h1v1h-1v-1zm3-5h-5v1h5V6z M13 8H8v1h5V8z M16 8h-2v1h2V8z"/>
                     </svg>
                 </div>
                 <p class="feature-text">ON-THE-SPOT INTERVIEWS</p>

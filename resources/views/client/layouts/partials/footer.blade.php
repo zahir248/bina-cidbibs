@@ -161,11 +161,17 @@
     color: #181b2c;
 }
 
+.newsletter-form {
+    max-width: 100%;
+    margin-bottom: 2rem;
+}
+
 .newsletter-form .input-group {
     border-radius: 0.5rem;
     overflow: hidden;
     background: transparent;
     border: none;
+    width: 100%;
 }
 
 .newsletter-input {
@@ -198,9 +204,6 @@
 
 .partner-logos {
     display: block;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
     width: 100%;
     text-align: left;
 }
@@ -242,11 +245,12 @@
     }
 
     .newsletter-form {
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
     }
     
     .partner-logo {
-        max-width: 120px;
+        width: 100%;
+        max-width: 100%;
     }
 }
 
@@ -268,7 +272,8 @@
     }
     
     .partner-logo {
-        max-width: 100px;
+        width: 100%;
+        max-width: 100%;
     }
 }
 
