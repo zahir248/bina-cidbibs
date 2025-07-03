@@ -290,6 +290,182 @@
         50% { transform: scale(1.5); opacity: 0.5; }
         100% { transform: scale(1); opacity: 1; }
     }
+
+    /* Card Layout for Mobile */
+    .podcast-cards-container {
+        display: none;
+    }
+
+    .podcast-episode-card-mobile {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 1rem;
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .podcast-card-header {
+        background: #f8fafc;
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .podcast-card-episode {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #1e293b;
+        margin-bottom: 0.5rem;
+    }
+
+    .podcast-card-description {
+        font-size: 0.9rem;
+        color: #64748b;
+        line-height: 1.4;
+    }
+
+    .podcast-card-body {
+        padding: 1.5rem;
+    }
+
+    .podcast-card-section {
+        margin-bottom: 1.5rem;
+    }
+
+    .podcast-card-section:last-child {
+        margin-bottom: 0;
+    }
+
+    .podcast-card-label {
+        font-weight: 600;
+        color: #374151;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .podcast-card-content {
+        color: #4b5563;
+        line-height: 1.6;
+    }
+
+    .podcast-panelist-item {
+        margin-bottom: 1rem;
+    }
+
+    .podcast-panelist-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .podcast-panelist-name {
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 0.25rem;
+    }
+
+    .podcast-panelist-title {
+        font-size: 0.9rem;
+        color: #6b7280;
+    }
+
+    .podcast-card-media {
+        background: #f9fafb;
+        border-top: 1px solid #e5e7eb;
+        padding: 1.5rem;
+    }
+
+    .podcast-media-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .podcast-image-container {
+        width: 100%;
+        max-width: 300px;
+        min-height: 200px;
+        background: #f3f4f6;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        padding: 0.5rem;
+    }
+
+    .podcast-image-container img {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        cursor: pointer;
+        border-radius: 0.5rem;
+    }
+
+    .podcast-buttons-container {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: center;
+    }
+
+    .podcast-action-button {
+        flex: 1;
+        max-width: 120px;
+        padding: 0.75rem 1rem;
+        border-radius: 2rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-align: center;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .podcast-view-more-btn {
+        background: linear-gradient(90deg, #ff9800 0%, #ffb347 100%);
+        color: #fff;
+    }
+
+    .podcast-watch-now-btn {
+        background: #181b2c;
+        color: #fff;
+    }
+
+    .podcast-action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        color: #fff;
+    }
+
+    .podcast-audio-player-mobile {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    /* Media Queries for Responsive Design */
+    @media (max-width: 992px) {
+        .table-responsive {
+            display: none;
+        }
+        
+        .podcast-cards-container {
+            display: block;
+        }
+        
+        .podcast-media-container {
+            max-width: none;
+            width: 100%;
+        }
+        
+        .audio-player-container {
+            width: 100% !important;
+            padding-left: 0 !important;
+        }
+    }
 </style>
 @endpush
 
@@ -308,7 +484,7 @@
     <div class="podcast-info-card d-flex flex-column p-3 p-sm-4" style="background:#fff;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);margin:0 auto;border:2px solid #e5e7eb;">
         <!-- Content Section -->
         <div class="flex-grow-1 d-flex flex-column" style="min-width:0;">
-            <div style="background:#f1f5f9;border-radius:0.75rem;padding:0.75rem 1.5rem;margin-bottom:1rem;">
+            <div style="background:#f1f5f9;border-radius:0.75rem;padding:0.75rem 1.5rem;margin-bottom:1rem;text-align:center;">
                 <h2 style="font-size:clamp(1.25rem, 4vw, 1.5rem);font-weight:800;color:#1e293b;margin:0;">ABOUT</h2>
             </div>
             <div style="font-size:0.95rem;color:#334155;line-height:1.5;text-align:justify;">
@@ -479,6 +655,147 @@
                             </tbody>
                         </table>
                     </div>
+                    
+                    <!-- Card Layout for Mobile -->
+                    <div class="podcast-cards-container">
+                        @forelse($binaPodcasts as $podcast)
+                        <div class="podcast-episode-card-mobile">
+                            <!-- Card Header -->
+                            <div class="podcast-card-header">
+                                <div class="podcast-card-episode">
+                                    @if($podcast->is_special)
+                                        Special Edition
+                                    @else
+                                        Episode {{ $podcast->episode_number }}
+                                    @endif
+                                </div>
+                                @if($podcast->is_live_streaming)
+                                <div class="podcast-card-description">
+                                    Live Streaming - {{ $podcast->live_streaming_event }}
+                                </div>
+                                @endif
+                                @if($podcast->description)
+                                <div class="podcast-card-description">
+                                    {!! $podcast->description !!}
+                                </div>
+                                @endif
+                            </div>
+                            
+                            <!-- Card Body -->
+                            <div class="podcast-card-body">
+                                <!-- Topic Section -->
+                                <div class="podcast-card-section">
+                                    <div class="podcast-card-label">Topic</div>
+                                    <div class="podcast-card-content">
+                                        {!! $podcast->formatted_title !!}
+                                    </div>
+                                </div>
+                                
+                                <!-- Panelist Section -->
+                                <div class="podcast-card-section">
+                                    <div class="podcast-card-label">Panelist</div>
+                                    <div class="podcast-card-content">
+                                        @if($podcast->panelists)
+                                            @foreach($podcast->panelists as $panelist)
+                                            <div class="podcast-panelist-item">
+                                                @php
+                                                    $parts = explode(' - ', $panelist, 2);
+                                                    $name = $parts[0];
+                                                    $title = isset($parts[1]) ? $parts[1] : '';
+                                                @endphp
+                                                <div class="podcast-panelist-name">{{ $name }}</div>
+                                                @if($title)
+                                                <div class="podcast-panelist-title">{{ $title }}</div>
+                                                @endif
+                                            </div>
+                                            @endforeach
+                                        @else
+                                            <div style="color:#64748b;">TBA</div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Card Media -->
+                            <div class="podcast-card-media">
+                                @if($podcast->is_coming_soon)
+                                <div class="coming-soon-container">
+                                    <div class="coming-soon-text">
+                                        Coming Soon <span class="pulse-dot"></span>
+                                    </div>
+                                    <div class="coming-soon-subtext">
+                                        Stay tuned for exciting content from this episode!
+                                    </div>
+                                </div>
+                                @else
+                                <div class="podcast-media-container">
+                                    <!-- Image -->
+                                    <div class="podcast-image-container">
+                                        @if($podcast->image)
+                                        <img src="{{ $podcast->formatted_image_url }}" 
+                                             alt="@if($podcast->is_special)Special Edition @else Episode {{ $podcast->episode_number }} @endif" 
+                                             data-bs-toggle="modal"
+                                             data-bs-target="#imageModal"
+                                             onclick="showImage(this.src)">
+                                        @else
+                                        <div style="color:#64748b;text-align:center;">
+                                            <i class="fas fa-image fa-2x mb-2"></i><br>
+                                            No image available
+                                        </div>
+                                        @endif
+                                    </div>
+                                    
+                                    <!-- Buttons -->
+                                    <div class="podcast-buttons-container">
+                                        <a href="{{ route('client.facility-management') }}" 
+                                           class="podcast-action-button podcast-view-more-btn">
+                                           VIEW<br>MORE
+                                        </a>
+                                        @if($podcast->youtube_url)
+                                        <a href="{{ $podcast->youtube_url }}" 
+                                           class="podcast-action-button podcast-watch-now-btn"
+                                           target="_blank" rel="noopener noreferrer">
+                                           WATCH NOW
+                                        </a>
+                                        @endif
+                                    </div>
+                                    
+                                    <!-- Audio Player -->
+                                    @if($podcast->youtube_url)
+                                    <div class="podcast-audio-player-mobile">
+                                        <div class="audio-player-container">
+                                            <div class="d-flex align-items-center gap-1 mb-2">
+                                                @php
+                                                    $audioId = $podcast->is_special ? "audioSpecialMobile{$podcast->id}" : "audioMobile{$podcast->id}";
+                                                    $buttonId = $podcast->is_special ? "playButtonSpecialMobile{$podcast->id}" : "playButtonMobile{$podcast->id}";
+                                                    $timeId = $podcast->is_special ? "timeSpecialMobile{$podcast->id}" : "timeMobile{$podcast->id}";
+                                                    $progressId = $podcast->is_special ? "progressSpecialMobile{$podcast->id}" : "progressMobile{$podcast->id}";
+                                                @endphp
+                                                <button class="play-button" id="{{ $buttonId }}" onclick="toggleAudio('{{ $audioId }}')" 
+                                                        style="width:44px;height:44px;flex-shrink:0;">
+                                                    <i class="fas fa-play"></i>
+                                                </button>
+                                                <div class="audio-time" id="{{ $timeId }}" style="font-size:0.9rem;color:#64748b;width:80px;">0:00 / 0:00</div>
+                                            </div>
+                                            <div class="audio-progress" onclick="seekAudio('{{ $audioId }}', event)" 
+                                                 style="height:6px;background:#e2e8f0;border-radius:3px;">
+                                                <div class="audio-progress-bar" id="{{ $progressId }}" 
+                                                     style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);height:100%;border-radius:3px;"></div>
+                                            </div>
+                                            <div id="{{ $audioId }}" class="audio-player"></div>
+                                        </div>
+                                    </div>
+                                    @endif
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                        @empty
+                        <div class="text-center py-4">
+                            <p class="text-muted">No BINA podcasts available yet.</p>
+                        </div>
+                        @endforelse
+                    </div>
                 </div>
             </div>
         </div>
@@ -639,6 +956,147 @@
                             </tbody>
                         </table>
                     </div>
+                    
+                    <!-- Card Layout for Mobile -->
+                    <div class="podcast-cards-container">
+                        @forelse($fmPodcasts as $podcast)
+                        <div class="podcast-episode-card-mobile">
+                            <!-- Card Header -->
+                            <div class="podcast-card-header">
+                                <div class="podcast-card-episode">
+                                    @if($podcast->is_special)
+                                        Special Edition
+                                    @else
+                                        Episode {{ $podcast->episode_number }}
+                                    @endif
+                                </div>
+                                @if($podcast->is_live_streaming)
+                                <div class="podcast-card-description">
+                                    Live Streaming - {{ $podcast->live_streaming_event }}
+                                </div>
+                                @endif
+                                @if($podcast->description)
+                                <div class="podcast-card-description">
+                                    {!! $podcast->description !!}
+                                </div>
+                                @endif
+                            </div>
+                            
+                            <!-- Card Body -->
+                            <div class="podcast-card-body">
+                                <!-- Topic Section -->
+                                <div class="podcast-card-section">
+                                    <div class="podcast-card-label">Topic</div>
+                                    <div class="podcast-card-content">
+                                        {!! $podcast->formatted_title !!}
+                                    </div>
+                                </div>
+                                
+                                <!-- Panelist Section -->
+                                <div class="podcast-card-section">
+                                    <div class="podcast-card-label">Panelist</div>
+                                    <div class="podcast-card-content">
+                                        @if($podcast->panelists)
+                                            @foreach($podcast->panelists as $panelist)
+                                            <div class="podcast-panelist-item">
+                                                @php
+                                                    $parts = explode(' - ', $panelist, 2);
+                                                    $name = $parts[0];
+                                                    $title = isset($parts[1]) ? $parts[1] : '';
+                                                @endphp
+                                                <div class="podcast-panelist-name">{{ $name }}</div>
+                                                @if($title)
+                                                <div class="podcast-panelist-title">{{ $title }}</div>
+                                                @endif
+                                            </div>
+                                            @endforeach
+                                        @else
+                                            <div style="color:#64748b;">TBA</div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Card Media -->
+                            <div class="podcast-card-media">
+                                @if($podcast->is_coming_soon)
+                                <div class="coming-soon-container">
+                                    <div class="coming-soon-text">
+                                        Coming Soon <span class="pulse-dot"></span>
+                                    </div>
+                                    <div class="coming-soon-subtext">
+                                        Stay tuned for exciting content from this episode!
+                                    </div>
+                                </div>
+                                @else
+                                <div class="podcast-media-container">
+                                    <!-- Image -->
+                                    <div class="podcast-image-container">
+                                        @if($podcast->image)
+                                        <img src="{{ $podcast->formatted_image_url }}" 
+                                             alt="@if($podcast->is_special)Special Edition @else Episode {{ $podcast->episode_number }} @endif" 
+                                             data-bs-toggle="modal"
+                                             data-bs-target="#imageModal"
+                                             onclick="showImage(this.src)">
+                                        @else
+                                        <div style="color:#64748b;text-align:center;">
+                                            <i class="fas fa-image fa-2x mb-2"></i><br>
+                                            No image available
+                                        </div>
+                                        @endif
+                                    </div>
+                                    
+                                    <!-- Buttons -->
+                                    <div class="podcast-buttons-container">
+                                        <a href="{{ route('client.facility-management') }}" 
+                                           class="podcast-action-button podcast-view-more-btn">
+                                           VIEW<br>MORE
+                                        </a>
+                                        @if($podcast->youtube_url)
+                                        <a href="{{ $podcast->youtube_url }}" 
+                                           class="podcast-action-button podcast-watch-now-btn"
+                                           target="_blank" rel="noopener noreferrer">
+                                           WATCH<br>NOW
+                                        </a>
+                                        @endif
+                                    </div>
+                                    
+                                    <!-- Audio Player -->
+                                    @if($podcast->youtube_url)
+                                    <div class="podcast-audio-player-mobile">
+                                        <div class="audio-player-container">
+                                            <div class="d-flex align-items-center gap-1 mb-2">
+                                                @php
+                                                    $audioId = $podcast->is_special ? "audioSpecialMobileFM{$podcast->id}" : "audioMobileFM{$podcast->id}";
+                                                    $buttonId = $podcast->is_special ? "playButtonSpecialMobileFM{$podcast->id}" : "playButtonMobileFM{$podcast->id}";
+                                                    $timeId = $podcast->is_special ? "timeSpecialMobileFM{$podcast->id}" : "timeMobileFM{$podcast->id}";
+                                                    $progressId = $podcast->is_special ? "progressSpecialMobileFM{$podcast->id}" : "progressMobileFM{$podcast->id}";
+                                                @endphp
+                                                <button class="play-button" id="{{ $buttonId }}" onclick="toggleAudio('{{ $audioId }}')" 
+                                                        style="width:44px;height:44px;flex-shrink:0;">
+                                                    <i class="fas fa-play"></i>
+                                                </button>
+                                                <div class="audio-time" id="{{ $timeId }}" style="font-size:0.9rem;color:#64748b;width:80px;">0:00 / 0:00</div>
+                                            </div>
+                                            <div class="audio-progress" onclick="seekAudio('{{ $audioId }}', event)" 
+                                                 style="height:6px;background:#e2e8f0;border-radius:3px;">
+                                                <div class="audio-progress-bar" id="{{ $progressId }}" 
+                                                     style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);height:100%;border-radius:3px;"></div>
+                                            </div>
+                                            <div id="{{ $audioId }}" class="audio-player"></div>
+                                        </div>
+                                    </div>
+                                    @endif
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                        @empty
+                        <div class="text-center py-4">
+                            <p class="text-muted">No FM podcasts available yet.</p>
+                        </div>
+                        @endforelse
+                    </div>
                 </div>
             </div>
         </div>
@@ -669,6 +1127,50 @@
                     $videoId = $params['v'] ?? '';
                 }
                 $playerId = $podcast->is_special ? "playerSpecial{$podcast->id}" : "player{$podcast->id}";
+            @endphp
+            <iframe id="{{ $playerId }}" 
+                    width="1" 
+                    height="1" 
+                    src="https://www.youtube.com/embed/{{ $videoId }}?enablejsapi=1&controls=0&showinfo=0&rel=0&modestbranding=1" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+        @endif
+    @endforeach
+    
+    <!-- Mobile Players for BINA Podcasts -->
+    @foreach($binaPodcasts as $podcast)
+        @if($podcast->youtube_url)
+            @php
+                $videoId = last(explode('/', parse_url($podcast->youtube_url, PHP_URL_PATH)));
+                if (str_contains($podcast->youtube_url, 'watch?v=')) {
+                    parse_str(parse_url($podcast->youtube_url, PHP_URL_QUERY), $params);
+                    $videoId = $params['v'] ?? '';
+                }
+                $playerId = $podcast->is_special ? "playerSpecialMobile{$podcast->id}" : "playerMobile{$podcast->id}";
+            @endphp
+            <iframe id="{{ $playerId }}" 
+                    width="1" 
+                    height="1" 
+                    src="https://www.youtube.com/embed/{{ $videoId }}?enablejsapi=1&controls=0&showinfo=0&rel=0&modestbranding=1" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+        @endif
+    @endforeach
+    
+    <!-- Mobile Players for FM Podcasts -->
+    @foreach($fmPodcasts as $podcast)
+        @if($podcast->youtube_url)
+            @php
+                $videoId = last(explode('/', parse_url($podcast->youtube_url, PHP_URL_PATH)));
+                if (str_contains($podcast->youtube_url, 'watch?v=')) {
+                    parse_str(parse_url($podcast->youtube_url, PHP_URL_QUERY), $params);
+                    $videoId = $params['v'] ?? '';
+                }
+                $playerId = $podcast->is_special ? "playerSpecialMobileFM{$podcast->id}" : "playerMobileFM{$podcast->id}";
             @endphp
             <iframe id="{{ $playerId }}" 
                     width="1" 
@@ -744,7 +1246,7 @@ function onYouTubeIframeAPIReady() {
                 events: {
                     'onReady': (event) => {
                         console.log(`${playerId} Ready`);
-                        const buttonId = playerId.replace('player', 'playButton');
+                        const buttonId = playerId.replace(/player/, 'playButton');
                         updateButtonState(buttonId, false, false);
                     },
                     'onStateChange': onPlayerStateChange,
@@ -764,10 +1266,10 @@ function onPlayerError(event) {
     console.error('YouTube Player Error:', event.data);
     const player = event.target;
     const playerId = player.getIframe().id;
-    const buttonId = playerId.replace('player', 'playButton');
+    const buttonId = playerId.replace(/player/, 'playButton');
     updateButtonState(buttonId, false, false);
     
-    const timeId = playerId.replace('player', 'time');
+    const timeId = playerId.replace(/player/, 'time');
     const timeDisplay = document.getElementById(timeId);
     if (timeDisplay) {
         timeDisplay.textContent = 'Error loading audio';
@@ -780,9 +1282,9 @@ function onPlayerStateChange(event) {
     
     const player = event.target;
     const playerId = player.getIframe().id;
-    const buttonId = playerId.replace('player', 'playButton');
-    const timeId = playerId.replace('player', 'time');
-    const progressId = playerId.replace('player', 'progress');
+    const buttonId = playerId.replace(/player/, 'playButton');
+    const timeId = playerId.replace(/player/, 'time');
+    const progressId = playerId.replace(/player/, 'progress');
     
     const timeDisplay = document.getElementById(timeId);
     const progressBar = document.getElementById(progressId);
@@ -806,14 +1308,14 @@ function toggleAudio(audioId) {
     
     if (!isAPIReady) {
         console.log('Players not ready yet, showing loading state');
-        const buttonId = audioId.replace('audio', 'playButton');
+        const buttonId = audioId.replace(/audio/, 'playButton');
         updateButtonState(buttonId, true, false);
         return;
     }
     
-    const playerId = audioId.replace('audio', 'player');
+    const playerId = audioId.replace(/audio/, 'player');
     const player = players[playerId];
-    const buttonId = audioId.replace('audio', 'playButton');
+    const buttonId = audioId.replace(/audio/, 'playButton');
     
     if (!player) {
         console.error('Player not found:', audioId);
@@ -841,7 +1343,7 @@ function toggleAudio(audioId) {
 function seekAudio(audioId, event) {
     if (!isAPIReady) return;
     
-    const playerId = audioId.replace('audio', 'player');
+    const playerId = audioId.replace(/audio/, 'player');
     const player = players[playerId];
     if (!player) return;
     
