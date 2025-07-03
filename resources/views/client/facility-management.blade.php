@@ -473,6 +473,22 @@
                     <span>08:00 AM – 05.00 PM</span>
                 </div>
             </div>
+            <!-- Emcee Card -->
+            <div class="speaker-card-upgraded" style="background:#fff; border-radius:1.5rem; box-shadow:0 8px 32px rgba(80,80,120,0.08); border:0px solid #1B1F31; padding:0 0 2rem 0; margin-top:2.2rem; max-width:340px; min-width:270px; width:100%; text-align:center; position:relative; overflow:hidden; margin-left:auto; margin-right:auto;">
+                <div style="width:100%; background:#1B1F31; color:#fff; font-weight:700; font-size:1.1rem; padding:1.1rem 0 0.9rem 0; border-top-left-radius:1.5rem; border-top-right-radius:1.5rem; letter-spacing:0.5px;">
+                    EVENT HOST
+                </div>
+                <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
+                    <img src="{{ asset('images/haji-yusuf.jpg') }}" alt="Ir. Haji Yusuf bin Haji Abd. Wahab"
+                         style="width:80px; height:80px; object-fit:cover; object-position:top; border-radius:50%; border:0px solid #1B1F31; box-shadow:0 2px 12px rgba(27,31,49,0.15); margin-bottom:1rem; cursor:pointer;" id="emceeImage">
+                    <div style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem; line-height:1.3;">Ir. Haji Yusuf Bin Haji<br>Abd. Wahab</div>
+                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">WELCOMING SPEECH</span>
+                    </div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Chairman</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;">CIDB Malaysia</div>
+                </div>
+            </div>
             <!-- Speaker Card -->
             <div class="speaker-card-upgraded" style="background:#fff; border-radius:1.5rem; box-shadow:0 8px 32px rgba(80,80,120,0.08); border:0px solid #1B1F31; padding:0 0 2rem 0; margin-top:2.2rem; max-width:340px; min-width:270px; width:100%; text-align:center; position:relative; overflow:hidden; margin-left:auto; margin-right:auto;">
                 <div style="width:100%; background:#1B1F31; color:#fff; font-weight:700; font-size:1.1rem; padding:1.1rem 0 0.9rem 0; border-top-left-radius:1.5rem; border-top-right-radius:1.5rem; letter-spacing:0.5px;">
@@ -488,6 +504,11 @@
                     <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Project Director</div>
                     <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;">Maltimur Aktif Unggul Jv Sdn Bhd</div>
                 </div>
+            </div>
+            <!-- Emcee Image Modal -->
+            <div id="emceeImageModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
+                <span id="closeEmceeModal" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
+                <img src="{{ asset('images/haji-yusuf.jpg') }}" alt="Ir. Haji Yusuf bin Haji Abd. Wahab" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
             </div>
             <!-- Speaker Image Modal -->
             <div id="speakerImageModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
@@ -530,6 +551,24 @@ document.addEventListener('DOMContentLoaded', function() {
         const scrolled = window.pageYOffset;
         heroSection.style.backgroundPositionY = -(scrolled * 0.5) + 'px';
     });
+
+    // Emcee image modal logic
+    const emceeImg = document.getElementById('emceeImage');
+    const emceeModal = document.getElementById('emceeImageModal');
+    const closeEmceeModal = document.getElementById('closeEmceeModal');
+    if (emceeImg && emceeModal && closeEmceeModal) {
+        emceeImg.addEventListener('click', function() {
+            emceeModal.style.display = 'flex';
+        });
+        closeEmceeModal.addEventListener('click', function() {
+            emceeModal.style.display = 'none';
+        });
+        emceeModal.addEventListener('click', function(e) {
+            if (e.target === emceeModal) {
+                emceeModal.style.display = 'none';
+            }
+        });
+    }
 
     // Speaker image modal logic
     const speakerImg = document.getElementById('speakerImage');
