@@ -366,6 +366,12 @@
         }
     }
 
+    .speaker-name-container {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 0.3rem !important;
+    }
+
     @media (max-width: 480px) {
         .speaker-card-upgraded .speaker-name {
             font-size: 1rem !important;
@@ -481,7 +487,7 @@
                 <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
                     <img src="{{ asset('images/haji-yusuf.jpg') }}" alt="Ir. Haji Yusuf bin Haji Abd. Wahab"
                          style="width:80px; height:80px; object-fit:cover; object-position:top; border-radius:50%; border:0px solid #1B1F31; box-shadow:0 2px 12px rgba(27,31,49,0.15); margin-bottom:1rem; cursor:pointer;" id="emceeImage">
-                    <div style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+                    <div class="speaker-name-container" style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
                         <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem; line-height:1.3;">Ir. Haji Yusuf Bin Haji<br>Abd. Wahab</div>
                         <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">WELCOMING SPEECH</span>
                     </div>
@@ -497,7 +503,7 @@
                 <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
                     <img src="{{ asset('images/dr-azrin-ahmad.jpg') }}" alt="Br. Dr. Hj. Azrin Bin Ahmad"
                          style="width:80px; height:80px; object-fit:cover; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage">
-                    <div style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+                    <div class="speaker-name-container" style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
                         <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem;">Br. Dr. Hj. Azrin Bin Ahmad</div>
                         <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">BEST PRACTICES SHARING 6</span>
                     </div>
