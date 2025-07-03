@@ -148,7 +148,7 @@
     }
 
     .section-header {
-        text-align: left;
+        text-align: center;
         margin-bottom: 2rem;
     }
 
@@ -156,6 +156,7 @@
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
+        align-items: center;
     }
 
     .section-header .logo-image {
@@ -163,6 +164,7 @@
         height: auto;
         opacity: 0;
         animation: fadeInUp 0.8s ease forwards;
+        margin: 0 auto;
     }
 
     .header-title {
@@ -174,29 +176,31 @@
         letter-spacing: 0.5px;
         opacity: 0;
         animation: fadeInUp 0.8s ease 0.2s forwards;
+        text-align: center;
     }
 
     .key-features-title {
         font-size: clamp(1.75rem, 4vw, 2.25rem);
         font-weight: 800;
         color: #ff9800;
-        margin: 1.5rem 0 1rem;
+        margin: 1.5rem auto 1rem;
         position: relative;
         display: inline-block;
         opacity: 0;
         animation: fadeInUp 0.8s ease 0.2s forwards;
+        text-align: center;
     }
 
     .key-features-title::after {
         content: '';
         position: absolute;
-        left: 0;
+        left: 50%;
         bottom: -0.75rem;
         width: 80px;
         height: 4px;
         background: var(--accent-yellow);
         border-radius: 2px;
-        transform: translateX(0);
+        transform: translateX(-50%);
         transition: var(--transition-smooth);
     }
 
@@ -474,6 +478,8 @@
         box-shadow: 0 4px 20px rgba(255, 152, 0, 0.08);
         border: 1px solid rgba(255, 152, 0, 0.1);
         max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
     }
 
     .section-title {
@@ -491,19 +497,21 @@
     .section-title::after {
         content: '';
         position: absolute;
-        left: 0;
+        left: 50%;
         bottom: -0.75rem;
         width: 80px;
         height: 4px;
         background: var(--accent-orange);
         border-radius: 2px;
-        transform: translateX(0);
+        transform: translateX(-50%);
         transition: var(--transition-smooth);
     }
 
     .section-title:hover::after {
         width: 120px;
     }
+
+
 
     .objectives-list {
         display: flex;
@@ -714,7 +722,7 @@
     }
 
     .event-info {
-        text-align: left;
+        text-align: center;
     }
 
     .event-venue {
@@ -723,10 +731,15 @@
         color: #ff9800;
         margin-bottom: 1rem;
         letter-spacing: 1px;
+        text-align: center;
     }
 
     .venue-details {
         margin-bottom: 3rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .venue-location, .event-date {
@@ -734,6 +747,7 @@
         font-weight: 600;
         color: var(--text-dark);
         margin: 0.5rem 0;
+        text-align: center;
     }
 
     .event-stats {
@@ -1221,6 +1235,7 @@
 
     .pocket-talk-content {
         padding: 2rem 0;
+        text-align: center;
     }
 
     .pocket-talk-title {
@@ -1229,13 +1244,15 @@
         color: #ff9800;
         margin-bottom: 1rem;
         position: relative;
+        text-align: center;
+        display: inline-block;
     }
 
     .title-accent {
         width: 60px;
         height: 4px;
         background: #ffd700;
-        margin-bottom: 2rem;
+        margin: 0 auto 2rem;
     }
 
     .pocket-talk-features {
@@ -1365,7 +1382,11 @@
         font-weight: 900;
         color: #ff9800;
         margin-bottom: 0.5rem;
-        text-align: left;
+        text-align: center;
+        position: relative;
+        display: inline-block;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
     .last-event-subtitle {
@@ -1373,7 +1394,9 @@
         font-weight: 800;
         color: #ff9800;
         margin-bottom: 3rem;
-        text-align: left;
+        text-align: center;
+        width: 100%;
+        display: block;
     }
 
     .visual-highlights-grid {
@@ -1444,6 +1467,7 @@
 
     .collaboration-header {
         margin-bottom: 3rem;
+        text-align: center;
     }
 
     .collaboration-title {
@@ -1451,6 +1475,9 @@
         font-weight: 900;
         color: #ff9800;
         margin-bottom: 0.5rem;
+        text-align: center;
+        position: relative;
+        display: inline-block;
     }
 
     .collaboration-subtitle {
@@ -1458,6 +1485,9 @@
         font-weight: 800;
         color: #ff9800;
         opacity: 0.9;
+        text-align: center;
+        width: 100%;
+        display: block;
     }
 
     .benefits-grid {
