@@ -755,7 +755,7 @@
                                         <a href="{{ $podcast->youtube_url }}" 
                                            class="podcast-action-button podcast-watch-now-btn"
                                            target="_blank" rel="noopener noreferrer">
-                                           WATCH NOW
+                                           WATCH<br>NOW
                                         </a>
                                         @endif
                                     </div>
