@@ -219,6 +219,9 @@
             display: flex;
             justify-content: center;
         }
+        .ma-card > div:first-child {
+            text-align: center;
+        }
     }
 
     @media (max-width: 576px) {
@@ -340,11 +343,12 @@
                     The competition challenges participants to design innovative, functional, and cost-effective modular building solutions that address critical global needs such as affordable housing, disaster relief shelters, and eco-friendly structures. Beyond design, students will also be tested on their ability to assemble modular structures quickly and accurately under time constraints, simulating the fast-paced demands of real-world construction scenarios.
                 </div>
                 <!-- Image Section with hover effect -->
-                <div class="ma-video-preview position-relative mt-4" style="width:100%; max-width:100%; max-height: 500px; overflow: hidden;">
-                    <img src="{{ asset('images/facility.jpg') }}" alt="NextGen BINA" 
-                         style="width:100%; height: 500px; border-radius: 2rem; display:block; object-fit: cover; transition: transform 0.3s ease;"
-                         onmouseover="this.style.transform='scale(1.02)'"
-                         onmouseout="this.style.transform='scale(1)'">
+                <div class="ma-video-preview position-relative mt-4" style="width:100%; max-width:100%; height: auto; overflow: hidden; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+                    <img src="{{ asset('images/nextgen-cover.jpg') }}" alt="NextGen BINA" 
+                         style="width:100%; border-radius: 1rem; display:block; object-fit: contain; transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                         class="img-fluid"
+                         onmouseover="this.style.transform='scale(1.02)'; this.parentElement.style.boxShadow='0 15px 40px rgba(0, 0, 0, 0.15)';"
+                         onmouseout="this.style.transform='scale(1)'; this.parentElement.style.boxShadow='0 10px 30px rgba(0, 0, 0, 0.1)';">
                 </div>
                 <div class="ma-desc" style="color:#6b7280; font-size:1.18rem; margin-top:2rem; margin-bottom:1.5rem; max-width:100%; text-align: justify; text-justify: inter-word;">
                     NextGen TVET: Modular Thinkers is more than a competition—it's a platform to showcase the future talents who will drive innovation, sustainability, and smart urban development through modular technology.
@@ -355,7 +359,7 @@
             <div class="d-block d-lg-none order-2 mb-5">
                 <div class="ma-card animate-on-scroll mx-auto" style="min-width:270px;max-width:340px;">
                     <div style="font-size:1.25rem;font-weight:600;color:#22223b;margin-bottom:1.5rem;border-bottom:2px solid #ff9800;padding-bottom:0.75rem;">
-                        Key objectives of the competition:
+                        Key objectives of the competition
                     </div>
                     <ul class="objectives-list">
                         <li>
@@ -427,7 +431,7 @@
         <div class="d-none d-lg-block sticky-sidebar">
             <div class="ma-card animate-on-scroll" style="min-width:270px;max-width:340px;">
                 <div style="font-size:1.25rem;font-weight:600;color:#22223b;margin-bottom:1.5rem;border-bottom:2px solid #ff9800;padding-bottom:0.75rem;">
-                    Key objectives of the competition:
+                    Key objectives of the competition
                 </div>
                 <ul class="objectives-list">
                     <li>
