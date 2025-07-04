@@ -81,7 +81,7 @@ class ProfileController extends Controller
     {
         try {
             $request->validate([
-                'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+                'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:10240'
             ]);
 
             $user = Auth::user();

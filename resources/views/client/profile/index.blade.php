@@ -338,11 +338,26 @@
         background-color: #f8fafc;
     }
     .category-select .form-check {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.75rem;
+    }
+    .category-select .form-check:last-child {
+        margin-bottom: 0;
     }
     .category-select .form-check-input:checked {
-        background-color: #0d6efd;
-        border-color: #0d6efd;
+        background-color: #ff9900 !important;
+        border-color: #ff9900 !important;
+    }
+    .category-select .form-check-input:focus {
+        border-color: #ff9900;
+        box-shadow: 0 0 0 0.25rem rgba(255, 153, 0, 0.25);
+    }
+    .category-select .form-check-input:hover {
+        cursor: pointer;
+        border-color: #ff9900;
+    }
+    .category-select .form-check-label:hover {
+        cursor: pointer;
+        color: #ff9900;
     }
     .all-fields {
         margin-top: 1.5rem;
@@ -710,154 +725,437 @@
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
+        .profile-container {
+            padding: 1rem;
+        }
+
+        .profile-content {
+            padding: 1rem;
+        }
+
+        .profile-header {
+            padding: 1rem;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            line-height: 1.3;
+        }
+
+        .profile-email {
+            font-size: 1rem;
+        }
+
+        .profile-category {
+            font-size: 0.8rem;
+            padding: 0.4rem 1rem;
+        }
+
+        /* Tab Navigation */
         .profile-tabs {
-            flex-direction: column;
+            display: flex;
+            flex-direction: row;
             padding: 0.75rem;
-            gap: 0.75rem;
+            gap: 0.5rem;
+            width: 100%;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+        }
+
+        .profile-tabs .nav-item {
+            flex: 1;
+            width: auto;
+            display: flex;
         }
 
         .profile-tabs .nav-link {
-            padding: 0.875rem;
-            font-size: 0.95rem;
-            justify-content: flex-start;
-        }
-        
-        .profile-tab-content {
-            padding: 1.5rem;
+            border: 1px solid #e9ecef;
+            background-color: #fff;
+            text-align: center;
+            padding: 0.75rem 0.5rem;
+            font-size: 0.9rem;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            white-space: normal;
+            line-height: 1.2;
+            gap: 0.35rem;
         }
 
         .profile-tabs .nav-link i {
-            width: 24px;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .profile-tabs .nav-link.active {
+            border-color: #ff9900;
+            background-color: #fff3e0;
+        }
+
+        .profile-tabs .nav-link:hover {
+            background-color: #fff3e0;
+        }
+
+        .profile-tab-content {
+            width: 100%;
+            padding: 1rem;
+        }
+
+        /* Form and Button Styles */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .btn-save {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn-danger {
+            width: 100%;
+        }
+
+        .text-end {
+            text-align: center !important;
+        }
+
+        .category-select {
+            padding: 0.75rem;
+        }
+
+        .info-section {
+            padding: 1rem !important;
+        }
+
+        /* Modal Styles */
+        .modal-dialog {
+            margin: 0.5rem;
+        }
+
+        .modal-body {
+            padding: 1rem;
+        }
+
+        .modal-footer {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .modal-footer .btn {
+            width: 100%;
+        }
+
+        .profile-avatar-container {
+            width: 120px;
+            height: 120px;
+        }
+
+        .change-photo-btn {
+            font-size: 0.8rem;
+            padding: 2px;
+        }
+
+        .avatar-upload {
+            padding: 4px;
         }
     }
 
-    /* Update the tab content container */
-    .profile-section {
-        margin-bottom: 0;
+    /* Additional adjustments for very small screens */
+    @media (max-width: 480px) {
+        .profile-tabs .nav-link {
+            padding: 0.5rem 0.25rem;
+            font-size: 0.8rem;
+            gap: 0.25rem;
+        }
+
+        .profile-tabs .nav-link i {
+            font-size: 0.9rem;
+        }
     }
 
-    .category-select {
-        background-color: #ffffff;
-        border: 1px solid #e9ecef;
-        margin-bottom: 2rem;
+    /* Modal and backdrop improvements */
+    .modal {
+        background: none !important;
     }
 
-    .all-fields {
-        margin-top: 0;
-        padding-top: 2rem;
-        border-top: 1px solid #e9ecef;
+    .modal-backdrop {
+        display: none !important;
     }
 
-    .social-links {
-        background-color: transparent;
-        padding: 0;
+    .modal-dialog {
+        margin: 1.75rem auto;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     }
 
-    /* Form styling updates */
-    .form-control {
-        border: 1px solid #e9ecef;
-        padding: 0.75rem 1rem;
-        border-radius: 8px;
+    .modal-content {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+    /* Ensure body remains interactive */
+    body.modal-open {
+        overflow: auto !important;
+        padding-right: 0 !important;
+    }
+
+    /* Photo Options Modal specific styles */
+    #photoOptionsModal {
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+    }
+
+    #photoOptionsModal .modal-dialog {
+        max-width: 400px;
+    }
+
+    #photoOptionsModal .upload-btn {
+        background: #0d6efd;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    #photoOptionsModal .upload-btn:hover {
+        background: #0b5ed7;
+        transform: translateY(-2px);
+    }
+
+    #photoOptionsModal .remove-btn {
+        border: 2px solid #dc3545;
+        color: #dc3545;
+        transition: all 0.3s ease;
+    }
+
+    #photoOptionsModal .remove-btn:hover {
+        background: #dc3545;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 576px) {
+        #photoOptionsModal .modal-dialog {
+            margin: 1rem;
+        }
+    }
+
+    /* Improved Modal Styles */
+    .modal-content {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        padding: 1.5rem 1.5rem 0.5rem;
+    }
+
+    .modal-title {
+        font-size: 1.25rem;
+        color: #2c3e50;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+
+    .upload-btn {
+        background: #0d6efd;
+        border: none;
+        padding: 1rem;
+        font-weight: 600;
+        font-size: 1rem;
+        border-radius: 0.75rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .upload-btn:hover {
+        background: #0b5ed7;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+    }
+
+    .remove-btn {
+        padding: 1rem;
+        font-weight: 600;
+        font-size: 1rem;
+        border-radius: 0.75rem;
+        border: 2px solid #dc3545;
+        transition: all 0.3s ease;
+    }
+
+    .remove-btn:hover {
+        background: #dc3545;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+    }
+
+    .btn-close {
+        opacity: 0.7;
         transition: all 0.2s ease;
     }
 
-    .form-control:focus {
-        border-color: #ff9900;
-        box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.1);
+    .btn-close:hover {
+        opacity: 1;
+        transform: scale(1.1);
     }
 
-    .form-label {
-        color: #495057;
-        margin-bottom: 0.5rem;
-        font-size: 0.9rem;
-        font-weight: 600;
+    /* Photo Options Modal Container */
+    .photo-options-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1050;
     }
 
-    /* Button styling updates */
-    .btn-save {
-        padding: 0.75rem 2rem;
+    .photo-options-content {
+        background: white;
+        width: 90%;
+        max-width: 360px;
+        border-radius: 16px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    }
+
+    .photo-options-header {
+        padding: 20px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .photo-options-title {
+        font-size: 18px;
         font-weight: 600;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        background: #ff9900;
+        color: #1e293b;
+        margin: 0;
+    }
+
+                .photo-close-btn {
+                background: none;
+                border: none;
+                padding: 8px;
+                cursor: pointer;
+                color: #94a3b8;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 8px;
+                transition: all 0.2s ease;
+            }
+
+            .photo-close-btn:hover {
+                background-color: #f1f5f9;
+                color: #64748b;
+            }
+
+            .photo-close-btn i {
+                font-size: 20px;
+                font-weight: 300;
+            }
+
+    .photo-options-body {
+        padding: 24px;
+    }
+
+    .photo-options-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .photo-upload-btn {
+        background-color: #0ea5e9;
+        color: white;
         border: none;
-        color: white;
+        padding: 12px 20px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
     }
 
-    .btn-save:hover {
-        background: #ff8800;
+    .photo-upload-btn:hover {
+        background-color: #0284c7;
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(255, 153, 0, 0.2);
     }
 
-    .info-section {
-        border: 1px solid #e9ecef;
-        transition: all 0.3s ease;
+    .photo-upload-btn input {
+        display: none;
     }
 
-    .info-section h5 {
-        color: #ff9900;
+    .photo-remove-btn {
+        background-color: white;
+        color: #ef4444;
+        border: 2px solid #ef4444;
+        padding: 12px 20px;
+        border-radius: 12px;
         font-weight: 600;
-        font-size: 1.1rem;
+        font-size: 15px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
     }
 
-    .category-fields {
-        animation: slideDown 0.3s ease-out;
-    }
-
-    @keyframes slideDown {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Radio button styling */
-    .form-check-input:checked {
-        background-color: #ff9900 !important;
-        border-color: #ff9900 !important;
-    }
-
-    .form-check-input:focus {
-        border-color: #ff9900;
-        box-shadow: 0 0 0 0.25rem rgba(255, 153, 0, 0.25);
-    }
-
-    /* Section header styling */
-    .info-section h5 {
-        color: #ff9900;
-        font-weight: 600;
-        font-size: 1.1rem;
-    }
-
-    /* Additional Information section headers */
-    .category-fields .info-section h5.text-primary {
-        color: #ff9900 !important;
-    }
-
-    /* Academic Information text color */
-    .info-section h5.mb-3.text-primary {
-        color: #ff9900 !important;
-    }
-
-    .btn-orange {
-        background-color: #ff9900;
-        color: white;
-        font-weight: 600;
-        padding: 0.75rem 1.5rem;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-    }
-
-    .btn-orange:hover {
-        background-color: #f57c00;
+    .photo-remove-btn:hover {
+        background-color: #ef4444;
         color: white;
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(255, 153, 0, 0.3);
+    }
+
+    @media (max-width: 576px) {
+        .photo-options-content {
+            width: calc(100% - 32px);
+            margin: 16px;
+        }
+
+        .photo-options-header {
+            padding: 16px 20px;
+        }
+
+        .photo-options-body {
+            padding: 20px;
+        }
+
+        .photo-upload-btn,
+        .photo-remove-btn {
+            padding: 10px 16px;
+            font-size: 14px;
+        }
+    }
+
+    .photo-modal-close-btn {
+        background: #f1f5f9;
+        color: #64748b;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+        margin-top: 4px;
+        transition: all 0.2s ease;
+    }
+    .photo-modal-close-btn:hover {
+        background: #e2e8f0;
+        color: #1e293b;
     }
 </style>
 @endpush
@@ -930,36 +1228,45 @@
         </div>
 
         <!-- Photo Options Modal -->
-        <div class="modal" id="photoOptionsModal" tabindex="-1" aria-labelledby="photoOptionsModalLabel" aria-hidden="true" data-bs-backdrop="static">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header border-0">
-                        <h5 class="modal-title" id="photoOptionsModalLabel">Profile Photo Options</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body text-center pb-4">
-                        <form id="avatarForm" action="{{ route('client.profile.update.avatar') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <div class="d-grid gap-3">
-                                <label class="btn btn-primary btn-lg upload-btn">
-                                    <i class="bi bi-camera me-2"></i>
-                                    Upload New Photo
-                                    <input type="file" 
-                                           id="avatar" 
-                                           name="avatar" 
-                                           class="d-none" 
-                                           accept="image/*"
-                                           onchange="submitPhotoForm(this)">
-                                </label>
-                                @if(Auth::user()->avatar)
-                                    <button type="button" class="btn btn-outline-danger btn-lg remove-btn" onclick="removePhoto()">
-                                        <i class="bi bi-trash me-2"></i>
-                                        Remove Photo
-                                    </button>
-                                @endif
-                            </div>
-                        </form>
-                    </div>
+        <div class="photo-options-container" id="photoOptionsModal" style="display: none;">
+            <div class="photo-options-content">
+                <div class="photo-options-header">
+                    <h5 class="photo-options-title">
+                        Profile Photo Options
+                    </h5>
+                    <button type="button" class="photo-close-btn" onclick="togglePhotoModal(false)">
+                        <i class="bi bi-x"></i>
+                    </button>
+                </div>
+                <div class="photo-options-body">
+                    <form id="avatarForm" action="{{ route('client.profile.update.avatar') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="photo-options-buttons">
+                            <label class="photo-upload-btn">
+                                <i class="bi bi-cloud-upload me-2"></i>
+                                Upload New Photo
+                                <input type="file" 
+                                       id="avatar" 
+                                       name="avatar" 
+                                       accept="image/*"
+                                       onchange="submitPhotoForm(this)">
+                            </label>
+                            @if(Auth::user()->avatar)
+                                <button type="button" class="photo-remove-btn" onclick="removePhoto()">
+                                    <i class="bi bi-trash me-2"></i>
+                                    Remove Current Photo
+                                </button>
+                            @endif
+                            <button type="button" class="photo-modal-close-btn" onclick="togglePhotoModal(false)">
+                                Close
+                            </button>
+                        </div>
+                    </form>
+                    <!-- Hidden form for removing photo -->
+                    <form id="removePhotoForm" action="{{ route('client.profile.remove.avatar') }}" method="POST" style="display:none;">
+                        @csrf
+                        @method('DELETE')
+                    </form>
                 </div>
             </div>
         </div>
@@ -1417,12 +1724,25 @@
 
 @push('scripts')
 <script>
+function togglePhotoModal(show) {
+    var modal = document.getElementById('photoOptionsModal');
+    if (modal) {
+        modal.style.display = show ? 'flex' : 'none';
+    }
+}
+
+function removePhoto() {
+    var form = document.getElementById('removePhotoForm');
+    if (form) {
+        form.submit();
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Profile Completion Modal - Only show if coming from registration
     @if(session('show_profile_reminder'))
         var profileModal = new bootstrap.Modal(document.getElementById('profileCompletionModal'));
         profileModal.show();
-        
         // Clear the session flag via AJAX after showing the modal
         fetch('{{ route("client.profile.clear-reminder") }}', {
             method: 'POST',
@@ -1446,28 +1766,28 @@ document.addEventListener('DOMContentLoaded', function() {
     // Avatar upload functionality
     const avatarInput = document.getElementById('avatar');
     const avatarForm = document.getElementById('avatarForm');
-    const avatarPreview = document.getElementById('avatarPreview');
-    const defaultAvatar = document.getElementById('defaultAvatar');
+    // Remove Bootstrap modal usage for photo modal
+    // const photoModal = new bootstrap.Modal(document.getElementById('photoOptionsModal'));
 
     if (avatarInput) {
         avatarInput.addEventListener('change', function() {
             if (this.files && this.files[0]) {
                 const reader = new FileReader();
-                
                 reader.onload = function(e) {
-                    if (avatarPreview) {
-                        avatarPreview.src = e.target.result;
-                        avatarPreview.style.display = 'block';
-                        if (defaultAvatar) {
-                            defaultAvatar.style.display = 'none';
-                        }
-                    }
-                    // Submit the form automatically when a file is selected
                     avatarForm.submit();
+                    togglePhotoModal(false);
                 };
-                
                 reader.readAsDataURL(this.files[0]);
             }
+        });
+    }
+
+    // Update the click handler for the edit photo button
+    var editPhotoBtn = document.querySelector('.change-photo-btn');
+    if (editPhotoBtn) {
+        editPhotoBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            togglePhotoModal(true);
         });
     }
 
@@ -1476,13 +1796,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (profileForm) {
         profileForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
             // Show loading state
             const submitBtn = this.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...';
-            
             // Submit the form
             this.submit();
         });
@@ -1493,12 +1811,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedCategory = document.querySelector('input[name="category"]:checked').value;
         const academicianFields = document.getElementById('academician-fields');
         const organizationFields = document.getElementById('organization-fields');
-
         // Hide all category fields first
         document.querySelectorAll('.category-fields').forEach(field => {
             field.style.display = 'none';
         });
-
         // Show fields based on selected category
         if (selectedCategory === 'academician') {
             academicianFields.style.display = 'block';
@@ -1506,12 +1822,10 @@ document.addEventListener('DOMContentLoaded', function() {
             organizationFields.style.display = 'block';
         }
     }
-
     // Add event listeners to radio buttons
     document.querySelectorAll('.category-radio').forEach(radio => {
         radio.addEventListener('change', handleCategoryChange);
     });
-
     // Initial check on page load
     handleCategoryChange();
 });
