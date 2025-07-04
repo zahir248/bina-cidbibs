@@ -359,6 +359,12 @@
             width: 100%;
             max-width: 340px;
         }
+        .ma-card .mb-3 {
+            text-align: center;
+        }
+        .ma-detail-row {
+            justify-content: center;
+        }
         .speaker-card {
             width: 100%;
             max-width: 340px;
@@ -463,7 +469,7 @@
         <!-- Right: Event Details Card -->
         <div class="sticky-sidebar">
             <div class="ma-card" style="min-width:270px;max-width:340px;width:100%;margin-left:auto;margin-right:auto;">
-                <div class="mb-3" style="font-weight:700;font-size:1.1rem;">
+                <div class="mb-3" style="font-weight:700;font-size:1.1rem;text-align:center;">
                     Join us at <span style="font-weight:900;">Facility Management Engagement Day 2025</span> to explore innovative strategies and best practices in facility management. Connect with industry leaders and experts.
                 </div>
                 <div class="ma-detail-row">

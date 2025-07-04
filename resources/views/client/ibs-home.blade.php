@@ -121,6 +121,8 @@
         opacity: 0;
         transform: translateY(20px);
         transition: all 0.6s ease;
+        text-align: justify;
+        text-justify: inter-word;
     }
 
     .intro-text.visible {
