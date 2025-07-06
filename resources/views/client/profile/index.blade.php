@@ -469,7 +469,7 @@
         color: #ffc107 !important;
     }
 
-    /* Deactivate Account Styles */
+    /* Custom Deactivate Account Modal Styles */
     .btn-danger {
         background-color: #dc3545;
         border-color: #dc3545;
@@ -483,75 +483,168 @@
         transform: translateY(-1px);
     }
 
-    #deactivateModal .modal-content {
+    .custom-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(108, 117, 125, 0.8);
+        backdrop-filter: blur(2px);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .custom-modal-container {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 1rem;
+    }
+
+    .custom-modal-content {
+        background: white;
         border-radius: 15px;
-        border: none;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        animation: modalFadeIn 0.3s ease-out;
     }
 
-    #deactivateModal .modal-title {
+    @keyframes modalFadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.9) translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    .custom-modal-header {
+        padding: 1.5rem 1.5rem 0.5rem;
+        border-bottom: 1px solid #e9ecef;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .custom-modal-title {
+        font-size: 1.25rem;
         font-weight: 600;
+        color: #dc3545;
+        margin: 0;
     }
 
-    #deactivateModal .alert-warning {
+    .custom-modal-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: #6c757d;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .custom-modal-close:hover {
+        background-color: #f8f9fa;
+        color: #dc3545;
+    }
+
+    .custom-modal-body {
+        padding: 1.5rem;
+    }
+
+    .custom-modal-warning {
         background-color: #fff3cd;
-        border-color: #ffecb5;
+        border: 1px solid #ffecb5;
         color: #664d03;
         border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
     }
 
-    #deactivateModal .text-muted {
-        color: #6c757d !important;
+    .custom-modal-warning i {
+        color: #856404;
     }
 
-    #deactivateModal .modal-footer .btn {
+    .custom-modal-list {
+        color: #6c757d;
+        margin: 1rem 0;
+    }
+
+    .custom-modal-list li {
+        margin-bottom: 0.5rem;
+    }
+
+    .custom-modal-footer {
+        padding: 1rem 1.5rem 1.5rem;
+        border-top: 1px solid #e9ecef;
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+    }
+
+    .custom-modal-btn {
         padding: 0.5rem 1.5rem;
         font-weight: 500;
         border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
     }
 
-    #deactivateModal .btn-danger {
-        background-color: #dc3545;
-        border-color: #dc3545;
+    .custom-modal-btn-secondary {
+        background-color: #6c757d;
+        color: white;
     }
 
-    #deactivateModal .btn-danger:hover {
-        background-color: #bb2d3b;
-        border-color: #b02a37;
+    .custom-modal-btn-secondary:hover {
+        background-color: #5a6268;
         transform: translateY(-1px);
     }
 
-    /* Modal Backdrop and Positioning */
-    .modal-backdrop {
-        opacity: 0.7 !important;
-        background-color: #1a1a1a;
+    .custom-modal-btn-danger {
+        background-color: #dc3545;
+        color: white;
     }
 
-    #deactivateModal {
-        background: rgba(0, 0, 0, 0.7);
+    .custom-modal-btn-danger:hover {
+        background-color: #bb2d3b;
+        transform: translateY(-1px);
     }
 
-    #deactivateModal .modal-dialog {
-        margin: 1.75rem auto;
-        max-width: 500px;
-        width: calc(100% - 2rem);
-    }
-
-    #deactivateModal.show {
-        display: flex !important;
-        align-items: center;
-        padding: 0 !important;
-    }
-
-    /* Prevent content shift when modal opens */
+    /* Prevent scrolling when modal is open */
     body.modal-open {
-        padding-right: 0 !important;
         overflow: hidden;
+        padding-right: 0 !important;
     }
 
-    /* Ensure modal content is scrollable if needed */
-    #deactivateModal .modal-body {
-        max-height: calc(100vh - 210px);
-        overflow-y: auto;
+    /* Responsive adjustments */
+    @media (max-width: 576px) {
+        .custom-modal-container {
+            margin: 0 0.5rem;
+        }
+        
+        .custom-modal-footer {
+            flex-direction: column;
+        }
+        
+        .custom-modal-btn {
+            width: 100%;
+            justify-content: center;
+        }
     }
 
     /* Profile Reminder Modal Styles */
@@ -894,12 +987,6 @@
         border: none;
         border-radius: 1rem;
         box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    }
-
-    /* Ensure body remains interactive */
-    body.modal-open {
-        overflow: auto !important;
-        padding-right: 0 !important;
     }
 
     /* Photo Options Modal specific styles */
@@ -1639,7 +1726,7 @@
             </div>
 
             <div class="text-end mt-4">
-                <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#deactivateModal">
+                <button type="button" class="btn btn-danger me-2" onclick="openDeactivateModal()">
                     <i class="bi bi-exclamation-triangle"></i> Deactivate Account
                 </button>
                 <button type="submit" class="btn btn-save">
@@ -1650,39 +1737,41 @@
     </div>
 </div>
 
-<!-- Deactivate Account Modal -->
-<div class="modal fade" id="deactivateModal" tabindex="-1" aria-labelledby="deactivateModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header border-0">
-                <h5 class="modal-title text-danger" id="deactivateModalLabel">
+<!-- Custom Deactivate Account Modal -->
+<div class="custom-modal-overlay" id="deactivateModal" style="display: none;">
+    <div class="custom-modal-container">
+        <div class="custom-modal-content">
+            <div class="custom-modal-header">
+                <h5 class="custom-modal-title">
                     <i class="bi bi-exclamation-triangle-fill me-2"></i>
                     Deactivate Account
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="custom-modal-close" onclick="closeDeactivateModal()">
+                    <i class="bi bi-x"></i>
+                </button>
             </div>
-            <div class="modal-body">
-                <div class="alert alert-warning">
+            <div class="custom-modal-body">
+                <div class="custom-modal-warning">
                     <i class="bi bi-exclamation-circle-fill me-2"></i>
                     <strong>Warning:</strong> This action cannot be undone.
                 </div>
                 <p>Are you sure you want to deactivate your account? This will:</p>
-                <ul class="text-muted">
+                <ul class="custom-modal-list">
                     <li>Delete all your personal information</li>
                     <li>Remove your profile data</li>
                     <li>Delete your account permanently</li>
                 </ul>
                 <p class="mb-0">Please confirm if you wish to proceed with account deactivation.</p>
             </div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <div class="custom-modal-footer">
+                <button type="button" class="custom-modal-btn custom-modal-btn-secondary" onclick="closeDeactivateModal()">
                     <i class="bi bi-x-circle me-1"></i>
                     Cancel
                 </button>
                 <form action="{{ route('client.user.deactivate') }}" method="POST" class="d-inline">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger">
+                    <button type="submit" class="custom-modal-btn custom-modal-btn-danger">
                         <i class="bi bi-trash me-1"></i>
                         Deactivate Account
                     </button>
@@ -1726,8 +1815,18 @@
 <script>
 function togglePhotoModal(show) {
     var modal = document.getElementById('photoOptionsModal');
+    var body = document.body;
+    
     if (modal) {
-        modal.style.display = show ? 'flex' : 'none';
+        if (show) {
+            modal.style.display = 'flex';
+            body.classList.add('modal-open');
+            body.style.overflow = 'hidden';
+        } else {
+            modal.style.display = 'none';
+            body.classList.remove('modal-open');
+            body.style.overflow = '';
+        }
     }
 }
 
@@ -1828,6 +1927,44 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     // Initial check on page load
     handleCategoryChange();
+});
+
+// Custom Modal Functions
+function openDeactivateModal() {
+    const modal = document.getElementById('deactivateModal');
+    const body = document.body;
+    
+    modal.style.display = 'flex';
+    body.classList.add('modal-open');
+    
+    // Prevent scrolling
+    body.style.overflow = 'hidden';
+    
+    // Focus trap
+    modal.focus();
+}
+
+function closeDeactivateModal() {
+    const modal = document.getElementById('deactivateModal');
+    const body = document.body;
+    
+    modal.style.display = 'none';
+    body.classList.remove('modal-open');
+    
+    // Restore scrolling
+    body.style.overflow = '';
+}
+
+// Close modal on escape key only
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('deactivateModal');
+    
+    // Close modal on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal && modal.style.display === 'flex') {
+            closeDeactivateModal();
+        }
+    });
 });
 </script>
 @endpush 
