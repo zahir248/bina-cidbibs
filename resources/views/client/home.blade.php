@@ -2577,19 +2577,18 @@
                     </div>
                     <div class="event-meta-item time">
                         <i class="fas fa-clock"></i>
-                        <span>08 AM - 04 PM</span>
+                        <span>08:00 AM - 05:00 PM</span>
                     </div>
                 </div>
                 <h3 class="event-detail-title">TRANSFORMING ASEAN'S CONSTRUCTION LANDSCAPE</h3>
                 <p class="event-detail-description">
-                    As part of BINA Conference at ICW 2025, MODULAR ASIA is a premier forum and exhibition dedicated to advancing Modular 
-                    Technology, Modern Methods of Construction (MMC), and Industrialised Building Systems (IBS).
+                    As part of BINA 2025 at ICW, Facility Management Engagement Day goes beyond a traditional conference—it's a dynamic platform for industry leaders, innovators, and businesses to exchange expertise, explore best practices, and unlock new opportunities in facility management.
                 </p>
                 <p class="event-detail-description">
-                    by MODULAR ASIA FORUM & EXHIBITION
+                    by FACILITY MANAGEMENT ENGAGEMENT DAY 2025
                 </p>
                 <div class="event-buttons">
-                    <a href="{{ route('client.modular-asia') }}" class="btn-view-more">VIEW MORE</a>
+                    <a href="{{ route('client.facility-management') }}" class="btn-view-more">VIEW MORE</a>
                     <a href="{{ route('client.store') }}" class="btn-get-ticket">GET TICKET</a>
                 </div>
             </div>
@@ -2614,18 +2613,19 @@
                     </div>
                     <div class="event-meta-item time">
                         <i class="fas fa-clock"></i>
-                        <span>08 AM - 04 PM</span>
+                        <span>08:30 AM - 05:00 PM</span>
                     </div>
                 </div>
                 <h3 class="event-detail-title">WHERE EXPERTISE MEETS BUSINESS GROWTH!</h3>
                 <p class="event-detail-description">
-                    As part of BINA 2025 at ICW, Facility Management Engagement Day goes beyond a traditional conference—it's a dynamic platform for industry leaders, innovators, and businesses to exchange expertise, explore best practices, and unlock new opportunities in facility management.
+                    As part of BINA Conference at ICW 2025, MODULAR ASIA is a premier forum and exhibition dedicated to advancing Modular 
+                    Technology, Modern Methods of Construction (MMC), and Industrialised Building Systems (IBS).
                 </p>
                 <p class="event-detail-description">
-                    by FACILITY MANAGEMENT ENGAGEMENT DAY 2025
+                    by MODULAR ASIA FORUM & EXHIBITION
                 </p>
                 <div class="event-buttons">
-                    <a href="{{ route('client.facility-management') }}" class="btn-view-more">VIEW MORE</a>
+                    <a href="{{ route('client.modular-asia') }}" class="btn-view-more">VIEW MORE</a>
                     <a href="{{ route('client.store') }}" class="btn-get-ticket">GET TICKET</a>
                 </div>
             </div>
