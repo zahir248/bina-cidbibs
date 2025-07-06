@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -393,32 +394,139 @@ class AuthController extends Controller
     public function deactivateAccount(Request $request)
     {
         try {
+            DB::beginTransaction();
+            
             $user = Auth::user();
+            $userId = $user->id;
+            \Log::info('Starting account deactivation for user:', ['user_id' => $userId, 'email' => $user->email]);
+            
+            // Delete user's sessions first
+            \Log::info('Deleting user sessions');
+            DB::table('sessions')->where('user_id', $userId)->delete();
             
             // Delete user's profile if exists
             if ($user->profile) {
+                \Log::info('Deleting user profile');
                 $user->profile->delete();
             }
             
             // Delete user's avatar if exists
             if ($user->avatar && !filter_var($user->avatar, FILTER_VALIDATE_URL)) {
+                \Log::info('Deleting user avatar');
                 $oldPath = public_path($user->avatar);
                 if (file_exists($oldPath)) {
                     unlink($oldPath);
                 }
             }
             
-            // Delete the user
-            $user->delete();
+            // Handle connection requests
+            \Log::info('Deleting connection requests');
+            $user->connectionRequestsSent()->delete();
+            $user->connectionRequestsReceived()->delete();
+            
+            // Handle cart items
+            \Log::info('Deleting cart items');
+            $user->cartItems()->delete();
+            
+            // Handle billing details and orders
+            \Log::info('Processing billing details and orders');
+            $billingDetails = $user->billingDetails()->get();
+            foreach ($billingDetails as $billingDetail) {
+                // Check if billing detail has any completed/successful orders
+                $hasCompletedOrders = $billingDetail->orders()
+                    ->whereIn('status', ['completed', 'successful', 'paid'])
+                    ->exists();
+                
+                if ($hasCompletedOrders) {
+                    // Keep billing detail but anonymize it
+                    $billingDetail->update([
+                        'user_id' => null,
+                        'email' => 'deleted_user_' . $userId . '@deleted.com',
+                        'phone' => 'DELETED',
+                        // Keep other details for business records
+                    ]);
+                } else {
+                    // No completed orders, safe to delete
+                    $billingDetail->delete();
+                }
+            }
+            
+            // Handle messages
+            \Log::info('Processing messages');
+            // Anonymize messages instead of deleting them
+            $user->messagesSent()->update([
+                'content' => '[Message from deleted user]'
+            ]);
+            $user->messagesReceived()->update([
+                'content' => '[Message to deleted user]'
+            ]);
+            
+            // Try to delete directly with query builder first
+            \Log::info('Attempting to delete user with query builder');
+            $deleted = DB::table('users')->where('id', $userId)->delete();
+            \Log::info('Query builder delete result:', ['deleted' => $deleted]);
+            
+            // Verify the deletion
+            $userExists = DB::table('users')->where('id', $userId)->exists();
+            \Log::info('User exists after query builder delete?', ['exists' => $userExists]);
+            
+            if ($userExists) {
+                // If query builder didn't work, try force delete
+                \Log::info('Query builder delete verification failed, trying force delete');
+                $result = $user->forceDelete();
+                \Log::info('Force delete result:', ['result' => $result]);
+                
+                // Verify again
+                $userExists = DB::table('users')->where('id', $userId)->exists();
+                \Log::info('User exists after force delete?', ['exists' => $userExists]);
+                
+                if ($userExists) {
+                    // One last attempt - try raw SQL
+                    \Log::info('Both deletion methods failed, trying raw SQL');
+                    DB::statement('DELETE FROM users WHERE id = ?', [$userId]);
+                    
+                    // Final verification
+                    $userExists = DB::table('users')->where('id', $userId)->exists();
+                    \Log::info('User exists after raw SQL delete?', ['exists' => $userExists]);
+                    
+                    if ($userExists) {
+                        throw new \Exception('Failed to delete user after multiple attempts');
+                    }
+                }
+            }
+            
+            DB::commit();
+            \Log::info('Transaction committed');
+            
+            // Double check after transaction
+            $finalCheck = DB::table('users')->where('id', $userId)->exists();
+            \Log::info('Final check - user exists after transaction?', ['exists' => $finalCheck]);
             
             // Logout
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
             
+            if ($finalCheck) {
+                throw new \Exception('User still exists after successful deletion and transaction commit');
+            }
+            
             return redirect()->route('client.home')
                 ->with('success', 'Your account has been successfully deactivated.');
+                
         } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error('Account deactivation failed:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'user_id' => Auth::id()
+            ]);
+            
+            // If we're in debug mode, show the actual error
+            if (config('app.debug')) {
+                return back()->with('error', 'Failed to deactivate account: ' . $e->getMessage());
+            }
+            
             return back()->with('error', 'Failed to deactivate account. Please try again.');
         }
     }
