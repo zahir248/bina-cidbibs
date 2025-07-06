@@ -590,8 +590,10 @@
         border-top-right-radius: 0; 
     }
     .cart-table input[type='number'] { text-align: center; }
-    .qty-btn { width: 32px; height: 32px; border-radius: 6px; border: none; background: #ff9800; color: #fff; font-size: 1.2rem; font-weight: bold; }
+    .qty-btn { width: 32px; height: 32px; border-radius: 6px; border: none; background: #ff9800; color: #fff; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: all 0.2s; }
     .qty-btn:hover { background: #ffb84d; }
+    .qty-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .quantity-display { font-weight: 600; min-width: 30px; text-align: center; }
     .remove-btn { background: #ff4d4f; color: #fff; border: none; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
     .remove-btn:hover { background: #ff7875; }
     .return-btn { 
@@ -676,6 +678,11 @@
     <div class="store-container">
         <!-- Cart Items (Left) -->
         <div class="cart-items">
+            @if(session('error'))
+                <div class="alert" style="background:#f8d7da;border:1px solid #dc3545;color:#842029;margin-bottom:1rem;">
+                    {!! nl2br(e(session('error'))) !!}
+                </div>
+            @endif
             <table class="table cart-table">
                 <thead>
                     <tr>
@@ -714,7 +721,11 @@
                                     @endif
                                 </td>
                                 <td>
-                                    {{ $item->quantity }}
+                                    <div class="quantity-controls d-flex align-items-center">
+                                        <button type="button" class="quantity-btn qty-minus" data-item-id="{{ $item->id }}" {{ $item->quantity <= 1 ? 'disabled' : '' }}>-</button>
+                                        <span class="quantity-display mx-2">{{ $item->quantity }}</span>
+                                        <button type="button" class="quantity-btn qty-plus" data-item-id="{{ $item->id }}" data-max-stock="{{ $item->ticket->stock }}" {{ $item->quantity >= $item->ticket->stock ? 'disabled' : '' }}>+</button>
+                                    </div>
                                 </td>
                                 <td>RM {{ number_format($itemSubtotal, 2) }}</td>
                                 <td>
@@ -760,7 +771,14 @@
                                     @endif
                                 </div>
                                 <div><span class="cart-card-label">Subtotal:</span> <span class="fw-bold">RM {{ number_format($itemSubtotal, 2) }}</span></div>
-                                <div><span class="cart-card-label">Qty:</span> {{ $item->quantity }}</div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <span class="cart-card-label">Qty:</span>
+                                    <div class="quantity-controls d-flex align-items-center">
+                                        <button type="button" class="quantity-btn qty-minus" data-item-id="{{ $item->id }}" {{ $item->quantity <= 1 ? 'disabled' : '' }}>-</button>
+                                        <span class="quantity-display mx-2">{{ $item->quantity }}</span>
+                                        <button type="button" class="quantity-btn qty-plus" data-item-id="{{ $item->id }}" data-max-stock="{{ $item->ticket->stock }}" {{ $item->quantity >= $item->ticket->stock ? 'disabled' : '' }}>+</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     @endforeach
@@ -804,6 +822,26 @@
                 @if($cartItems->isEmpty())
                     <div class="text-danger text-center mt-2" style="font-weight:600;">The cart is empty. Please add items before checking out.</div>
                 @endif
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Error Modal -->
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="errorModalLabel">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Error
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="errorModalMessage" class="mb-0"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
             </div>
         </div>
     </div>
@@ -1032,6 +1070,81 @@ document.addEventListener('DOMContentLoaded', function() {
             cartContent.scrollIntoView({ behavior: 'smooth' });
         }, 100);
     }
-});
-</script>
+
+    // Quantity update functionality
+    const quantityButtons = document.querySelectorAll('.qty-minus, .qty-plus');
+    console.log('Found quantity buttons:', quantityButtons.length);
+    
+    quantityButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Button clicked:', this);
+            
+            const itemId = this.dataset.itemId;
+            const isPlus = this.classList.contains('qty-plus');
+            const maxStock = parseInt(this.dataset.maxStock) || 999;
+            const quantityDisplay = this.parentElement.querySelector('.quantity-display');
+            const currentQuantity = parseInt(quantityDisplay.textContent);
+            
+            console.log('Item ID:', itemId, 'Is Plus:', isPlus, 'Max Stock:', maxStock, 'Current:', currentQuantity);
+            
+            let newQuantity = currentQuantity;
+            if (isPlus && currentQuantity < maxStock) {
+                newQuantity = currentQuantity + 1;
+            } else if (!isPlus && currentQuantity > 1) {
+                newQuantity = currentQuantity - 1;
+            }
+            
+            console.log('New quantity:', newQuantity);
+            
+            if (newQuantity !== currentQuantity) {
+                updateCartQuantity(itemId, newQuantity);
+            }
+        });
+    });
+
+    function updateCartQuantity(itemId, quantity) {
+        console.log('Updating cart quantity:', itemId, quantity);
+        
+        const csrfToken = document.querySelector('meta[name="csrf-token"]');
+        if (!csrfToken) {
+            console.error('CSRF token not found');
+            showErrorModal('CSRF token not found');
+            return;
+        }
+        
+        fetch(`/cart/update/${itemId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken.getAttribute('content')
+            },
+            body: JSON.stringify({ quantity: quantity })
+        })
+        .then(response => {
+            console.log('Response status:', response.status);
+            return response.json();
+        })
+        .then(data => {
+            console.log('Response data:', data);
+            if (data.success) {
+                location.reload(); // Reload to update all prices and totals
+            } else {
+                showErrorModal(data.message || 'Error updating quantity');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+                         showErrorModal('Error updating quantity: ' + error.message);
+         });
+     }
+
+     // Function to show error modal
+     function showErrorModal(message) {
+         document.getElementById('errorModalMessage').textContent = message;
+         const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+         errorModal.show();
+     }
+ });
+ </script>
 @endpush

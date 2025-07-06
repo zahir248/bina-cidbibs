@@ -44,6 +44,15 @@ class CartController extends Controller
             $addedItems = 0;
 
             foreach ($request->tickets as $ticketData) {
+                // Check stock availability
+                $ticket = \App\Models\Ticket::find($ticketData['ticket_id']);
+                if (!$ticket->hasEnoughStock($ticketData['quantity'])) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => "Sorry, there are only {$ticket->stock} tickets available for {$ticket->name}."
+                    ]);
+                }
+
                 $query = CartItem::query();
                 
                 if (auth()->check()) {
@@ -154,5 +163,44 @@ class CartController extends Controller
         $cartItem->delete();
         
         return redirect()->back()->with('success', 'Item removed from cart!');
+    }
+
+    // Update item quantity
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $query = CartItem::with('ticket');
+        
+        if (auth()->check()) {
+            $query->where(function($q) use ($request) {
+                $q->where('user_id', auth()->id())
+                  ->orWhere('session_id', $request->session()->getId());
+            });
+        } else {
+            $query->where('session_id', $request->session()->getId());
+        }
+        
+        $cartItem = $query->where('id', $id)->firstOrFail();
+        
+        // Only check stock availability if increasing quantity
+        if ($request->quantity > $cartItem->quantity) {
+            if (!$cartItem->ticket->hasEnoughStock($request->quantity)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Sorry, there are only {$cartItem->ticket->stock} tickets available for {$cartItem->ticket->name}."
+                ]);
+            }
+        }
+        
+        $cartItem->quantity = $request->quantity;
+        $cartItem->save();
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Quantity updated successfully!'
+        ]);
     }
 } 

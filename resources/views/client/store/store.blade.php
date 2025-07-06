@@ -1295,18 +1295,29 @@
                                                         <i class="fas fa-info-circle"></i>
                                                         Details
                                                     </a>
+                                                    @if($ticket->stock == 0)
+                                                        <span class="badge bg-danger ms-2">Out of Stock</span>
+                                                    @endif
                                                 </div>
                                             </td>
                                             <td>
                                                 <span class="product-price">{{ number_format($ticket->price, 2) }}</span>
                                             </td>
                                             <td>
-                                                <select class="quantity-select" data-ticket-id="{{ $ticket->id }}">
-                                                    <option value="0">0</option>
-                                                    @for($i = 1; $i <= 10; $i++)
-                                                        <option value="{{ $i }}">{{ $i }}</option>
-                                                    @endfor
-                                                </select>
+                                                <div class="d-flex align-items-center">
+                                                    @if($ticket->stock > 0)
+                                                        <select class="quantity-select" data-ticket-id="{{ $ticket->id }}">
+                                                            <option value="0">0</option>
+                                                            @for($i = 1; $i <= min($ticket->stock, 10); $i++)
+                                                                <option value="{{ $i }}">{{ $i }}</option>
+                                                            @endfor
+                                                        </select>
+                                                    @else
+                                                        <select class="quantity-select" data-ticket-id="{{ $ticket->id }}" disabled>
+                                                            <option value="0">Out of Stock</option>
+                                                        </select>
+                                                    @endif
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -1327,15 +1338,24 @@
                                         </div>
                                         <div class="mobile-product-price">
                                             RM {{ number_format($ticket->price, 2) }}
+                                            @if($ticket->stock == 0)
+                                                <span class="badge bg-danger ms-2">Out of Stock</span>
+                                            @endif
                                         </div>
                                         <div class="mobile-product-quantity">
                                             <label>Quantity:</label>
-                                            <select class="quantity-select" data-ticket-id="{{ $ticket->id }}">
-                                                <option value="0">0</option>
-                                                @for($i = 1; $i <= 10; $i++)
-                                                    <option value="{{ $i }}">{{ $i }}</option>
-                                                @endfor
-                                            </select>
+                                            @if($ticket->stock > 0)
+                                                <select class="quantity-select" data-ticket-id="{{ $ticket->id }}">
+                                                    <option value="0">0</option>
+                                                    @for($i = 1; $i <= min($ticket->stock, 10); $i++)
+                                                        <option value="{{ $i }}">{{ $i }}</option>
+                                                    @endfor
+                                                </select>
+                                            @else
+                                                <select class="quantity-select" data-ticket-id="{{ $ticket->id }}" disabled>
+                                                    <option value="0">Out of Stock</option>
+                                                </select>
+                                            @endif
                                         </div>
                                     </div>
                                 @endforeach

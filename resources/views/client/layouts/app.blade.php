@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>@yield('title', 'BINA 2025')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     
     {{-- Custom Favicon --}}
     <link rel="icon" href="{{ asset('favicon-client.png') }}" type="image/png">

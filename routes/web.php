@@ -120,6 +120,7 @@ Route::get('/store/ticket/{id}', [PageController::class, 'ticketDetail'])->name(
 Route::get('/cart', [CartController::class, 'index'])->name('client.cart.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('client.cart.add');
 Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('client.cart.remove');
+Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('client.cart.update');
 
 // Checkout routes for guests
 Route::get('/checkout', [CheckoutController::class, 'show'])->name('client.checkout');

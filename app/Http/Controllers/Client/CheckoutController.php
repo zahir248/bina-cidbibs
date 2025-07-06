@@ -38,6 +38,20 @@ class CheckoutController extends Controller
         }
         
         $cartItems = $query->get();
+
+        // Check stock availability for all items
+        $stockErrors = [];
+        foreach ($cartItems as $item) {
+            if (!$item->ticket->hasEnoughStock($item->quantity)) {
+                $stockErrors[] = "{$item->ticket->name}: only {$item->ticket->stock} available (you have {$item->quantity} in cart)";
+            }
+        }
+        
+            if (!empty($stockErrors)) {
+        $errorMessage = "Stock availability issues:\n\n" . implode("\n", $stockErrors) . "\n\nPlease update your cart.";
+        return redirect()->route('client.cart.index')->with('error', $errorMessage);
+    }
+        
         $cartTotal = $cartItems->sum(function($item) {
             return $item->ticket->getDiscountedPrice($item->quantity) * $item->quantity;
         });
