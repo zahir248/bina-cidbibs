@@ -1242,29 +1242,29 @@
         <section class="store-products">
             @php
                 $categories = [
-                    'Facility Management' => [],
-                    'Modular Asia' => [],
+                    'Facility Management Engagement Day 2025' => [],
+                    'Modular Asia Forum & Exhibition 2025' => [],
                     'Combo' => []
                 ];
                 
                 foreach($tickets as $ticket) {
                     $name = strtolower($ticket->name);
                     if (str_contains($name, 'facility')) {
-                        $categories['Facility Management'][] = $ticket;
+                        $categories['Facility Management Engagement Day 2025'][] = $ticket;
                     } elseif (str_contains($name, 'modular')) {
-                        $categories['Modular Asia'][] = $ticket;
+                        $categories['Modular Asia Forum & Exhibition 2025'][] = $ticket;
                     } else {
                         $categories['Combo'][] = $ticket;
                     }
                 }
 
                 // Sort Facility Management and Modular Asia categories by price
-                $categories['Facility Management'] = collect($categories['Facility Management'])
+                $categories['Facility Management Engagement Day 2025'] = collect($categories['Facility Management Engagement Day 2025'])
                     ->sortBy('price')
                     ->values()
                     ->all();
                 
-                $categories['Modular Asia'] = collect($categories['Modular Asia'])
+                $categories['Modular Asia Forum & Exhibition 2025'] = collect($categories['Modular Asia Forum & Exhibition 2025'])
                     ->sortBy('price')
                     ->values()
                     ->all();
