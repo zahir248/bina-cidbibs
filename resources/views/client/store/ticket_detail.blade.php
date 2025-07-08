@@ -195,6 +195,11 @@
         color: #888;
         background: none;
     }
+    .cart-total-btn {
+        border: 2px solid !important;
+        border-radius: 0.5rem;
+        padding: 8px 16px;
+    }
     .ticket-detail-img {
         width: 100%;
         max-width: 100%;
@@ -218,8 +223,8 @@
         vertical-align: middle;
     }
     .quantity-btn {
-        background: #ff9800;
-        color: #111;
+        background: {{ Str::contains(strtolower($ticket->name), 'industry') ? '#11749e' : '#ff9800' }};
+        color: #fff;
         border: none;
         width: 40px;
         height: 40px;
@@ -232,7 +237,7 @@
         transition: background 0.2s;
     }
     .quantity-btn:active {
-        background: #ffb84d;
+        background: {{ Str::contains(strtolower($ticket->name), 'industry') ? '#1a8fc2' : '#ffb84d' }};
     }
     .quantity-input {
         width: 48px;
@@ -318,7 +323,7 @@
                     <button type="button" class="quantity-btn" id="qty-plus" {{ !$ticket->isInStock() ? 'disabled' : '' }}>+</button>
                 </div>
                 <button type="submit" class="btn btn-dark btn-lg ms-2" {{ !$ticket->isInStock() ? 'disabled' : '' }}>ADD TO CART</button>
-                <a href="{{ route('client.cart.index') }}" class="btn btn-warning btn-lg ms-2" title="View Cart" style="background:#ff9900;">
+                <a href="{{ route('client.cart.index') }}" class="btn btn-warning btn-lg ms-2 cart-total-btn" title="View Cart" style="background:{{ Str::contains(strtolower($ticket->name), 'industry') ? '#11749e' : '#ff9900' }}; border-color: {{ Str::contains(strtolower($ticket->name), 'industry') ? '#11749e' : '#ff9900' }} !important;">
                     <i class="fas fa-shopping-cart text-white"></i>
                     <span class="fw-bold ms-2 text-white">RM {{ number_format($cartTotal ?? 0, 2) }}</span>
                 </a>
@@ -329,7 +334,7 @@
                 <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
                 <input type="hidden" name="quantity" value="1">
                 <button type="submit" class="btn btn-dark btn-lg mb-4" {{ !$ticket->isInStock() ? 'disabled' : '' }}>ADD TO CART</button>
-                <a href="{{ route('client.cart.index') }}" class="btn btn-warning btn-lg ms-2 mb-4" title="View Cart" style="background:#ff9900;">
+                <a href="{{ route('client.cart.index') }}" class="btn btn-warning btn-lg ms-2 mb-4 cart-total-btn" title="View Cart" style="background:{{ Str::contains(strtolower($ticket->name), 'industry') ? '#11749e' : '#ff9900' }}; border-color: {{ Str::contains(strtolower($ticket->name), 'industry') ? '#11749e' : '#ff9900' }} !important;">
                     <i class="fas fa-shopping-cart text-white"></i>
                     <span class="fw-bold ms-2 text-white">RM {{ number_format($cartTotal ?? 0, 2) }}</span>
                 </a>
