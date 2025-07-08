@@ -1189,6 +1189,144 @@
 
     <hr class="announcement-divider">
 
+    <!-- First Container: Facility Management Only -->
+    <div class="store-container">
+        <section class="store-products">
+            @php
+                $facilityTickets = [];
+                $eventName = 'Facility Management Industry Engagement Day 2025';
+                foreach($tickets as $ticket) {
+                    // Check if ticket name contains 'Industry'
+                    if (str_contains(strtolower($ticket->name), 'industry')) {
+                        $facilityTickets[] = $ticket;
+                    }
+                }
+                // Sort facility tickets by price
+                $facilityTickets = collect($facilityTickets)
+                    ->sortBy('price')
+                    ->values()
+                    ->all();
+            @endphp
+            <div class="category-section">
+                <div class="category-header">Facility Management Industry Engagement Day 2025</div>
+                
+                <!-- Desktop Table View -->
+                <div class="d-none d-md-block">
+                    <table class="product-table">
+                        <thead>
+                            <tr>
+                                <th>Ticket</th>
+                                <th>Price (MYR)</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(count($facilityTickets) > 0)
+                                @foreach($facilityTickets as $ticket)
+                                    <tr data-ticket-id="{{ $ticket->id }}">
+                                        <td>
+                                            <div class="product-name-cell">
+                                                {{ $ticket->name }}
+                                                <a href="{{ route('client.ticket.detail', $ticket->id) }}" class="details-button" style="color: #11749e;">
+                                                    <i class="fas fa-info-circle"></i>
+                                                    Details
+                                                </a>
+                                                @if($ticket->stock == 0)
+                                                    <span class="badge bg-danger ms-2">Out of Stock</span>
+                                                @endif
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="product-price">{{ number_format($ticket->price, 2) }}</span>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                @if($ticket->stock > 0)
+                                                <select 
+                                                    class="quantity-select" 
+                                                    data-ticket-id="{{ $ticket->id }}" 
+                                                    style="border: 1px solid #ccc; padding: 5px; border-radius: 4px;"
+                                                    onfocus="this.style.outline='none'; this.style.borderColor='#11749e'; this.style.boxShadow='0 0 0 2px #11749e';"
+                                                    onblur="this.style.borderColor='#ccc'; this.style.boxShadow='none';">
+                                                    <option value="0">0</option>
+                                                    @for($i = 1; $i <= min($ticket->stock, 10); $i++)
+                                                        <option value="{{ $i }}">{{ $i }}</option>
+                                                    @endfor
+                                                </select>
+                                                @else
+                                                    <select class="quantity-select" data-ticket-id="{{ $ticket->id }}" disabled>
+                                                        <option value="0">Out of Stock</option>
+                                                    </select>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="3" class="text-center">
+                                        <div class="alert alert-info mb-0" style="background: rgba(17, 116, 158, 0.1); border: 1px solid #11749e; color: #11749e;">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            Ticket sales will be opening soon! Stay tuned for early bird promotions and special rates.
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Mobile Card View -->
+                <div class="d-md-none">
+                    <div class="mobile-product-cards">
+                        @if(count($facilityTickets) > 0)
+                            @foreach($facilityTickets as $ticket)
+                                <div class="mobile-product-card" data-ticket-id="{{ $ticket->id }}">
+                                    <div class="mobile-product-header">
+                                        <h3 class="mobile-product-title">{{ $ticket->name }}</h3>
+                                        <a href="{{ route('client.ticket.detail', $ticket->id) }}" class="mobile-details-link" style="color: #11749e;">
+                                            <i class="fas fa-info-circle"></i>
+                                        </a>
+                                    </div>
+                                    <div class="mobile-product-price">
+                                        RM {{ number_format($ticket->price, 2) }}
+                                        @if($ticket->stock == 0)
+                                            <span class="badge bg-danger ms-2">Out of Stock</span>
+                                        @endif
+                                    </div>
+                                    <div class="mobile-product-quantity">
+                                        <label>Quantity:</label>
+                                        @if($ticket->stock > 0)
+                                            <select class="quantity-select" data-ticket-id="{{ $ticket->id }}">
+                                                <option value="0">0</option>
+                                                @for($i = 1; $i <= min($ticket->stock, 10); $i++)
+                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                @endfor
+                                            </select>
+                                        @else
+                                            <select class="quantity-select" data-ticket-id="{{ $ticket->id }}" disabled>
+                                                <option value="0">Out of Stock</option>
+                                            </select>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="mobile-product-card">
+                                <div class="alert alert-info mb-0" style="background: rgba(17, 116, 158, 0.1); border: 1px solid #11749e; color: #11749e;">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Ticket sales will be opening soon! Stay tuned for early bird promotions and special rates.
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <hr class="announcement-divider">
+
     <div class="pricing-table-section">
         <table class="pricing-table">
             <thead>
