@@ -1140,6 +1140,12 @@
     box-shadow: 0 6px 12px rgba(255, 152, 0, 0.4);
 }
 
+/* Override hover effect for first event card */
+.event-detail-section .container:first-child .btn-view-more:hover {
+    background: linear-gradient(90deg,#0e6389 0%,#157ba6 100%);
+    box-shadow: 0 6px 12px rgba(17, 116, 158, 0.4);
+}
+
 .btn-get-ticket {
     background-color: white;
     color: #1a1a1a !important; /* Dark text */
@@ -2561,6 +2567,42 @@
             <h2 class="event-section-title">OUR EVENTS</h2>
             <p class="event-section-subtitle">THIS YEAR WE BRINGS YOU INDUSTRY LEADERS, INNOVATORS AND DECISION-MAKERS AT THE PREMIER EVENT OF THE YEAR!</p>
         </div>
+        <div class="event-detail-card" style="display: flex; align-items: stretch;">
+            <div class="event-image-container">
+                <img src="{{ asset('images/gallery-8.jpg') }}" alt="Sarawak FME Day 2025">
+            </div>
+            <div class="event-content-container">
+                <div class="event-meta">
+                    <div class="event-meta-item location">
+                        <i class="fas fa-map-marker-alt" style="color: #11749e;"></i>
+                        <span>Raia Hotel, Kuching, Sarawak</span>
+                    </div>
+                    <div class="event-meta-item date">
+                        <i class="fas fa-calendar-alt" style="color: #11749e;"></i>
+                        <span>04 Sept 2025</span>
+                    </div>
+                    <div class="event-meta-item time">
+                        <i class="fas fa-clock" style="color: #11749e;"></i>
+                        <span>08:00 AM - 05:00 PM</span>
+                    </div>
+                </div>
+                <h3 class="event-detail-title">SARAWAK LEADS: THE FUTURE OF SUSTAINABLE FACILITY MANAGEMENT STARTS HERE</h3>
+                <p class="event-detail-description">
+                    Be part of something extraordinary at SARAWAK FME DAY 2025, where innovation meets excellence in Facility Management Industry. Join us for a day of knowledge sharing, networking, and exploring the future of sustainable facility management.
+                </p>
+                <p class="event-detail-description">
+                    by FACILITY MANAGEMENT INDUSTRY ENGAGEMENT DAY 2025
+                </p>
+                <div class="event-buttons">
+                    <a href="{{ route('client.facility-industry-management') }}" class="btn-view-more" style="background:linear-gradient(90deg,#11749e 0%,#1a8fc1 100%); box-shadow: 0 4px 10px rgba(17, 116, 158, 0.3);">VIEW MORE</a>
+                    <a href="{{ route('client.store') }}" class="btn-get-ticket">GET TICKET</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Duplicate the event-detail-card structure -->
+    <div class="container">
         <div class="event-detail-card">
             <div class="event-image-container">
                 <img src="{{ asset('images/event-home-1.jpg') }}" alt="Event Image">
