@@ -88,6 +88,7 @@ Route::get('/modular-asia', [PageController::class, 'modularAsia'])->name('clien
 
 // Facility Management page
 Route::get('/facility-management', [PageController::class, 'facilityManagement'])->name('client.facility-management');
+Route::get('/facility-industry-management', [PageController::class, 'facilityIndustryManagement'])->name('client.facility-industry-management');
 
 // NextGen BINA page
 Route::get('/nextgen', [PageController::class, 'nextgen'])->name('client.nextgen');

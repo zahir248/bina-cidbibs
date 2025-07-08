@@ -309,6 +309,34 @@
             <h2>OUR SCHEDULE PLAN</h2>
         </div>
         
+        <!-- Facility Management Event -->
+        <div class="schedule-card d-flex flex-column flex-lg-row align-items-stretch p-3 p-md-4" style="background:#fff;border:1.5px solid #d1d5db;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);gap:2rem;max-width:1200px;margin:0 auto;margin-bottom:2rem;">
+            <!-- Left: Event Image -->
+            <div class="event-image-container flex-shrink-0 d-flex align-items-center justify-content-center" style="max-width:240px;width:100%;">
+                <img class="event-image" src="{{ asset('images/event-hightlight-6.jpg') }}" alt="Facility Management Industry" style="width:100%;max-width:220px;aspect-ratio:1/1;object-fit:cover;border-radius:1.1rem;">
+            </div>
+            <!-- Center: Event Info -->
+            <div class="event-info flex-grow-1 d-flex flex-column justify-content-center px-lg-3 text-center text-lg-start" style="min-width:0;border-left:1.5px solid #eee;border-right:1.5px solid #eee;">
+                <div class="event-meta d-flex align-items-center justify-content-center justify-content-lg-start gap-4 mb-2 flex-wrap" style="font-size:1.08rem;color:#11749e;font-weight:600;">
+                    <span><i class="fas fa-map-marker-alt me-1"></i> Raia Hotel, Kuching, Sarawak</span>
+                    <span><i class="fas fa-calendar-alt me-1"></i> 04 Sept 2025</span>
+                    <span><i class="fas fa-clock me-1"></i> 08:00 AM - 05:00 PM</span>
+                </div>
+                <div class="event-title text-center" style="font-size:1.35rem;font-weight:900;color:#181b2c;line-height:1.3;margin-bottom:0.7rem;">
+                SARAWAK LEADS: THE FUTURE OF SUSTAINABLE FACILITY MANAGEMENT STARTS HERE
+                </div>
+                <div class="event-description text-justify px-3 px-lg-0" style="font-size:1.08rem;color:#6b7280;line-height:1.7;margin-bottom:1.2rem;">
+                    Be part of something extraordinary at SARAWAK FME DAY 2025, where innovation meets excellence in Facility Management Industry. Join us for a day of knowledge sharing, networking, and exploring the future of sustainable facility management.
+                </div>
+                <div class="text-center" style="font-size:1.05rem;color:#181b2c;font-weight:600;">by FACILITY MANAGEMENT INDUSTRY ENGAGEMENT DAY 2025</div>
+            </div>
+            <!-- Right: Buttons -->
+            <div class="event-buttons d-flex flex-column align-items-center justify-content-center gap-3 py-3 px-lg-3" style="min-width:180px;">
+                <a href="{{ route('client.facility-industry-management') }}" class="btn view-more-btn" style="background:linear-gradient(90deg,#11749e 0%,#1a8fc1 100%);color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">VIEW MORE</a>
+                <a href="{{ route('client.store') }}" class="btn get-ticket-btn" style="background:#181b2c;color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">GET TICKET</a>
+            </div>
+        </div>
+        
         @foreach($events as $event)
         <div class="schedule-card d-flex flex-column flex-lg-row align-items-stretch p-3 p-md-4" style="background:#fff;border:1.5px solid #d1d5db;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);gap:2rem;max-width:1200px;margin:0 auto;margin-bottom:2rem;">
             <!-- Left: Event Image -->

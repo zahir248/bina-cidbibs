@@ -86,6 +86,11 @@ class PageController extends Controller
         return view('client.facility-management', compact('schedules'));
     }
 
+    public function facilityIndustryManagement()
+    {
+        return view('client.facility-industry-management');
+    }
+
     public function nextgen()
     {
         $data = [

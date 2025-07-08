@@ -54,8 +54,17 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('client.calendar') ? 'active' : '' }}" href="{{ route('client.calendar') }}">Calendar</a>
+                <li class="nav-item dropdown position-relative">
+                    <a class="nav-link {{ request()->routeIs('client.calendar') ? 'active' : '' }} d-flex align-items-center gap-1" href="#" id="calendarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span>Calendar</span>
+                        <span style="font-size:1rem;line-height:1;display:inline-block;vertical-align:middle;color:#fff;">
+                            <i class="fas fa-angle-down"></i>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="calendarDropdown">
+                        <li><a class="dropdown-item {{ request()->routeIs('client.calendar') ? 'active' : '' }}" href="{{ route('client.calendar') }}">Calendar</a></li>
+                        <li><a class="dropdown-item {{ request()->routeIs('client.facility-industry-management') ? 'active' : '' }}" href="{{ route('client.facility-industry-management') }}">Facility Management Industry Engagement Day</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('client.facility-management') ? 'active' : '' }}" href="{{ route('client.facility-management') }}">Facility Management Engagement Day</a>
@@ -137,7 +146,14 @@
                 </ul>
             </li>
             <li class="sidebar-item">
-                <a class="sidebar-link {{ request()->routeIs('client.calendar') ? 'active' : '' }}" href="{{ route('client.calendar') }}">Calendar</a>
+                <a class="sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#calendarSidebarSubmenu" role="button" aria-expanded="false" aria-controls="calendarSidebarSubmenu">
+                    <span>Calendar</span>
+                    <span class="chevron"><i class="fas fa-chevron-down"></i></span>
+                </a>
+                <ul class="collapse sidebar-submenu" id="calendarSidebarSubmenu">
+                    <li><a class="sidebar-link" href="{{ route('client.calendar') }}">Calendar</a></li>
+                    <li><a class="sidebar-link {{ request()->routeIs('client.facility-industry-management') ? 'active' : '' }}" href="{{ route('client.facility-industry-management') }}">Facility Management Industry Engagement Day</a></li>
+                </ul>
             </li>
             <li class="sidebar-item">
                 <a class="sidebar-link {{ request()->routeIs('client.facility-management') ? 'active' : '' }}" href="{{ route('client.facility-management') }}">Facility Management Engagement Day</a>
