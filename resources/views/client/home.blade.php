@@ -2501,6 +2501,20 @@
                     <div class="intro-features">
                         <div class="intro-feature-block">
                             <div class="intro-feature-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="intro-feature-content">
+                                <h4 class="intro-feature-title">SARAWAK LEADS: THE FUTURE OF SUSTAINABLE FACILITY MANAGEMENT STARTS HERE</h4>
+                                <p class="intro-feature-text">
+                                    Join us at SARAWAK FME DAY 2025 for an extraordinary gathering of industry pioneers. Experience a day filled with 
+                                    knowledge sharing, networking opportunities, and discover innovative approaches to sustainable facility management 
+                                    in East Malaysia's premier event.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="intro-feature-block">
+                            <div class="intro-feature-icon">
                                 <i class="fas fa-building"></i>
                             </div>
                             <div class="intro-feature-content">
