@@ -1386,6 +1386,11 @@
                 ];
                 
                 foreach($tickets as $ticket) {
+                    // Skip tickets that contain 'industry' in their name for this section
+                    if (str_contains(strtolower($ticket->name), 'industry')) {
+                        continue;
+                    }
+                    
                     $name = strtolower($ticket->name);
                     if (str_contains($name, 'facility')) {
                         $categories['Facility Management Engagement Day 2025'][] = $ticket;
