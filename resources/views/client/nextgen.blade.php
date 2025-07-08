@@ -408,21 +408,30 @@
 
             <!-- Registration Form Download Section - Always Last -->
             <div class="text-center mt-5 order-4">
-                <h3 class="mb-3" style="font-size: 1.5rem; font-weight: 600; color: #22223b;">Ready to Participate? / Sedia untuk Menyertai?</h3>
-                <p class="mb-4" style="color: #4b5563; font-size: 1.1rem;">Download the registration form below to join the NextGen TVET: Modular Thinkers Competition</p>
-                <div class="d-flex justify-content-center gap-5 flex-wrap">
-                    <div class="text-center">
-                        <a href="{{ $pdf_file }}" download="NextGen_TVET_Registration_Form.pdf" class="btn btn-primary btn-lg" style="background-color: #ff9800; border: none; padding: 1rem 2rem; border-radius: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease;">
-                            <i class="fas fa-file-download me-2"></i> Download Form (English)
-                        </a>
-                        <p class="mt-2" style="color: #6b7280; font-size: 0.9rem;">PDF format • Fill out and submit to participate</p>
-                    </div>
-                    <div class="text-center">
-                        <a href="{{ $pdf_file_bm }}" download="Borang_Pendaftaran_NextGen_TVET.pdf" class="btn btn-primary btn-lg" style="background-color: #ff9800; border: none; padding: 1rem 2rem; border-radius: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease;">
-                            <i class="fas fa-file-download me-2"></i> Muat Turun Borang (BM)
-                        </a>
-                        <p class="mt-2" style="color: #6b7280; font-size: 0.9rem;">Format PDF • Isi dan hantar untuk menyertai</p>
-                    </div>
+                <h3 class="mb-3" style="font-size: 1.5rem; font-weight: 600; color: #22223b;">Ready to Register? / <i>Sedia untuk Mendaftar?</i></h3>
+                <p class="mb-4" style="color: #4b5563; font-size: 1.1rem;">
+                    Scan the QR code below<br>
+                    <span style="font-size: 0.95em; font-style: italic;">Imbas kod QR di bawah</span>
+                </p>
+                
+                <!-- QR Code Image Placeholder - Replace src with actual QR code image path -->
+                <div class="d-flex justify-content-center mb-4">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://forms.google.com/nextgen-registration" alt="Registration QR Code" style="width: 200px; height: 200px; margin: 0 auto; background: white; padding: 10px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                </div>
+
+                <p class="mb-4" style="color: #4b5563; font-size: 1.1rem;">
+                    or click the button to register<br>
+                    <span style="font-size: 0.95em; font-style: italic;">atau klik butang untuk mendaftar</span>
+                </p>
+
+                <div class="text-center">
+                    <a href="https://forms.google.com/nextgen-registration" target="_blank" class="btn btn-primary btn-lg" style="background-color: #ff9800; border: none; padding: 1rem 2rem; border-radius: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease;">
+                        <i class="fas fa-external-link-alt me-2"></i> Click Here to Register / <i>Klik Untuk Mendaftar</i>
+                    </a>
+                    <p class="mt-2" style="color: #6b7280; font-size: 0.9rem;">
+                        Opens registration form in a new tab<br>
+                        <span style="font-size: 0.95em; font-style: italic;">Membuka borang pendaftaran dalam tab baru</span>
+                    </p>
                 </div>
             </div>
         </div>
