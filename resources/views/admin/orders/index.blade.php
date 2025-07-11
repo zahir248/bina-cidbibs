@@ -121,10 +121,8 @@
                             <div class="col-md-3">
                                 <select class="form-select" id="eventFilter">
                                     <option value="all">All Events</option>
-                                    <option value="facility">Facility Management Engagement Day</option>
-                                    <option value="modular">Modular Asia Forum & Exhibition</option>
+                                    <option value="bina">BINA Events</option>
                                     <option value="industry">Sarawak Facility Management Engagement Day</option>
-                                    <option value="combo">Combo</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
@@ -470,24 +468,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         items.forEach(item => {
                             const ticketName = item.ticket_name.toLowerCase();
                             switch (selectedEvent) {
+                                case 'bina':
+                                    if (str_contains(ticketName, 'facility management') && !str_contains(ticketName, 'industry') ||
+                                        str_contains(ticketName, 'modular asia') ||
+                                        str_contains(ticketName, 'combo')) {
+                                        matchesEvent = true;
+                                    }
+                                    break;
                                 case 'industry':
-                                    if (ticketName.includes('industry')) {
-                                        matchesEvent = true;
-                                    }
-                                    break;
-                                case 'facility':
-                                    if (ticketName.includes('facility management') && 
-                                        !ticketName.includes('industry')) {
-                                        matchesEvent = true;
-                                    }
-                                    break;
-                                case 'modular':
-                                    if (ticketName.includes('modular asia')) {
-                                        matchesEvent = true;
-                                    }
-                                    break;
-                                case 'combo':
-                                    if (ticketName.includes('combo')) {
+                                    if (str_contains(ticketName, 'industry')) {
                                         matchesEvent = true;
                                     }
                                     break;
@@ -499,6 +488,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         console.error('Error fetching order items:', error);
                         updateRowVisibility();
                     });
+            }
+
+            function str_contains(haystack, needle) {
+                return haystack.indexOf(needle) !== -1;
             }
 
             function updateRowVisibility() {
