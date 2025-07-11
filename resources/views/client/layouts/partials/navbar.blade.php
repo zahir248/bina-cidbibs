@@ -14,11 +14,8 @@
                 </li>
                 <!-- About Dropdown (Desktop) -->
                 <li class="nav-item dropdown position-relative">
-                    <a class="nav-link {{ request()->is('about') || request()->is('terms') || request()->is('login') || request()->is('register') ? 'active' : '' }} d-flex align-items-center gap-1" href="{{ route('client.about') }}" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span>About</span>
-                        <span style="font-size:1rem;line-height:1;display:inline-block;vertical-align:middle;color:#fff;">
-                            <i class="fas fa-angle-down"></i>
-                        </span>
+                    <a class="nav-link {{ request()->is('about') || request()->is('terms') || request()->is('login') || request()->is('register') ? 'active' : '' }} d-inline-flex align-items-center" href="{{ route('client.about') }}" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        About <i class="fas fa-angle-down" style="margin-left:3px;"></i>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
                         <li><a class="dropdown-item {{ request()->is('about') ? 'active' : '' }}" href="{{ route('client.about') }}">About</a></li>
@@ -54,20 +51,17 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item dropdown position-relative">
-                    <a class="nav-link {{ request()->routeIs('client.calendar') ? 'active' : '' }} d-flex align-items-center gap-1" href="#" id="calendarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span>Calendar</span>
-                        <span style="font-size:1rem;line-height:1;display:inline-block;vertical-align:middle;color:#fff;">
-                            <i class="fas fa-angle-down"></i>
-                        </span>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="calendarDropdown">
-                        <li><a class="dropdown-item {{ request()->routeIs('client.calendar') ? 'active' : '' }}" href="{{ route('client.calendar') }}">Calendar</a></li>
-                        <li><a class="dropdown-item {{ request()->routeIs('client.facility-industry-management') ? 'active' : '' }}" href="{{ route('client.facility-industry-management') }}">Facility Management Industry Engagement Day</a></li>
-                    </ul>
-                </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('client.facility-management') ? 'active' : '' }}" href="{{ route('client.facility-management') }}">Facility Management Engagement Day</a>
+                    <a class="nav-link {{ request()->routeIs('client.calendar') ? 'active' : '' }}" href="{{ route('client.calendar') }}">Calendar</a>
+                </li>
+                <li class="nav-item dropdown position-relative">
+                    <a class="nav-link {{ request()->routeIs('client.facility-management') ? 'active' : '' }} d-inline-flex align-items-center" href="#" id="facilityDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Facility Management Engagement Day<i class="fas fa-angle-down" style="margin-left:3px;"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="facilityDropdown">
+                        <li><a class="dropdown-item {{ request()->routeIs('client.facility-industry-management') ? 'active' : '' }}" href="{{ route('client.facility-industry-management') }}">Sarawak Facility Management Industry Engagement Day</a></li>
+                        <li><a class="dropdown-item {{ request()->routeIs('client.facility-management') ? 'active' : '' }}" href="{{ route('client.facility-management') }}">Facility Management Engagement Day</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('client.modular-asia') ? 'active' : '' }}" href="{{ route('client.modular-asia') }}">Modular Asia Forum & Exhibition</a>
@@ -146,17 +140,17 @@
                 </ul>
             </li>
             <li class="sidebar-item">
-                <a class="sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#calendarSidebarSubmenu" role="button" aria-expanded="false" aria-controls="calendarSidebarSubmenu">
-                    <span>Calendar</span>
-                    <span class="chevron"><i class="fas fa-chevron-down"></i></span>
-                </a>
-                <ul class="collapse sidebar-submenu" id="calendarSidebarSubmenu">
-                    <li><a class="sidebar-link" href="{{ route('client.calendar') }}">Calendar</a></li>
-                    <li><a class="sidebar-link {{ request()->routeIs('client.facility-industry-management') ? 'active' : '' }}" href="{{ route('client.facility-industry-management') }}">Facility Management Industry Engagement Day</a></li>
-                </ul>
+                <a class="sidebar-link {{ request()->routeIs('client.calendar') ? 'active' : '' }}" href="{{ route('client.calendar') }}">Calendar</a>
             </li>
             <li class="sidebar-item">
-                <a class="sidebar-link {{ request()->routeIs('client.facility-management') ? 'active' : '' }}" href="{{ route('client.facility-management') }}">Facility Management Engagement Day</a>
+                <a class="sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#facilitySidebarSubmenu" role="button" aria-expanded="false" aria-controls="facilitySidebarSubmenu">
+                    <span>Facility Management Engagement Day</span>
+                    <span class="chevron"><i class="fas fa-chevron-down"></i></span>
+                </a>
+                <ul class="collapse sidebar-submenu" id="facilitySidebarSubmenu">
+                    <li><a class="sidebar-link {{ request()->routeIs('client.facility-industry-management') ? 'active' : '' }}" href="{{ route('client.facility-industry-management') }}">Sarawak Facility Management Industry Engagement Day</a></li>
+                    <li><a class="sidebar-link" href="{{ route('client.facility-management') }}">Facility Management Engagement Day</a></li>
+                </ul>
             </li>
             <li class="sidebar-item">
                 <a class="sidebar-link {{ request()->routeIs('client.modular-asia') ? 'active' : '' }}" href="{{ route('client.modular-asia') }}">Modular Asia Forum & Exhibition</a>
