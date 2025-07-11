@@ -1194,7 +1194,7 @@
         <section class="store-products">
             @php
                 $facilityTickets = [];
-                $eventName = 'Facility Management Industry Engagement Day 2025';
+                $eventName = 'Sarawak Facility Management Industry Engagement Day 2025';
                 foreach($tickets as $ticket) {
                     // Check if ticket name contains 'Industry'
                     if (str_contains(strtolower($ticket->name), 'industry')) {
@@ -1208,7 +1208,7 @@
                     ->all();
             @endphp
             <div class="category-section">
-                <div class="category-header">Facility Management Industry Engagement Day 2025</div>
+                <div class="category-header">Sarawak Facility Management Industry Engagement Day 2025</div>
                 
                 <!-- Desktop Table View -->
                 <div class="d-none d-md-block">
