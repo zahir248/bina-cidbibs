@@ -14,7 +14,7 @@
                 </li>
                 <!-- About Dropdown (Desktop) -->
                 <li class="nav-item dropdown position-relative">
-                    <a class="nav-link {{ request()->is('about') || request()->is('terms') || request()->is('login') || request()->is('register') ? 'active' : '' }} d-inline-flex align-items-center" href="{{ route('client.about') }}" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link {{ request()->routeIs('client.about') || request()->routeIs('client.terms') || request()->routeIs('client.login') || request()->routeIs('client.register') || request()->routeIs('client.profile') || request()->routeIs('client.purchased-tickets') || request()->routeIs('client.community') ? 'active' : '' }} d-inline-flex align-items-center" href="{{ route('client.about') }}" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         About <i class="fas fa-angle-down" style="margin-left:3px;"></i>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
@@ -55,8 +55,8 @@
                     <a class="nav-link {{ request()->routeIs('client.calendar') ? 'active' : '' }}" href="{{ route('client.calendar') }}">Calendar</a>
                 </li>
                 <li class="nav-item dropdown position-relative">
-                    <a class="nav-link {{ request()->routeIs('client.facility-management') ? 'active' : '' }} d-inline-flex align-items-center" href="#" id="facilityDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Facility Management Engagement Day<i class="fas fa-angle-down" style="margin-left:3px;"></i>
+                    <a class="nav-link {{ request()->routeIs('client.facility-management') || request()->routeIs('client.facility-industry-management') ? 'active' : '' }} d-inline-flex align-items-center" href="#" id="facilityDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Facility Management Engagement Day <i class="fas fa-angle-down" style="margin-left:3px;"></i>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="facilityDropdown">
                         <li><a class="dropdown-item {{ request()->routeIs('client.facility-industry-management') ? 'active' : '' }}" href="{{ route('client.facility-industry-management') }}">Sarawak Facility Management Industry Engagement Day</a></li>
@@ -100,7 +100,7 @@
             </li>
             <!-- About with collapsible submenu (Mobile) -->
             <li class="sidebar-item">
-                <a class="sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#aboutSidebarSubmenu" role="button" aria-expanded="false" aria-controls="aboutSidebarSubmenu">
+                <a class="sidebar-link d-flex justify-content-between align-items-center {{ request()->routeIs('client.about') || request()->routeIs('client.terms') || request()->routeIs('client.login') || request()->routeIs('client.register') || request()->routeIs('client.profile') || request()->routeIs('client.purchased-tickets') || request()->routeIs('client.community') ? 'active' : '' }}" data-bs-toggle="collapse" href="#aboutSidebarSubmenu" role="button" aria-expanded="false" aria-controls="aboutSidebarSubmenu">
                     <span>About</span>
                     <span class="chevron"><i class="fas fa-chevron-down"></i></span>
                 </a>
@@ -143,7 +143,7 @@
                 <a class="sidebar-link {{ request()->routeIs('client.calendar') ? 'active' : '' }}" href="{{ route('client.calendar') }}">Calendar</a>
             </li>
             <li class="sidebar-item">
-                <a class="sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#facilitySidebarSubmenu" role="button" aria-expanded="false" aria-controls="facilitySidebarSubmenu">
+                <a class="sidebar-link d-flex justify-content-between align-items-center {{ request()->routeIs('client.facility-management') || request()->routeIs('client.facility-industry-management') ? 'active' : '' }}" data-bs-toggle="collapse" href="#facilitySidebarSubmenu" role="button" aria-expanded="false" aria-controls="facilitySidebarSubmenu">
                     <span>Facility Management Engagement Day</span>
                     <span class="chevron"><i class="fas fa-chevron-down"></i></span>
                 </a>
