@@ -416,7 +416,7 @@
                 
                 <!-- QR Code Image Placeholder - Replace src with actual QR code image path -->
                 <div class="d-flex justify-content-center mb-4">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://forms.google.com/nextgen-registration" alt="Registration QR Code" style="width: 200px; height: 200px; margin: 0 auto; background: white; padding: 10px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://forms.gle/uJ9Pfk29iZNAgtnj7" alt="Registration QR Code" style="width: 200px; height: 200px; margin: 0 auto; background: white; padding: 10px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
                 </div>
 
                 <p class="mb-4" style="color: #4b5563; font-size: 1.1rem;">
@@ -425,7 +425,7 @@
                 </p>
 
                 <div class="text-center">
-                    <a href="https://forms.google.com/nextgen-registration" target="_blank" class="btn btn-primary btn-lg" style="background-color: #ff9800; border: none; padding: 1rem 2rem; border-radius: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease;">
+                    <a href="https://forms.gle/uJ9Pfk29iZNAgtnj7" target="_blank" class="btn btn-primary btn-lg" style="background-color: #ff9800; border: none; padding: 1rem 2rem; border-radius: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease;">
                         <i class="fas fa-external-link-alt me-2"></i> Click Here to Register / <i>Klik Untuk Mendaftar</i>
                     </a>
                     <p class="mt-2" style="color: #6b7280; font-size: 0.9rem;">
