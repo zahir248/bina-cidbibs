@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\BillingDetail;
+use App\Models\Ticket;
 use App\Helpers\PaymentLogger;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Exports\OrdersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OrderController extends Controller
 {
@@ -24,7 +27,9 @@ class OrderController extends Controller
                 return $order;
             });
             
-        return view('admin.orders.index', compact('orders'));
+        $tickets = \App\Models\Ticket::select('id', 'name')->get();
+            
+        return view('admin.orders.index', compact('orders', 'tickets'));
     }
 
     /**
@@ -179,17 +184,80 @@ class OrderController extends Controller
     /**
      * Generate compiled attendance form PDF for all orders
      */
-    public function downloadCompiledAttendanceForm()
+    public function downloadCompiledAttendanceForm(Request $request)
     {
+        $event = $request->query('event', 'all');
         $orders = Order::with('billingDetail')->get();
+        
+        // Filter orders based on event type
+        if ($event !== 'all') {
+            $orders = $orders->filter(function ($order) use ($event) {
+                foreach ($order->cart_items as $item) {
+                    $ticket = Ticket::find($item['ticket_id']);
+                    if ($ticket) {
+                        $ticketName = strtolower($ticket->name);
+                        switch ($event) {
+                            case 'industry':
+                                if (str_contains($ticketName, 'industry')) {
+                                    return true;
+                                }
+                                break;
+                            case 'facility':
+                                if (str_contains($ticketName, 'facility management') && 
+                                    !str_contains($ticketName, 'industry')) {
+                                    return true;
+                                }
+                                break;
+                            case 'modular':
+                                if (str_contains($ticketName, 'modular asia')) {
+                                    return true;
+                                }
+                                break;
+                            case 'combo':
+                                if (str_contains($ticketName, 'combo')) {
+                                    return true;
+                                }
+                                break;
+                        }
+                    }
+                }
+                return false;
+            });
+        }
         
         // Compile all orders' ticket information
         $compiledTicketGroups = [];
         
         foreach ($orders as $order) {
             foreach ($order->cart_items as $item) {
-                $ticket = \App\Models\Ticket::find($item['ticket_id']);
+                $ticket = Ticket::find($item['ticket_id']);
                 $ticketId = $item['ticket_id'];
+                
+                // Skip tickets that don't match the event filter
+                if ($event !== 'all') {
+                    $ticketName = strtolower($ticket->name);
+                    $shouldSkip = false;
+                    
+                    switch ($event) {
+                        case 'industry':
+                            $shouldSkip = !str_contains($ticketName, 'industry');
+                            break;
+                        case 'facility':
+                            $shouldSkip = !(str_contains($ticketName, 'facility management') && 
+                                          !str_contains($ticketName, 'industry'));
+                            break;
+                        case 'modular':
+                            $shouldSkip = !str_contains($ticketName, 'modular asia');
+                            break;
+                        case 'combo':
+                            $shouldSkip = !str_contains($ticketName, 'combo');
+                            break;
+                    }
+                    
+                    if ($shouldSkip) {
+                        continue;
+                    }
+                }
                 
                 if (!isset($compiledTicketGroups[$ticketId])) {
                     $compiledTicketGroups[$ticketId] = [
@@ -206,6 +274,7 @@ class OrderController extends Controller
                     'purchaser_name' => $order->billingDetail->first_name . ' ' . $order->billingDetail->last_name,
                     'purchaser_email' => $order->billingDetail->email,
                     'purchaser_phone' => $order->billingDetail->phone,
+                    'purchaser_identity_number' => $order->billingDetail->identity_number,
                     'quantity' => $item['quantity'],
                     'attendees' => array_map(function($index) {
                         return [
@@ -232,11 +301,19 @@ class OrderController extends Controller
             });
         }
 
+        $eventNames = [
+            'all' => 'All Events',
+            'facility' => 'Facility Management Engagement Day',
+            'modular' => 'Modular Asia Forum & Exhibition',
+            'industry' => 'Sarawak Facility Management Engagement Day',
+            'combo' => 'Combo'
+        ];
+
         $pdf = PDF::loadView('admin.orders.attendance-form', [
             'ticketGroups' => $compiledTicketGroups,
-            'eventDate' => now()->format('d F Y'),
             'isSingleOrder' => false,
-            'totalOrders' => $orders->count()
+            'totalOrders' => $orders->count(),
+            'eventName' => $eventNames[$event] ?? 'All Events'
         ]);
 
         $pdf->setPaper('a4');
@@ -245,7 +322,30 @@ class OrderController extends Controller
         $pdf->setOption('margin-bottom', 15);
         $pdf->setOption('margin-left', 15);
 
-        $filename = "attendance-form-" . now()->format('Y-m-d') . ".pdf";
+        $filename = "attendance-form-" . str_replace(' ', '-', strtolower($eventNames[$event] ?? 'all-events')) . "-" . now()->format('Y-m-d') . ".pdf";
         return $pdf->download($filename);
+    }
+
+    /**
+     * Download orders data as Excel file
+     */
+    public function downloadExcel(Request $request)
+    {
+        $event = $request->query('event', 'all');
+        $eventNames = [
+            'all' => 'All Events',
+            'bina' => 'BINA Events',
+            'industry' => 'Sarawak Facility Management Engagement Day'
+        ];
+        
+        $filename = 'orders-';
+        if ($event === 'all') {
+            $filename .= 'all-events';
+        } else {
+            $filename .= strtolower(str_replace([' & ', ' '], ['-', '-'], $eventNames[$event] ?? 'all-events'));
+        }
+        $filename .= '-' . now()->format('Y-m-d') . '.xlsx';
+        
+        return Excel::download(new OrdersExport($event), $filename);
     }
 } 

@@ -197,6 +197,7 @@ Route::middleware('auth')->group(function () {
         
         // Orders Management Routes
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('orders/download-excel', [OrderController::class, 'downloadExcel'])->name('orders.download-excel');
         Route::get('/billing-details/{id}', [OrderController::class, 'getBillingDetails'])->name('billing.details');
         Route::get('/orders/{order}/items', [OrderController::class, 'getOrderItems'])->name('orders.items');
 

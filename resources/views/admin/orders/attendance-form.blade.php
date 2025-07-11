@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Attendance Form - {{ isset($order) ? $order->reference_number : 'Compiled' }}</title>
+    <title>Attendance Form - {{ isset($order) ? $order->reference_number : ($eventName ?? 'Compiled') }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -83,7 +83,16 @@
                     <td><strong>Email:</strong></td>
                     <td>{{ $billingDetail->email }}</td>
                 </tr>
+                <tr>
+                    <td><strong>Identity Number:</strong></td>
+                    <td colspan="3">{{ $billingDetail->identity_number }}</td>
+                </tr>
             </table>
+        </div>
+    @else
+        <div style="text-align: center; margin-bottom: 20px;">
+            <h2 style="margin: 0;">{{ $eventName }}</h2>
+            <p style="margin: 5px 0;">Attendance Form</p>
         </div>
     @endif
 
@@ -105,7 +114,8 @@
                         <th width="{{ $isSingleOrder ? '25%' : '16%' }}">Attendee Name</th>
                         <th width="{{ $isSingleOrder ? '25%' : '16%' }}">Email</th>
                         <th width="{{ $isSingleOrder ? '20%' : '13%' }}">Phone</th>
-                        <th width="{{ $isSingleOrder ? '30%' : '20%' }}">Signature</th>
+                        <th width="{{ $isSingleOrder ? '15%' : '10%' }}">Date/Time</th>
+                        <th width="{{ $isSingleOrder ? '15%' : '10%' }}">Signature</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -113,6 +123,7 @@
                         @foreach($group['attendees'] as $attendee)
                             <tr>
                                 <td>{{ $attendee['no'] }}</td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -132,8 +143,10 @@
                                             <div class="purchaser-info">{{ $order['purchaser_name'] }}</div>
                                             <div class="small-text">Email: {{ $order['purchaser_email'] }}</div>
                                             <div class="small-text">Phone: {{ $order['purchaser_phone'] }}</div>
+                                            <div class="small-text">ID: {{ $order['purchaser_identity_number'] }}</div>
                                         </td>
                                     @endif
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>

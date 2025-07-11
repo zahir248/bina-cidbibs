@@ -10,9 +10,60 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="card-title">Orders</h3>
                     <div class="d-flex gap-2">
-                        <a href="{{ route('admin.orders.attendance-form.compiled') }}" class="btn btn-primary">
-                            <i class="bi bi-file-earmark-text me-1"></i> Download Attendance Form
-                        </a>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="downloadOrdersDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-file-excel me-1"></i> Download Orders
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="downloadOrdersDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('admin.orders.download-excel', ['event' => 'all']) }}">
+                                        <i class="bi bi-file-excel text-success me-2"></i>All Events
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('admin.orders.download-excel', ['event' => 'bina']) }}">
+                                        <i class="bi bi-file-excel text-success me-2"></i>BINA Events
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('admin.orders.download-excel', ['event' => 'industry']) }}">
+                                        <i class="bi bi-file-excel text-success me-2"></i>Sarawak Facility Management Engagement Day
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="downloadAttendanceDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-file-earmark-text me-1"></i> Download Attendance Form
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="downloadAttendanceDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('admin.orders.attendance-form.compiled', ['event' => 'all']) }}">
+                                        <i class="bi bi-file-earmark-text text-primary me-2"></i>All Events
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('admin.orders.attendance-form.compiled', ['event' => 'facility']) }}">
+                                        <i class="bi bi-file-earmark-text text-primary me-2"></i>Facility Management Engagement Day
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('admin.orders.attendance-form.compiled', ['event' => 'modular']) }}">
+                                        <i class="bi bi-file-earmark-text text-primary me-2"></i>Modular Asia Forum & Exhibition
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('admin.orders.attendance-form.compiled', ['event' => 'industry']) }}">
+                                        <i class="bi bi-file-earmark-text text-primary me-2"></i>Sarawak Facility Management Engagement Day
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('admin.orders.attendance-form.compiled', ['event' => 'combo']) }}">
+                                        <i class="bi bi-file-earmark-text text-primary me-2"></i>Combo
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle" type="button" id="downloadLogsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-download me-1"></i> Download Transaction Log
@@ -45,10 +96,35 @@
                                 </div>
                             </div>
                             <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="searchIdentity" placeholder="Search by Identity Number">
+                                    <button class="btn btn-primary" type="button" id="searchIdentityBtn">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
                                 <select class="form-select" id="paymentMethod">
                                     <option value="">All Payment Methods</option>
                                     <option value="stripe">Stripe</option>
                                     <option value="toyyibpay">ToyyibPay</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select" id="ticketFilter">
+                                    <option value="">All Tickets</option>
+                                    @foreach($tickets as $ticket)
+                                        <option value="{{ $ticket->id }}">{{ $ticket->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select" id="eventFilter">
+                                    <option value="all">All Events</option>
+                                    <option value="facility">Facility Management Engagement Day</option>
+                                    <option value="modular">Modular Asia Forum & Exhibition</option>
+                                    <option value="industry">Sarawak Facility Management Engagement Day</option>
+                                    <option value="combo">Combo</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
@@ -177,7 +253,7 @@
                             </thead>
                             <tbody>
                                 @foreach($orders as $index => $order)
-                                <tr>
+                                <tr data-ticket-ids='@json(collect($order->cart_items)->pluck("ticket_id"))'>
                                     <td>{{ $orders->firstItem() + $index }}</td>
                                     <td>{{ $order->reference_number }}</td>
                                     <td>RM {{ number_format($order->total_amount, 2) }}</td>
@@ -252,6 +328,7 @@
                         <p><strong>Category:</strong> <span id="billing-category"></span></p>
                         <p><strong>Email:</strong> <span id="billing-email"></span></p>
                         <p><strong>Phone:</strong> <span id="billing-phone"></span></p>
+                        <p><strong>Identity Number:</strong> <span id="billing-identity-number"></span></p>
                     </div>
                     <div class="col-md-6">
                         <p><strong>Country:</strong> <span id="billing-country"></span></p>
@@ -316,19 +393,25 @@ document.addEventListener('DOMContentLoaded', function() {
     // Search functionality
     const searchForm = document.getElementById('searchForm');
     const searchInput = document.getElementById('searchReference');
+    const searchIdentityInput = document.getElementById('searchIdentity');
     const startDateInput = document.getElementById('startDate');
     const endDateInput = document.getElementById('endDate');
     const paymentMethodSelect = document.getElementById('paymentMethod');
     const paymentCountrySelect = document.getElementById('paymentCountry');
+    const ticketFilterSelect = document.getElementById('ticketFilter');
+    const eventFilterSelect = document.getElementById('eventFilter');
     const clearFiltersBtn = document.getElementById('clearFilters');
     const tableRows = document.querySelectorAll('tbody tr');
 
     function filterTable() {
         const searchTerm = searchInput.value.toLowerCase().trim();
+        const identityTerm = searchIdentityInput.value.toLowerCase().trim();
         const startDate = startDateInput.value ? new Date(startDateInput.value) : null;
         const endDate = endDateInput.value ? new Date(endDateInput.value) : null;
         const selectedPaymentMethod = paymentMethodSelect.value.toLowerCase();
         const selectedPaymentCountry = paymentCountrySelect.value;
+        const selectedTicket = ticketFilterSelect.value;
+        const selectedEvent = eventFilterSelect.value;
 
         // Set end date to end of day if it exists
         if (endDate) {
@@ -340,41 +423,121 @@ document.addEventListener('DOMContentLoaded', function() {
             const dateCell = row.querySelector('td:nth-child(10)');
             const paymentMethodCell = row.querySelector('td:nth-child(6)');
             const paymentCountryCell = row.querySelector('td:nth-child(7)');
+            const billingLink = row.querySelector('.view-billing');
+            const billingId = billingLink ? billingLink.dataset.billingId : null;
+            const itemsLink = row.querySelector('.view-items');
+            const orderId = itemsLink ? itemsLink.dataset.orderId : null;
 
             const referenceNumber = referenceCell.textContent.toLowerCase();
             const orderDate = new Date(dateCell.textContent);
             const paymentMethod = paymentMethodCell.textContent.toLowerCase();
             const paymentCountry = paymentCountryCell.textContent.trim();
 
+            // Check identity number only if there's a search term
+            let matchesIdentity = !identityTerm; // true if no identity search term
+            if (identityTerm && billingId) {
+                // Fetch billing details and check identity number
+                fetch(`/admin/billing-details/${billingId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const identityNumber = (data.identity_number || '').toLowerCase();
+                        matchesIdentity = identityNumber.includes(identityTerm);
+                        // Update row visibility based on all criteria
+                        updateRowVisibility();
+                    })
+                    .catch(error => {
+                        console.error('Error fetching billing details:', error);
+                        matchesIdentity = false;
+                        updateRowVisibility();
+                    });
+            }
+
             const matchesSearch = referenceNumber.includes(searchTerm);
             const matchesDateRange = (!startDate || orderDate >= startDate) && 
                                    (!endDate || orderDate <= endDate);
             const matchesPaymentMethod = !selectedPaymentMethod || paymentMethod.includes(selectedPaymentMethod);
             const matchesPaymentCountry = !selectedPaymentCountry || paymentCountry === selectedPaymentCountry;
+            const matchesTicket = !selectedTicket || (row.dataset.ticketIds && JSON.parse(row.dataset.ticketIds).includes(parseInt(selectedTicket)));
 
-            row.style.display = (matchesSearch && matchesDateRange && 
-                               matchesPaymentMethod && matchesPaymentCountry) ? '' : 'none';
+            // Check event match
+            let matchesEvent = true;
+            if (selectedEvent !== 'all' && orderId) {
+                matchesEvent = false;
+                // Fetch order items to check event match
+                fetch(`/admin/orders/${orderId}/items`)
+                    .then(response => response.json())
+                    .then(items => {
+                        items.forEach(item => {
+                            const ticketName = item.ticket_name.toLowerCase();
+                            switch (selectedEvent) {
+                                case 'industry':
+                                    if (ticketName.includes('industry')) {
+                                        matchesEvent = true;
+                                    }
+                                    break;
+                                case 'facility':
+                                    if (ticketName.includes('facility management') && 
+                                        !ticketName.includes('industry')) {
+                                        matchesEvent = true;
+                                    }
+                                    break;
+                                case 'modular':
+                                    if (ticketName.includes('modular asia')) {
+                                        matchesEvent = true;
+                                    }
+                                    break;
+                                case 'combo':
+                                    if (ticketName.includes('combo')) {
+                                        matchesEvent = true;
+                                    }
+                                    break;
+                            }
+                        });
+                        updateRowVisibility();
+                    })
+                    .catch(error => {
+                        console.error('Error fetching order items:', error);
+                        updateRowVisibility();
+                    });
+            }
+
+            function updateRowVisibility() {
+                const shouldShow = matchesSearch && matchesIdentity && 
+                                 matchesDateRange && matchesPaymentMethod && 
+                                 matchesPaymentCountry && matchesTicket && matchesEvent;
+                row.style.display = shouldShow ? '' : 'none';
+            }
+
+            // Only update display immediately if not searching by identity or event
+            if (!identityTerm && selectedEvent === 'all') {
+                updateRowVisibility();
+            }
         });
     }
 
+    // Add event listeners
     searchForm.addEventListener('submit', function(e) {
         e.preventDefault();
         filterTable();
     });
 
-    // Filter when any filter changes
     startDateInput.addEventListener('change', filterTable);
     endDateInput.addEventListener('change', filterTable);
     paymentMethodSelect.addEventListener('change', filterTable);
     paymentCountrySelect.addEventListener('change', filterTable);
+    ticketFilterSelect.addEventListener('change', filterTable);
+    eventFilterSelect.addEventListener('change', filterTable);
 
     // Clear filters button
     clearFiltersBtn.addEventListener('click', function() {
         searchInput.value = '';
+        searchIdentityInput.value = '';
         startDateInput.value = '';
         endDateInput.value = '';
         paymentMethodSelect.value = '';
         paymentCountrySelect.value = '';
+        ticketFilterSelect.value = '';
+        eventFilterSelect.value = 'all';
         filterTable();
     });
 
@@ -382,6 +545,16 @@ document.addEventListener('DOMContentLoaded', function() {
     searchInput.addEventListener('input', function() {
         if (this.value === '') {
             filterTable();
+        }
+    });
+
+    // Add event listener for identity number search button
+    document.getElementById('searchIdentityBtn').addEventListener('click', filterTable);
+    
+    // Add event listener for identity number input (search as you type)
+    document.getElementById('searchIdentity').addEventListener('input', function() {
+        if (this.value === '') {
+            filterTable(); // Clear identity number filter if input is empty
         }
     });
 
@@ -404,6 +577,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById('billing-category').textContent = data.category;
                     document.getElementById('billing-email').textContent = data.email;
                     document.getElementById('billing-phone').textContent = data.phone;
+                    document.getElementById('billing-identity-number').textContent = data.identity_number || 'N/A';
                     document.getElementById('billing-country').textContent = data.country;
                     document.getElementById('billing-address1').textContent = data.address1;
                     document.getElementById('billing-address2').textContent = data.address2 || 'N/A';
