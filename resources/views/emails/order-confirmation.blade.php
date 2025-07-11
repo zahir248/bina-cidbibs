@@ -222,6 +222,9 @@
             <div class="order-details">
                 <h3>Billing Information</h3>
                 <p><strong>Name: </strong> {{ $billingData['first_name'] }} {{ $billingData['last_name'] }}</p>
+                @if(isset($billingData['identity_number']))
+                <p><strong>Identity Card/Passport: </strong> {{ $billingData['identity_number'] }}</p>
+                @endif
                 <p><strong>Gender: </strong> {{ ucfirst($billingData['gender']) }}</p>
                 <p><strong>Category: </strong> {{ ucfirst($billingData['category']) }}</p>
                 @if($billingData['category'] === 'organization')

@@ -280,6 +280,7 @@ class ProfileController extends Controller
                 'last_name' => $order->billingDetail->last_name,
                 'gender' => $order->billingDetail->gender,
                 'category' => $order->billingDetail->category,
+                'identity_number' => $order->billingDetail->identity_number,
                 'company_name' => $order->billingDetail->company_name,
                 'business_registration_number' => $order->billingDetail->business_registration_number,
                 'tax_number' => $order->billingDetail->tax_number,

@@ -494,6 +494,11 @@
                         @error('category')<div class="error">Category is a required field.</div>@enderror
                     </div>
                 </div>
+                <div>
+                    <label for="identity_number">Identity Card Number / Passport <span class="required">*</span> <i class="fas fa-info-circle" style="color: #ff9800;" data-bs-toggle="tooltip" data-bs-placement="top" title="For Malaysian citizens, please enter your IC number. For international customers, please enter your passport number."></i></label>
+                    <input type="text" class="form-control" id="identity_number" name="identity_number" value="{{ old('identity_number') }}" placeholder="e.g. 901234567890 or A12345678" required>
+                    @error('identity_number')<div class="error">Identity Card Number/Passport is a required field.</div>@enderror
+                </div>
                 
                 <!-- B2B Fields (shown only when organization is selected) -->
                 <div id="b2b-fields" style="display: none;">
@@ -985,12 +990,37 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
 
+    // Validate identity number
+    function validateIdentityNumber() {
+        const identityNumber = document.getElementById('identity_number');
+        const value = identityNumber.value.trim();
+        
+        // Basic validation for length
+        if (value.length < 6 || value.length > 20) {
+            showValidationError('Identity Card Number/Passport must be between 6 and 20 characters.');
+            return false;
+        }
+        
+        // Basic format validation - alphanumeric only
+        if (!/^[A-Za-z0-9]+$/.test(value)) {
+            showValidationError('Identity Card Number/Passport can only contain letters and numbers.');
+            return false;
+        }
+        
+        return true;
+    }
+
     // Handle form submission
     form.addEventListener('submit', function(e) {
         e.preventDefault();
 
         // Validate name lengths first
         if (!validateName()) {
+            return;
+        }
+
+        // Validate identity number
+        if (!validateIdentityNumber()) {
             return;
         }
 

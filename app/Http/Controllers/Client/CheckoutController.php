@@ -83,6 +83,13 @@ class CheckoutController extends Controller
             ],
             'gender' => 'required|in:male,female',
             'category' => 'required|in:individual,academician,organization',
+            'identity_number' => [
+                'required',
+                'string',
+                'min:6',
+                'max:20',
+                'regex:/^[A-Za-z0-9]+$/',
+            ],
             'country' => 'required|string|max:255',
             'address1' => 'required|string|max:255',
             'address2' => 'nullable|string|max:255',

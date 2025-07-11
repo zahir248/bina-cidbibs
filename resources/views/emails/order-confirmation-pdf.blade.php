@@ -178,6 +178,9 @@
             <div class="order-details">
                 <p><strong>Reference Number:</strong> {{ $referenceNo }}</p>
                 <p><strong>Name:</strong> {{ $billingData['first_name'] }} {{ $billingData['last_name'] }}</p>
+                @if(isset($billingData['identity_number']))
+                <p><strong>Identity Card/Passport:</strong> {{ $billingData['identity_number'] }}</p>
+                @endif
                 <p><strong>Gender:</strong> {{ ucfirst($billingData['gender']) }}</p>
                 <p><strong>Category:</strong> {{ ucfirst($billingData['category']) }}</p>
                 @if($billingData['category'] === 'organization')

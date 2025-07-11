@@ -25,7 +25,8 @@ class BillingDetail extends Model
         'business_registration_number',
         'tax_number',
         'student_id',
-        'academic_institution'
+        'academic_institution',
+        'identity_number'
     ];
 
     public function orders()
