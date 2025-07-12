@@ -214,6 +214,7 @@ Route::middleware('auth')->group(function () {
         // Reports Routes
         Route::get('/reports', [ReportsController::class, 'index'])->name('reports.index');
         Route::post('/reports/download', [ReportsController::class, 'downloadPDF'])->name('reports.download');
+        Route::post('reports/download-excel', [ReportsController::class, 'downloadExcel'])->name('reports.download-excel');
 
         // Event management routes
         Route::resource('events', \App\Http\Controllers\Admin\EventController::class);

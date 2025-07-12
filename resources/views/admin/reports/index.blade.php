@@ -14,35 +14,37 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Reports</h3>
-                    <div class="d-flex justify-content-end mb-3">
-                        <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle" type="button" id="downloadDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                Download Report
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="downloadDropdown">
-                                <li>
-                                    <form action="{{ route('admin.reports.download') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="type" value="all">
-                                        <button type="submit" class="dropdown-item">All Reports</button>
-                                    </form>
-                                </li>
-                                <li>
-                                    <form action="{{ route('admin.reports.download') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="type" value="tickets">
-                                        <button type="submit" class="dropdown-item">Ticket Reports</button>
-                                    </form>
-                                </li>
-                                <li>
-                                    <form action="{{ route('admin.reports.download') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="type" value="sales">
-                                        <button type="submit" class="dropdown-item">Sales Reports</button>
-                                    </form>
-                                </li>
-                            </ul>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="card-title">Reports</h3>
+                        <div class="d-flex gap-2">
+                            <select class="form-select" id="eventFilter" style="width: auto;">
+                                <option value="all" {{ $event === 'all' ? 'selected' : '' }}>All Events</option>
+                                <option value="bina" {{ $event === 'bina' ? 'selected' : '' }}>BINA Events</option>
+                                <option value="industry" {{ $event === 'industry' ? 'selected' : '' }}>Sarawak Facility Management Engagement Day</option>
+                            </select>
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="downloadDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Download {{ $event === 'all' ? 'All Events' : ($event === 'bina' ? 'BINA Events' : 'Sarawak FM Day') }} Report
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="downloadDropdown">
+                                    <li>
+                                        <form action="{{ route('admin.reports.download') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="type" value="all">
+                                            <input type="hidden" name="event" value="{{ $event }}">
+                                            <button type="submit" class="dropdown-item">Download as PDF</button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form action="{{ route('admin.reports.download-excel') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="type" value="all">
+                                            <input type="hidden" name="event" value="{{ $event }}">
+                                            <button type="submit" class="dropdown-item">Download as Excel</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -70,7 +72,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="card bg-gradient-warning text-white h-100">
+                            <div class="card bg-gradient-info text-white h-100">
                                 <div class="card-body d-flex justify-content-between align-items-center">
                                     <div>
                                         <h6 class="text-uppercase mb-1">Total Sales</h6>
@@ -88,8 +90,8 @@
                         .bg-gradient-success {
                             background: linear-gradient(45deg, #1cc88a, #13855c);
                         }
-                        .bg-gradient-warning {
-                            background: linear-gradient(45deg, #f6c23e, #dda20a);
+                        .bg-gradient-info {
+                            background: linear-gradient(45deg, #36b9cc, #258391);
                         }
                         .icon-circle {
                             width: 60px;
@@ -105,22 +107,14 @@
                             box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
                             transition: transform 0.2s ease-in-out;
                         }
+
                         .card:hover {
-                            transform: translateY(-5px);
-                        }
-                        .text-primary {
-                            color: #4e73df !important;
-                        }
-                        .text-success {
-                            color: #1cc88a !important;
-                        }
-                        .text-warning {
-                            color: #f6c23e !important;
+                            transform: translateY(-3px);
                         }
                     </style>
 
-                    <!-- Ticket Types Table -->
-                    <div class="card">
+                    <!-- Ticket Type Statistics -->
+                    <div class="card mt-4">
                         <div class="card-header">
                             <h3 class="card-title">Ticket Type Statistics</h3>
                         </div>
@@ -144,6 +138,12 @@
                                     </tr>
                                     @endforeach
                                 </tbody>
+                                <tfoot>
+                                    <tr class="table-secondary font-weight-bold">
+                                        <td colspan="3" class="text-end">Total:</td>
+                                        <td>RM {{ number_format(collect($ticketStats['ticket_types'])->sum('total_sales'), 2) }}</td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -154,24 +154,26 @@
                             <h3 class="card-title">Monthly Sales</h3>
                         </div>
                         <div class="card-body">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Quantity Sold</th>
-                                        <th>Total Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($ticketStats['monthly_sales'] as $sale)
-                                    <tr>
-                                        <td>{{ \Carbon\Carbon::parse($sale->date)->format('d M Y') }}</td>
-                                        <td>{{ $sale->total_quantity }}</td>
-                                        <td>RM {{ number_format($sale->total_amount, 2) }}</td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                            @if(isset($ticketStats['monthly_sales']) && !empty($ticketStats['monthly_sales']))
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Total Sales</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($ticketStats['monthly_sales'] as $sale)
+                                                <tr>
+                                                    <td>{{ $sale['date'] }}</td>
+                                                    <td>RM {{ number_format($sale['total'], 2) }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -179,4 +181,17 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const eventFilter = document.getElementById('eventFilter');
+    
+    eventFilter.addEventListener('change', function() {
+        window.location.href = `{{ route('admin.reports.index') }}?event=${this.value}`;
+    });
+});
+</script>
+@endpush
+
 @endsection 
