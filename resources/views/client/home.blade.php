@@ -1744,20 +1744,24 @@
 }
 
 .speaker-social a {
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 35px;
-    height: 35px;
-    background-color: #ff9800; /* Orange background */
+    background: #ff9800;
     border-radius: 50%;
-    color: white; /* White icon */
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.speaker-social a i {
+    color: white;
 }
 
 .speaker-social a:hover {
-    background-color: #f57c00; /* Darker orange on hover */
+    background: #f57c00;
+    transform: translateY(-2px);
 }
 
 /* Responsive adjustments for Speaker Section */
@@ -2356,6 +2360,207 @@
         display: block;
     }
 }
+
+/* Add this to the style section */
+.event-speakers-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.event-speakers-card {
+    background: white;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+}
+
+.event-speakers-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.event-speakers-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+}
+
+.event-speakers-subtitle {
+    font-size: 1rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.event-speakers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.speaker-card {
+    background: #f8fafc;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid #e5e7eb;
+}
+
+.speaker-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-color: #ff9800;
+}
+
+.speaker-image-container {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1rem;
+}
+
+.speaker-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.speaker-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+}
+
+.speaker-position {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.speaker-social {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
+.speaker-social a {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ff9800;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.speaker-social a i {
+    color: white;
+}
+
+.speaker-social a:hover {
+    background: #f57c00;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .event-speakers-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    
+    .speaker-image-container {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .speaker-name {
+        font-size: 1rem;
+    }
+    
+    .speaker-position {
+        font-size: 0.85rem;
+    }
+}
+
+<div class="speaker-section">
+    <div class="container">
+        <div class="speaker-header">
+            <div class="speaker-title-container">
+                <p class="speaker-subtitle">OUR SPEAKER</p>
+                <h2 class="speaker-title">MEET OUR SPEAKERS</h2>
+            </div>
+        </div>
+        
+        <div class="event-speakers-container">
+            <!-- Facility Management Card -->
+            <div class="event-speakers-card">
+                <div class="event-speakers-header">
+                    <h3 class="event-speakers-title">FACILITY MANAGEMENT ENGAGEMENT DAY</h3>
+                </div>
+                <div class="event-speakers-grid">
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/dr-azrin-ahmad.jpg') }}" alt="Dr. Azrin Bin Ahmad">
+                        </div>
+                        <div class="speaker-name">Dr. Azrin Bin Ahmad</div>
+                        <div class="speaker-position">Project Director<br>Maltimur Aktif Unggul Jv Sdn Bhd</div>
+                        <div class="speaker-social">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modular Asia Card -->
+            <div class="event-speakers-card">
+                <div class="event-speakers-header">
+                    <h3 class="event-speakers-title">MODULAR ASIA FORUM & EXHIBITION</h3>
+                </div>
+                <div class="event-speakers-grid">
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/erlend-spets.jpg') }}" alt="Erlend Spets" style="object-position: top">
+                        </div>
+                        <div class="speaker-name">Erlend Spets</div>
+                        <div class="speaker-position">Associate Partner<br>McKinsey & Company</div>
+                        <div class="speaker-social">
+                            <a href="https://www.linkedin.com/in/erlend-spets-b533106a/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/tobias-schaefer.jpg') }}" alt="Tobias Schaefer">
+                        </div>
+                        <div class="speaker-name">Tobias Schaefer</div>
+                        <div class="speaker-position">Global Head of Prefab<br>ARDEX Group</div>
+                        <div class="speaker-social">
+                            <a href="https://www.linkedin.com/in/tobias1schaefer/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/martins-motivans.jpg') }}" alt="Martins Motivans" style="object-position: top">
+                        </div>
+                        <div class="speaker-name">Martins Motivans</div>
+                        <div class="speaker-position">CEO<br>LAMOD</div>
+                        <div class="speaker-social">
+                            <a href="https://www.linkedin.com/in/martins-motivans-75b15724/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://www.lamod.eu/" target="_blank" rel="noopener noreferrer"><i class="fas fa-globe"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </style>
 @endpush
 
@@ -2798,56 +3003,66 @@
                 <p class="speaker-subtitle">OUR SPEAKER</p>
                 <h2 class="speaker-title">MEET OUR SPEAKERS</h2>
             </div>
-            <a href="{{ route('client.home') }}" class="btn-speaker-see-more desktop-only">SEE MORE</a>
         </div>
-        <div class="speaker-cards-container">
-            <div class="speaker-card">
-                <div class="speaker-image-container">
-                    <img src="{{ asset('https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg') }}" alt="Speaker Name">
+        
+        <div class="event-speakers-container">
+            <!-- Facility Management Card -->
+            <div class="event-speakers-card">
+                <div class="event-speakers-header">
+                    <h3 class="event-speakers-title">FACILITY MANAGEMENT ENGAGEMENT DAY</h3>
                 </div>
-                <div class="speaker-name">SPEAKER NAME</div>
-                <div class="speaker-position">POSITION</div>
-                <div class="speaker-social">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-            <div class="speaker-card">
-                <div class="speaker-image-container">
-                    <img src="{{ asset('https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg') }}" alt="Speaker Name">
-                </div>
-                <div class="speaker-name">SPEAKER NAME</div>
-                <div class="speaker-position">POSITION</div>
-                <div class="speaker-social">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <div class="event-speakers-grid">
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/dr-azrin-ahmad.jpg') }}" alt="Dr. Azrin Bin Ahmad">
+                        </div>
+                        <div class="speaker-name">Dr. Azrin Bin Ahmad</div>
+                        <div class="speaker-position">Project Director<br>Maltimur Aktif Unggul Jv Sdn Bhd</div>
+                        <div class="speaker-social">
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="speaker-card">
-                <div class="speaker-image-container">
-                    <img src="{{ asset('https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg') }}" alt="Speaker Name">
+
+            <!-- Modular Asia Card -->
+            <div class="event-speakers-card">
+                <div class="event-speakers-header">
+                    <h3 class="event-speakers-title">MODULAR ASIA FORUM & EXHIBITION</h3>
                 </div>
-                <div class="speaker-name">SPEAKER NAME</div>
-                <div class="speaker-position">POSITION</div>
-                <div class="speaker-social">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <div class="event-speakers-grid">
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/erlend-spets.jpg') }}" alt="Erlend Spets" style="object-position: top">
+                        </div>
+                        <div class="speaker-name">Erlend Spets</div>
+                        <div class="speaker-position">Associate Partner<br>McKinsey & Company</div>
+                        <div class="speaker-social">
+                            <a href="https://www.linkedin.com/in/erlend-spets-b533106a/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/tobias-schaefer.jpg') }}" alt="Tobias Schaefer">
+                        </div>
+                        <div class="speaker-name">Tobias Schaefer</div>
+                        <div class="speaker-position">Global Head of Prefab<br>ARDEX Group</div>
+                        <div class="speaker-social">
+                            <a href="https://www.linkedin.com/in/tobias1schaefer/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/martins-motivans.jpg') }}" alt="Martins Motivans" style="object-position: top">
+                        </div>
+                        <div class="speaker-name">Martins Motivans</div>
+                        <div class="speaker-position">CEO<br>LAMOD</div>
+                        <div class="speaker-social">
+                            <a href="https://www.linkedin.com/in/martins-motivans-75b15724/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://www.lamod.eu/" target="_blank" rel="noopener noreferrer"><i class="fas fa-globe"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="speaker-card">
-                <div class="speaker-image-container">
-                    <img src="{{ asset('https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg') }}" alt="Speaker Name">
-                </div>
-                <div class="speaker-name">SPEAKER NAME</div>
-                <div class="speaker-position">POSITION</div>
-                <div class="speaker-social">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="mobile-see-more">
-            <a href="{{ route('client.home') }}" class="btn-speaker-see-more">SEE MORE</a>
         </div>
     </div>
 </div>

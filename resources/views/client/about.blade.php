@@ -1024,27 +1024,49 @@
         font-weight: 600;
         margin-bottom: 0.7rem;
     }
-    .speaker-socials {
+    .speaker-social {
         display: flex;
         justify-content: center;
-        gap: 0.7rem;
+        gap: 1rem; /* Increased from 0.7rem */
+        margin-top: 1.5rem; /* Increased from 1rem */
     }
-    .speaker-social {
+    .speaker-social a {
+        width: 36px; /* Increased from 32px */
+        height: 36px; /* Increased from 32px */
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
         background: #ff9800;
-        color: #fff;
-        font-size: 1.1rem;
-        transition: background 0.2s;
+        border-radius: 50%;
+        transition: all 0.3s ease;
         text-decoration: none;
+        box-shadow: 0 2px 6px rgba(255, 152, 0, 0.2); /* Added shadow */
     }
-    .speaker-social:hover {
-        background: #ffb347;
-        color: #fff;
+    .speaker-social a i {
+        color: white;
+        font-size: 1rem; /* Adjusted icon size */
+    }
+    .speaker-social a:hover {
+        background: #ff9800; /* Keep consistent orange */
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3); /* Enhanced shadow on hover */
+    }
+    .speaker-position {
+        font-size: 0.98rem;
+        color: #ff9800;
+        font-weight: 600;
+        margin-bottom: 0; /* Removed margin bottom since we increased margin-top of social icons */
+        line-height: 1.4; /* Added for better spacing between lines */
+    }
+    @media (max-width: 768px) {
+        .speaker-social a {
+            width: 32px;
+            height: 32px;
+        }
+        
+        .speaker-social a i {
+            font-size: 0.9rem;
+        }
     }
     @media (max-width: 991px) {
         .speakers-section {
@@ -1328,6 +1350,125 @@
     .unveil-label,
     .cpd-label {
         text-align: center !important;
+    }
+
+    .event-speakers-container {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .event-speakers-card {
+        background: white;
+        border-radius: 1.5rem;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e5e7eb;
+    }
+
+    .event-speakers-header {
+        text-align: center;
+        margin-bottom: 3.5rem;  /* Increased from 2rem */
+        padding-bottom: 1.5rem; /* Increased from 1rem */
+        border-bottom: 2px solid #e5e7eb;
+    }
+
+    .event-speakers-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #1a1a1a;
+        margin-bottom: 0.5rem;
+    }
+
+    .event-speakers-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        padding-top: 1rem; /* Added padding to create more space */
+    }
+
+    .speaker-image-container {
+        width: 120px;
+        height: 120px;
+        margin: -60px auto 1.5rem; /* Adjusted margin-top from -40px to -60px and bottom margin from 1.2rem to 1.5rem */
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .speaker-image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    .speaker-social {
+        display: flex;
+        justify-content: center;
+        gap: 1rem; /* Increased from 0.7rem */
+        margin-top: 1.5rem; /* Increased from 1rem */
+    }
+
+    .speaker-social a {
+        width: 36px; /* Increased from 32px */
+        height: 36px; /* Increased from 32px */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ff9800;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        box-shadow: 0 2px 6px rgba(255, 152, 0, 0.2); /* Added shadow */
+    }
+
+    .speaker-social a i {
+        color: white;
+        font-size: 1rem; /* Adjusted icon size */
+    }
+
+    .speaker-social a:hover {
+        background: #ff9800; /* Keep consistent orange */
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3); /* Enhanced shadow on hover */
+    }
+
+    .speaker-position {
+        font-size: 0.98rem;
+        color: #ff9800;
+        font-weight: 600;
+        margin-bottom: 0; /* Removed margin bottom since we increased margin-top of social icons */
+        line-height: 1.4; /* Added for better spacing between lines */
+    }
+
+    @media (max-width: 768px) {
+        .speaker-social a {
+            width: 32px;
+            height: 32px;
+        }
+        
+        .speaker-social a i {
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .event-speakers-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .speaker-image-container {
+            width: 100px;
+            height: 100px;
+            margin-top: -50px; /* Adjusted from -30px */
+        }
+        
+        .event-speakers-header {
+            margin-bottom: 3rem; /* Slightly reduced for mobile */
+            padding-bottom: 1.2rem;
+        }
     }
 </style>
 @endpush
@@ -1662,7 +1803,7 @@
 <div class="cpd-section" style="background:#f5f5f5;padding:3.5rem 0 2.5rem 0;">
     <div class="container" style="max-width:1300px;">
         <div class="cpd-title" style="text-align:center;font-size:2.5rem;font-weight:900;color:#0a102f;letter-spacing:1px;margin-bottom:2.8rem;">
-            CCD ND CPD POINTS APPLIED
+            CCD AND CPD POINTS APPLIED
         </div>
         <div class="row g-4 justify-content-center">
             <!-- Card 1 -->
@@ -1726,39 +1867,192 @@
 <!-- Our Speakers Section -->
 <div class="speakers-section" style="background:#fff;padding:3.5rem 0 2.5rem 0;">
     <div class="container" style="max-width:1300px;">
-        <div class="row g-5 align-items-start">
-            <!-- Left Column -->
-            <div class="col-lg-3 d-flex flex-column align-items-lg-start align-items-center mb-4 mb-lg-0">
-                <div style="color:#ff9800;font-size:1rem;font-weight:600;letter-spacing:1px;margin-bottom:0.5rem;">OUR SPEAKER</div>
-                <div style="font-size:2.1rem;font-weight:900;color:#0a102f;letter-spacing:1px;margin-bottom:1.5rem;text-align:left;">OUR SPEAKERS</div>
-                <span style="display: inline-block; background: #ff9800; color: #fff; font-weight: 700; font-size: 1rem; border-radius: 24px; padding: 0.6rem 1.6rem; margin-top: 0.5rem; letter-spacing: 1px; box-shadow: 0 2px 8px rgba(255,152,0,0.08); cursor: default;">JOIN WITH US</span>
-            </div>
-            <!-- Right Column: Speaker Cards -->
-            <div class="col-lg-9">
-                <div class="row g-4">
-                    <!-- Speaker Card (repeat 6x) -->
-                    @for ($i = 0; $i < 6; $i++)
-                    <div class="col-md-4 d-flex justify-content-center @if($i==3) mt-4 @endif">
-                        <div class="speaker-card">
-                            <div class="speaker-img" style="background: none;">
-                                <img src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg" alt="Speaker Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 6px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
-                            </div>
-                            <div class="speaker-info">
-                                <div class="speaker-name">SPEAKER NAME</div>
-                                <div class="speaker-position">POSITION</div>
-                                <div class="speaker-socials">
-                                    <a href="#" class="speaker-social"><svg width="20" height="20" fill="none" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="#ff9800"/><path d="M13.5 10.5H11.5V16H9V10.5H8V8.5H9V7.5C9 6.39543 9.89543 5.5 11 5.5H13V7.5H11.5C11.2239 7.5 11 7.72386 11 8V8.5H13L12.5 10.5Z" fill="#fff"/></svg></a>
-                                    <a href="#" class="speaker-social"><svg width="20" height="20" fill="none" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="#ff9800"/><path d="M7.5 8.5V13H9V8.5H7.5ZM8.25 7.75C8.66421 7.75 9 7.41421 9 7C9 6.58579 8.66421 6.25 8.25 6.25C7.83579 6.25 7.5 6.58579 7.5 7C7.5 7.41421 7.83579 7.75 8.25 7.75ZM10.5 10.5V13H12V10.75C12 10.3358 12.3358 10 12.75 10C13.1642 10 13.5 10.3358 13.5 10.75V13H15V10.5C15 9.39543 14.1046 8.5 13 8.5C12.4067 8.5 11.8457 8.79107 11.5 9.26756C11.1543 8.79107 10.5933 8.5 10 8.5C8.89543 8.5 8 9.39543 8 10.5V13H9.5V10.5C9.5 10.2239 9.72386 10 10 10C10.2761 10 10.5 10.2239 10.5 10.5Z" fill="#fff"/></svg></a>
-                                </div>
-                            </div>
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <h2 style="font-size: 2rem; font-weight: 800; color: #181818; margin-bottom: 0.5rem; text-transform: uppercase;">OUR SPEAKERS</h2>
+        </div>
+
+        <div class="event-speakers-container">
+            <!-- Facility Management Card -->
+            <div class="event-speakers-card">
+                <div class="event-speakers-header">
+                    <h3 class="event-speakers-title">FACILITY MANAGEMENT ENGAGEMENT DAY</h3>
+                </div>
+                <div class="event-speakers-grid">
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/dr-azrin-ahmad.jpg') }}" alt="Dr. Azrin Bin Ahmad">
+                        </div>
+                        <div class="speaker-name">Dr. Azrin Bin Ahmad</div>
+                        <div class="speaker-position">Project Director<br>Maltimur Aktif Unggul Jv Sdn Bhd</div>
+                        <div class="speaker-social">
                         </div>
                     </div>
-                    @endfor
+                </div>
+            </div>
+
+            <!-- Modular Asia Card -->
+            <div class="event-speakers-card">
+                <div class="event-speakers-header">
+                    <h3 class="event-speakers-title">MODULAR ASIA FORUM & EXHIBITION</h3>
+                </div>
+                <div class="event-speakers-grid">
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/erlend-spets.jpg') }}" alt="Erlend Spets" style="object-position: top">
+                        </div>
+                        <div class="speaker-name">Erlend Spets</div>
+                        <div class="speaker-position">Associate Partner<br>McKinsey & Company</div>
+                        <div class="speaker-social">
+                            <a href="https://www.linkedin.com/in/erlend-spets-b533106a/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/tobias-schaefer.jpg') }}" alt="Tobias Schaefer">
+                        </div>
+                        <div class="speaker-name">Tobias Schaefer</div>
+                        <div class="speaker-position">Head of Digital Innovation<br>ARDEX Group</div>
+                        <div class="speaker-social">
+                            <a href="https://www.linkedin.com/in/tobias-schaefer-digital/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/martins-motivans.jpg') }}" alt="Martins Motivans" style="object-position: top">
+                        </div>
+                        <div class="speaker-name">Martins Motivans</div>
+                        <div class="speaker-position">CEO<br>LAMOD</div>
+                        <div class="speaker-social">
+                            <a href="https://www.linkedin.com/in/martins-motivans/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://lamod.eu" target="_blank" rel="noopener noreferrer"><i class="fas fa-globe"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+.event-speakers-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.event-speakers-card {
+    background: white;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+}
+
+.event-speakers-header {
+    text-align: center;
+    margin-bottom: 3.5rem;  /* Increased from 2rem */
+    padding-bottom: 1.5rem; /* Increased from 1rem */
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.event-speakers-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+}
+
+.event-speakers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    padding-top: 1rem; /* Added padding to create more space */
+}
+
+.speaker-image-container {
+    width: 120px;
+    height: 120px;
+    margin: -60px auto 1.5rem; /* Adjusted margin-top from -40px to -60px and bottom margin from 1.2rem to 1.5rem */
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.speaker-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.speaker-social {
+    display: flex;
+    justify-content: center;
+    gap: 1rem; /* Increased from 0.7rem */
+    margin-top: 1.5rem; /* Increased from 1rem */
+}
+
+.speaker-social a {
+    width: 36px; /* Increased from 32px */
+    height: 36px; /* Increased from 32px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ff9800;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 2px 6px rgba(255, 152, 0, 0.2); /* Added shadow */
+}
+
+.speaker-social a i {
+    color: white;
+    font-size: 1rem; /* Adjusted icon size */
+}
+
+.speaker-social a:hover {
+    background: #ff9800; /* Keep consistent orange */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+.speaker-position {
+    font-size: 0.98rem;
+    color: #ff9800;
+    font-weight: 600;
+    margin-bottom: 0; /* Removed margin bottom since we increased margin-top of social icons */
+    line-height: 1.4; /* Added for better spacing between lines */
+}
+
+@media (max-width: 768px) {
+    .speaker-social a {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .speaker-social a i {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 991px) {
+    .event-speakers-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .speaker-image-container {
+        width: 100px;
+        height: 100px;
+        margin-top: -50px; /* Adjusted from -30px */
+    }
+    
+    .event-speakers-header {
+        margin-bottom: 3rem; /* Slightly reduced for mobile */
+        padding-bottom: 1.2rem;
+    }
+}
+</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
