@@ -24,6 +24,7 @@ class OrderController extends Controller
             ->paginate(10)
             ->through(function ($order) {
                 $order->cart_items_count = count($order->cart_items);
+                $order->ticket_ids = collect($order->cart_items)->pluck('ticket_id')->toArray();
                 return $order;
             });
             
@@ -53,6 +54,7 @@ class OrderController extends Controller
             $discountedPrice = $ticket->getDiscountedPrice($quantity);
             $discountedSubtotal = $discountedPrice * $quantity;
             return [
+                'ticket_id' => $ticket->id,
                 'ticket_name' => $ticket->name,
                 'quantity' => $quantity,
                 'price' => $originalPrice,

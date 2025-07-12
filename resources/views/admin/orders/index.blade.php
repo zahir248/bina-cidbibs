@@ -251,7 +251,7 @@
                             </thead>
                             <tbody>
                                 @foreach($orders as $index => $order)
-                                <tr data-ticket-ids='@json(collect($order->cart_items)->pluck("ticket_id"))'>
+                                <tr data-ticket-ids='@json($order->ticket_ids)'>
                                     <td>{{ $orders->firstItem() + $index }}</td>
                                     <td>{{ $order->reference_number }}</td>
                                     <td>RM {{ number_format($order->total_amount, 2) }}</td>
@@ -411,99 +411,154 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedTicket = ticketFilterSelect.value;
         const selectedEvent = eventFilterSelect.value;
 
-        // Set end date to end of day if it exists
-        if (endDate) {
-            endDate.setHours(23, 59, 59, 999);
-        }
+        // Debug logging
+        console.log('Filtering with:', {
+            searchTerm,
+            identityTerm,
+            startDate,
+            endDate,
+            selectedPaymentMethod,
+            selectedPaymentCountry,
+            selectedTicket,
+            selectedEvent
+        });
 
         tableRows.forEach(row => {
-            const referenceCell = row.querySelector('td:nth-child(2)');
-            const dateCell = row.querySelector('td:nth-child(10)');
-            const paymentMethodCell = row.querySelector('td:nth-child(6)');
-            const paymentCountryCell = row.querySelector('td:nth-child(7)');
-            const billingLink = row.querySelector('.view-billing');
-            const billingId = billingLink ? billingLink.dataset.billingId : null;
-            const itemsLink = row.querySelector('.view-items');
-            const orderId = itemsLink ? itemsLink.dataset.orderId : null;
+            try {
+                const referenceCell = row.querySelector('td:nth-child(2)');
+                const dateCell = row.querySelector('td:nth-child(10)');
+                const paymentMethodCell = row.querySelector('td:nth-child(6)');
+                const paymentCountryCell = row.querySelector('td:nth-child(7)');
+                const billingLink = row.querySelector('.view-billing');
+                const billingId = billingLink ? billingLink.dataset.billingId : null;
+                const itemsLink = row.querySelector('.view-items');
+                const orderId = itemsLink ? itemsLink.dataset.orderId : null;
 
-            const referenceNumber = referenceCell.textContent.toLowerCase();
-            const orderDate = new Date(dateCell.textContent);
-            const paymentMethod = paymentMethodCell.textContent.toLowerCase();
-            const paymentCountry = paymentCountryCell.textContent.trim();
+                const referenceNumber = referenceCell.textContent.toLowerCase();
+                const orderDate = new Date(dateCell.textContent);
+                const paymentMethod = paymentMethodCell.textContent.toLowerCase();
+                const paymentCountry = paymentCountryCell.textContent.trim();
 
-            // Check identity number only if there's a search term
-            let matchesIdentity = !identityTerm; // true if no identity search term
-            if (identityTerm && billingId) {
-                // Fetch billing details and check identity number
-                fetch(`/admin/billing-details/${billingId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        const identityNumber = (data.identity_number || '').toLowerCase();
-                        matchesIdentity = identityNumber.includes(identityTerm);
-                        // Update row visibility based on all criteria
-                        updateRowVisibility();
-                    })
-                    .catch(error => {
-                        console.error('Error fetching billing details:', error);
-                        matchesIdentity = false;
-                        updateRowVisibility();
-                    });
-            }
+                // Debug logging for ticket filtering
+                const ticketIds = row.dataset.ticketIds;
+                console.log('Row ticket data:', {
+                    rowId: referenceNumber,
+                    ticketIds,
+                    selectedTicket,
+                    parsedIds: ticketIds ? JSON.parse(ticketIds) : null
+                });
 
-            const matchesSearch = referenceNumber.includes(searchTerm);
-            const matchesDateRange = (!startDate || orderDate >= startDate) && 
-                                   (!endDate || orderDate <= endDate);
-            const matchesPaymentMethod = !selectedPaymentMethod || paymentMethod.includes(selectedPaymentMethod);
-            const matchesPaymentCountry = !selectedPaymentCountry || paymentCountry === selectedPaymentCountry;
-            const matchesTicket = !selectedTicket || (row.dataset.ticketIds && JSON.parse(row.dataset.ticketIds).includes(parseInt(selectedTicket)));
+                // Check if ticket IDs are valid JSON
+                let parsedTicketIds = [];
+                try {
+                    parsedTicketIds = ticketIds ? JSON.parse(ticketIds).map(id => parseInt(id)) : [];
+                } catch (e) {
+                    console.error('Error parsing ticket IDs:', e, ticketIds);
+                }
 
-            // Check event match
-            let matchesEvent = true;
-            if (selectedEvent !== 'all' && orderId) {
-                matchesEvent = false;
-                // Fetch order items to check event match
-                fetch(`/admin/orders/${orderId}/items`)
-                    .then(response => response.json())
-                    .then(items => {
-                        items.forEach(item => {
-                            const ticketName = item.ticket_name.toLowerCase();
-                            switch (selectedEvent) {
-                                case 'bina':
-                                    if (str_contains(ticketName, 'facility management') && !str_contains(ticketName, 'industry') ||
-                                        str_contains(ticketName, 'modular asia') ||
-                                        str_contains(ticketName, 'combo')) {
-                                        matchesEvent = true;
-                                    }
-                                    break;
-                                case 'industry':
-                                    if (str_contains(ticketName, 'industry')) {
-                                        matchesEvent = true;
-                                    }
-                                    break;
+                const matchesTicket = !selectedTicket || parsedTicketIds.includes(parseInt(selectedTicket));
+
+                // Debug logging for visibility
+                console.log('Visibility check:', {
+                    rowId: referenceNumber,
+                    matchesTicket,
+                    selectedTicket,
+                    parsedTicketIds
+                });
+
+                // Check identity number only if there's a search term
+                let matchesIdentity = !identityTerm; // true if no identity search term
+                if (identityTerm && billingId) {
+                    // Fetch billing details and check identity number
+                    fetch(`/admin/billing-details/${billingId}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
                             }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const identityNumber = (data.identity_number || '').toLowerCase();
+                            matchesIdentity = identityNumber.includes(identityTerm);
+                            updateRowVisibility();
+                        })
+                        .catch(error => {
+                            console.error('Error fetching billing details:', error);
+                            matchesIdentity = false;
+                            updateRowVisibility();
                         });
-                        updateRowVisibility();
-                    })
-                    .catch(error => {
-                        console.error('Error fetching order items:', error);
-                        updateRowVisibility();
+                }
+
+                const matchesSearch = referenceNumber.includes(searchTerm);
+                const matchesDateRange = (!startDate || orderDate >= startDate) && 
+                                       (!endDate || orderDate <= endDate);
+                const matchesPaymentMethod = !selectedPaymentMethod || paymentMethod.includes(selectedPaymentMethod);
+                const matchesPaymentCountry = !selectedPaymentCountry || paymentCountry === selectedPaymentCountry;
+
+                // Check event match
+                let matchesEvent = true;
+                if (selectedEvent !== 'all' && orderId) {
+                    matchesEvent = false;
+                    fetch(`/admin/orders/${orderId}/items`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(items => {
+                            items.forEach(item => {
+                                const ticketName = item.ticket_name.toLowerCase();
+                                switch (selectedEvent) {
+                                    case 'bina':
+                                        if ((ticketName.includes('facility management') && !ticketName.includes('industry')) ||
+                                            ticketName.includes('modular asia') ||
+                                            ticketName.includes('combo')) {
+                                            matchesEvent = true;
+                                        }
+                                        break;
+                                    case 'industry':
+                                        if (ticketName.includes('industry')) {
+                                            matchesEvent = true;
+                                        }
+                                        break;
+                                }
+                            });
+                            updateRowVisibility();
+                        })
+                        .catch(error => {
+                            console.error('Error fetching order items:', error);
+                            updateRowVisibility();
+                        });
+                }
+
+                function updateRowVisibility() {
+                    const shouldShow = matchesSearch && matchesIdentity && 
+                                     matchesDateRange && matchesPaymentMethod && 
+                                     matchesPaymentCountry && matchesTicket && matchesEvent;
+                    
+                    // Debug logging for row visibility
+                    console.log('Row visibility:', {
+                        rowId: referenceNumber,
+                        shouldShow,
+                        matchesSearch,
+                        matchesIdentity,
+                        matchesDateRange,
+                        matchesPaymentMethod,
+                        matchesPaymentCountry,
+                        matchesTicket,
+                        matchesEvent
                     });
-            }
+                    
+                    row.style.display = shouldShow ? '' : 'none';
+                }
 
-            function str_contains(haystack, needle) {
-                return haystack.indexOf(needle) !== -1;
-            }
-
-            function updateRowVisibility() {
-                const shouldShow = matchesSearch && matchesIdentity && 
-                                 matchesDateRange && matchesPaymentMethod && 
-                                 matchesPaymentCountry && matchesTicket && matchesEvent;
-                row.style.display = shouldShow ? '' : 'none';
-            }
-
-            // Only update display immediately if not searching by identity or event
-            if (!identityTerm && selectedEvent === 'all') {
-                updateRowVisibility();
+                // Only update display immediately if not searching by identity or event
+                if (!identityTerm && selectedEvent === 'all') {
+                    updateRowVisibility();
+                }
+            } catch (error) {
+                console.error('Error processing row:', error, row);
             }
         });
     }
