@@ -231,6 +231,7 @@ Michael Brown - Tech Lead">{{ old('panelists', isset($podcast) && is_array($podc
 
                                 <div class="mb-3">
                                     <div class="form-check">
+                                        <input type="hidden" name="is_coming_soon" value="0">
                                         <input type="checkbox" 
                                                class="form-check-input @error('is_coming_soon') is-invalid @enderror" 
                                                id="is_coming_soon" 
