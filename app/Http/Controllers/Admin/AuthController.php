@@ -55,8 +55,8 @@ class AuthController extends Controller
 
     public function dashboard()
     {
-        // Get total users (excluding superadmin)
-        $totalUsers = User::where('role', '!=', 'superadmin')->count();
+        // Get total community members (excluding admin and superadmin)
+        $totalUsers = User::where('role', 'client')->count();
 
         // Get gender statistics from billing details
         $genderStats = DB::table('billing_details')

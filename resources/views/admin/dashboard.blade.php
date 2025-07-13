@@ -17,11 +17,11 @@
         <div class="card dashboard-stat-card text-white fade-in" style="background: linear-gradient(135deg, #2563eb, #3b82f6);">
             <div class="card-body d-flex justify-content-between align-items-center w-100">
                 <div>
-                    <div style="font-size: 2.5rem; font-weight: 700; margin-bottom: 5px;">{{ $totalUsers }}</div>
-                    <div style="opacity: 0.9; font-size: 0.95rem;">Total Users</div>
+                    <div style="font-size: 2.5rem; font-weight: 700; margin-bottom: 5px;">{{ array_sum($soldQuantities) }}</div>
+                    <div style="opacity: 0.9; font-size: 0.95rem;">Total Participants</div>
                 </div>
                 <div style="font-size: 2rem; opacity: 0.8;">
-                    <i class="bi bi-people"></i>
+                    <i class="bi bi-person-check"></i>
                 </div>
             </div>
         </div>
@@ -56,11 +56,11 @@
         <div class="card dashboard-stat-card bg-info text-white fade-in" style="border-radius: 20px;">
             <div class="card-body d-flex justify-content-between align-items-center w-100">
                 <div>
-                    <div style="font-size: 2.5rem; font-weight: 700; margin-bottom: 5px;">{{ number_format($successRate, 1) }}%</div>
-                    <div style="opacity: 0.9; font-size: 0.95rem;">Success Rate</div>
+                    <div style="font-size: 2.5rem; font-weight: 700; margin-bottom: 5px;">{{ $totalUsers }}</div>
+                    <div style="opacity: 0.9; font-size: 0.95rem;">Community Members</div>
                 </div>
                 <div style="font-size: 2rem; opacity: 0.8;">
-                    <i class="bi bi-graph-up"></i>
+                    <i class="bi bi-people"></i>
                 </div>
             </div>
         </div>
