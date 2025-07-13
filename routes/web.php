@@ -193,7 +193,9 @@ Route::middleware('auth')->group(function () {
         Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
         
         // Users Management Routes
-        Route::resource('users', UserController::class);
+        Route::get('users/download-community', [UserController::class, 'downloadCommunityMembers'])->name('users.download-community');
+        Route::get('users/download-purchasers', [UserController::class, 'downloadTicketPurchasers'])->name('users.download-purchasers');
+        Route::resource('users', UserController::class)->except(['show']);
         
         // Orders Management Routes
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');

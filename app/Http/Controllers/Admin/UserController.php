@@ -4,10 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\BillingDetail;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\CommunityMembersExport;
+use App\Exports\TicketPurchasersExport;
 
 class UserController extends Controller
 {
@@ -15,26 +20,60 @@ class UserController extends Controller
     {
         $query = User::query();
 
-        if ($request->has('search')) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
+        // Get admin users with pagination
+        $adminQuery = (clone $query);
+        if ($request->has('admin_search')) {
+            $search = $request->admin_search;
+            $adminQuery->where(function($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                   ->orWhere('email', 'like', "%{$search}%");
             });
         }
-
-        // Get admin users with pagination
-        $adminUsers = (clone $query)
-            ->where('role', 'admin')
-            ->paginate(10);
+        $adminUsers = $adminQuery->where('role', 'admin')
+            ->paginate(5, ['*'], 'admin_page');
 
         // Get client users with pagination
-        $clientUsers = (clone $query)
-            ->where('role', 'client')
-            ->with('profile')  // Eager load user profiles
-            ->paginate(10);
+        $clientQuery = (clone $query);
+        if ($request->has('client_search')) {
+            $search = $request->client_search;
+            $clientQuery->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhereHas('profile', function($q) use ($search) {
+                      $q->where('mobile_number', 'like', "%{$search}%")
+                        ->orWhere('organization', 'like', "%{$search}%")
+                        ->orWhere('academic_institution', 'like', "%{$search}%");
+                  });
+            });
+        }
+        $clientUsers = $clientQuery->where('role', 'client')
+            ->with('profile')
+            ->paginate(5, ['*'], 'client_page');
 
-        return view('admin.users.index', compact('adminUsers', 'clientUsers'));
+        // Get ticket purchasers
+        $purchaserQuery = BillingDetail::whereHas('orders', function($query) {
+            $query->where('status', 'paid');
+        });
+        
+        if ($request->has('purchaser_search')) {
+            $search = $request->purchaser_search;
+            $purchaserQuery->where(function($q) use ($search) {
+                $q->where('first_name', 'like', "%{$search}%")
+                  ->orWhere('last_name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%")
+                  ->orWhere('company_name', 'like', "%{$search}%")
+                  ->orWhere('identity_number', 'like', "%{$search}%");
+            });
+        }
+
+        $ticketPurchasers = $purchaserQuery->with(['orders' => function($query) {
+                $query->where('status', 'paid');
+            }])
+            ->latest()
+            ->paginate(5, ['*'], 'purchaser_page');
+
+        return view('admin.users.index', compact('adminUsers', 'clientUsers', 'ticketPurchasers'));
     }
 
     public function create()
@@ -118,5 +157,15 @@ class UserController extends Controller
             return redirect()->back()
                 ->with('error', 'Failed to delete admin user: ' . $e->getMessage());
         }
+    }
+
+    public function downloadCommunityMembers()
+    {
+        return Excel::download(new CommunityMembersExport, 'community-members-' . now()->format('Y-m-d') . '.xlsx');
+    }
+
+    public function downloadTicketPurchasers()
+    {
+        return Excel::download(new TicketPurchasersExport, 'ticket-purchasers-' . now()->format('Y-m-d') . '.xlsx');
     }
 } 
