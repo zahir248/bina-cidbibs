@@ -169,6 +169,9 @@ Route::get('password/reset/{token}', [App\Http\Controllers\Client\Auth\ResetPass
 Route::post('password/reset', [App\Http\Controllers\Client\Auth\ResetPasswordController::class, 'reset'])
     ->name('password.update');
 
+// Newsletter Routes
+Route::post('/newsletter/subscribe', [App\Http\Controllers\Client\NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+
 /*
 |--------------------------------------------------------------------------
 | Admin Routes

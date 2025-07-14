@@ -45,13 +45,30 @@
             <!-- Right Column: Newsletter & Partners -->
             <div class="col-lg-5">
                 <h5 class="footer-heading mb-2">SUBSCRIBE OUR NEWSLETTER</h5>
-                <form class="newsletter-form mb-2" action="#" method="POST">
+                <form class="newsletter-form mb-2" id="newsletterForm" action="{{ route('newsletter.subscribe') }}" method="POST">
                      @csrf
                     <div class="input-group">
                         <input type="email" class="form-control newsletter-input" placeholder="Your Email Address" name="email" required style="background:rgba(255, 255, 255, 0.2) !important;border-radius:0.5rem 0 0 0.5rem !important;color:white !important;border:none;padding:0.75rem 1.25rem;">
                         <button type="submit" class="btn btn-newsletter" style="background:white !important;color:#FF9900 !important;border-radius:0 0.5rem 0.5rem 0 !important;padding:0.75rem 1.5rem;font-weight:600;border:none;">SIGN UP</button>
                     </div>
                 </form>
+
+                <!-- Newsletter Modal -->
+                <div class="modal fade" id="newsletterModal" tabindex="-1" aria-labelledby="newsletterModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content border-0">
+                            <div class="modal-body p-4 text-center">
+                                <div class="newsletter-modal-icon mb-3">
+                                    <i class="fas fa-check-circle text-success success-icon" style="display: none;"></i>
+                                    <i class="fas fa-exclamation-circle text-warning error-icon" style="display: none;"></i>
+                                </div>
+                                <h4 class="modal-title mb-3" id="newsletterModalLabel"></h4>
+                                <p class="newsletter-modal-message mb-4"></p>
+                                <button type="button" class="btn btn-primary px-4 py-2" data-bs-dismiss="modal" style="background-color: #FF9900; border: none;">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="partner-logos">
                      <img src="{{ asset('images/logo-footer.png') }}" alt="CIDB IBS Logo" class="partner-logo me-3">
@@ -280,4 +297,121 @@
 .footer-section .container {
     padding-top: 1rem;
 }
+
+/* Newsletter Modal Styles */
+.newsletter-modal-icon {
+    font-size: 4rem;
+    line-height: 1;
+}
+
+.newsletter-modal-icon i {
+    animation: scaleIn 0.3s ease-in-out;
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.modal-body {
+    padding: 2.5rem !important;
+}
+
+.newsletter-modal-message {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+#newsletterModal .btn-primary:hover {
+    background-color: #e67e00 !important;
+}
+
+/* Fade animation for modal */
+.modal.fade .modal-dialog {
+    transform: scale(0.8);
+    transition: transform 0.3s ease-in-out;
+}
+
+.modal.show .modal-dialog {
+    transform: scale(1);
+}
 </style>
+
+<script>
+document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const form = this;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn.innerHTML;
+    const modal = new bootstrap.Modal(document.getElementById('newsletterModal'));
+    
+    // Disable submit button and show loading state
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Signing up...';
+    
+    fetch(form.action, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({
+            email: form.email.value
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Set modal content based on response
+        const modalTitle = document.getElementById('newsletterModalLabel');
+        const modalMessage = document.querySelector('.newsletter-modal-message');
+        const successIcon = document.querySelector('.success-icon');
+        const errorIcon = document.querySelector('.error-icon');
+        
+        if (data.status === 'success') {
+            modalTitle.textContent = 'Thank You!';
+            modalMessage.textContent = data.message;
+            successIcon.style.display = 'inline-block';
+            errorIcon.style.display = 'none';
+            form.reset();
+        } else {
+            modalTitle.textContent = 'Oops!';
+            modalMessage.textContent = data.message;
+            successIcon.style.display = 'none';
+            errorIcon.style.display = 'inline-block';
+        }
+        
+        // Show the modal
+        modal.show();
+    })
+    .catch(error => {
+        const modalTitle = document.getElementById('newsletterModalLabel');
+        const modalMessage = document.querySelector('.newsletter-modal-message');
+        const successIcon = document.querySelector('.success-icon');
+        const errorIcon = document.querySelector('.error-icon');
+        
+        modalTitle.textContent = 'Oops!';
+        modalMessage.textContent = 'An error occurred. Please try again later.';
+        successIcon.style.display = 'none';
+        errorIcon.style.display = 'inline-block';
+        
+        modal.show();
+    })
+    .finally(() => {
+        // Re-enable submit button and restore original text
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+    });
+});
+</script>
