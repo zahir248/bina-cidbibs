@@ -387,16 +387,16 @@
             <!-- Competition Modules Section - Third on Mobile -->
             <div class="order-3">
                 <div class="row g-4">
-                    <div class="col-12 col-lg-6">
-                        <div class="ma-video-preview position-relative" style="width:100%; max-width:100%; height: 100%; overflow: hidden; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+                    <div class="col-12 col-lg-6 d-flex justify-content-center">
+                        <div class="ma-video-preview position-relative" style="width:100%; max-width:600px; height: 100%; overflow: hidden; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
                             <img src="{{ asset('images/poster-bi.jpg') }}" alt="NextGen TVET Competition Poster (English)" 
                                  style="width:100%; height: 100%; display:block; object-fit: contain; transition: transform 0.3s ease, box-shadow 0.3s ease;"
                                  onmouseover="this.style.transform='scale(1.02)'; this.parentElement.style.boxShadow='0 15px 40px rgba(0, 0, 0, 0.15)';"
                                  onmouseout="this.style.transform='scale(1)'; this.parentElement.style.boxShadow='0 10px 30px rgba(0, 0, 0, 0.1)';">
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6">
-                        <div class="ma-video-preview position-relative" style="width:100%; max-width:100%; height: 100%; overflow: hidden; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+                    <div class="col-12 col-lg-6 d-flex justify-content-center">
+                        <div class="ma-video-preview position-relative" style="width:100%; max-width:600px; height: 100%; overflow: hidden; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
                             <img src="{{ asset('images/poster-bm.jpg') }}" alt="NextGen TVET Competition Poster (Bahasa Malaysia)" 
                                  style="width:100%; height: 100%; display:block; object-fit: contain; transition: transform 0.3s ease, box-shadow 0.3s ease;"
                                  onmouseover="this.style.transform='scale(1.02)'; this.parentElement.style.boxShadow='0 15px 40px rgba(0, 0, 0, 0.15)';"
