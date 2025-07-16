@@ -614,11 +614,6 @@
                                     • YAB Datuk Patinggi Tan Sri (Dr) Abang Haji Abdul Rahman<br>
                                     &nbsp;&nbsp;Zohari bin Tun Datuk Abang Haji Openg<br>
                                     &nbsp;&nbsp;Premier Sarawak<br><br>
-                                    • Puan Zainora Zainal<br>
-                                    &nbsp;&nbsp;Ketua Eksekutif CIDB<br><br>
-                                    • Sr Ahmad Farrin Mokhtar<br>
-                                    &nbsp;&nbsp;Pengurus Besar Kanan<br>
-                                    &nbsp;&nbsp;Sektor Pembangunan Kontraktor & Personel Binaan
                                 </div>
                             </div>
                         </div>
