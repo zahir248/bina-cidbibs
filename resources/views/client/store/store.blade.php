@@ -230,13 +230,13 @@
 
     /* Announcement Section Styles */
     .announcement-section {
-        background: #ffa000;
+        background: #dc3545;
         padding: 1.5rem;
         margin: 0 auto 3.5rem;
         max-width: 1400px;
-        box-shadow: 0 6px 24px 0 rgba(255, 152, 0, 0.12), 0 1.5px 6px 0 rgba(0,0,0,0.08);
+        box-shadow: 0 6px 24px 0 rgba(220, 53, 69, 0.12), 0 1.5px 6px 0 rgba(0,0,0,0.08);
         border-radius: 16px;
-        border: 1.5px solid #ff9800;
+        border: 1.5px solid #dc3545;
     }
 
     .announcement-content {
@@ -251,12 +251,12 @@
         flex-shrink: 0;
         width: 48px;
         height: 48px;
-        background: linear-gradient(135deg, #fff3cd 0%, #ffe082 100%);
+        background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 2px 8px rgba(255,193,7,0.10);
+        box-shadow: 0 2px 8px rgba(220,53,69,0.10);
     }
 
     /* Updated more obvious blinking animation for announcement icon */
@@ -264,23 +264,23 @@
         0% {
             opacity: 1;
             transform: scale(1);
-            color: #ff9800;
+            color: #dc3545;
         }
         50% {
             opacity: 0.3;
             transform: scale(1.15);
-            color: #f44336;
+            color: #fff;
         }
         100% {
             opacity: 1;
             transform: scale(1);
-            color: #ff9800;
+            color: #dc3545;
         }
     }
 
     .announcement-icon i {
         font-size: 1.7rem;
-        color: #ff9800;
+        color: #dc3545;
         animation: blink 1.5s ease-in-out infinite;
     }
 
@@ -1108,6 +1108,90 @@
         max-width: 120px;
     }
 
+    /* Event Banner Styles */
+    .event-banner-section {
+        margin: 0 auto 3rem;
+        max-width: 1400px;
+    }
+
+    .event-banner {
+        border-radius: 16px;
+        padding: 2.5rem;
+        text-align: center;
+        color: white;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .event-banner:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .banner-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+    }
+
+    .banner-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.5px;
+    }
+
+    .banner-subtitle {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        margin-bottom: 0;
+    }
+
+    /* Responsive Banner Styles */
+    @media (max-width: 768px) {
+        .event-banner-section {
+            margin: 0 1rem 2rem;
+        }
+
+        .event-banner {
+            padding: 2rem 1.5rem;
+        }
+
+        .banner-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .banner-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .banner-subtitle {
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .event-banner {
+            padding: 1.5rem 1rem;
+        }
+
+        .banner-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .banner-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .banner-subtitle {
+            font-size: 0.9rem;
+        }
+    }
+
     /* Adjust cart buttons container for mobile */
     @media (max-width: 768px) {
         .cart-buttons-container {
@@ -1188,6 +1272,31 @@
     </div>
 
     <hr class="announcement-divider">
+
+    <!-- Event Banner Section 1: Sarawak Facility Management Industry Engagement Day -->
+    <div class="event-banner-section">
+        <div class="event-banner" style="background: linear-gradient(135deg, #11749e 0%, #1e40af 100%);">
+            <div class="banner-icon">
+                <i class="fas fa-industry"></i>
+            </div>
+            <h2 class="banner-title">
+                Sarawak Facility Management Industry Engagement Day 2025
+            </h2>
+            <p class="banner-subtitle">
+                Join industry leaders and professionals for this exclusive engagement event
+            </p>
+            <div class="banner-details" style="display: flex; justify-content: center; gap: 2rem; margin-top: 0.5rem; flex-wrap: wrap;">
+                <p class="banner-date" style="font-size: 1rem; opacity: 0.8; margin: 0;">
+                    <i class="fas fa-calendar me-2"></i>
+                    04 September 2025
+                </p>
+                <p class="banner-venue" style="font-size: 1rem; opacity: 0.8; margin: 0;">
+                    <i class="fas fa-map-marker-alt me-2"></i>
+                    Raia Hotel, Kuching, Sarawak
+                </p>
+            </div>
+        </div>
+    </div>
 
     <!-- First Container: Facility Management Only -->
     <div class="store-container">
@@ -1326,6 +1435,31 @@
     </div>
 
     <hr class="announcement-divider">
+
+    <!-- Event Banner Section 2: BINA ICW -->
+    <div class="event-banner-section">
+        <div class="event-banner" style="background: linear-gradient(135deg, #ff9900 0%, #ff8f00 100%);">
+            <div class="banner-icon">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <h2 class="banner-title">
+                BINA ICW Events 2025
+            </h2>
+            <p class="banner-subtitle">
+                Discover our comprehensive lineup of events including Facility Management Engagement Day and Modular Asia Forum & Exhibition
+            </p>
+            <div class="banner-details" style="display: flex; justify-content: center; gap: 2rem; margin-top: 0.5rem; flex-wrap: wrap;">
+                <p class="banner-date" style="font-size: 1rem; opacity: 0.8; margin: 0;">
+                    <i class="fas fa-calendar me-2"></i>
+                    29 October 2025 - 30 October 2025
+                </p>
+                <p class="banner-venue" style="font-size: 1rem; opacity: 0.8; margin: 0;">
+                    <i class="fas fa-map-marker-alt me-2"></i>
+                    MITEC, Kuala Lumpur
+                </p>
+            </div>
+        </div>
+    </div>
 
     <div class="pricing-table-section">
         <table class="pricing-table">
