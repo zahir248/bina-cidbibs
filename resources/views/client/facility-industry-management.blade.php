@@ -426,12 +426,11 @@
         <!-- Left: Logo, Title, Headline, Description -->
         <div class="flex-grow-1" style="min-width: 300px;">
             <div class="ma-title">
-                <img src="{{ asset('images/facility-logo-2.png') }}" alt="Facility Management Industry Logo" class="ma-logo" onerror="this.style.display='none'">
             </div>
             <div class="ma-headline">SARAWAK LEADS: THE FUTURE OF SUSTAINABLE FACILITY
             MANAGEMENT STARTS HERE</div>
             <div class="ma-desc">
-                Unveil the extraordinary at SARAWAK FME DAY 2025, where industry pioneers and experts converge to explore cutting-edge solutions and best practices. This exclusive event brings together facility management professionals, technology innovators, and industry leaders to discuss emerging trends, sustainable practices, and the future of facility management in the digital age. Join us in shaping the next generation of facility management excellence in Sarawak.
+                Unveil the extraordinary at SARAWAK FMIE DAY 2025, where industry pioneers and experts converge to explore cutting-edge solutions and best practices. This exclusive event brings together facility management professionals, technology innovators, and industry leaders to discuss emerging trends, sustainable practices, and the future of facility management in the digital age. Join us in shaping the next generation of facility management excellence in Sarawak.
             </div>
             <!-- Image Section -->
             <div class="ma-video-preview position-relative mt-4" style="width:100%; max-width:100%; max-height: 500px; overflow: hidden;">
@@ -711,7 +710,7 @@
         <div class="sticky-sidebar">
             <div class="ma-card" style="min-width:270px;max-width:340px;width:100%;margin-left:auto;margin-right:auto;">
                 <div class="mb-3" style="font-weight:700;font-size:1.1rem;text-align:center;">
-                    Be part of something extraordinary at <span style="font-weight:900;">SARAWAK FME DAY 2025</span>, where innovation meets excellence in Facility Management Industry.
+                    Be part of something extraordinary at <span style="font-weight:900;">SARAWAK FMIE DAY 2025</span>, where innovation meets excellence in Facility Management Industry.
                 </div>
                 <div class="ma-detail-row">
                     <span class="ma-icon"><i class="fas fa-map-marker-alt"></i></span>
