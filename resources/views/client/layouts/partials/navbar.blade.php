@@ -60,7 +60,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="facilityDropdown">
                         <li><a class="dropdown-item {{ request()->routeIs('client.facility-industry-management') ? 'active' : '' }}" href="{{ route('client.facility-industry-management') }}">Sarawak Facility Management Industry Engagement Day</a></li>
-                        <li><a class="dropdown-item {{ request()->routeIs('client.facility-management') ? 'active' : '' }}" href="{{ route('client.facility-management') }}">Facility Management Engagement Day</a></li>
+                        <li><a class="dropdown-item {{ request()->routeIs('client.facility-management') ? 'active' : '' }}" href="{{ route('client.facility-management') }}">BINA-ICW Kuala Lumpur Facility Management Engagement Day</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -149,7 +149,7 @@
                 </a>
                 <ul class="collapse sidebar-submenu" id="facilitySidebarSubmenu">
                     <li><a class="sidebar-link {{ request()->routeIs('client.facility-industry-management') ? 'active' : '' }}" href="{{ route('client.facility-industry-management') }}">Sarawak Facility Management Industry Engagement Day</a></li>
-                    <li><a class="sidebar-link" href="{{ route('client.facility-management') }}">Facility Management Engagement Day</a></li>
+                    <li><a class="sidebar-link" href="{{ route('client.facility-management') }}">BINA-ICW Kuala Lumpur Facility Management Engagement Day</a></li>
                 </ul>
             </li>
             <li class="sidebar-item">
