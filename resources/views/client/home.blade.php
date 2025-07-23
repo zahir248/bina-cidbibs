@@ -2620,7 +2620,7 @@
         </span>
         <iframe 
             id="trailerVideo"
-            src="https://drive.google.com/file/d/1pqIbzKBzg6YUip60iQXzTgXdsJJiwdh2/preview"
+            src="https://www.youtube.com/embed/vOYaOb8QgWc?si=idCCvUAfBm4iMwVg"
             width="100%" height="480"
             allow="autoplay"
             allowfullscreen
