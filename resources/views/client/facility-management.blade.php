@@ -507,7 +507,7 @@
                     EVENT MODERATOR
                 </div>
                 <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
-                    <img src="{{ asset('images/yahya-hassan.jpg') }}" alt="Dr. Ir. Ts. Yahya Hassan"
+                    <img src="{{ asset('images/dr-yahya.jpg') }}" alt="Dr. Ir. Ts. Yahya Hassan"
                          style="width:80px; height:80px; object-fit:cover; object-position:top; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="moderatorImage">
                     <div class="speaker-name-container" style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
                         <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem;">Dr. Ir. Ts. Yahya Hassan</div>
@@ -522,6 +522,28 @@
                 <div style="width:100%; background:#1B1F31; color:#fff; font-weight:700; font-size:1.1rem; padding:1.1rem 0 0.9rem 0; border-top-left-radius:1.5rem; border-top-right-radius:1.5rem; letter-spacing:0.5px;">
                     EVENT SPEAKERS
                 </div>
+                <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
+                    <img src="{{ asset('images/majed-ghamdi.jpg') }}" alt="Eng. Majed Al Ghamdi"
+                         style="width:80px; height:80px; object-fit:cover; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage2">
+                    <div class="speaker-name-container" style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem;">Eng. Majed Al Ghamdi</div>
+                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">BEST PRACTICES SHARING 2</span>
+                    </div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">General Manager</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;">Alborj Facility Management,<br>Saudi Arabia</div>
+                </div>
+                <hr style="margin: 1.5rem 2rem; border: none; border-top: 1px solid #e5e7eb;">
+                <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
+                    <img src="{{ asset('images/fazly-izwan.jpg') }}" alt="Fazly Izwan Bin A. Jalil"
+                         style="width:80px; height:80px; object-fit:cover; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage3">
+                    <div class="speaker-name-container" style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem;">Fazly Izwan Bin A. Jalil</div>
+                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">BEST PRACTICES SHARING 3</span>
+                    </div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">General Manager</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;">Technology & Contract,<br>Chulia Middle East, Dubai, UAE</div>
+                </div>
+                <hr style="margin: 1.5rem 2rem; border: none; border-top: 1px solid #e5e7eb;">
                 <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
                     <img src="{{ asset('images/dr-azrin-ahmad.jpg') }}" alt="Br. Dr. Hj. Azrin Bin Ahmad"
                          style="width:80px; height:80px; object-fit:cover; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage">
@@ -543,10 +565,20 @@
                 <span id="closeSpeakerModal" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
                 <img src="{{ asset('images/dr-azrin-ahmad.jpg') }}" alt="Br. Dr. Hj. Azrin Bin Ahmad" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
             </div>
+            <!-- Speaker 2 Image Modal -->
+            <div id="speakerImageModal2" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
+                <span id="closeSpeakerModal2" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
+                <img src="{{ asset('images/majed-ghamdi.jpg') }}" alt="Eng. Majed Al Ghamdi" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
+            </div>
+            <!-- Speaker 3 Image Modal -->
+            <div id="speakerImageModal3" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
+                <span id="closeSpeakerModal3" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
+                <img src="{{ asset('images/fazly-izwan.jpg') }}" alt="Fazly Izwan Bin A. Jalil" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
+            </div>
             <!-- Moderator Image Modal -->
             <div id="moderatorImageModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
                 <span id="closeModeratorModal" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
-                <img src="{{ asset('images/yahya-hassan.jpg') }}" alt="Dr. Ir. Ts. Yahya Hassan" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
+                <img src="{{ asset('images/dr-yahya.jpg') }}" alt="Dr. Ir. Ts. Yahya Hassan" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
             </div>
         </div>
     </div>
@@ -617,6 +649,42 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.addEventListener('click', function(e) {
             if (e.target === modal) {
                 modal.style.display = 'none';
+            }
+        });
+    }
+
+    // Speaker 2 image modal logic
+    const speakerImg2 = document.getElementById('speakerImage2');
+    const modal2 = document.getElementById('speakerImageModal2');
+    const closeModal2 = document.getElementById('closeSpeakerModal2');
+    if (speakerImg2 && modal2 && closeModal2) {
+        speakerImg2.addEventListener('click', function() {
+            modal2.style.display = 'flex';
+        });
+        closeModal2.addEventListener('click', function() {
+            modal2.style.display = 'none';
+        });
+        modal2.addEventListener('click', function(e) {
+            if (e.target === modal2) {
+                modal2.style.display = 'none';
+            }
+        });
+    }
+
+    // Speaker 3 image modal logic
+    const speakerImg3 = document.getElementById('speakerImage3');
+    const modal3 = document.getElementById('speakerImageModal3');
+    const closeModal3 = document.getElementById('closeSpeakerModal3');
+    if (speakerImg3 && modal3 && closeModal3) {
+        speakerImg3.addEventListener('click', function() {
+            modal3.style.display = 'flex';
+        });
+        closeModal3.addEventListener('click', function() {
+            modal3.style.display = 'none';
+        });
+        modal3.addEventListener('click', function(e) {
+            if (e.target === modal3) {
+                modal3.style.display = 'none';
             }
         });
     }
