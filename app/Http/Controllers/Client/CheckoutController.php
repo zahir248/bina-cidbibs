@@ -223,11 +223,11 @@ class CheckoutController extends Controller
                     'FAILED',
                     'Bill creation failed - No bill code returned',
                     [
-                        'customer_name' => $validated['first_name'] . ' ' . $validated['last_name'],
-                        'customer_email' => $validated['email'],
-                        'amount' => $cartTotal,
                         'response' => $result
-                    ]
+                    ],
+                    $validated,
+                    session('pending_cart'),
+                    $cartTotal
                 );
                 return back()->with('error', 'Payment gateway error. Please try again.');
             }
@@ -237,10 +237,11 @@ class CheckoutController extends Controller
                 'ERROR',
                 'API Error: ' . $e->getMessage(),
                 [
-                    'customer_name' => $validated['first_name'] . ' ' . $validated['last_name'],
-                    'customer_email' => $validated['email'],
-                    'amount' => $cartTotal
-                ]
+                    'exception' => $e->getMessage()
+                ],
+                $validated,
+                session('pending_cart'),
+                $cartTotal
             );
             \Log::error('ToyyibPay API error', ['exception' => $e]);
             return back()->with('error', 'Payment gateway error. Please try again.');
@@ -460,13 +461,13 @@ class CheckoutController extends Controller
                     'FAILED',
                     'Payment intent status: ' . $payment_intent->status,
                     [
-                        'customer_name' => $billingData['first_name'] . ' ' . $billingData['last_name'],
-                        'customer_email' => $billingData['email'],
-                        'amount' => $cartTotal,
                         'payment_intent_id' => $payment_intent->id,
                         'payment_intent_status' => $payment_intent->status,
                         'last_payment_error' => $payment_intent->last_payment_error ? $payment_intent->last_payment_error->message : null
-                    ]
+                    ],
+                    $billingData,
+                    session('pending_cart'),
+                    $cartTotal
                 );
                 return redirect()->route('client.cart.index')->with('error', 'Payment failed. Please try again.');
             }
@@ -476,10 +477,11 @@ class CheckoutController extends Controller
                 'ERROR',
                 'Stripe callback error: ' . $e->getMessage(),
                 [
-                    'customer_name' => $billingData['first_name'] . ' ' . $billingData['last_name'] ?? 'Unknown',
-                    'customer_email' => $billingData['email'] ?? 'Unknown',
-                    'amount' => $cartTotal ?? 0
-                ]
+                    'exception' => $e->getMessage()
+                ],
+                $billingData ?? [],
+                session('pending_cart'),
+                $cartTotal ?? 0
             );
             \Log::error('Stripe callback error: ' . $e->getMessage());
             return redirect()->route('client.cart.index')->with('error', 'An error occurred while processing your payment.');
@@ -501,12 +503,12 @@ class CheckoutController extends Controller
                 'CANCELLED',
                 'Payment was not completed or was cancelled by user',
                 [
-                    'customer_name' => $billingData['first_name'] . ' ' . $billingData['last_name'] ?? 'Unknown',
-                    'customer_email' => $billingData['email'] ?? 'Unknown',
-                    'amount' => session('pending_cart_total', 0),
                     'reference_no' => $reference_no,
                     'status_id' => $status
-                ]
+                ],
+                $billingData,
+                session('pending_cart'),
+                session('pending_cart_total', 0)
             );
 
             return redirect()->route('client.store')->with([
@@ -635,6 +637,22 @@ class CheckoutController extends Controller
 
             } catch (\Exception $e) {
                 DB::rollBack();
+                
+                // Log comprehensive data for failed transaction
+                PaymentLogger::logFailedPayment(
+                    'database_error',
+                    'FAILED',
+                    'Database error during order creation: ' . $e->getMessage(),
+                    [
+                        'exception' => $e->getMessage(),
+                        'trace' => $e->getTraceAsString(),
+                        'reference_no' => $reference_no ?? 'N/A'
+                    ],
+                    $billingData,
+                    $cartItems,
+                    $cartTotal
+                );
+                
                 \Log::error('Error processing payment', ['error' => $e->getMessage()]);
                 return redirect()->route('client.store')->with([
                     'show_modal' => true,

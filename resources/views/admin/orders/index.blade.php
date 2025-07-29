@@ -10,6 +10,9 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="card-title">Orders</h3>
                     <div class="d-flex gap-2">
+                        <a href="{{ route('admin.orders.create') }}" class="btn btn-success">
+                            <i class="bi bi-plus-circle me-1"></i> Create Order
+                        </a>
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle" type="button" id="downloadOrdersDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-file-excel me-1"></i> Download Orders
@@ -84,6 +87,20 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    @if(session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
                     <!-- Search Form -->
                     <div class="mb-3">
                         <form id="searchForm" class="row g-3">

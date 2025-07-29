@@ -15,9 +15,62 @@ class PaymentLogger
         string $paymentMethod,
         string $status,
         string $reason,
-        array $additionalData = []
+        array $additionalData = [],
+        array $billingData = null,
+        array $cartItems = null,
+        float $cartTotal = null
     ): void {
-        self::logPayment(self::FAILED_LOG_FILE, $paymentMethod, $status, $reason, $additionalData);
+        // Add comprehensive transaction data to additionalData
+        $comprehensiveData = $additionalData;
+        
+        if ($billingData) {
+            $comprehensiveData['billing_details'] = [
+                'first_name' => $billingData['first_name'] ?? 'N/A',
+                'last_name' => $billingData['last_name'] ?? 'N/A',
+                'email' => $billingData['email'] ?? 'N/A',
+                'phone' => $billingData['phone'] ?? 'N/A',
+                'gender' => $billingData['gender'] ?? 'N/A',
+                'category' => $billingData['category'] ?? 'N/A',
+                'country' => $billingData['country'] ?? 'N/A',
+                'address1' => $billingData['address1'] ?? 'N/A',
+                'address2' => $billingData['address2'] ?? 'N/A',
+                'city' => $billingData['city'] ?? 'N/A',
+                'state' => $billingData['state'] ?? 'N/A',
+                'postcode' => $billingData['postcode'] ?? 'N/A',
+                'identity_number' => $billingData['identity_number'] ?? 'N/A',
+                'company_name' => $billingData['company_name'] ?? 'N/A',
+                'business_registration_number' => $billingData['business_registration_number'] ?? 'N/A',
+                'tax_number' => $billingData['tax_number'] ?? 'N/A',
+                'student_id' => $billingData['student_id'] ?? 'N/A',
+                'academic_institution' => $billingData['academic_institution'] ?? 'N/A',
+            ];
+        }
+        
+        if ($cartItems) {
+            $comprehensiveData['cart_items'] = [];
+            foreach ($cartItems as $item) {
+                $ticket = \App\Models\Ticket::find($item['ticket_id']);
+                $comprehensiveData['cart_items'][] = [
+                    'ticket_id' => $item['ticket_id'],
+                    'ticket_name' => $ticket ? $ticket->name : 'Unknown Ticket',
+                    'quantity' => $item['quantity'],
+                    'price' => $ticket ? $ticket->price : 0,
+                    'discounted_price' => $ticket ? $ticket->getDiscountedPrice($item['quantity']) : 0,
+                    'subtotal' => $ticket ? ($ticket->getDiscountedPrice($item['quantity']) * $item['quantity']) : 0,
+                ];
+            }
+        }
+        
+        if ($cartTotal !== null) {
+            $comprehensiveData['cart_total'] = $cartTotal;
+            $comprehensiveData['cart_total_formatted'] = 'RM ' . number_format($cartTotal, 2);
+        }
+        
+        // Add timestamp for tracking
+        $comprehensiveData['failed_at'] = now()->format('Y-m-d H:i:s');
+        $comprehensiveData['session_id'] = session()->getId();
+        
+        self::logPayment(self::FAILED_LOG_FILE, $paymentMethod, $status, $reason, $comprehensiveData);
     }
 
     public static function logSuccessfulPayment(
@@ -100,5 +153,97 @@ class PaymentLogger
         }
 
         return "No payment logs found.";
+    }
+
+    /**
+     * Parse failed payment logs to extract transaction data
+     * This helps admins recreate orders from failed transactions
+     */
+    public static function parseFailedPaymentLogs(): array
+    {
+        $logContent = self::getFailedPaymentLogs();
+        $transactions = [];
+        
+        // Split by separator line
+        $entries = explode(str_repeat('-', 80), $logContent);
+        
+        foreach ($entries as $entry) {
+            $entry = trim($entry);
+            if (empty($entry)) continue;
+            
+            $lines = explode("\n", $entry);
+            $transaction = [
+                'timestamp' => '',
+                'payment_method' => '',
+                'status' => '',
+                'reason' => '',
+                'billing_details' => [],
+                'cart_items' => [],
+                'cart_total' => 0,
+                'additional_data' => []
+            ];
+            
+            foreach ($lines as $line) {
+                $line = trim($line);
+                if (empty($line)) continue;
+                
+                // Parse timestamp and basic info
+                if (preg_match('/\[(.*?)\]/', $line, $matches)) {
+                    $transaction['timestamp'] = $matches[1];
+                }
+                
+                // Parse payment method, status, reason
+                if (strpos($line, 'Payment Method:') !== false) {
+                    preg_match('/Payment Method: (.*?) \|/', $line, $matches);
+                    $transaction['payment_method'] = $matches[1] ?? '';
+                }
+                
+                if (strpos($line, 'Status:') !== false) {
+                    preg_match('/Status: (.*?) \|/', $line, $matches);
+                    $transaction['status'] = $matches[1] ?? '';
+                }
+                
+                if (strpos($line, 'Reason:') !== false) {
+                    preg_match('/Reason: (.*?)$/', $line, $matches);
+                    $transaction['reason'] = $matches[1] ?? '';
+                }
+                
+                // Parse additional data
+                if (strpos($line, 'billing_details:') !== false) {
+                    // Extract billing details from JSON
+                    $jsonStart = strpos($line, '{');
+                    if ($jsonStart !== false) {
+                        $jsonStr = substr($line, $jsonStart);
+                        $billingData = json_decode($jsonStr, true);
+                        if ($billingData) {
+                            $transaction['billing_details'] = $billingData;
+                        }
+                    }
+                }
+                
+                if (strpos($line, 'cart_items:') !== false) {
+                    // Extract cart items from JSON
+                    $jsonStart = strpos($line, '{');
+                    if ($jsonStart !== false) {
+                        $jsonStr = substr($line, $jsonStart);
+                        $cartData = json_decode($jsonStr, true);
+                        if ($cartData) {
+                            $transaction['cart_items'] = $cartData;
+                        }
+                    }
+                }
+                
+                if (strpos($line, 'cart_total:') !== false) {
+                    preg_match('/cart_total: (.*?)$/', $line, $matches);
+                    $transaction['cart_total'] = floatval($matches[1] ?? 0);
+                }
+            }
+            
+            if (!empty($transaction['timestamp'])) {
+                $transactions[] = $transaction;
+            }
+        }
+        
+        return $transactions;
     }
 } 
