@@ -11,6 +11,7 @@ use App\Helpers\PaymentLogger;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Exports\OrdersExport;
+use App\Exports\IndividualOrderExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Str;
 
@@ -568,5 +569,15 @@ class OrderController extends Controller
         $filename .= '-' . now()->format('Y-m-d') . '.xlsx';
         
         return Excel::download(new OrdersExport($event), $filename);
+    }
+
+    /**
+     * Download individual order data as Excel file
+     */
+    public function downloadIndividualExcel(Order $order)
+    {
+        $filename = 'order-' . $order->reference_number . '-' . now()->format('Y-m-d') . '.xlsx';
+        
+        return Excel::download(new IndividualOrderExport($order), $filename);
     }
 } 

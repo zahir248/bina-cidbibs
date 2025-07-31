@@ -301,10 +301,17 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="{{ route('admin.orders.download-pdf', $order) }}" 
-                                           class="text-primary">
-                                            Download PDF
-                                        </a>
+                                        <div class="d-flex flex-column">
+                                            <a href="{{ route('admin.orders.download-pdf', $order) }}" 
+                                               class="text-primary text-decoration-underline">
+                                                Download PDF
+                                            </a>
+                                            <hr class="my-1" style="border-color: #dee2e6;">
+                                            <a href="{{ route('admin.orders.download-individual-excel', $order) }}" 
+                                               class="text-primary text-decoration-underline">
+                                                Download Excel
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -709,11 +716,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Add loading state to download buttons
-    const downloadButtons = document.querySelectorAll('[href*="download-pdf"]');
+    const downloadButtons = document.querySelectorAll('[href*="download-pdf"], [href*="download-excel"]');
     downloadButtons.forEach(button => {
         button.addEventListener('click', function(e) {
             const originalText = this.innerHTML;
-            this.innerHTML = '<i class="bi bi-hourglass-split me-1"></i> Generating PDF...';
+            const isExcel = this.href.includes('download-excel');
+            this.innerHTML = `<i class="bi bi-hourglass-split me-1"></i> Generating ${isExcel ? 'Excel' : 'PDF'}...`;
             this.disabled = true;
             
             // Reset button after 5 seconds if download hasn't started
