@@ -44,7 +44,6 @@
                                 @endauth
                             </ul>
                         </li>
-                        <li><a class="dropdown-item" href="{{ route('client.order-lookup') }}">Order Lookup</a></li>
                         <li>
                             <a class="dropdown-item" href="{{ route('client.community') }}" onclick="showLoginRequiredModal(event)">
                                 BINA Community
@@ -133,7 +132,6 @@
                             @endauth
                         </ul>
                     </li>
-                    <li><a class="sidebar-link" href="{{ route('client.order-lookup') }}">Order Lookup</a></li>
                     <li>
                         <a class="sidebar-link" href="{{ route('client.community') }}" onclick="showLoginRequiredModal(event)">
                             BINA Community
