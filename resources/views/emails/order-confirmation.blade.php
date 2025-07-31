@@ -133,6 +133,36 @@
             font-size: 14px;
             line-height: 1.6;
         }
+        .order-lookup-notice {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .order-lookup-notice h4 {
+            color: #1976d2;
+            margin: 0 0 10px 0;
+        }
+        .order-lookup-notice p {
+            margin: 0 0 8px 0;
+            color: #1976d2;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .order-lookup-notice ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .order-lookup-notice li {
+            color: #1976d2;
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+        .order-lookup-notice em {
+            font-style: italic;
+            color: #1565c0;
+        }
     </style>
 </head>
 <body>
@@ -217,6 +247,19 @@
             <div class="important-notice">
                 <h4>Important: Your Ticket QR Codes</h4>
                 <p>We have attached a PDF document containing your official ticket QR codes to this email. For security purposes, the QR codes are only available in the attached PDF. Please download and save this PDF as you will need to present these QR codes for entry validation at the event. We recommend keeping a copy on your mobile device for easy access.</p>
+            </div>
+
+            <div class="order-lookup-notice">
+                <h4>📋 Order Lookup Feature</h4>
+                <p>You can access your order confirmation and download your tickets anytime using our Order Lookup feature. This is especially useful if you used a company email during checkout and need to access your tickets later.</p>
+                <p><strong>How to use:</strong></p>
+                <ul>
+                    <li>Visit our website and go to "Order Lookup"</li>
+                    <li>Enter your Identity Card Number/Passport: <strong>{{ $billingData['identity_number'] }}</strong></li>
+                    <li>Enter the email address you used during checkout</li>
+                    <li>Download your order confirmation and QR codes</li>
+                </ul>
+                <p><em>This feature is available 24/7 and doesn't require an account.</em></p>
             </div>
 
             <div class="order-details">

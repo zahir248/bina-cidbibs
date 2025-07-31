@@ -2306,9 +2306,11 @@
     }
 }
 
-.btn-ticket .fa-ticket-alt {
-    color: #fff !important;
-}
+    .btn-ticket .fa-ticket-alt {
+        color: #fff !important;
+    }
+
+
 .btn-trailer .fa-play-circle {
     color: #fff !important;
 }
@@ -2656,6 +2658,8 @@
         </div>
     </div>
 </div>
+
+
 
 <!-- Introduction Section -->
 <div class="introduction-section">

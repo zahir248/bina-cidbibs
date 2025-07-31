@@ -53,6 +53,15 @@
                     </div>
                 </form>
 
+                <div class="quick-links mb-2">
+                    <h6 class="footer-subheading mb-1">Quick Links</h6>
+                    <div class="quick-links-list">
+                        <a href="{{ route('client.order-lookup') }}" class="quick-link">Order Lookup</a>
+                        <a href="{{ route('client.store') }}" class="quick-link">Buy Tickets</a>
+                        <a href="{{ route('client.about') }}" class="quick-link">About Us</a>
+                    </div>
+                </div>
+
                 <!-- Newsletter Modal -->
                 <div class="modal fade" id="newsletterModal" tabindex="-1" aria-labelledby="newsletterModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -96,6 +105,35 @@
 .footer-logo-container img {
     height: 60px;
     width: auto;
+}
+
+.footer-subheading {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.quick-links-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.quick-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.quick-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    text-decoration: none;
 }
 
 .footer-tagline {

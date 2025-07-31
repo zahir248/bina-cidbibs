@@ -172,6 +172,12 @@ Route::post('password/reset', [App\Http\Controllers\Client\Auth\ResetPasswordCon
 // Newsletter Routes
 Route::post('/newsletter/subscribe', [App\Http\Controllers\Client\NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
 
+// Public Order Lookup Routes (no auth required)
+Route::get('/order-lookup', [App\Http\Controllers\Client\OrderLookupController::class, 'show'])->name('client.order-lookup');
+Route::post('/order-lookup', [App\Http\Controllers\Client\OrderLookupController::class, 'lookup'])->name('client.order-lookup.process');
+Route::get('/order-lookup/{order}/download-pdf', [App\Http\Controllers\Client\OrderLookupController::class, 'downloadPdf'])->name('client.order-lookup.download-pdf');
+Route::get('/order-lookup/{order}/download-qr-codes', [App\Http\Controllers\Client\OrderLookupController::class, 'downloadQrCodes'])->name('client.order-lookup.download-qr-codes');
+
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
