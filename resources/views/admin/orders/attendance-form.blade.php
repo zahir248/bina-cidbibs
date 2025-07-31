@@ -21,7 +21,6 @@
         }
         .ticket-section {
             margin-bottom: 30px;
-            page-break-inside: avoid;
         }
         .ticket-title {
             font-size: 14px;
@@ -29,22 +28,37 @@
             margin-bottom: 10px;
             background-color: #f0f0f0;
             padding: 5px;
+            page-break-after: avoid;
         }
         .attendance-table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
+            page-break-inside: auto;
+        }
+        .attendance-table thead {
+            display: table-header-group;
+        }
+        .attendance-table tbody {
+            display: table-row-group;
+        }
+        .attendance-table tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
         }
         .attendance-table th,
         .attendance-table td {
             border: 1px solid #000;
-            padding: 8px;
+            padding: 6px;
             text-align: left;
-            font-size: 11px;
+            font-size: 10px;
             vertical-align: top;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         .attendance-table th {
             background-color: #f0f0f0;
+            font-weight: bold;
         }
         .footer {
             margin-top: 20px;
@@ -64,6 +78,58 @@
         }
         .purchaser-info {
             margin-bottom: 2px;
+        }
+        /* Additional styles for better table handling */
+        .attendance-table td {
+            max-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        /* Override for reference number cells specifically */
+        .attendance-table td.reference-number {
+            max-width: none !important;
+            overflow: visible !important;
+            text-overflow: unset !important;
+            white-space: normal !important;
+            min-width: 120px !important;
+        }
+        /* Force table to use fixed layout for better column control */
+        .attendance-table {
+            table-layout: fixed;
+        }
+        /* Allow reference numbers to wrap */
+        .reference-number {
+            white-space: normal !important;
+            word-wrap: break-word !important;
+            word-break: break-all !important;
+            font-size: 8px !important;
+            font-family: 'Courier New', monospace !important;
+            line-height: 1.1 !important;
+            padding: 3px 4px !important;
+            overflow: visible !important;
+            text-overflow: unset !important;
+            max-width: none !important;
+        }
+        .purchaser-info {
+            white-space: normal;
+            word-wrap: break-word;
+        }
+        .small-text {
+            white-space: normal;
+            word-wrap: break-word;
+        }
+        /* Ensure table headers repeat on each page */
+        @media print {
+            .attendance-table thead {
+                display: table-header-group;
+            }
+            .attendance-table tbody {
+                display: table-row-group;
+            }
+            .attendance-table tr {
+                page-break-inside: avoid;
+            }
         }
     </style>
 </head>
@@ -105,17 +171,17 @@
             <table class="attendance-table">
                 <thead>
                     <tr>
-                        <th width="4%">No.</th>
+                        <th width="5%">No.</th>
                         @if(!$isSingleOrder)
-                            <th width="8%">Reference Number</th>
-                            <th width="8%">Order Date</th>
-                            <th width="15%">Purchaser Info</th>
+                            <th width="15%">Reference Number</th>
+                                                    <th width="10%">Order Date</th>
+                        <th width="16%">Purchaser Info</th>
                         @endif
                         <th width="{{ $isSingleOrder ? '25%' : '16%' }}">Attendee Name</th>
                         <th width="{{ $isSingleOrder ? '25%' : '16%' }}">Email</th>
-                        <th width="{{ $isSingleOrder ? '20%' : '13%' }}">Phone</th>
-                        <th width="{{ $isSingleOrder ? '15%' : '10%' }}">Date/Time</th>
-                        <th width="{{ $isSingleOrder ? '15%' : '10%' }}">Signature</th>
+                        <th width="{{ $isSingleOrder ? '20%' : '12%' }}">Phone</th>
+                        <th width="{{ $isSingleOrder ? '15%' : '12%' }}">Date/Time</th>
+                        <th width="{{ $isSingleOrder ? '15%' : '9%' }}">Signature</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -137,13 +203,17 @@
                                 <tr>
                                     <td>{{ $rowNumber++ }}</td>
                                     @if($index === 0)
-                                        <td class="merged-cell" rowspan="{{ count($order['attendees']) }}">{{ $order['order_ref'] }}</td>
+                                        <td class="merged-cell reference-number" rowspan="{{ count($order['attendees']) }}">
+                                            <div style="word-break: break-all; font-size: 8px; line-height: 1.1;">
+                                                {{ $order['order_ref'] }}
+                                            </div>
+                                        </td>
                                         <td class="merged-cell" rowspan="{{ count($order['attendees']) }}">{{ $order['order_date'] }}</td>
                                         <td class="merged-cell" rowspan="{{ count($order['attendees']) }}">
-                                            <div class="purchaser-info">{{ $order['purchaser_name'] }}</div>
-                                            <div class="small-text">Email: {{ $order['purchaser_email'] }}</div>
-                                            <div class="small-text">Phone: {{ $order['purchaser_phone'] }}</div>
-                                            <div class="small-text">ID: {{ $order['purchaser_identity_number'] }}</div>
+                                            <div class="purchaser-info"><strong>{{ $order['purchaser_name'] }}</strong></div>
+                                            <div class="small-text">{{ Str::limit($order['purchaser_email'], 25) }}</div>
+                                            <div class="small-text">{{ $order['purchaser_phone'] }}</div>
+                                            <div class="small-text">{{ $order['purchaser_identity_number'] }}</div>
                                         </td>
                                     @endif
                                     <td></td>

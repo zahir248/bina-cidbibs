@@ -60,11 +60,6 @@
                                         <i class="bi bi-file-earmark-text text-primary me-2"></i>Sarawak Facility Management Engagement Day
                                     </a>
                                 </li>
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('admin.orders.attendance-form.compiled', ['event' => 'combo']) }}">
-                                        <i class="bi bi-file-earmark-text text-primary me-2"></i>Combo
-                                    </a>
-                                </li>
                             </ul>
                         </div>
                         <div class="dropdown">

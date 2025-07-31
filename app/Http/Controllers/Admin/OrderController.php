@@ -394,10 +394,13 @@ class OrderController extends Controller
         ]);
 
         $pdf->setPaper('a4');
-        $pdf->setOption('margin-top', 15);
-        $pdf->setOption('margin-right', 15);
-        $pdf->setOption('margin-bottom', 15);
-        $pdf->setOption('margin-left', 15);
+        $pdf->setOption('margin-top', 10);
+        $pdf->setOption('margin-right', 10);
+        $pdf->setOption('margin-bottom', 10);
+        $pdf->setOption('margin-left', 10);
+        $pdf->setOption('enable-local-file-access', true);
+        $pdf->setOption('isHtml5ParserEnabled', true);
+        $pdf->setOption('isRemoteEnabled', true);
 
         $filename = "attendance-form-{$order->reference_number}.pdf";
         return $pdf->download($filename);
@@ -425,17 +428,20 @@ class OrderController extends Controller
                                 }
                                 break;
                             case 'facility':
+                                // Include both facility management tickets and combo tickets
                                 if (str_contains($ticketName, 'facility management') && 
                                     !str_contains($ticketName, 'industry')) {
                                     return true;
                                 }
-                                break;
-                            case 'modular':
-                                if (str_contains($ticketName, 'modular asia')) {
+                                if (str_contains($ticketName, 'combo')) {
                                     return true;
                                 }
                                 break;
-                            case 'combo':
+                            case 'modular':
+                                // Include both modular asia tickets and combo tickets
+                                if (str_contains($ticketName, 'modular asia')) {
+                                    return true;
+                                }
                                 if (str_contains($ticketName, 'combo')) {
                                     return true;
                                 }
@@ -465,14 +471,15 @@ class OrderController extends Controller
                             $shouldSkip = !str_contains($ticketName, 'industry');
                             break;
                         case 'facility':
+                            // Include both facility management tickets and combo tickets
                             $shouldSkip = !(str_contains($ticketName, 'facility management') && 
-                                          !str_contains($ticketName, 'industry'));
+                                          !str_contains($ticketName, 'industry')) && 
+                                        !str_contains($ticketName, 'combo');
                             break;
                         case 'modular':
-                            $shouldSkip = !str_contains($ticketName, 'modular asia');
-                            break;
-                        case 'combo':
-                            $shouldSkip = !str_contains($ticketName, 'combo');
+                            // Include both modular asia tickets and combo tickets
+                            $shouldSkip = !str_contains($ticketName, 'modular asia') && 
+                                        !str_contains($ticketName, 'combo');
                             break;
                     }
                     
@@ -481,16 +488,55 @@ class OrderController extends Controller
                     }
                 }
                 
-                if (!isset($compiledTicketGroups[$ticketId])) {
-                    $compiledTicketGroups[$ticketId] = [
-                        'ticket_name' => $ticket->name,
+                            // Determine the event name for grouping
+            $eventName = '';
+            $ticketName = strtolower($ticket->name);
+            
+            if ($event === 'all') {
+                // For 'all' events, group by actual event type
+                if (str_contains($ticketName, 'facility management') && !str_contains($ticketName, 'industry')) {
+                    $eventName = 'Facility Management Engagement Day';
+                } elseif (str_contains($ticketName, 'modular asia')) {
+                    $eventName = 'Modular Asia Forum & Exhibition';
+                } elseif (str_contains($ticketName, 'industry')) {
+                    $eventName = 'Sarawak Facility Management Engagement Day';
+                } elseif (str_contains($ticketName, 'combo')) {
+                    // For combo tickets in 'all' view, we'll show them in both events
+                    // We'll handle this by creating separate entries
+                    $eventName = 'Combo (Both Events)';
+                }
+            } else {
+                // For specific events, use the event name
+                $eventNames = [
+                    'facility' => 'Facility Management Engagement Day',
+                    'modular' => 'Modular Asia Forum & Exhibition',
+                    'industry' => 'Sarawak Facility Management Engagement Day'
+                ];
+                $eventName = $eventNames[$event] ?? 'Unknown Event';
+            }
+            
+            // Special handling for combo tickets in 'all' view - add to both events
+            if ($event === 'all' && str_contains($ticketName, 'combo')) {
+                // Add to Facility Management Engagement Day
+                if (!isset($compiledTicketGroups['Facility Management Engagement Day'])) {
+                    $compiledTicketGroups['Facility Management Engagement Day'] = [
+                        'ticket_name' => 'Facility Management Engagement Day',
                         'quantity' => 0,
                         'orders' => []
                     ];
                 }
                 
-                // Group attendees by order reference
-                $compiledTicketGroups[$ticketId]['orders'][] = [
+                // Add to Modular Asia Forum & Exhibition
+                if (!isset($compiledTicketGroups['Modular Asia Forum & Exhibition'])) {
+                    $compiledTicketGroups['Modular Asia Forum & Exhibition'] = [
+                        'ticket_name' => 'Modular Asia Forum & Exhibition',
+                        'quantity' => 0,
+                        'orders' => []
+                    ];
+                }
+                
+                // Add the order to both events
+                $orderData = [
                     'order_ref' => $order->reference_number,
                     'order_date' => $order->created_at->format('d M Y'),
                     'purchaser_name' => $order->billingDetail->first_name . ' ' . $order->billingDetail->last_name,
@@ -508,7 +554,47 @@ class OrderController extends Controller
                     }, range(1, $item['quantity']))
                 ];
                 
-                $compiledTicketGroups[$ticketId]['quantity'] += $item['quantity'];
+                $compiledTicketGroups['Facility Management Engagement Day']['orders'][] = $orderData;
+                $compiledTicketGroups['Facility Management Engagement Day']['quantity'] += $item['quantity'];
+                
+                $compiledTicketGroups['Modular Asia Forum & Exhibition']['orders'][] = $orderData;
+                $compiledTicketGroups['Modular Asia Forum & Exhibition']['quantity'] += $item['quantity'];
+                
+                // Skip the normal processing for combo tickets in 'all' view
+                continue;
+            }
+            
+            // Use event name as the group key for non-combo tickets
+            $groupKey = $eventName;
+            
+            if (!isset($compiledTicketGroups[$groupKey])) {
+                $compiledTicketGroups[$groupKey] = [
+                    'ticket_name' => $eventName,
+                    'quantity' => 0,
+                    'orders' => []
+                ];
+            }
+                
+                // Group attendees by order reference
+                $compiledTicketGroups[$groupKey]['orders'][] = [
+                    'order_ref' => $order->reference_number,
+                    'order_date' => $order->created_at->format('d M Y'),
+                    'purchaser_name' => $order->billingDetail->first_name . ' ' . $order->billingDetail->last_name,
+                    'purchaser_email' => $order->billingDetail->email,
+                    'purchaser_phone' => $order->billingDetail->phone,
+                    'purchaser_identity_number' => $order->billingDetail->identity_number,
+                    'quantity' => $item['quantity'],
+                    'attendees' => array_map(function($index) {
+                        return [
+                            'name' => '',
+                            'email' => '',
+                            'phone' => '',
+                            'signature' => ''
+                        ];
+                    }, range(1, $item['quantity']))
+                ];
+                
+                $compiledTicketGroups[$groupKey]['quantity'] += $item['quantity'];
             }
         }
 
@@ -527,8 +613,7 @@ class OrderController extends Controller
             'all' => 'All Events',
             'facility' => 'Facility Management Engagement Day',
             'modular' => 'Modular Asia Forum & Exhibition',
-            'industry' => 'Sarawak Facility Management Engagement Day',
-            'combo' => 'Combo'
+            'industry' => 'Sarawak Facility Management Engagement Day'
         ];
 
         $pdf = PDF::loadView('admin.orders.attendance-form', [
@@ -539,10 +624,13 @@ class OrderController extends Controller
         ]);
 
         $pdf->setPaper('a4');
-        $pdf->setOption('margin-top', 15);
-        $pdf->setOption('margin-right', 15);
-        $pdf->setOption('margin-bottom', 15);
-        $pdf->setOption('margin-left', 15);
+        $pdf->setOption('margin-top', 10);
+        $pdf->setOption('margin-right', 10);
+        $pdf->setOption('margin-bottom', 10);
+        $pdf->setOption('margin-left', 10);
+        $pdf->setOption('enable-local-file-access', true);
+        $pdf->setOption('isHtml5ParserEnabled', true);
+        $pdf->setOption('isRemoteEnabled', true);
 
         $filename = "attendance-form-" . str_replace(' ', '-', strtolower($eventNames[$event] ?? 'all-events')) . "-" . now()->format('Y-m-d') . ".pdf";
         return $pdf->download($filename);
