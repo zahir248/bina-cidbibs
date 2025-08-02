@@ -10,6 +10,7 @@ use chillerlan\QRCode\Output\QROutputInterface;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Http;
 
 class Order extends Model
@@ -35,6 +36,11 @@ class Order extends Model
     public function billingDetail(): BelongsTo
     {
         return $this->belongsTo(BillingDetail::class);
+    }
+
+    public function participants(): HasMany
+    {
+        return $this->hasMany(Participant::class);
     }
 
     public function generateTicketQRCodes()

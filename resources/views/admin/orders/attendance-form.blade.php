@@ -86,20 +86,28 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+        
+        /* Allow email and phone cells to wrap text */
+        .attendance-table td.email-cell,
+        .attendance-table td.phone-cell,
+        .attendance-table td.name-cell,
+        .attendance-table td.company-cell,
+        .attendance-table td.reference-cell,
+        .attendance-table td.date-cell {
+            white-space: normal !important;
+            word-wrap: break-word !important;
+            word-break: break-all !important;
+            overflow: visible !important;
+            text-overflow: unset !important;
+            max-width: none !important;
+            line-height: 1.2 !important;
+            padding: 4px 6px !important;
+        }
         /* Override for reference number cells specifically */
-        .attendance-table td.reference-number {
+        .attendance-table td.reference-cell {
             max-width: none !important;
             overflow: visible !important;
             text-overflow: unset !important;
-            white-space: normal !important;
-            min-width: 120px !important;
-        }
-        /* Force table to use fixed layout for better column control */
-        .attendance-table {
-            table-layout: fixed;
-        }
-        /* Allow reference numbers to wrap */
-        .reference-number {
             white-space: normal !important;
             word-wrap: break-word !important;
             word-break: break-all !important;
@@ -107,10 +115,14 @@
             font-family: 'Courier New', monospace !important;
             line-height: 1.1 !important;
             padding: 3px 4px !important;
-            overflow: visible !important;
-            text-overflow: unset !important;
-            max-width: none !important;
+            width: 12% !important;
+            min-width: 80px !important;
         }
+        /* Force table to use fixed layout for better column control */
+        .attendance-table {
+            table-layout: fixed;
+        }
+
         .purchaser-info {
             white-space: normal;
             word-wrap: break-word;
@@ -173,15 +185,16 @@
                     <tr>
                         <th width="5%">No.</th>
                         @if(!$isSingleOrder)
-                            <th width="15%">Reference Number</th>
-                                                    <th width="10%">Order Date</th>
-                        <th width="16%">Purchaser Info</th>
+                            <th width="12%">Reference Number</th>
+                            <th width="10%">Order Date</th>
+                            <th width="18%">Purchaser Info</th>
                         @endif
-                        <th width="{{ $isSingleOrder ? '25%' : '16%' }}">Attendee Name</th>
-                        <th width="{{ $isSingleOrder ? '25%' : '16%' }}">Email</th>
-                        <th width="{{ $isSingleOrder ? '20%' : '12%' }}">Phone</th>
-                        <th width="{{ $isSingleOrder ? '15%' : '12%' }}">Date/Time</th>
-                        <th width="{{ $isSingleOrder ? '15%' : '9%' }}">Signature</th>
+                        <th width="{{ $isSingleOrder ? '20%' : '14%' }}">Attendee Name</th>
+                        <th width="{{ $isSingleOrder ? '20%' : '14%' }}">Email</th>
+                        <th width="{{ $isSingleOrder ? '15%' : '10%' }}">Phone</th>
+                        <th width="{{ $isSingleOrder ? '15%' : '12%' }}">Company</th>
+                        <th width="{{ $isSingleOrder ? '15%' : '10%' }}">Date/Time</th>
+                        <th width="{{ $isSingleOrder ? '15%' : '10%' }}">Signature</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -189,10 +202,11 @@
                         @foreach($group['attendees'] as $attendee)
                             <tr>
                                 <td>{{ $attendee['no'] }}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="name-cell">{{ $attendee['name'] }}</td>
+                                <td class="email-cell">{{ $attendee['email'] }}</td>
+                                <td class="phone-cell">{{ $attendee['phone'] }}</td>
+                                <td class="company-cell">{{ $attendee['company'] ?? '' }}</td>
+                                <td>{{ $attendee['datetime'] ?? '' }}</td>
                                 <td></td>
                             </tr>
                         @endforeach
@@ -203,12 +217,12 @@
                                 <tr>
                                     <td>{{ $rowNumber++ }}</td>
                                     @if($index === 0)
-                                        <td class="merged-cell reference-number" rowspan="{{ count($order['attendees']) }}">
+                                        <td class="merged-cell reference-cell" rowspan="{{ count($order['attendees']) }}">
                                             <div style="word-break: break-all; font-size: 8px; line-height: 1.1;">
                                                 {{ $order['order_ref'] }}
                                             </div>
                                         </td>
-                                        <td class="merged-cell" rowspan="{{ count($order['attendees']) }}">{{ $order['order_date'] }}</td>
+                                        <td class="merged-cell date-cell" rowspan="{{ count($order['attendees']) }}">{{ $order['order_date'] }}</td>
                                         <td class="merged-cell" rowspan="{{ count($order['attendees']) }}">
                                             <div class="purchaser-info"><strong>{{ $order['purchaser_name'] }}</strong></div>
                                             <div class="small-text">{{ Str::limit($order['purchaser_email'], 25) }}</div>
@@ -216,10 +230,11 @@
                                             <div class="small-text">{{ $order['purchaser_identity_number'] }}</div>
                                         </td>
                                     @endif
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td class="name-cell">{{ $attendee['name'] }}</td>
+                                    <td class="email-cell">{{ $attendee['email'] }}</td>
+                                    <td class="phone-cell">{{ $attendee['phone'] }}</td>
+                                    <td class="company-cell">{{ $attendee['company'] ?? '' }}</td>
+                                    <td>{{ $attendee['datetime'] ?? '' }}</td>
                                     <td></td>
                                 </tr>
                             @endforeach

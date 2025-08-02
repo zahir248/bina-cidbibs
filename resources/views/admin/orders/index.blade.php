@@ -252,6 +252,7 @@
                                     <th>Total Amount</th>
                                     <th>Cart Items</th>
                                     <th>Billing Details</th>
+                                    <th>Participants</th>
                                     <th>Payment Method</th>
                                     <th>Payment Country</th>
                                     <th>Processing Fee</th>
@@ -284,6 +285,23 @@
                                            data-billing-id="{{ $order->billing_detail_id }}">
                                             View Details
                                         </a>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex flex-column">
+                                            <a href="#" class="text-primary view-participants" 
+                                               data-bs-toggle="modal" 
+                                               data-bs-target="#participantsModal"
+                                               data-order-id="{{ $order->id }}">
+                                                View Participants
+                                            </a>
+                                            <hr class="my-1" style="border-color: #dee2e6;">
+                                            <a href="#" class="text-primary update-participants" 
+                                               data-bs-toggle="modal" 
+                                               data-bs-target="#updateParticipantsModal"
+                                               data-order-id="{{ $order->id }}">
+                                                Update Participants
+                                            </a>
+                                        </div>
                                     </td>
                                     <td>{{ ucfirst($order->payment_method ?? 'N/A') }}</td>
                                     <td>{{ $order->payment_country ?? 'N/A' }}</td>
@@ -402,6 +420,68 @@
         </div>
     </div>
 </div>
+
+<!-- Participants Modal -->
+<div class="modal fade" id="participantsModal" tabindex="-1" aria-labelledby="participantsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="participantsModalLabel">Participant Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Full Name</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Gender</th>
+                                <th>Company Name</th>
+                                <th>Identity Number</th>
+                                <th>Ticket Name</th>
+                            </tr>
+                        </thead>
+                        <tbody id="participants-table-body">
+                            <tr>
+                                <td colspan="8" class="text-center">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Participants Modal -->
+<div class="modal fade" id="updateParticipantsModal" tabindex="-1" aria-labelledby="updateParticipantsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateParticipantsModalLabel">Update Participants</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateParticipantsForm">
+                    <input type="hidden" id="updateOrderId" name="order_id">
+                    <div id="updateParticipantsContainer">
+                        <!-- Participant forms will be dynamically generated here -->
+                    </div>
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn btn-primary">Update Participants</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
@@ -497,9 +577,42 @@ document.addEventListener('DOMContentLoaded', function() {
                             return response.json();
                         })
                         .then(data => {
-                            const identityNumber = (data.identity_number || '').toLowerCase();
-                            matchesIdentity = identityNumber.includes(identityTerm);
-                            updateRowVisibility();
+                            const billingIdentityNumber = (data.identity_number || '').toLowerCase();
+                            let billingMatches = billingIdentityNumber.includes(identityTerm);
+                            
+                            // Also check participant identity numbers
+                            if (orderId) {
+                                fetch(`/admin/orders/${orderId}/participants`)
+                                    .then(participantResponse => {
+                                        if (!participantResponse.ok) {
+                                            throw new Error(`HTTP error! status: ${participantResponse.status}`);
+                                        }
+                                        return participantResponse.json();
+                                    })
+                                    .then(participants => {
+                                        let participantMatches = false;
+                                        participants.forEach(participant => {
+                                            const participantIdentityNumber = (participant.identity_number || '').toLowerCase();
+                                            if (participantIdentityNumber.includes(identityTerm)) {
+                                                participantMatches = true;
+                                            }
+                                        });
+                                        
+                                        // Show row if either billing or participant identity matches
+                                        matchesIdentity = billingMatches || participantMatches;
+                                        updateRowVisibility();
+                                    })
+                                    .catch(participantError => {
+                                        console.error('Error fetching participants:', participantError);
+                                        // Fall back to billing identity only
+                                        matchesIdentity = billingMatches;
+                                        updateRowVisibility();
+                                    });
+                            } else {
+                                // No order ID, use billing identity only
+                                matchesIdentity = billingMatches;
+                                updateRowVisibility();
+                            }
                         })
                         .catch(error => {
                             console.error('Error fetching billing details:', error);
@@ -766,6 +879,274 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Error downloading failed log:', error);
                 alert('Error downloading failed log. Please try again.');
             });
+    });
+
+    // Handle participants modal
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('view-participants')) {
+            e.preventDefault();
+            const orderId = e.target.dataset.orderId;
+            
+            // Show loading state
+            const tbody = document.getElementById('participants-table-body');
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="8" class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            
+            // Fetch participants
+            fetch(`/admin/orders/${orderId}/participants`)
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('participants-table-body');
+                    tbody.innerHTML = '';
+                    
+                    if (data.length === 0) {
+                        tbody.innerHTML = `
+                            <tr>
+                                <td colspan="8" class="text-center text-muted">
+                                    No participant details found for this order.
+                                </td>
+                            </tr>
+                        `;
+                        return;
+                    }
+                    
+                    data.forEach((participant, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${index + 1}</td>
+                            <td>${participant.full_name || '-'}</td>
+                            <td>${participant.phone || '-'}</td>
+                            <td>${participant.email || '-'}</td>
+                            <td>${participant.gender || '-'}</td>
+                            <td>${participant.company_name || '-'}</td>
+                            <td>${participant.identity_number || '-'}</td>
+                            <td>${participant.ticket_name || '-'}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching participants:', error);
+                    const tbody = document.getElementById('participants-table-body');
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="8" class="text-center text-danger">
+                                Error loading participant details. Please try again.
+                            </td>
+                        </tr>
+                    `;
+                });
+        }
+    });
+
+    // Handle update participants modal
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('update-participants')) {
+            e.preventDefault();
+            const orderId = e.target.dataset.orderId;
+            document.getElementById('updateOrderId').value = orderId;
+            
+            // Show loading state
+            const container = document.getElementById('updateParticipantsContainer');
+            container.innerHTML = `
+                <div class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Loading order details...</p>
+                </div>
+            `;
+            
+            // Fetch order details and participants
+            Promise.all([
+                fetch(`/admin/orders/${orderId}/items`).then(response => response.json()),
+                fetch(`/admin/orders/${orderId}/participants`).then(response => response.json())
+            ])
+            .then(([items, participants]) => {
+                generateUpdateParticipantForms(items, participants);
+            })
+            .catch(error => {
+                console.error('Error fetching order details:', error);
+                container.innerHTML = `
+                    <div class="text-center text-danger">
+                        <p>Error loading order details. Please try again.</p>
+                    </div>
+                `;
+            });
+        }
+    });
+
+    // Generate participant forms for update
+    function generateUpdateParticipantForms(items, participants) {
+        const container = document.getElementById('updateParticipantsContainer');
+        container.innerHTML = '';
+        
+        let ticketNumber = 1;
+        
+        items.forEach(item => {
+            for (let i = 0; i < item.quantity; i++) {
+                // Find participant by ticket_id and ticket_number
+                const participant = participants.find(p => p.ticket_id == item.ticket_id && p.ticket_number == ticketNumber);
+                
+                // Debug logging
+                console.log('Generating form for ticket:', {
+                    ticketNumber,
+                    ticketId: item.ticket_id,
+                    ticketName: item.ticket_name,
+                    participant: participant
+                });
+                
+                const formDiv = document.createElement('div');
+                formDiv.className = 'participant-form mb-4 p-3 border rounded';
+                formDiv.innerHTML = `
+                    <h6 class="mb-3">Participant ${ticketNumber} - ${item.ticket_name}</h6>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <label for="participant_full_name_${ticketNumber}">Full Name <span class="required">*</span></label>
+                            <input type="text" class="form-control" id="participant_full_name_${ticketNumber}" name="participants[${ticketNumber}][full_name]" value="${participant && participant.full_name ? participant.full_name : '-'}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="participant_phone_${ticketNumber}">Phone <span class="required">*</span></label>
+                            <input type="text" class="form-control" id="participant_phone_${ticketNumber}" name="participants[${ticketNumber}][phone]" value="${participant && participant.phone ? participant.phone : '-'}" placeholder="e.g. 0123456789" required pattern="[0-9]*" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <label for="participant_email_${ticketNumber}">Email Address <span class="required">*</span> <i class="fas fa-info-circle" style="color: #ff9800;" data-bs-toggle="tooltip" data-bs-placement="top" title="Please provide your active email address. This will be used to send your purchase confirmation and can be used to retrieve your purchase information if you register an account later."></i></label>
+                            <input type="email" class="form-control" id="participant_email_${ticketNumber}" name="participants[${ticketNumber}][email]" value="${participant && participant.email ? participant.email : '-'}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="participant_gender_${ticketNumber}">Gender <span class="required">*</span></label>
+                            <select class="form-control" id="participant_gender_${ticketNumber}" name="participants[${ticketNumber}][gender]" required>
+                                <option value="">Select Gender</option>
+                                <option value="male" ${participant && participant.gender === 'male' ? 'selected' : ''}>Male</option>
+                                <option value="female" ${participant && participant.gender === 'female' ? 'selected' : ''}>Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <label for="participant_company_${ticketNumber}">Company Name</label>
+                            <input type="text" class="form-control" id="participant_company_${ticketNumber}" name="participants[${ticketNumber}][company_name]" value="${participant && participant.company_name ? participant.company_name : '-'}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <label for="participant_identity_${ticketNumber}">Identity Card Number / Passport <span class="required">*</span> <i class="fas fa-info-circle" style="color: #ff9800;" data-bs-toggle="tooltip" data-bs-placement="top" title="For Malaysian citizens, please enter your IC number. For international customers, please enter your passport number."></i></label>
+                            <input type="text" class="form-control" id="participant_identity_${ticketNumber}" name="participants[${ticketNumber}][identity_number]" value="${participant && participant.identity_number ? participant.identity_number : '-'}" placeholder="e.g. 901234567890 or A12345678" required>
+                        </div>
+                    </div>
+                    <input type="hidden" name="participants[${ticketNumber}][ticket_id]" value="${item.ticket_id}">
+                    <input type="hidden" name="participants[${ticketNumber}][ticket_number]" value="${ticketNumber}">
+                    ${participant && participant.id ? `<input type="hidden" name="participants[${ticketNumber}][id]" value="${participant.id}">` : ''}
+                `;
+                container.appendChild(formDiv);
+                ticketNumber++;
+            }
+        });
+    }
+
+
+
+    // Function to show Bootstrap alert messages
+    function showAlert(message, type = 'success') {
+        // Remove any existing alerts
+        const existingAlerts = document.querySelectorAll('.alert');
+        existingAlerts.forEach(alert => alert.remove());
+        
+        // Create new alert
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+        alertDiv.setAttribute('role', 'alert');
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        `;
+        
+        // Insert alert at the top of the main content area
+        const mainContent = document.querySelector('.container-fluid');
+        if (mainContent) {
+            mainContent.insertBefore(alertDiv, mainContent.firstChild);
+        }
+        
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                const bsAlert = new bootstrap.Alert(alertDiv);
+                bsAlert.close();
+            }
+        }, 5000);
+    }
+
+    // Handle update participants form submission
+    document.getElementById('updateParticipantsForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const orderId = document.getElementById('updateOrderId').value;
+        
+        // Show loading state
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Updating...';
+        submitBtn.disabled = true;
+        
+        // Convert FormData to object and clean up "-" values
+        const formDataObj = Object.fromEntries(formData);
+        
+        // Clean up participants data - replace "-" with empty strings
+        if (formDataObj.participants) {
+            Object.keys(formDataObj.participants).forEach(key => {
+                const participant = formDataObj.participants[key];
+                Object.keys(participant).forEach(field => {
+                    if (participant[field] === '-') {
+                        participant[field] = '';
+                    }
+                });
+            });
+        }
+        
+        fetch(`/admin/orders/${orderId}/update-participants`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formDataObj)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Close modal first
+                const modal = bootstrap.Modal.getInstance(document.getElementById('updateParticipantsModal'));
+                modal.hide();
+                
+                // Redirect to orders page with session success message
+                window.location.href = '{{ route("admin.orders.index") }}?success=participants_updated';
+                // Clean up URL after redirect
+                setTimeout(() => {
+                    const newUrl = window.location.pathname;
+                    window.history.replaceState({}, document.title, newUrl);
+                }, 100);
+            } else {
+                showAlert('Error updating participants: ' + (data.message || 'Unknown error'), 'danger');
+            }
+        })
+        .catch(error => {
+            console.error('Error updating participants:', error);
+            showAlert('Error updating participants. Please try again.', 'danger');
+        })
+        .finally(() => {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        });
     });
 });
 </script>

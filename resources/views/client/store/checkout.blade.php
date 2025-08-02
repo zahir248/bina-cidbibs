@@ -432,6 +432,47 @@
         left: 50%;
         transform: translate(-50%, -50%);
     }
+
+    /* Participant Form Styles */
+    .participant-form {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6 !important;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+    }
+
+    .participant-form h6 {
+        color: #495057;
+        font-weight: 600;
+        border-bottom: 2px solid #ff9900;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .participant-form .form-control {
+        border: 1px solid #ced4da;
+    }
+
+    .participant-form .form-control:focus {
+        border-color: #ff9900;
+        box-shadow: 0 0 0 0.2rem rgba(255, 153, 0, 0.25);
+    }
+
+    .participant-form .is-invalid {
+        border-color: #dc3545;
+    }
+
+    .participant-info {
+        background-color: #e3f2fd;
+        border-left: 4px solid #2196f3;
+        padding: 1rem;
+        border-radius: 4px;
+    }
+
+    /* Red asterisk for required fields */
+    .required {
+        color: #dc3545;
+    }
 </style>
 @endpush
 
@@ -579,8 +620,23 @@
                     <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="e.g. john@gmail.com" required>
                     @error('email')<div class="error">Billing Email address is a required field.</div>@enderror
                 </div>
+
+                <!-- Divider between sections -->
+                <hr class="my-4" style="border-color: #dee2e6; border-width: 2px;">
+
+                <!-- Participant Details Section -->
+                <div class="checkout-form-col" id="participantDetailsSection" style="display: none;">
+                    <div class="checkout-title">Participant Details</div>
+                    <div class="participant-info mb-3">
+                        <p class="text-muted">Please provide details for each participant attending the event.</p>
+                    </div>
+                    <div id="participantForms">
+                        <!-- Participant forms will be dynamically generated here -->
+                    </div>
+                </div>
             </form>
         </div>
+
         <!-- Order Summary -->
         <div class="checkout-summary-col">
             <div class="d-flex justify-content-end mb-3">
@@ -1024,9 +1080,138 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // Validate participant details if there are multiple tickets
+        if (hasMultipleTickets() && !validateParticipantDetails()) {
+            return;
+        }
+
         // Show payment method modal if validation passes
         paymentMethodModal.show();
     });
+
+    // Check if there are tickets to collect participant details
+    function hasMultipleTickets() {
+        const cartItems = @json($cartItems);
+        let totalTickets = 0;
+        
+        cartItems.forEach(item => {
+            totalTickets += item.quantity;
+        });
+        
+        return totalTickets >= 1;
+    }
+
+    // Show participant details section
+    function showParticipantDetails() {
+        const participantSection = document.getElementById('participantDetailsSection');
+        const participantForms = document.getElementById('participantForms');
+        
+        // Generate participant forms
+        generateParticipantForms();
+        
+        // Show the section
+        participantSection.style.display = 'block';
+        
+        // Scroll to the section
+        participantSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Generate participant forms based on cart items
+    function generateParticipantForms() {
+        const participantForms = document.getElementById('participantForms');
+        const cartItems = @json($cartItems);
+        let ticketNumber = 1;
+        
+        participantForms.innerHTML = '';
+        
+        cartItems.forEach(item => {
+            for (let i = 0; i < item.quantity; i++) {
+                const participantForm = createParticipantForm(item, ticketNumber, i + 1);
+                participantForms.appendChild(participantForm);
+                ticketNumber++;
+            }
+        });
+    }
+
+    // Create individual participant form
+    function createParticipantForm(item, ticketNumber, itemNumber) {
+        const formDiv = document.createElement('div');
+        formDiv.className = 'participant-form mb-4 p-3 border rounded';
+        formDiv.innerHTML = `
+            <h6 class="mb-3">Participant ${ticketNumber} - ${item.ticket.name}</h6>
+            <div class="form-row">
+                <div>
+                    <label for="participant_full_name_${ticketNumber}">Full Name <span class="required">*</span></label>
+                    <input type="text" class="form-control" id="participant_full_name_${ticketNumber}" name="participants[${ticketNumber}][full_name]" required>
+                </div>
+                <div>
+                    <label for="participant_phone_${ticketNumber}">Phone <span class="required">*</span></label>
+                    <input type="text" class="form-control" id="participant_phone_${ticketNumber}" name="participants[${ticketNumber}][phone]" placeholder="e.g. 0123456789" required pattern="[0-9]*" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                </div>
+            </div>
+            <div class="form-row">
+                <div>
+                    <label for="participant_email_${ticketNumber}">Email Address <span class="required">*</span> <i class="fas fa-info-circle" style="color: #ff9800;" data-bs-toggle="tooltip" data-bs-placement="top" title="Please provide your active email address. This will be used to send your purchase confirmation and can be used to retrieve your purchase information if you register an account later."></i></label>
+                    <input type="email" class="form-control" id="participant_email_${ticketNumber}" name="participants[${ticketNumber}][email]" required>
+                </div>
+                <div>
+                    <label for="participant_gender_${ticketNumber}">Gender <span class="required">*</span></label>
+                    <select class="form-control" id="participant_gender_${ticketNumber}" name="participants[${ticketNumber}][gender]" required>
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div>
+                    <label for="participant_company_${ticketNumber}">Company Name</label>
+                    <input type="text" class="form-control" id="participant_company_${ticketNumber}" name="participants[${ticketNumber}][company_name]">
+                </div>
+            </div>
+            <div class="form-row">
+                <div>
+                    <label for="participant_identity_${ticketNumber}">Identity Card Number / Passport <span class="required">*</span> <i class="fas fa-info-circle" style="color: #ff9800;" data-bs-toggle="tooltip" data-bs-placement="top" title="For Malaysian citizens, please enter your IC number. For international customers, please enter your passport number."></i></label>
+                    <input type="text" class="form-control" id="participant_identity_${ticketNumber}" name="participants[${ticketNumber}][identity_number]" placeholder="e.g. 901234567890 or A12345678" required>
+                </div>
+            </div>
+            <input type="hidden" name="participants[${ticketNumber}][ticket_id]" value="${item.ticket_id}">
+            <input type="hidden" name="participants[${ticketNumber}][ticket_number]" value="${ticketNumber}">
+        `;
+        
+        return formDiv;
+    }
+
+
+
+    // Validate participant details
+    function validateParticipantDetails() {
+        const participantForms = document.querySelectorAll('.participant-form');
+        let isValid = true;
+        
+        participantForms.forEach(form => {
+            const requiredFields = form.querySelectorAll('input[required]');
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            });
+        });
+        
+        if (!isValid) {
+            alert('Please fill in all required participant details.');
+        }
+        
+        return isValid;
+    }
+
+    // Initialize participant section
+    if (hasMultipleTickets()) {
+        showParticipantDetails();
+    }
 
     // Handle payment method selection
     document.getElementById('confirmPaymentMethod').addEventListener('click', function() {

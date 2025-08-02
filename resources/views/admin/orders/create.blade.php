@@ -215,6 +215,23 @@
                             </div>
                         </div>
 
+                        <!-- Participant Details -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="border-bottom pb-2">Participant Details</h5>
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle me-2"></i>
+                                    <strong>Note:</strong> Participant details are optional. If not provided, the billing details will be used for the first ticket, and subsequent tickets will be left empty.
+                                </div>
+                                <div id="participants-container">
+                                    <!-- Participant forms will be dynamically generated here -->
+                                </div>
+                                <button type="button" class="btn btn-outline-secondary btn-sm" id="add-participant" style="display: none;">
+                                    <i class="bi bi-plus"></i> Add Participant Details
+                                </button>
+                            </div>
+                        </div>
+
                         <!-- Order Information -->
                         <div class="row mb-4">
                             <div class="col-12">
@@ -404,8 +421,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const ticketSelect = row.querySelector('.ticket-select');
         const quantityInput = row.querySelector('.ticket-quantity');
 
-        ticketSelect.addEventListener('change', calculateTotal);
-        quantityInput.addEventListener('input', calculateTotal);
+        ticketSelect.addEventListener('change', function() {
+            calculateTotal();
+            updateParticipantForms();
+        });
+        quantityInput.addEventListener('input', function() {
+            calculateTotal();
+            updateParticipantForms();
+        });
     }
 
     // Calculate total amount
@@ -532,11 +555,161 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Please select at least one ticket.');
             return false;
         }
+
+        // Validate participant forms if any are filled
+        const participantForms = document.querySelectorAll('.participant-form');
+        let hasFilledParticipant = false;
+        let hasEmptyParticipant = false;
+
+        participantForms.forEach(form => {
+            const fullName = form.querySelector('input[name*="[full_name]"]').value.trim();
+            const phone = form.querySelector('input[name*="[phone]"]').value.trim();
+            const email = form.querySelector('input[name*="[email]"]').value.trim();
+            const gender = form.querySelector('select[name*="[gender]"]').value.trim();
+            const identityNumber = form.querySelector('input[name*="[identity_number]"]').value.trim();
+
+            if (fullName || phone || email || gender || identityNumber) {
+                hasFilledParticipant = true;
+                
+                if (!fullName || !phone || !email || !gender || !identityNumber) {
+                    hasEmptyParticipant = true;
+                }
+            }
+        });
+
+        if (hasFilledParticipant && hasEmptyParticipant) {
+            e.preventDefault();
+            alert('Please fill in all required fields for participant details or leave them completely empty.');
+            return false;
+        }
     });
+
+    // Participant management
+    let participantIndex = 0;
+
+    // Function to generate participant forms based on ticket selection
+    function generateParticipantForms() {
+        const participantsContainer = document.getElementById('participants-container');
+        const addParticipantBtn = document.getElementById('add-participant');
+        participantsContainer.innerHTML = '';
+        participantIndex = 0;
+
+        const ticketRows = document.querySelectorAll('.ticket-row');
+        let totalTickets = 0;
+
+        ticketRows.forEach(row => {
+            const ticketSelect = row.querySelector('.ticket-select');
+            const quantityInput = row.querySelector('.ticket-quantity');
+            
+            if (ticketSelect.value && quantityInput.value) {
+                const ticketId = ticketSelect.value;
+                const quantity = parseInt(quantityInput.value);
+                const ticketName = ticketSelect.options[ticketSelect.selectedIndex].text.split(' - ')[0];
+                
+                totalTickets += quantity;
+                
+                // Generate participant forms for this ticket
+                for (let i = 1; i <= quantity; i++) {
+                    const participantForm = createParticipantForm(ticketId, ticketName, participantIndex + 1);
+                    participantsContainer.appendChild(participantForm);
+                    participantIndex++;
+                }
+            }
+        });
+
+        // Show/hide add participant button
+        if (totalTickets > 0) {
+            addParticipantBtn.style.display = 'inline-block';
+        } else {
+            addParticipantBtn.style.display = 'none';
+        }
+    }
+
+    // Function to create a participant form
+    function createParticipantForm(ticketId, ticketName, ticketNumber) {
+        const formDiv = document.createElement('div');
+        formDiv.className = 'participant-form mb-4 p-3 border rounded';
+        formDiv.innerHTML = `
+            <h6 class="mb-3">Participant ${participantIndex + 1} - ${ticketName}</h6>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">Full Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="participants[${participantIndex}][full_name]" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Phone <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="participants[${participantIndex}][phone]" placeholder="e.g. 0123456789" required pattern="[0-9]*" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label class="form-label">Email Address <span class="text-danger">*</span> <i class="fas fa-info-circle" style="color: #ff9800;" data-bs-toggle="tooltip" data-bs-placement="top" title="Please provide your active email address. This will be used to send your purchase confirmation and can be used to retrieve your purchase information if you register an account later."></i></label>
+                    <input type="email" class="form-control" name="participants[${participantIndex}][email]" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Gender <span class="text-danger">*</span></label>
+                    <select class="form-select" name="participants[${participantIndex}][gender]" required>
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label class="form-label">Company Name</label>
+                    <input type="text" class="form-control" name="participants[${participantIndex}][company_name]">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Identity Card Number / Passport <span class="text-danger">*</span> <i class="fas fa-info-circle" style="color: #ff9800;" data-bs-toggle="tooltip" data-bs-placement="top" title="For Malaysian citizens, please enter your IC number. For international customers, please enter your passport number."></i></label>
+                    <input type="text" class="form-control" name="participants[${participantIndex}][identity_number]" placeholder="e.g. 901234567890 or A12345678" required>
+                </div>
+            </div>
+            <input type="hidden" name="participants[${participantIndex}][ticket_id]" value="${ticketId}">
+            <input type="hidden" name="participants[${participantIndex}][ticket_number]" value="${ticketNumber}">
+        `;
+        return formDiv;
+    }
+
+    // Add participant button handler
+    document.getElementById('add-participant').addEventListener('click', function() {
+        const participantsContainer = document.getElementById('participants-container');
+        const ticketRows = document.querySelectorAll('.ticket-row');
+        
+        // Find the first ticket with quantity > 0
+        let ticketId = null;
+        let ticketName = null;
+        
+        ticketRows.forEach(row => {
+            const ticketSelect = row.querySelector('.ticket-select');
+            const quantityInput = row.querySelector('.ticket-quantity');
+            
+            if (ticketSelect.value && quantityInput.value && parseInt(quantityInput.value) > 0) {
+                if (!ticketId) {
+                    ticketId = ticketSelect.value;
+                    ticketName = ticketSelect.options[ticketSelect.selectedIndex].text.split(' - ')[0];
+                }
+            }
+        });
+        
+        if (ticketId) {
+            const participantForm = createParticipantForm(ticketId, ticketName, 1);
+            participantsContainer.appendChild(participantForm);
+            participantIndex++;
+        }
+    });
+
+    // Update participant forms when tickets change
+    function updateParticipantForms() {
+        generateParticipantForms();
+    }
+
+
 
     // Initialize
     updateRemoveButtons();
     calculateTotal();
+    generateParticipantForms();
 });
 </script>
 @endpush 

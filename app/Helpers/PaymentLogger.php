@@ -18,7 +18,8 @@ class PaymentLogger
         array $additionalData = [],
         array $billingData = null,
         array $cartItems = null,
-        float $cartTotal = null
+        float $cartTotal = null,
+        array $participants = null
     ): void {
         // Add comprehensive transaction data to additionalData
         $comprehensiveData = $additionalData;
@@ -66,6 +67,23 @@ class PaymentLogger
             $comprehensiveData['cart_total_formatted'] = 'RM ' . number_format($cartTotal, 2);
         }
         
+        if ($participants) {
+            $comprehensiveData['participants'] = [];
+            foreach ($participants as $index => $participant) {
+                $comprehensiveData['participants'][] = [
+                    'participant_number' => $index + 1,
+                    'full_name' => $participant['full_name'] ?? 'N/A',
+                    'phone' => $participant['phone'] ?? 'N/A',
+                    'email' => $participant['email'] ?? 'N/A',
+                    'gender' => $participant['gender'] ?? 'N/A',
+                    'company_name' => $participant['company_name'] ?? 'N/A',
+                    'identity_number' => $participant['identity_number'] ?? 'N/A',
+                    'ticket_id' => $participant['ticket_id'] ?? 'N/A',
+                    'ticket_number' => $participant['ticket_number'] ?? 'N/A',
+                ];
+            }
+        }
+        
         // Add timestamp for tracking
         $comprehensiveData['failed_at'] = now()->format('Y-m-d H:i:s');
         $comprehensiveData['session_id'] = session()->getId();
@@ -77,12 +95,30 @@ class PaymentLogger
         string $paymentMethod,
         string $referenceNumber,
         float $amount,
-        array $additionalData = []
+        array $additionalData = [],
+        array $participants = null
     ): void {
         $additionalData = array_merge([
             'reference_number' => $referenceNumber,
             'amount' => number_format($amount, 2)
         ], $additionalData);
+
+        if ($participants) {
+            $additionalData['participants'] = [];
+            foreach ($participants as $index => $participant) {
+                $additionalData['participants'][] = [
+                    'participant_number' => $index + 1,
+                    'full_name' => $participant['full_name'] ?? 'N/A',
+                    'phone' => $participant['phone'] ?? 'N/A',
+                    'email' => $participant['email'] ?? 'N/A',
+                    'gender' => $participant['gender'] ?? 'N/A',
+                    'company_name' => $participant['company_name'] ?? 'N/A',
+                    'identity_number' => $participant['identity_number'] ?? 'N/A',
+                    'ticket_id' => $participant['ticket_id'] ?? 'N/A',
+                    'ticket_number' => $participant['ticket_number'] ?? 'N/A',
+                ];
+            }
+        }
 
         self::logPayment(
             self::SUCCESS_LOG_FILE,
@@ -180,6 +216,7 @@ class PaymentLogger
                 'billing_details' => [],
                 'cart_items' => [],
                 'cart_total' => 0,
+                'participants' => [],
                 'additional_data' => []
             ];
             
@@ -236,6 +273,18 @@ class PaymentLogger
                 if (strpos($line, 'cart_total:') !== false) {
                     preg_match('/cart_total: (.*?)$/', $line, $matches);
                     $transaction['cart_total'] = floatval($matches[1] ?? 0);
+                }
+                
+                if (strpos($line, 'participants:') !== false) {
+                    // Extract participants from JSON
+                    $jsonStart = strpos($line, '[');
+                    if ($jsonStart !== false) {
+                        $jsonStr = substr($line, $jsonStart);
+                        $participantsData = json_decode($jsonStr, true);
+                        if ($participantsData) {
+                            $transaction['participants'] = $participantsData;
+                        }
+                    }
                 }
             }
             

@@ -9,6 +9,7 @@ use App\Models\Ticket;
 use App\Models\User;
 use App\Helpers\PaymentLogger;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Exports\OrdersExport;
 use App\Exports\IndividualOrderExport;
@@ -20,8 +21,13 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        // Check for success parameter and set session message
+        if ($request->has('success') && $request->get('success') === 'participants_updated') {
+            session()->flash('success', 'Participants updated successfully!');
+        }
+
         $orders = Order::with('billingDetail')
             ->latest()
             ->paginate(10)
@@ -77,6 +83,21 @@ class OrderController extends Controller
             'tickets' => 'required|array|min:1',
             'tickets.*.ticket_id' => 'required|exists:tickets,id',
             'tickets.*.quantity' => 'required|integer|min:1',
+            'participants' => 'nullable|array',
+            'participants.*.full_name' => 'required|string|max:255',
+            'participants.*.phone' => 'required|string|max:30',
+            'participants.*.email' => 'required|email|max:255',
+            'participants.*.gender' => 'required|in:male,female',
+            'participants.*.company_name' => 'nullable|string|max:255',
+            'participants.*.identity_number' => [
+                'required',
+                'string',
+                'min:6',
+                'max:20',
+                'regex:/^[A-Za-z0-9]+$/',
+            ],
+            'participants.*.ticket_id' => 'required|exists:tickets,id',
+            'participants.*.ticket_number' => 'required|integer|min:1',
             'payment_method' => 'required|in:stripe,toyyibpay,cash,bank_transfer',
             'payment_country' => 'nullable|string|max:255',
             'processing_fee' => 'nullable|numeric|min:0',
@@ -171,6 +192,18 @@ class OrderController extends Controller
                 'updated_at' => $orderDateTime,
             ]);
 
+            // Create participant records if provided
+            if ($request->has('participants') && is_array($request->participants)) {
+                foreach ($request->participants as $participantData) {
+                    $participantData['order_id'] = $order->id;
+                    \App\Models\Participant::create($participantData);
+                }
+                \Log::info('Created participant records for manual order', [
+                    'order_id' => $order->id,
+                    'participants_count' => count($request->participants)
+                ]);
+            }
+
             \DB::commit();
 
             // Generate QR codes for the order
@@ -224,6 +257,71 @@ class OrderController extends Controller
         });
 
         return response()->json($items);
+    }
+
+    public function getParticipants(Order $order)
+    {
+        $order->load(['participants.ticket', 'billingDetail']);
+        
+        $allParticipants = [];
+        
+        // Process each cart item to generate participant list
+        foreach ($order->cart_items as $item) {
+            $ticket = \App\Models\Ticket::find($item['ticket_id']);
+            $participants = $order->participants->where('ticket_id', $item['ticket_id']);
+            
+            for ($i = 1; $i <= $item['quantity']; $i++) {
+                $participant = $participants->skip($i - 1)->first();
+                
+                // If participant details exist, use them
+                if ($participant) {
+                    $allParticipants[] = [
+                        'id' => $participant->id,
+                        'full_name' => $participant->full_name,
+                        'phone' => $participant->phone,
+                        'email' => $participant->email,
+                        'gender' => $participant->gender,
+                        'company_name' => $participant->company_name,
+                        'identity_number' => $participant->identity_number,
+                        'ticket_id' => $item['ticket_id'],
+                        'ticket_name' => $ticket->name,
+                        'ticket_number' => $participant->ticket_number
+                    ];
+                } else {
+                    // If no participant details, use purchaser info for first ticket only
+                    if ($i === 1) {
+                        $allParticipants[] = [
+                            'id' => null,
+                            'full_name' => $order->billingDetail->first_name . ' ' . $order->billingDetail->last_name,
+                            'phone' => $order->billingDetail->phone,
+                            'email' => $order->billingDetail->email,
+                            'gender' => $order->billingDetail->gender,
+                            'company_name' => $order->billingDetail->company_name ?? '',
+                            'identity_number' => $order->billingDetail->identity_number,
+                            'ticket_id' => $item['ticket_id'],
+                            'ticket_name' => $ticket->name,
+                            'ticket_number' => $i
+                        ];
+                    } else {
+                        // For additional tickets, leave empty
+                        $allParticipants[] = [
+                            'id' => null,
+                            'full_name' => '',
+                            'phone' => '',
+                            'email' => '',
+                            'gender' => '',
+                            'company_name' => '',
+                            'identity_number' => '',
+                            'ticket_id' => $item['ticket_id'],
+                            'ticket_name' => $ticket->name,
+                            'ticket_number' => $i
+                        ];
+                    }
+                }
+            }
+        }
+        
+        return response()->json($allParticipants);
     }
 
     public function downloadPdf(Order $order)
@@ -358,24 +456,60 @@ class OrderController extends Controller
      */
     public function downloadSingleAttendanceForm(Order $order)
     {
-        $order->load('billingDetail');
+        $order->load(['billingDetail', 'participants.ticket']);
 
         // Group cart items by ticket
-        $ticketGroups = collect($order->cart_items)->groupBy('ticket_id')->map(function ($items, $ticketId) {
+        $ticketGroups = collect($order->cart_items)->groupBy('ticket_id')->map(function ($items, $ticketId) use ($order) {
             $ticket = \App\Models\Ticket::find($ticketId);
             $quantity = $items->sum('quantity');
             
+            // Get participants for this ticket
+            $participants = $order->participants->where('ticket_id', $ticketId);
+            
             // Generate rows for each attendee
             $attendeeRows = [];
-            for ($i = 1; $i <= $quantity; $i++) {
-                $attendeeRows[] = [
-                    'no' => $i,
-                    'name' => '', // Will be filled during the event
-                    'email' => '',
-                    'phone' => '',
-                    'signature' => '',
-                    'check' => '' // For check/verification purpose
-                ];
+            for ($i = 0; $i < $quantity; $i++) {
+                $participant = $participants->skip($i)->first();
+                
+                // If participant details exist, use them
+                if ($participant) {
+                    $attendeeRows[] = [
+                        'no' => $i + 1,
+                        'name' => $participant->full_name,
+                        'email' => $participant->email,
+                        'phone' => $participant->phone,
+                        'company' => $participant->company_name,
+                        'datetime' => $this->getEventDateTime($ticket->name, $eventName),
+                        'signature' => '',
+                        'check' => '' // For check/verification purpose
+                    ];
+                } else {
+                    // If no participant details, use purchaser info for first ticket only
+                    if ($i === 0) {
+                        $attendeeRows[] = [
+                            'no' => $i + 1,
+                            'name' => $order->billingDetail->first_name . ' ' . $order->billingDetail->last_name,
+                            'email' => $order->billingDetail->email,
+                            'phone' => $order->billingDetail->phone,
+                            'company' => $order->billingDetail->company_name ?? '',
+                            'datetime' => $this->getEventDateTime($ticket->name, $eventName),
+                            'signature' => '',
+                            'check' => '' // For check/verification purpose
+                        ];
+                    } else {
+                        // For additional tickets, leave empty
+                        $attendeeRows[] = [
+                            'no' => $i + 1,
+                            'name' => '',
+                            'email' => '',
+                            'phone' => '',
+                            'company' => '',
+                            'datetime' => $this->getEventDateTime($ticket->name, $eventName),
+                            'signature' => '',
+                            'check' => '' // For check/verification purpose
+                        ];
+                    }
+                }
             }
 
             return [
@@ -412,7 +546,16 @@ class OrderController extends Controller
     public function downloadCompiledAttendanceForm(Request $request)
     {
         $event = $request->query('event', 'all');
-        $orders = Order::with('billingDetail')->get();
+        $orders = Order::with(['billingDetail', 'participants.ticket'])->get();
+        
+        // Debug: Log the total number of orders found
+        \Log::info('Compiled attendance form - Total orders found: ' . $orders->count());
+        \Log::info('Compiled attendance form - Event filter: ' . $event);
+        
+        // Debug: Log each order reference number
+        foreach ($orders as $order) {
+            \Log::info('Order found: ' . $order->reference_number . ' - Status: ' . $order->status . ' - Created: ' . $order->created_at);
+        }
         
         // Filter orders based on event type
         if ($event !== 'all') {
@@ -453,13 +596,44 @@ class OrderController extends Controller
             });
         }
         
+        // Debug: Log the number of orders after event filtering
+        \Log::info('Compiled attendance form - Orders after event filtering: ' . $orders->count());
+        
+        // Debug: Log each order reference number after filtering
+        foreach ($orders as $order) {
+            \Log::info('Order after filtering: ' . $order->reference_number . ' - Status: ' . $order->status);
+        }
+        
         // Compile all orders' ticket information
         $compiledTicketGroups = [];
         
+        // First, group all attendees by order reference
+        $orderGroups = [];
+        
         foreach ($orders as $order) {
+            $orderRef = $order->reference_number;
+            
+            // Debug: Log each order being processed
+            \Log::info('Processing order: ' . $orderRef . ' with ' . count($order->cart_items) . ' cart items');
+            
+            if (!isset($orderGroups[$orderRef])) {
+                $orderGroups[$orderRef] = [
+                    'order_ref' => $order->reference_number,
+                    'order_date' => $order->created_at->format('d M Y'),
+                    'purchaser_name' => $order->billingDetail->first_name . ' ' . $order->billingDetail->last_name,
+                    'purchaser_email' => $order->billingDetail->email,
+                    'purchaser_phone' => $order->billingDetail->phone,
+                    'purchaser_identity_number' => $order->billingDetail->identity_number,
+                    'attendees' => []
+                ];
+            }
+            
             foreach ($order->cart_items as $item) {
                 $ticket = Ticket::find($item['ticket_id']);
                 $ticketId = $item['ticket_id'];
+                
+                // Debug: Log ticket information
+                \Log::info('Processing ticket: ' . $ticket->name . ' (ID: ' . $ticketId . ') for order: ' . $orderRef);
                 
                 // Skip tickets that don't match the event filter
                 if ($event !== 'all') {
@@ -484,120 +658,174 @@ class OrderController extends Controller
                     }
                     
                     if ($shouldSkip) {
+                        \Log::info('Skipping ticket: ' . $ticket->name . ' for order: ' . $orderRef);
                         continue;
                     }
+                    
+                    \Log::info('Including ticket: ' . $ticket->name . ' for order: ' . $orderRef);
                 }
                 
-                            // Determine the event name for grouping
-            $eventName = '';
-            $ticketName = strtolower($ticket->name);
-            
-            if ($event === 'all') {
-                // For 'all' events, group by actual event type
-                if (str_contains($ticketName, 'facility management') && !str_contains($ticketName, 'industry')) {
-                    $eventName = 'Facility Management Engagement Day';
-                } elseif (str_contains($ticketName, 'modular asia')) {
-                    $eventName = 'Modular Asia Forum & Exhibition';
-                } elseif (str_contains($ticketName, 'industry')) {
-                    $eventName = 'Sarawak Facility Management Engagement Day';
-                } elseif (str_contains($ticketName, 'combo')) {
-                    // For combo tickets in 'all' view, we'll show them in both events
-                    // We'll handle this by creating separate entries
-                    $eventName = 'Combo (Both Events)';
+                // Get participants for this ticket
+                $participants = $order->participants->where('ticket_id', $item['ticket_id']);
+                
+                // Add attendees to the order group
+                for ($i = 1; $i <= $item['quantity']; $i++) {
+                    $participant = $participants->skip($i - 1)->first();
+                    
+                    // Debug: Log attendee generation
+                    \Log::info('Generating attendee ' . $i . ' for ticket: ' . $ticket->name . ' in order: ' . $orderRef . ' - Participant found: ' . ($participant ? 'Yes' : 'No'));
+                    
+                    // If participant details exist, use them
+                    if ($participant) {
+                        $orderGroups[$orderRef]['attendees'][] = [
+                            'name' => $participant->full_name,
+                            'email' => $participant->email,
+                            'phone' => $participant->phone,
+                            'company' => $participant->company_name,
+                            'datetime' => $this->getEventDateTime($ticket->name, null), // Will be updated later with event context
+                            'ticket_name' => $ticket->name, // Store ticket name for later use
+                            'signature' => ''
+                        ];
+                    } else {
+                        // If no participant details, use purchaser info for first ticket only
+                        if ($i === 1) {
+                            $orderGroups[$orderRef]['attendees'][] = [
+                                'name' => $order->billingDetail->first_name . ' ' . $order->billingDetail->last_name,
+                                'email' => $order->billingDetail->email,
+                                'phone' => $order->billingDetail->phone,
+                                'company' => $order->billingDetail->company_name ?? '',
+                                'datetime' => $this->getEventDateTime($ticket->name, null), // Will be updated later with event context
+                                'ticket_name' => $ticket->name, // Store ticket name for later use
+                                'signature' => ''
+                            ];
+                        } else {
+                            // For additional tickets, leave empty
+                            $orderGroups[$orderRef]['attendees'][] = [
+                                'name' => '',
+                                'email' => '',
+                                'phone' => '',
+                                'company' => '',
+                                'datetime' => $this->getEventDateTime($ticket->name, null), // Will be updated later with event context
+                                'ticket_name' => $ticket->name, // Store ticket name for later use
+                                'signature' => ''
+                            ];
+                        }
+                    }
                 }
-            } else {
-                // For specific events, use the event name
-                $eventNames = [
-                    'facility' => 'Facility Management Engagement Day',
-                    'modular' => 'Modular Asia Forum & Exhibition',
-                    'industry' => 'Sarawak Facility Management Engagement Day'
-                ];
-                $eventName = $eventNames[$event] ?? 'Unknown Event';
+            }
+        }
+        
+        // Debug: Log the order groups before event processing
+        \Log::info('Order groups before event processing: ' . count($orderGroups));
+        foreach ($orderGroups as $orderRef => $orderData) {
+            \Log::info('Order group: ' . $orderRef . ' with ' . count($orderData['attendees']) . ' attendees');
+        }
+        
+        // Now process the grouped orders by event
+        foreach ($orderGroups as $orderRef => $orderData) {
+            // Determine which events this order belongs to
+            $orderEvents = [];
+            
+            // Debug: Log order being processed for event distribution
+            \Log::info('Processing order ' . $orderRef . ' for event distribution');
+            
+            foreach ($orders as $order) {
+                if ($order->reference_number === $orderRef) {
+                    foreach ($order->cart_items as $item) {
+                        $ticket = Ticket::find($item['ticket_id']);
+                        $ticketName = strtolower($ticket->name);
+                        
+                        // Debug: Log ticket being checked for event distribution
+                        \Log::info('Checking ticket: ' . $ticket->name . ' for event distribution in order: ' . $orderRef);
+                        
+                        // Check if this ticket matches the current event filter
+                        $shouldInclude = false;
+                        
+                        if ($event === 'all') {
+                            if (str_contains($ticketName, 'facility management') && !str_contains($ticketName, 'industry')) {
+                                $orderEvents['Facility Management Engagement Day'] = true;
+                                \Log::info('Adding to Facility Management Engagement Day');
+                            } elseif (str_contains($ticketName, 'modular asia')) {
+                                $orderEvents['Modular Asia Forum & Exhibition'] = true;
+                                \Log::info('Adding to Modular Asia Forum & Exhibition');
+                            } elseif (str_contains($ticketName, 'industry')) {
+                                $orderEvents['Sarawak Facility Management Engagement Day'] = true;
+                                \Log::info('Adding to Sarawak Facility Management Engagement Day');
+                            }
+                        } else {
+                            switch ($event) {
+                                case 'industry':
+                                    if (str_contains($ticketName, 'industry')) {
+                                        $orderEvents['Sarawak Facility Management Engagement Day'] = true;
+                                        \Log::info('Adding to Sarawak Facility Management Engagement Day (industry filter)');
+                                    }
+                                    break;
+                                case 'facility':
+                                    if (str_contains($ticketName, 'facility management') && !str_contains($ticketName, 'industry')) {
+                                        $orderEvents['Facility Management Engagement Day'] = true;
+                                        \Log::info('Adding to Facility Management Engagement Day (facility filter)');
+                                    }
+                                    if (str_contains($ticketName, 'combo')) {
+                                        $orderEvents['Facility Management Engagement Day'] = true;
+                                        \Log::info('Adding combo ticket to Facility Management Engagement Day (facility filter)');
+                                    }
+                                    break;
+                                case 'modular':
+                                    if (str_contains($ticketName, 'modular asia')) {
+                                        $orderEvents['Modular Asia Forum & Exhibition'] = true;
+                                        \Log::info('Adding to Modular Asia Forum & Exhibition (modular filter)');
+                                    }
+                                    if (str_contains($ticketName, 'combo')) {
+                                        $orderEvents['Modular Asia Forum & Exhibition'] = true;
+                                        \Log::info('Adding combo ticket to Modular Asia Forum & Exhibition (modular filter)');
+                                    }
+                                    break;
+                            }
+                        }
+                    }
+                }
             }
             
-            // Special handling for combo tickets in 'all' view - add to both events
-            if ($event === 'all' && str_contains($ticketName, 'combo')) {
-                // Add to Facility Management Engagement Day
-                if (!isset($compiledTicketGroups['Facility Management Engagement Day'])) {
-                    $compiledTicketGroups['Facility Management Engagement Day'] = [
-                        'ticket_name' => 'Facility Management Engagement Day',
+            // Debug: Log the events this order will be added to
+            \Log::info('Order ' . $orderRef . ' will be added to events: ' . implode(', ', array_keys($orderEvents)));
+            
+            // Add the order to each relevant event
+            foreach ($orderEvents as $eventName => $include) {
+                if (!isset($compiledTicketGroups[$eventName])) {
+                    $compiledTicketGroups[$eventName] = [
+                        'ticket_name' => $eventName,
                         'quantity' => 0,
                         'orders' => []
                     ];
                 }
                 
-                // Add to Modular Asia Forum & Exhibition
-                if (!isset($compiledTicketGroups['Modular Asia Forum & Exhibition'])) {
-                    $compiledTicketGroups['Modular Asia Forum & Exhibition'] = [
-                        'ticket_name' => 'Modular Asia Forum & Exhibition',
-                        'quantity' => 0,
-                        'orders' => []
-                    ];
+                // Create a copy of order data and update datetime for combo tickets
+                $orderDataCopy = $orderData;
+                foreach ($orderDataCopy['attendees'] as &$attendee) {
+                    if (isset($attendee['ticket_name']) && str_contains(strtolower($attendee['ticket_name']), 'combo')) {
+                        $attendee['datetime'] = $this->getEventDateTime($attendee['ticket_name'], $eventName);
+                    }
+                    // Remove the ticket_name from the final output
+                    unset($attendee['ticket_name']);
                 }
                 
-                // Add the order to both events
-                $orderData = [
-                    'order_ref' => $order->reference_number,
-                    'order_date' => $order->created_at->format('d M Y'),
-                    'purchaser_name' => $order->billingDetail->first_name . ' ' . $order->billingDetail->last_name,
-                    'purchaser_email' => $order->billingDetail->email,
-                    'purchaser_phone' => $order->billingDetail->phone,
-                    'purchaser_identity_number' => $order->billingDetail->identity_number,
-                    'quantity' => $item['quantity'],
-                    'attendees' => array_map(function($index) {
-                        return [
-                            'name' => '',
-                            'email' => '',
-                            'phone' => '',
-                            'signature' => ''
-                        ];
-                    }, range(1, $item['quantity']))
-                ];
+                $compiledTicketGroups[$eventName]['orders'][] = $orderDataCopy;
+                $compiledTicketGroups[$eventName]['quantity'] += count($orderDataCopy['attendees']);
                 
-                $compiledTicketGroups['Facility Management Engagement Day']['orders'][] = $orderData;
-                $compiledTicketGroups['Facility Management Engagement Day']['quantity'] += $item['quantity'];
-                
-                $compiledTicketGroups['Modular Asia Forum & Exhibition']['orders'][] = $orderData;
-                $compiledTicketGroups['Modular Asia Forum & Exhibition']['quantity'] += $item['quantity'];
-                
-                // Skip the normal processing for combo tickets in 'all' view
-                continue;
-            }
-            
-            // Use event name as the group key for non-combo tickets
-            $groupKey = $eventName;
-            
-            if (!isset($compiledTicketGroups[$groupKey])) {
-                $compiledTicketGroups[$groupKey] = [
-                    'ticket_name' => $eventName,
-                    'quantity' => 0,
-                    'orders' => []
-                ];
-            }
-                
-                // Group attendees by order reference
-                $compiledTicketGroups[$groupKey]['orders'][] = [
-                    'order_ref' => $order->reference_number,
-                    'order_date' => $order->created_at->format('d M Y'),
-                    'purchaser_name' => $order->billingDetail->first_name . ' ' . $order->billingDetail->last_name,
-                    'purchaser_email' => $order->billingDetail->email,
-                    'purchaser_phone' => $order->billingDetail->phone,
-                    'purchaser_identity_number' => $order->billingDetail->identity_number,
-                    'quantity' => $item['quantity'],
-                    'attendees' => array_map(function($index) {
-                        return [
-                            'name' => '',
-                            'email' => '',
-                            'phone' => '',
-                            'signature' => ''
-                        ];
-                    }, range(1, $item['quantity']))
-                ];
-                
-                $compiledTicketGroups[$groupKey]['quantity'] += $item['quantity'];
+                // Debug: Log the addition to compiled groups
+                \Log::info('Added order ' . $orderRef . ' to ' . $eventName . ' with ' . count($orderDataCopy['attendees']) . ' attendees');
             }
         }
 
+        // Debug: Log the final compiled ticket groups
+        \Log::info('Final compiled ticket groups: ' . count($compiledTicketGroups));
+        foreach ($compiledTicketGroups as $eventName => $group) {
+            \Log::info('Event: ' . $eventName . ' - Orders: ' . count($group['orders']) . ' - Total attendees: ' . $group['quantity']);
+            foreach ($group['orders'] as $order) {
+                \Log::info('  - Order: ' . $order['order_ref'] . ' with ' . count($order['attendees']) . ' attendees');
+            }
+        }
+        
         // Sort orders within each ticket group by date (newest first) then by reference
         foreach ($compiledTicketGroups as &$group) {
             usort($group['orders'], function($a, $b) {
@@ -637,6 +865,41 @@ class OrderController extends Controller
     }
 
     /**
+     * Get event date/time based on ticket name and event context
+     */
+    private function getEventDateTime($ticketName, $eventContext = null)
+    {
+        $ticketName = strtolower($ticketName);
+        
+        // Check if it's Sarawak Facility Management Engagement Day
+        if (str_contains($ticketName, 'industry')) {
+            return '4/9/2025';
+        }
+        
+        // Check if it's Facility Management Engagement Day
+        if (str_contains($ticketName, 'facility management') && !str_contains($ticketName, 'industry')) {
+            return '29/10/2025';
+        }
+        
+        // Check if it's Modular Asia Forum & Exhibition
+        if (str_contains($ticketName, 'modular asia')) {
+            return '30/10/2025';
+        }
+        
+        // Handle combo tickets based on event context
+        if (str_contains($ticketName, 'combo')) {
+            if ($eventContext === 'Facility Management Engagement Day') {
+                return '29/10/2025';
+            } elseif ($eventContext === 'Modular Asia Forum & Exhibition') {
+                return '30/10/2025';
+            }
+        }
+        
+        // For other events, return empty (manual entry)
+        return '';
+    }
+
+    /**
      * Download orders data as Excel file
      */
     public function downloadExcel(Request $request)
@@ -667,5 +930,107 @@ class OrderController extends Controller
         $filename = 'order-' . $order->reference_number . '-' . now()->format('Y-m-d') . '.xlsx';
         
         return Excel::download(new IndividualOrderExport($order), $filename);
+    }
+
+    /**
+     * Update participants for an order
+     */
+    public function updateParticipants(Request $request, Order $order)
+    {
+        try {
+            // Get the request data - handle both JSON and form data
+            $data = $request->all();
+            
+            // Log the incoming data for debugging
+            \Log::info('Update participants request data', [
+                'order_id' => $order->id,
+                'data' => $data,
+                'content_type' => $request->header('Content-Type')
+            ]);
+
+            // Convert flat form data to nested array structure
+            $participants = [];
+            foreach ($data as $key => $value) {
+                if (preg_match('/^participants\[(\d+)\]\[([^\]]+)\]$/', $key, $matches)) {
+                    $participantIndex = $matches[1];
+                    $fieldName = $matches[2];
+                    
+                    if (!isset($participants[$participantIndex])) {
+                        $participants[$participantIndex] = [];
+                    }
+                    
+                    $participants[$participantIndex][$fieldName] = $value;
+                }
+            }
+
+            // Log the converted participants data
+            \Log::info('Converted participants data', [
+                'participants' => $participants
+            ]);
+
+            // Validate the converted data
+            $validator = \Validator::make(['participants' => $participants], [
+                'participants' => 'required|array',
+                'participants.*.full_name' => 'required|string|max:255',
+                'participants.*.phone' => 'required|string|max:30',
+                'participants.*.email' => 'required|email|max:255',
+                'participants.*.company_name' => 'nullable|string|max:255',
+                'participants.*.identity_number' => [
+                    'required',
+                    'string',
+                    'min:6',
+                    'max:20',
+                    'regex:/^[A-Za-z0-9]+$/',
+                ],
+                'participants.*.ticket_id' => 'required|exists:tickets,id',
+                'participants.*.ticket_number' => 'required|integer|min:1',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            DB::beginTransaction();
+
+            // Delete existing participants for this order
+            $order->participants()->delete();
+
+            // Create new participants
+            foreach ($participants as $participantData) {
+                // Skip if the participant data is just "-" (placeholder)
+                if (isset($participantData['full_name']) && $participantData['full_name'] === '-') {
+                    continue;
+                }
+                
+                $participantData['order_id'] = $order->id;
+                \App\Models\Participant::create($participantData);
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Participants updated successfully',
+                'redirect' => true
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            
+            \Log::error('Failed to update participants', [
+                'error' => $e->getMessage(),
+                'order_id' => $order->id,
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update participants: ' . $e->getMessage()
+            ], 500);
+        }
     }
 } 

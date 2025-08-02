@@ -62,6 +62,7 @@ class CheckoutController extends Controller
     public function process(Request $request)
     {
         \Log::info('Checkout process started', ['input' => $request->all()]);
+        \Log::info('Participant data check', ['has_participants' => $request->has('participants'), 'participants' => $request->input('participants')]);
 
         $validationRules = [
             'first_name' => [
@@ -118,6 +119,25 @@ class CheckoutController extends Controller
             $validationRules['academic_institution'] = 'required|string|max:255';
         }
 
+        // Add participant validation rules if participants are provided
+        if ($request->has('participants')) {
+            $validationRules['participants'] = 'required|array';
+            $validationRules['participants.*.full_name'] = 'required|string|max:255';
+            $validationRules['participants.*.phone'] = 'required|string|max:30';
+            $validationRules['participants.*.email'] = 'required|email|max:255';
+            $validationRules['participants.*.gender'] = 'required|in:male,female';
+            $validationRules['participants.*.company_name'] = 'nullable|string|max:255';
+            $validationRules['participants.*.identity_number'] = [
+                'required',
+                'string',
+                'min:6',
+                'max:20',
+                'regex:/^[A-Za-z0-9]+$/',
+            ];
+            $validationRules['participants.*.ticket_id'] = 'required|exists:tickets,id';
+            $validationRules['participants.*.ticket_number'] = 'required|integer|min:1';
+        }
+
         $validated = $request->validate($validationRules, [
             'first_name.max' => 'First name should not exceed 10 characters.',
             'last_name.max' => 'Last name should not exceed 10 characters.',
@@ -152,12 +172,19 @@ class CheckoutController extends Controller
 
         \Log::info('Cart total calculated', ['cart_total' => $cartTotal, 'cart_items' => $cartItems->toArray()]);
 
-        // Store billing and cart info in session for callback
-        session([
+        // Store billing, cart, and participant info in session for callback
+        $sessionData = [
             'pending_billing' => $validated,
             'pending_cart' => $cartItems->toArray(),
             'pending_cart_total' => $cartTotal,
-        ]);
+        ];
+
+        // Add participant data if provided
+        if ($request->has('participants')) {
+            $sessionData['pending_participants'] = $request->input('participants');
+        }
+
+        session($sessionData);
 
         if ($validated['payment_method'] === 'toyyibpay') {
             return $this->processToyyibPay($validated, $cartTotal);
@@ -195,11 +222,9 @@ class CheckoutController extends Controller
             'billPhone' => $phone,
         ];
 
-        // Enable FPX B2B for organizations
+        // Use personal banking for all categories (including organizations)
+        // Add company name to bill description for organizations but ensure it doesn't exceed limit
         if ($validated['category'] === 'organization') {
-            $billData['enableFPXB2B'] = '1';  // Enable FPX Corporate Banking
-            $billData['chargeFPXB2B'] = '1';  // Charge on bill owner
-            // Add company name to bill description but ensure it doesn't exceed limit
             $companyBillName = 'Order-' . substr($validated['company_name'], 0, 23);
             $billData['billName'] = $companyBillName;
             $billData['billDescription'] = 'Ticket purchase - ' . $validated['company_name'];
@@ -227,7 +252,8 @@ class CheckoutController extends Controller
                     ],
                     $validated,
                     session('pending_cart'),
-                    $cartTotal
+                    $cartTotal,
+                    session('pending_participants')
                 );
                 return back()->with('error', 'Payment gateway error. Please try again.');
             }
@@ -241,7 +267,8 @@ class CheckoutController extends Controller
                 ],
                 $validated,
                 session('pending_cart'),
-                $cartTotal
+                $cartTotal,
+                session('pending_participants')
             );
             \Log::error('ToyyibPay API error', ['exception' => $e]);
             return back()->with('error', 'Payment gateway error. Please try again.');
@@ -318,7 +345,11 @@ class CheckoutController extends Controller
                     [
                         'customer_email' => $billingData['email'] ?? 'Unknown',
                         'amount' => $cartTotal ?? 0
-                    ]
+                    ],
+                    $billingData,
+                    $cartItems,
+                    $cartTotal,
+                    session('pending_participants')
                 );
                 return redirect()->route('client.cart.index')->with('error', 'No items in cart or missing billing information.');
             }
@@ -338,7 +369,11 @@ class CheckoutController extends Controller
                         'customer_name' => $billingData['first_name'] . ' ' . $billingData['last_name'],
                         'customer_email' => $billingData['email'],
                         'amount' => $cartTotal
-                    ]
+                    ],
+                    $billingData,
+                    $cartItems,
+                    $cartTotal,
+                    session('pending_participants')
                 );
                 return redirect()->route('client.cart.index')->with('error', 'Payment failed. Please try again.');
             }
@@ -366,6 +401,16 @@ class CheckoutController extends Controller
                         'processing_fee' => $calculatedTotal - $cartTotal
                     ]);
 
+                    // Create participant records if provided
+                    $participants = session('pending_participants');
+                    if ($participants) {
+                        foreach ($participants as $participantData) {
+                            $participantData['order_id'] = $order->id;
+                            \App\Models\Participant::create($participantData);
+                        }
+                        \Log::info('Created participant records in Stripe callback', ['participants_count' => count($participants)]);
+                    }
+
                     // Log successful payment
                     PaymentLogger::logSuccessfulPayment(
                         'stripe',
@@ -379,7 +424,8 @@ class CheckoutController extends Controller
                             'payment_intent_id' => $payment_intent->id,
                             'items_count' => count($cartItems),
                             'order_id' => $order->id
-                        ]
+                        ],
+                        session('pending_participants')
                     );
 
                     // Update ticket stock
@@ -429,7 +475,7 @@ class CheckoutController extends Controller
                     }
 
                     // Clear session data
-                    session()->forget(['pending_billing', 'pending_cart', 'pending_cart_total', 'stripe_payment_intent_id']);
+                    session()->forget(['pending_billing', 'pending_cart', 'pending_cart_total', 'pending_participants', 'stripe_payment_intent_id']);
                     
                     // Clear cart items
                     if (auth()->check()) {
@@ -467,7 +513,8 @@ class CheckoutController extends Controller
                     ],
                     $billingData,
                     session('pending_cart'),
-                    $cartTotal
+                    $cartTotal,
+                    session('pending_participants')
                 );
                 return redirect()->route('client.cart.index')->with('error', 'Payment failed. Please try again.');
             }
@@ -481,7 +528,8 @@ class CheckoutController extends Controller
                 ],
                 $billingData ?? [],
                 session('pending_cart'),
-                $cartTotal ?? 0
+                $cartTotal ?? 0,
+                session('pending_participants')
             );
             \Log::error('Stripe callback error: ' . $e->getMessage());
             return redirect()->route('client.cart.index')->with('error', 'An error occurred while processing your payment.');
@@ -508,7 +556,8 @@ class CheckoutController extends Controller
                 ],
                 $billingData,
                 session('pending_cart'),
-                session('pending_cart_total', 0)
+                session('pending_cart_total', 0),
+                session('pending_participants')
             );
 
             return redirect()->route('client.store')->with([
@@ -529,7 +578,8 @@ class CheckoutController extends Controller
         \Log::info('Processing successful payment', [
             'billing_data' => $billingData,
             'cart_items' => $cartItems,
-            'cart_total' => $cartTotal
+            'cart_total' => $cartTotal,
+            'participants' => session('pending_participants')
         ]);
 
         if ($billingData && $cartItems && $cartTotal) {
@@ -555,6 +605,16 @@ class CheckoutController extends Controller
                 // Create order
                 $order = Order::create($orderData);
 
+                // Create participant records if provided
+                $participants = session('pending_participants');
+                if ($participants) {
+                    foreach ($participants as $participantData) {
+                        $participantData['order_id'] = $order->id;
+                        \App\Models\Participant::create($participantData);
+                    }
+                    \Log::info('Created participant records', ['participants_count' => count($participants)]);
+                }
+
                 // Log successful payment
                 PaymentLogger::logSuccessfulPayment(
                     'toyyibpay',
@@ -566,7 +626,8 @@ class CheckoutController extends Controller
                         'payment_country' => 'Malaysia',
                         'items_count' => count($cartItems),
                         'order_id' => $order->id
-                    ]
+                    ],
+                    session('pending_participants')
                 );
 
                 // Reduce stock for each item
@@ -624,7 +685,7 @@ class CheckoutController extends Controller
                 }
 
                 // Clear session and cart
-                session()->forget(['pending_billing', 'pending_cart', 'pending_cart_total']);
+                session()->forget(['pending_billing', 'pending_cart', 'pending_cart_total', 'pending_participants']);
 
                 DB::commit();
 
@@ -650,7 +711,8 @@ class CheckoutController extends Controller
                     ],
                     $billingData,
                     $cartItems,
-                    $cartTotal
+                    $cartTotal,
+                    session('pending_participants')
                 );
                 
                 \Log::error('Error processing payment', ['error' => $e->getMessage()]);
@@ -737,14 +799,29 @@ class CheckoutController extends Controller
             $pdfPath = 'pdfs/order_' . $order->reference_number . '.pdf';
             Storage::disk('public')->put($pdfPath, $pdf->output());
             
+            // Collect all email addresses to send to
+            $emailAddresses = [];
+            
+            // Add billing email
+            $emailAddresses[] = $billingData['email'];
+            
+            // Add participant emails
+            $participants = $order->participants;
+            foreach ($participants as $participant) {
+                if (!empty($participant->email) && !in_array($participant->email, $emailAddresses)) {
+                    $emailAddresses[] = $participant->email;
+                }
+            }
+            
+            // Send email to all addresses
             Mail::send('emails.order-confirmation', [
                 'billingData' => $billingData,
                 'referenceNo' => $order->reference_number,
                 'cartItems' => $order->cart_items,
                 'orderDate' => $order->created_at,
                 'order' => $order
-            ], function($message) use ($billingData, $order, $pdfPath) {
-                $message->to($billingData['email'])
+            ], function($message) use ($emailAddresses, $order, $pdfPath) {
+                $message->to($emailAddresses)
                         ->subject('Order Confirmation - ' . config('app.name'));
 
                 // Attach PDF only
@@ -764,12 +841,12 @@ class CheckoutController extends Controller
 
             Log::info('Order confirmation email sent successfully', [
                 'order_id' => $order->id,
-                'email' => $billingData['email']
+                'emails' => $emailAddresses
             ]);
         } catch (\Exception $e) {
             Log::error('Failed to send order confirmation email', [
                 'error' => $e->getMessage(),
-                'email' => $billingData['email'],
+                'emails' => $emailAddresses ?? [],
                 'trace' => $e->getTraceAsString()
             ]);
             throw $e;

@@ -23,6 +23,8 @@ class IndividualOrderExport implements FromCollection, WithHeadings, WithMapping
 
     public function collection()
     {
+        // Load the participants relationship
+        $this->order->load(['participants.ticket']);
         return collect([$this->order]);
     }
 
@@ -64,7 +66,10 @@ class IndividualOrderExport implements FromCollection, WithHeadings, WithMapping
             'Academic Institution',
 
             // Purchased Tickets
-            'Tickets Details'
+            'Tickets Details',
+
+            // Participant Details
+            'Participant Details'
         ];
     }
 
@@ -89,6 +94,61 @@ class IndividualOrderExport implements FromCollection, WithHeadings, WithMapping
         })->implode(" | ");
 
         $billingDetail = $order->billingDetail;
+
+        // Format participants information with fallback logic
+        $allParticipants = [];
+        
+        // Process each cart item to generate participant list
+        foreach ($order->cart_items as $item) {
+            $ticket = Ticket::find($item['ticket_id']);
+            $participants = $order->participants->where('ticket_id', $item['ticket_id']);
+            
+            for ($i = 1; $i <= $item['quantity']; $i++) {
+                $participant = $participants->skip($i - 1)->first();
+                
+                // If participant details exist, use them
+                if ($participant) {
+                    $allParticipants[] = sprintf(
+                        "Name: %s, Phone: %s, Email: %s, Gender: %s, Company: %s, Identity: %s, Ticket: %s",
+                        $participant->full_name,
+                        $participant->phone,
+                        $participant->email,
+                        $participant->gender ?: 'N/A',
+                        $participant->company_name ?: 'N/A',
+                        $participant->identity_number,
+                        $ticket->name
+                    );
+                } else {
+                    // If no participant details, use purchaser info for first ticket only
+                    if ($i === 1) {
+                        $allParticipants[] = sprintf(
+                            "Name: %s, Phone: %s, Email: %s, Gender: %s, Company: %s, Identity: %s, Ticket: %s (Purchaser)",
+                            $billingDetail->first_name . ' ' . $billingDetail->last_name,
+                            $billingDetail->phone,
+                            $billingDetail->email,
+                            $billingDetail->gender ?: 'N/A',
+                            $billingDetail->company_name ?: 'N/A',
+                            $billingDetail->identity_number,
+                            $ticket->name
+                        );
+                    } else {
+                        // For additional tickets, show as empty
+                        $allParticipants[] = sprintf(
+                            "Name: %s, Phone: %s, Email: %s, Gender: %s, Company: %s, Identity: %s, Ticket: %s (Empty)",
+                            'N/A',
+                            'N/A',
+                            'N/A',
+                            'N/A',
+                            'N/A',
+                            'N/A',
+                            $ticket->name
+                        );
+                    }
+                }
+            }
+        }
+        
+        $participantsInfo = implode(" | ", $allParticipants);
 
         return [
             // Order Details
@@ -126,7 +186,10 @@ class IndividualOrderExport implements FromCollection, WithHeadings, WithMapping
             $billingDetail->academic_institution ?? 'N/A',
 
             // Purchased Tickets
-            $ticketsInfo
+            $ticketsInfo,
+
+            // Participant Details
+            $participantsInfo ?: 'No participants'
         ];
     }
 

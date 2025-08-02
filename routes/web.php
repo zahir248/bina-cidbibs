@@ -213,6 +213,8 @@ Route::middleware('auth')->group(function () {
         Route::get('orders/download-excel', [OrderController::class, 'downloadExcel'])->name('orders.download-excel');
         Route::get('/billing-details/{id}', [OrderController::class, 'getBillingDetails'])->name('billing.details');
         Route::get('/orders/{order}/items', [OrderController::class, 'getOrderItems'])->name('orders.items');
+        Route::get('/orders/{order}/participants', [OrderController::class, 'getParticipants'])->name('orders.participants');
+        Route::post('/orders/{order}/update-participants', [OrderController::class, 'updateParticipants'])->name('orders.update-participants');
 
         // Tickets Management Routes
         Route::resource('tickets', TicketController::class);
