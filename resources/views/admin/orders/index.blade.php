@@ -93,10 +93,11 @@
 
                     <!-- Search Form -->
                     <div class="mb-3">
-                        <form id="searchForm" class="row g-3">
+                        <form id="searchForm" class="row g-3" method="GET" action="{{ route('admin.orders.index') }}">
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="searchReference" placeholder="Search by Reference Number">
+                                    <input type="text" class="form-control" id="searchReference" name="search" 
+                                           placeholder="Search by Reference Number" value="{{ request('search') }}">
                                     <button class="btn btn-primary" type="submit">
                                         <i class="bi bi-search"></i> Search
                                     </button>
@@ -104,136 +105,139 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="searchIdentity" placeholder="Search by Identity Number">
-                                    <button class="btn btn-primary" type="button" id="searchIdentityBtn">
+                                    <input type="text" class="form-control" id="searchIdentity" name="identity" 
+                                           placeholder="Search by Identity Number" value="{{ request('identity') }}">
+                                    <button class="btn btn-primary" type="submit">
                                         <i class="bi bi-search"></i>
                                     </button>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <select class="form-select" id="paymentMethod">
+                                <select class="form-select" id="paymentMethod" name="payment_method">
                                     <option value="">All Payment Methods</option>
-                                    <option value="stripe">Stripe</option>
-                                    <option value="toyyibpay">ToyyibPay</option>
+                                    <option value="stripe" {{ request('payment_method') == 'stripe' ? 'selected' : '' }}>Stripe</option>
+                                    <option value="toyyibpay" {{ request('payment_method') == 'toyyibpay' ? 'selected' : '' }}>ToyyibPay</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <select class="form-select" id="ticketFilter">
+                                <select class="form-select" id="ticketFilter" name="ticket">
                                     <option value="">All Tickets</option>
                                     @foreach($tickets as $ticket)
-                                        <option value="{{ $ticket->id }}">{{ $ticket->name }}</option>
+                                        <option value="{{ $ticket->id }}" {{ request('ticket') == $ticket->id ? 'selected' : '' }}>
+                                            {{ $ticket->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <select class="form-select" id="eventFilter">
-                                    <option value="all">All Events</option>
-                                    <option value="bina">BINA Events</option>
-                                    <option value="industry">Sarawak Facility Management Engagement Day</option>
+                                <select class="form-select" id="eventFilter" name="event">
+                                    <option value="all" {{ request('event', 'all') == 'all' ? 'selected' : '' }}>All Events</option>
+                                    <option value="bina" {{ request('event') == 'bina' ? 'selected' : '' }}>BINA Events</option>
+                                    <option value="industry" {{ request('event') == 'industry' ? 'selected' : '' }}>Sarawak Facility Management Engagement Day</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <select class="form-select" id="paymentCountry">
+                                <select class="form-select" id="paymentCountry" name="payment_country">
                                     <option value="">All Countries</option>
-                                    <option value="Afghanistan">Afghanistan</option>
-                                    <option value="Albania">Albania</option>
-                                    <option value="Algeria">Algeria</option>
-                                    <option value="Andorra">Andorra</option>
-                                    <option value="Angola">Angola</option>
-                                    <option value="Argentina">Argentina</option>
-                                    <option value="Armenia">Armenia</option>
-                                    <option value="Australia">Australia</option>
-                                    <option value="Austria">Austria</option>
-                                    <option value="Azerbaijan">Azerbaijan</option>
-                                    <option value="Bahamas">Bahamas</option>
-                                    <option value="Bahrain">Bahrain</option>
-                                    <option value="Bangladesh">Bangladesh</option>
-                                    <option value="Barbados">Barbados</option>
-                                    <option value="Belarus">Belarus</option>
-                                    <option value="Belgium">Belgium</option>
-                                    <option value="Belize">Belize</option>
-                                    <option value="Benin">Benin</option>
-                                    <option value="Bhutan">Bhutan</option>
-                                    <option value="Bolivia">Bolivia</option>
-                                    <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
-                                    <option value="Botswana">Botswana</option>
-                                    <option value="Brazil">Brazil</option>
-                                    <option value="Brunei">Brunei</option>
-                                    <option value="Bulgaria">Bulgaria</option>
-                                    <option value="Burkina Faso">Burkina Faso</option>
-                                    <option value="Burundi">Burundi</option>
-                                    <option value="Cambodia">Cambodia</option>
-                                    <option value="Cameroon">Cameroon</option>
-                                    <option value="Canada">Canada</option>
-                                    <option value="China">China</option>
-                                    <option value="Colombia">Colombia</option>
-                                    <option value="Denmark">Denmark</option>
-                                    <option value="Egypt">Egypt</option>
-                                    <option value="Finland">Finland</option>
-                                    <option value="France">France</option>
-                                    <option value="Germany">Germany</option>
-                                    <option value="Greece">Greece</option>
-                                    <option value="Hong Kong">Hong Kong</option>
-                                    <option value="Hungary">Hungary</option>
-                                    <option value="Iceland">Iceland</option>
-                                    <option value="India">India</option>
-                                    <option value="Indonesia">Indonesia</option>
-                                    <option value="Iran">Iran</option>
-                                    <option value="Iraq">Iraq</option>
-                                    <option value="Ireland">Ireland</option>
-                                    <option value="Israel">Israel</option>
-                                    <option value="Italy">Italy</option>
-                                    <option value="Jamaica">Jamaica</option>
-                                    <option value="Japan">Japan</option>
-                                    <option value="Jordan">Jordan</option>
-                                    <option value="Kazakhstan">Kazakhstan</option>
-                                    <option value="Kenya">Kenya</option>
-                                    <option value="Kuwait">Kuwait</option>
-                                    <option value="Malaysia">Malaysia</option>
-                                    <option value="Maldives">Maldives</option>
-                                    <option value="Mexico">Mexico</option>
-                                    <option value="Morocco">Morocco</option>
-                                    <option value="Myanmar">Myanmar</option>
-                                    <option value="Nepal">Nepal</option>
-                                    <option value="Netherlands">Netherlands</option>
-                                    <option value="New Zealand">New Zealand</option>
-                                    <option value="Nigeria">Nigeria</option>
-                                    <option value="Norway">Norway</option>
-                                    <option value="Oman">Oman</option>
-                                    <option value="Pakistan">Pakistan</option>
-                                    <option value="Philippines">Philippines</option>
-                                    <option value="Poland">Poland</option>
-                                    <option value="Portugal">Portugal</option>
-                                    <option value="Qatar">Qatar</option>
-                                    <option value="Romania">Romania</option>
-                                    <option value="Russia">Russia</option>
-                                    <option value="Saudi Arabia">Saudi Arabia</option>
-                                    <option value="Singapore">Singapore</option>
-                                    <option value="South Africa">South Africa</option>
-                                    <option value="South Korea">South Korea</option>
-                                    <option value="Spain">Spain</option>
-                                    <option value="Sri Lanka">Sri Lanka</option>
-                                    <option value="Sweden">Sweden</option>
-                                    <option value="Switzerland">Switzerland</option>
-                                    <option value="Taiwan">Taiwan</option>
-                                    <option value="Thailand">Thailand</option>
-                                    <option value="Turkey">Turkey</option>
-                                    <option value="Ukraine">Ukraine</option>
-                                    <option value="United Arab Emirates">United Arab Emirates</option>
-                                    <option value="United Kingdom">United Kingdom</option>
-                                    <option value="United States">United States</option>
-                                    <option value="Vietnam">Vietnam</option>
-                                    <option value="Yemen">Yemen</option>
+                                    <option value="Afghanistan" {{ request('payment_country') == 'Afghanistan' ? 'selected' : '' }}>Afghanistan</option>
+                                    <option value="Albania" {{ request('payment_country') == 'Albania' ? 'selected' : '' }}>Albania</option>
+                                    <option value="Algeria" {{ request('payment_country') == 'Algeria' ? 'selected' : '' }}>Algeria</option>
+                                    <option value="Andorra" {{ request('payment_country') == 'Andorra' ? 'selected' : '' }}>Andorra</option>
+                                    <option value="Angola" {{ request('payment_country') == 'Angola' ? 'selected' : '' }}>Angola</option>
+                                    <option value="Argentina" {{ request('payment_country') == 'Argentina' ? 'selected' : '' }}>Argentina</option>
+                                    <option value="Armenia" {{ request('payment_country') == 'Armenia' ? 'selected' : '' }}>Armenia</option>
+                                    <option value="Australia" {{ request('payment_country') == 'Australia' ? 'selected' : '' }}>Australia</option>
+                                    <option value="Austria" {{ request('payment_country') == 'Austria' ? 'selected' : '' }}>Austria</option>
+                                    <option value="Azerbaijan" {{ request('payment_country') == 'Azerbaijan' ? 'selected' : '' }}>Azerbaijan</option>
+                                    <option value="Bahamas" {{ request('payment_country') == 'Bahamas' ? 'selected' : '' }}>Bahamas</option>
+                                    <option value="Bahrain" {{ request('payment_country') == 'Bahrain' ? 'selected' : '' }}>Bahrain</option>
+                                    <option value="Bangladesh" {{ request('payment_country') == 'Bangladesh' ? 'selected' : '' }}>Bangladesh</option>
+                                    <option value="Barbados" {{ request('payment_country') == 'Barbados' ? 'selected' : '' }}>Barbados</option>
+                                    <option value="Belarus" {{ request('payment_country') == 'Belarus' ? 'selected' : '' }}>Belarus</option>
+                                    <option value="Belgium" {{ request('payment_country') == 'Belgium' ? 'selected' : '' }}>Belgium</option>
+                                    <option value="Belize" {{ request('payment_country') == 'Belize' ? 'selected' : '' }}>Belize</option>
+                                    <option value="Benin" {{ request('payment_country') == 'Benin' ? 'selected' : '' }}>Benin</option>
+                                    <option value="Bhutan" {{ request('payment_country') == 'Bhutan' ? 'selected' : '' }}>Bhutan</option>
+                                    <option value="Bolivia" {{ request('payment_country') == 'Bolivia' ? 'selected' : '' }}>Bolivia</option>
+                                    <option value="Bosnia and Herzegovina" {{ request('payment_country') == 'Bosnia and Herzegovina' ? 'selected' : '' }}>Bosnia and Herzegovina</option>
+                                    <option value="Botswana" {{ request('payment_country') == 'Botswana' ? 'selected' : '' }}>Botswana</option>
+                                    <option value="Brazil" {{ request('payment_country') == 'Brazil' ? 'selected' : '' }}>Brazil</option>
+                                    <option value="Brunei" {{ request('payment_country') == 'Brunei' ? 'selected' : '' }}>Brunei</option>
+                                    <option value="Bulgaria" {{ request('payment_country') == 'Bulgaria' ? 'selected' : '' }}>Bulgaria</option>
+                                    <option value="Burkina Faso" {{ request('payment_country') == 'Burkina Faso' ? 'selected' : '' }}>Burkina Faso</option>
+                                    <option value="Burundi" {{ request('payment_country') == 'Burundi' ? 'selected' : '' }}>Burundi</option>
+                                    <option value="Cambodia" {{ request('payment_country') == 'Cambodia' ? 'selected' : '' }}>Cambodia</option>
+                                    <option value="Cameroon" {{ request('payment_country') == 'Cameroon' ? 'selected' : '' }}>Cameroon</option>
+                                    <option value="Canada" {{ request('payment_country') == 'Canada' ? 'selected' : '' }}>Canada</option>
+                                    <option value="China" {{ request('payment_country') == 'China' ? 'selected' : '' }}>China</option>
+                                    <option value="Colombia" {{ request('payment_country') == 'Colombia' ? 'selected' : '' }}>Colombia</option>
+                                    <option value="Denmark" {{ request('payment_country') == 'Denmark' ? 'selected' : '' }}>Denmark</option>
+                                    <option value="Egypt" {{ request('payment_country') == 'Egypt' ? 'selected' : '' }}>Egypt</option>
+                                    <option value="Finland" {{ request('payment_country') == 'Finland' ? 'selected' : '' }}>Finland</option>
+                                    <option value="France" {{ request('payment_country') == 'France' ? 'selected' : '' }}>France</option>
+                                    <option value="Germany" {{ request('payment_country') == 'Germany' ? 'selected' : '' }}>Germany</option>
+                                    <option value="Greece" {{ request('payment_country') == 'Greece' ? 'selected' : '' }}>Greece</option>
+                                    <option value="Hong Kong" {{ request('payment_country') == 'Hong Kong' ? 'selected' : '' }}>Hong Kong</option>
+                                    <option value="Hungary" {{ request('payment_country') == 'Hungary' ? 'selected' : '' }}>Hungary</option>
+                                    <option value="Iceland" {{ request('payment_country') == 'Iceland' ? 'selected' : '' }}>Iceland</option>
+                                    <option value="India" {{ request('payment_country') == 'India' ? 'selected' : '' }}>India</option>
+                                    <option value="Indonesia" {{ request('payment_country') == 'Indonesia' ? 'selected' : '' }}>Indonesia</option>
+                                    <option value="Iran" {{ request('payment_country') == 'Iran' ? 'selected' : '' }}>Iran</option>
+                                    <option value="Iraq" {{ request('payment_country') == 'Iraq' ? 'selected' : '' }}>Iraq</option>
+                                    <option value="Ireland" {{ request('payment_country') == 'Ireland' ? 'selected' : '' }}>Ireland</option>
+                                    <option value="Israel" {{ request('payment_country') == 'Israel' ? 'selected' : '' }}>Israel</option>
+                                    <option value="Italy" {{ request('payment_country') == 'Italy' ? 'selected' : '' }}>Italy</option>
+                                    <option value="Jamaica" {{ request('payment_country') == 'Jamaica' ? 'selected' : '' }}>Jamaica</option>
+                                    <option value="Japan" {{ request('payment_country') == 'Japan' ? 'selected' : '' }}>Japan</option>
+                                    <option value="Jordan" {{ request('payment_country') == 'Jordan' ? 'selected' : '' }}>Jordan</option>
+                                    <option value="Kazakhstan" {{ request('payment_country') == 'Kazakhstan' ? 'selected' : '' }}>Kazakhstan</option>
+                                    <option value="Kenya" {{ request('payment_country') == 'Kenya' ? 'selected' : '' }}>Kenya</option>
+                                    <option value="Kuwait" {{ request('payment_country') == 'Kuwait' ? 'selected' : '' }}>Kuwait</option>
+                                    <option value="Malaysia" {{ request('payment_country') == 'Malaysia' ? 'selected' : '' }}>Malaysia</option>
+                                    <option value="Maldives" {{ request('payment_country') == 'Maldives' ? 'selected' : '' }}>Maldives</option>
+                                    <option value="Mexico" {{ request('payment_country') == 'Mexico' ? 'selected' : '' }}>Mexico</option>
+                                    <option value="Morocco" {{ request('payment_country') == 'Morocco' ? 'selected' : '' }}>Morocco</option>
+                                    <option value="Myanmar" {{ request('payment_country') == 'Myanmar' ? 'selected' : '' }}>Myanmar</option>
+                                    <option value="Nepal" {{ request('payment_country') == 'Nepal' ? 'selected' : '' }}>Nepal</option>
+                                    <option value="Netherlands" {{ request('payment_country') == 'Netherlands' ? 'selected' : '' }}>Netherlands</option>
+                                    <option value="New Zealand" {{ request('payment_country') == 'New Zealand' ? 'selected' : '' }}>New Zealand</option>
+                                    <option value="Nigeria" {{ request('payment_country') == 'Nigeria' ? 'selected' : '' }}>Nigeria</option>
+                                    <option value="Norway" {{ request('payment_country') == 'Norway' ? 'selected' : '' }}>Norway</option>
+                                    <option value="Oman" {{ request('payment_country') == 'Oman' ? 'selected' : '' }}>Oman</option>
+                                    <option value="Pakistan" {{ request('payment_country') == 'Pakistan' ? 'selected' : '' }}>Pakistan</option>
+                                    <option value="Philippines" {{ request('payment_country') == 'Philippines' ? 'selected' : '' }}>Philippines</option>
+                                    <option value="Poland" {{ request('payment_country') == 'Poland' ? 'selected' : '' }}>Poland</option>
+                                    <option value="Portugal" {{ request('payment_country') == 'Portugal' ? 'selected' : '' }}>Portugal</option>
+                                    <option value="Qatar" {{ request('payment_country') == 'Qatar' ? 'selected' : '' }}>Qatar</option>
+                                    <option value="Romania" {{ request('payment_country') == 'Romania' ? 'selected' : '' }}>Romania</option>
+                                    <option value="Russia" {{ request('payment_country') == 'Russia' ? 'selected' : '' }}>Russia</option>
+                                    <option value="Saudi Arabia" {{ request('payment_country') == 'Saudi Arabia' ? 'selected' : '' }}>Saudi Arabia</option>
+                                    <option value="Singapore" {{ request('payment_country') == 'Singapore' ? 'selected' : '' }}>Singapore</option>
+                                    <option value="South Africa" {{ request('payment_country') == 'South Africa' ? 'selected' : '' }}>South Africa</option>
+                                    <option value="South Korea" {{ request('payment_country') == 'South Korea' ? 'selected' : '' }}>South Korea</option>
+                                    <option value="Spain" {{ request('payment_country') == 'Spain' ? 'selected' : '' }}>Spain</option>
+                                    <option value="Sri Lanka" {{ request('payment_country') == 'Sri Lanka' ? 'selected' : '' }}>Sri Lanka</option>
+                                    <option value="Sweden" {{ request('payment_country') == 'Sweden' ? 'selected' : '' }}>Sweden</option>
+                                    <option value="Switzerland" {{ request('payment_country') == 'Switzerland' ? 'selected' : '' }}>Switzerland</option>
+                                    <option value="Taiwan" {{ request('payment_country') == 'Taiwan' ? 'selected' : '' }}>Taiwan</option>
+                                    <option value="Thailand" {{ request('payment_country') == 'Thailand' ? 'selected' : '' }}>Thailand</option>
+                                    <option value="Turkey" {{ request('payment_country') == 'Turkey' ? 'selected' : '' }}>Turkey</option>
+                                    <option value="Ukraine" {{ request('payment_country') == 'Ukraine' ? 'selected' : '' }}>Ukraine</option>
+                                    <option value="United Arab Emirates" {{ request('payment_country') == 'United Arab Emirates' ? 'selected' : '' }}>United Arab Emirates</option>
+                                    <option value="United Kingdom" {{ request('payment_country') == 'United Kingdom' ? 'selected' : '' }}>United Kingdom</option>
+                                    <option value="United States" {{ request('payment_country') == 'United States' ? 'selected' : '' }}>United States</option>
+                                    <option value="Vietnam" {{ request('payment_country') == 'Vietnam' ? 'selected' : '' }}>Vietnam</option>
+                                    <option value="Yemen" {{ request('payment_country') == 'Yemen' ? 'selected' : '' }}>Yemen</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <input type="date" class="form-control" id="startDate" placeholder="Start Date">
+                                    <input type="date" class="form-control" id="startDate" name="start_date" placeholder="Start Date" value="{{ request('start_date') }}">
                                     <span class="input-group-text">to</span>
-                                    <input type="date" class="form-control" id="endDate" placeholder="End Date">
-                                    <button class="btn btn-secondary" type="button" id="clearFilters">
+                                    <input type="date" class="form-control" id="endDate" name="end_date" placeholder="End Date" value="{{ request('end_date') }}">
+                                    <a href="{{ route('admin.orders.index') }}" class="btn btn-secondary">
                                         <i class="bi bi-x-circle"></i> Clear
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </form>
@@ -260,7 +264,7 @@
                             <tbody>
                                 @foreach($orders as $index => $order)
                                 <tr data-ticket-ids='@json($order->ticket_ids)'>
-                                    <td>{{ $orders->firstItem() + $index }}</td>
+                                    <td>{{ ($currentPage - 1) * $perPage + $loop->iteration }}</td>
                                     <td>{{ $order->reference_number }}</td>
                                     <td>RM {{ number_format($order->total_amount, 2) }}</td>
                                     <td>
@@ -331,7 +335,7 @@
                                     Showing {{ $orders->firstItem() }} to {{ $orders->lastItem() }} of {{ $orders->total() }} results
                                 </div>
                                 <div>
-                                    {{ $orders->links('pagination::bootstrap-5') }}
+                                    {{ $orders->appends(request()->query())->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>
@@ -482,88 +486,16 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Search functionality
-    const searchForm = document.getElementById('searchForm');
-    const searchInput = document.getElementById('searchReference');
-    const searchIdentityInput = document.getElementById('searchIdentity');
-    const startDateInput = document.getElementById('startDate');
-    const endDateInput = document.getElementById('endDate');
-    const paymentMethodSelect = document.getElementById('paymentMethod');
-    const paymentCountrySelect = document.getElementById('paymentCountry');
-    const ticketFilterSelect = document.getElementById('ticketFilter');
-    const eventFilterSelect = document.getElementById('eventFilter');
-    const clearFiltersBtn = document.getElementById('clearFilters');
-    const tableRows = document.querySelectorAll('tbody tr');
-
-    function filterTable() {
-        const searchTerm = searchInput.value.toLowerCase().trim();
-        const identityTerm = searchIdentityInput.value.toLowerCase().trim();
-        const startDate = startDateInput.value ? new Date(startDateInput.value) : null;
-        const endDate = endDateInput.value ? new Date(endDateInput.value) : null;
-        const selectedPaymentMethod = paymentMethodSelect.value.toLowerCase();
-        const selectedPaymentCountry = paymentCountrySelect.value;
-        const selectedTicket = ticketFilterSelect.value;
-        const selectedEvent = eventFilterSelect.value;
-
-        // Debug logging
-        console.log('Filtering with:', {
-            searchTerm,
-            identityTerm,
-            startDate,
-            endDate,
-            selectedPaymentMethod,
-            selectedPaymentCountry,
-            selectedTicket,
-            selectedEvent
-        });
-
-        tableRows.forEach(row => {
-            try {
-                const referenceCell = row.querySelector('td:nth-child(2)');
-                const dateCell = row.querySelector('td:nth-child(10)');
-                const paymentMethodCell = row.querySelector('td:nth-child(6)');
-                const paymentCountryCell = row.querySelector('td:nth-child(7)');
-                const billingLink = row.querySelector('.view-billing');
-                const billingId = billingLink ? billingLink.dataset.billingId : null;
-                const itemsLink = row.querySelector('.view-items');
-                const orderId = itemsLink ? itemsLink.dataset.orderId : null;
-
-                const referenceNumber = referenceCell.textContent.toLowerCase();
-                const orderDate = new Date(dateCell.textContent);
-                const paymentMethod = paymentMethodCell.textContent.toLowerCase();
-                const paymentCountry = paymentCountryCell.textContent.trim();
-
-                // Debug logging for ticket filtering
-                const ticketIds = row.dataset.ticketIds;
-                console.log('Row ticket data:', {
-                    rowId: referenceNumber,
-                    ticketIds,
-                    selectedTicket,
-                    parsedIds: ticketIds ? JSON.parse(ticketIds) : null
-                });
-
-                // Check if ticket IDs are valid JSON
-                let parsedTicketIds = [];
-                try {
-                    parsedTicketIds = ticketIds ? JSON.parse(ticketIds).map(id => parseInt(id)) : [];
-                } catch (e) {
-                    console.error('Error parsing ticket IDs:', e, ticketIds);
-                }
-
-                const matchesTicket = !selectedTicket || parsedTicketIds.includes(parseInt(selectedTicket));
-
-                // Debug logging for visibility
-                console.log('Visibility check:', {
-                    rowId: referenceNumber,
-                    matchesTicket,
-                    selectedTicket,
-                    parsedTicketIds
-                });
-
-                // Check identity number only if there's a search term
-                let matchesIdentity = !identityTerm; // true if no identity search term
-                if (identityTerm && billingId) {
-                    // Fetch billing details and check identity number
+    // Billing Details Modal - Use event delegation
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.view-billing')) {
+            e.preventDefault();
+            const link = e.target.closest('.view-billing');
+            const billingId = link.dataset.billingId;
+            
+            console.log('Fetching billing details for ID:', billingId);
+            
+            // Fetch billing details
                     fetch(`/admin/billing-details/${billingId}`)
                         .then(response => {
                             if (!response.ok) {
@@ -572,181 +504,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             return response.json();
                         })
                         .then(data => {
-                            const billingIdentityNumber = (data.identity_number || '').toLowerCase();
-                            let billingMatches = billingIdentityNumber.includes(identityTerm);
-                            
-                            // Also check participant identity numbers
-                            if (orderId) {
-                                fetch(`/admin/orders/${orderId}/participants`)
-                                    .then(participantResponse => {
-                                        if (!participantResponse.ok) {
-                                            throw new Error(`HTTP error! status: ${participantResponse.status}`);
-                                        }
-                                        return participantResponse.json();
-                                    })
-                                    .then(participants => {
-                                        let participantMatches = false;
-                                        participants.forEach(participant => {
-                                            const participantIdentityNumber = (participant.identity_number || '').toLowerCase();
-                                            if (participantIdentityNumber.includes(identityTerm)) {
-                                                participantMatches = true;
-                                            }
-                                        });
-                                        
-                                        // Show row if either billing or participant identity matches
-                                        matchesIdentity = billingMatches || participantMatches;
-                                        updateRowVisibility();
-                                    })
-                                    .catch(participantError => {
-                                        console.error('Error fetching participants:', participantError);
-                                        // Fall back to billing identity only
-                                        matchesIdentity = billingMatches;
-                                        updateRowVisibility();
-                                    });
-                            } else {
-                                // No order ID, use billing identity only
-                                matchesIdentity = billingMatches;
-                                updateRowVisibility();
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error fetching billing details:', error);
-                            matchesIdentity = false;
-                            updateRowVisibility();
-                        });
-                }
-
-                const matchesSearch = referenceNumber.includes(searchTerm);
-                const matchesDateRange = (!startDate || orderDate >= startDate) && 
-                                       (!endDate || orderDate <= endDate);
-                const matchesPaymentMethod = !selectedPaymentMethod || paymentMethod.includes(selectedPaymentMethod);
-                const matchesPaymentCountry = !selectedPaymentCountry || paymentCountry === selectedPaymentCountry;
-
-                // Check event match
-                let matchesEvent = true;
-                if (selectedEvent !== 'all' && orderId) {
-                    matchesEvent = false;
-                    fetch(`/admin/orders/${orderId}/items`)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error(`HTTP error! status: ${response.status}`);
-                            }
-                            return response.json();
-                        })
-                        .then(items => {
-                            items.forEach(item => {
-                                const ticketName = item.ticket_name.toLowerCase();
-                                switch (selectedEvent) {
-                                    case 'bina':
-                                        if ((ticketName.includes('facility management') && !ticketName.includes('industry')) ||
-                                            ticketName.includes('modular asia') ||
-                                            ticketName.includes('combo')) {
-                                            matchesEvent = true;
-                                        }
-                                        break;
-                                    case 'industry':
-                                        if (ticketName.includes('industry')) {
-                                            matchesEvent = true;
-                                        }
-                                        break;
-                                }
-                            });
-                            updateRowVisibility();
-                        })
-                        .catch(error => {
-                            console.error('Error fetching order items:', error);
-                            updateRowVisibility();
-                        });
-                }
-
-                function updateRowVisibility() {
-                    const shouldShow = matchesSearch && matchesIdentity && 
-                                     matchesDateRange && matchesPaymentMethod && 
-                                     matchesPaymentCountry && matchesTicket && matchesEvent;
-                    
-                    // Debug logging for row visibility
-                    console.log('Row visibility:', {
-                        rowId: referenceNumber,
-                        shouldShow,
-                        matchesSearch,
-                        matchesIdentity,
-                        matchesDateRange,
-                        matchesPaymentMethod,
-                        matchesPaymentCountry,
-                        matchesTicket,
-                        matchesEvent
-                    });
-                    
-                    row.style.display = shouldShow ? '' : 'none';
-                }
-
-                // Only update display immediately if not searching by identity or event
-                if (!identityTerm && selectedEvent === 'all') {
-                    updateRowVisibility();
-                }
-            } catch (error) {
-                console.error('Error processing row:', error, row);
-            }
-        });
-    }
-
-    // Add event listeners
-    searchForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        filterTable();
-    });
-
-    startDateInput.addEventListener('change', filterTable);
-    endDateInput.addEventListener('change', filterTable);
-    paymentMethodSelect.addEventListener('change', filterTable);
-    paymentCountrySelect.addEventListener('change', filterTable);
-    ticketFilterSelect.addEventListener('change', filterTable);
-    eventFilterSelect.addEventListener('change', filterTable);
-
-    // Clear filters button
-    clearFiltersBtn.addEventListener('click', function() {
-        searchInput.value = '';
-        searchIdentityInput.value = '';
-        startDateInput.value = '';
-        endDateInput.value = '';
-        paymentMethodSelect.value = '';
-        paymentCountrySelect.value = '';
-        ticketFilterSelect.value = '';
-        eventFilterSelect.value = 'all';
-        filterTable();
-    });
-
-    // Clear search when input is cleared
-    searchInput.addEventListener('input', function() {
-        if (this.value === '') {
-            filterTable();
-        }
-    });
-
-    // Add event listener for identity number search button
-    document.getElementById('searchIdentityBtn').addEventListener('click', filterTable);
-    
-    // Add event listener for identity number input (search as you type)
-    document.getElementById('searchIdentity').addEventListener('input', function() {
-        if (this.value === '') {
-            filterTable(); // Clear identity number filter if input is empty
-        }
-    });
-
-    // Billing Details Modal
-    const billingModal = document.getElementById('billingModal');
-    const viewBillingLinks = document.querySelectorAll('.view-billing');
-
-    viewBillingLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const billingId = this.dataset.billingId;
-            
-            // Fetch billing details
-            fetch(`/admin/billing-details/${billingId}`)
-            // fetch({{ url('admin/billing-details') }}/${billingId})
-                .then(response => response.json())
-                .then(data => {
+                    console.log('Billing details received:', data);
                     document.getElementById('billing-name').textContent = `${data.first_name} ${data.last_name}`;
                     document.getElementById('billing-gender').textContent = data.gender;
                     document.getElementById('billing-category').textContent = data.category;
@@ -759,29 +517,40 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById('billing-city').textContent = data.city;
                     document.getElementById('billing-state').textContent = data.state;
                     document.getElementById('billing-postcode').textContent = data.postcode;
+                    
+                    // Show the modal
+                    const billingModal = document.getElementById('billingModal');
+                    const modal = new bootstrap.Modal(billingModal);
+                    modal.show();
                 })
                 .catch(error => {
                     console.error('Error fetching billing details:', error);
                     alert('Error loading billing details. Please try again.');
                 });
-        });
+        }
     });
 
-    // Cart Items Modal
-    const itemsModal = document.getElementById('itemsModal');
-    const viewItemsLinks = document.querySelectorAll('.view-items');
-
-    viewItemsLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+    // Cart Items Modal - Use event delegation
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.view-items')) {
             e.preventDefault();
-            const orderId = this.dataset.orderId;
-            const processingFee = parseFloat(this.dataset.processingFee);
-            const totalAmount = parseFloat(this.dataset.totalAmount);
+            const link = e.target.closest('.view-items');
+            const orderId = link.dataset.orderId;
+            const processingFee = parseFloat(link.dataset.processingFee);
+            const totalAmount = parseFloat(link.dataset.totalAmount);
+            
+            console.log('Fetching cart items for order ID:', orderId);
             
             // Fetch cart items
             fetch(`/admin/orders/${orderId}/items`)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
+                    console.log('Cart items received:', data);
                     const tbody = document.getElementById('items-table-body');
                     tbody.innerHTML = '';
                     
@@ -810,77 +579,130 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById('items-subtotal').textContent = `RM ${subtotal.toFixed(2)}`;
                     document.getElementById('items-processing-fee').textContent = `RM ${processingFee.toFixed(2)}`;
                     document.getElementById('items-total').textContent = `RM ${totalAmount.toFixed(2)}`;
+                    
+                    // Show the modal
+                    const itemsModal = document.getElementById('itemsModal');
+                    const modal = new bootstrap.Modal(itemsModal);
+                    modal.show();
                 })
                 .catch(error => {
                     console.error('Error fetching cart items:', error);
                     alert('Error loading cart items. Please try again.');
                 });
-        });
+        }
     });
 
-    // Add loading state to download buttons
-    const downloadButtons = document.querySelectorAll('[href*="download-pdf"], [href*="download-excel"]');
-    downloadButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            const originalText = this.innerHTML;
-            const isExcel = this.href.includes('download-excel');
-            this.innerHTML = `<i class="bi bi-hourglass-split me-1"></i> Generating ${isExcel ? 'Excel' : 'PDF'}...`;
-            this.disabled = true;
-            
-            // Reset button after 5 seconds if download hasn't started
-            setTimeout(() => {
-                this.innerHTML = originalText;
-                this.disabled = false;
-            }, 5000);
-        });
-    });
-
-    // Function to download log file content
-    function downloadLog(content, filename) {
-        const blob = new Blob([content], { type: 'text/plain' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-    }
-
-    // Handle successful transactions log download
-    document.getElementById('downloadSuccessLog').addEventListener('click', function(e) {
-        e.preventDefault();
-        fetch('/admin/orders/download-success-log')
-            .then(response => response.text())
-            .then(content => {
-                downloadLog(content, `successful_transactions_${new Date().toISOString().split('T')[0]}.log`);
-            })
-            .catch(error => {
-                console.error('Error downloading success log:', error);
-                alert('Error downloading success log. Please try again.');
-            });
-    });
-
-    // Handle failed transactions log download
-    document.getElementById('downloadFailedLog').addEventListener('click', function(e) {
-        e.preventDefault();
-        fetch('/admin/orders/download-failed-log')
-            .then(response => response.text())
-            .then(content => {
-                downloadLog(content, `failed_transactions_${new Date().toISOString().split('T')[0]}.log`);
-            })
-            .catch(error => {
-                console.error('Error downloading failed log:', error);
-                alert('Error downloading failed log. Please try again.');
-            });
-    });
-
-    // Handle participants modal
+    // Update Participants Modal - Use event delegation
     document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('view-participants')) {
+        if (e.target.closest('.update-participants')) {
             e.preventDefault();
-            const orderId = e.target.dataset.orderId;
+            const link = e.target.closest('.update-participants');
+            const orderId = link.dataset.orderId;
+            
+            console.log('Fetching participants for order ID:', orderId);
+            
+            // Fetch participants
+            fetch(`/admin/orders/${orderId}/participants`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Participants received:', data);
+                    document.getElementById('updateOrderId').value = orderId;
+                    
+                    const container = document.getElementById('updateParticipantsContainer');
+                    container.innerHTML = '';
+                    
+                    // Group participants by ticket
+                    const participantsByTicket = {};
+                    data.forEach(participant => {
+                        if (!participantsByTicket[participant.ticket_id]) {
+                            participantsByTicket[participant.ticket_id] = [];
+                        }
+                        participantsByTicket[participant.ticket_id].push(participant);
+                    });
+                    
+                    let ticketNumber = 1;
+                    Object.keys(participantsByTicket).forEach(ticketId => {
+                        const participants = participantsByTicket[ticketId];
+                        participants.forEach(participant => {
+                            const formDiv = document.createElement('div');
+                            formDiv.className = 'participant-form mb-4 p-3 border rounded';
+                            formDiv.innerHTML = `
+                                <h6 class="mb-3">Participant ${ticketNumber} - ${participant.ticket_name}</h6>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <label for="participant_full_name_${ticketNumber}">Full Name <span class="required">*</span></label>
+                                        <input type="text" class="form-control" id="participant_full_name_${ticketNumber}" name="participants[${ticketNumber}][full_name]" value="${participant.full_name || '-'}" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="participant_phone_${ticketNumber}">Phone <span class="required">*</span></label>
+                                        <input type="text" class="form-control" id="participant_phone_${ticketNumber}" name="participants[${ticketNumber}][phone]" value="${participant.phone || '-'}" placeholder="e.g. 0123456789" required pattern="[0-9]*" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <label for="participant_email_${ticketNumber}">Email Address <span class="required">*</span></label>
+                                        <input type="email" class="form-control" id="participant_email_${ticketNumber}" name="participants[${ticketNumber}][email]" value="${participant.email || '-'}" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="participant_gender_${ticketNumber}">Gender <span class="required">*</span></label>
+                                        <select class="form-control" id="participant_gender_${ticketNumber}" name="participants[${ticketNumber}][gender]" required>
+                                            <option value="">Select Gender</option>
+                                            <option value="male" ${participant.gender === 'male' ? 'selected' : ''}>Male</option>
+                                            <option value="female" ${participant.gender === 'female' ? 'selected' : ''}>Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <label for="participant_company_${ticketNumber}">Company Name</label>
+                                        <input type="text" class="form-control" id="participant_company_${ticketNumber}" name="participants[${ticketNumber}][company_name]" value="${participant.company_name || '-'}">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <label for="participant_identity_${ticketNumber}">Identity Card Number / Passport <span class="required">*</span></label>
+                                        <input type="text" class="form-control" id="participant_identity_${ticketNumber}" name="participants[${ticketNumber}][identity_number]" value="${participant.identity_number || '-'}" placeholder="e.g. 901234567890 or A12345678" required>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="participants[${ticketNumber}][ticket_id]" value="${participant.ticket_id}">
+                                <input type="hidden" name="participants[${ticketNumber}][ticket_number]" value="${ticketNumber}">
+                                ${participant.id ? `<input type="hidden" name="participants[${ticketNumber}][id]" value="${participant.id}">` : ''}
+                            `;
+                            container.appendChild(formDiv);
+                            ticketNumber++;
+            });
+    });
+
+                    // Show the modal
+                    const updateModal = document.getElementById('updateParticipantsModal');
+                    const modal = new bootstrap.Modal(updateModal);
+                    modal.show();
+            })
+            .catch(error => {
+                    console.error('Error fetching participants:', error);
+                    alert('Error loading participants. Please try again.');
+            });
+        }
+    });
+
+    // View Participants Modal - Use event delegation
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.view-participants')) {
+            e.preventDefault();
+            const link = e.target.closest('.view-participants');
+            const orderId = link.dataset.orderId;
+            
+            console.log('Fetching participants for viewing, order ID:', orderId);
+            
+            // Show the modal immediately with loading state
+            const participantsModal = document.getElementById('participantsModal');
+            const modal = new bootstrap.Modal(participantsModal);
+            modal.show();
             
             // Show loading state
             const tbody = document.getElementById('participants-table-body');
@@ -888,23 +710,42 @@ document.addEventListener('DOMContentLoaded', function() {
                 <tr>
                     <td colspan="8" class="text-center">
                         <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
+                            <span class="visually-hidden">Loading participants...</span>
                         </div>
+                        <div class="mt-2 text-muted">Loading participant details...</div>
                     </td>
                 </tr>
             `;
             
-            // Fetch participants
+            // Fetch participants with timeout
+            const fetchTimeout = setTimeout(() => {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center text-warning">
+                            <i class="bi bi-clock me-2"></i>
+                            Taking longer than expected. Please wait...
+                        </td>
+                    </tr>
+                `;
+            }, 3000);
+            
             fetch(`/admin/orders/${orderId}/participants`)
-                .then(response => response.json())
+                .then(response => {
+                    clearTimeout(fetchTimeout);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
-                    const tbody = document.getElementById('participants-table-body');
+                    console.log('Participants for viewing received:', data);
                     tbody.innerHTML = '';
                     
                     if (data.length === 0) {
                         tbody.innerHTML = `
                             <tr>
                                 <td colspan="8" class="text-center text-muted">
+                                    <i class="bi bi-info-circle me-2"></i>
                                     No participant details found for this order.
                                 </td>
                             </tr>
@@ -928,11 +769,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 })
                 .catch(error => {
-                    console.error('Error fetching participants:', error);
-                    const tbody = document.getElementById('participants-table-body');
+                    clearTimeout(fetchTimeout);
+                    console.error('Error fetching participants for viewing:', error);
                     tbody.innerHTML = `
                         <tr>
                             <td colspan="8" class="text-center text-danger">
+                                <i class="bi bi-exclamation-triangle me-2"></i>
                                 Error loading participant details. Please try again.
                             </td>
                         </tr>
@@ -941,114 +783,101 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Handle update participants modal
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('update-participants')) {
-            e.preventDefault();
-            const orderId = e.target.dataset.orderId;
-            document.getElementById('updateOrderId').value = orderId;
+    // Add loading state to download buttons
+    const downloadButtons = document.querySelectorAll('[href*="download-pdf"], [href*="download-excel"]');
+    downloadButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const originalText = this.innerHTML;
+            const isExcel = this.href.includes('download-excel');
+            this.innerHTML = `<i class="bi bi-hourglass-split me-1"></i> Generating ${isExcel ? 'Excel' : 'PDF'}...`;
+            this.disabled = true;
             
-            // Show loading state
-            const container = document.getElementById('updateParticipantsContainer');
-            container.innerHTML = `
-                <div class="text-center">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <p class="mt-2">Loading order details...</p>
-                </div>
-            `;
-            
-            // Fetch order details and participants
-            Promise.all([
-                fetch(`/admin/orders/${orderId}/items`).then(response => response.json()),
-                fetch(`/admin/orders/${orderId}/participants`).then(response => response.json())
-            ])
-            .then(([items, participants]) => {
-                generateUpdateParticipantForms(items, participants);
-            })
-            .catch(error => {
-                console.error('Error fetching order details:', error);
-                container.innerHTML = `
-                    <div class="text-center text-danger">
-                        <p>Error loading order details. Please try again.</p>
-                    </div>
-                `;
-            });
-        }
+            // Reset button after 5 seconds if download hasn't started
+            setTimeout(() => {
+                this.innerHTML = originalText;
+                this.disabled = false;
+            }, 5000);
+        });
     });
 
-    // Generate participant forms for update
-    function generateUpdateParticipantForms(items, participants) {
-        const container = document.getElementById('updateParticipantsContainer');
-        container.innerHTML = '';
-        
-        let ticketNumber = 1;
-        
-        items.forEach(item => {
-            for (let i = 0; i < item.quantity; i++) {
-                // Find participant by ticket_id and ticket_number
-                const participant = participants.find(p => p.ticket_id == item.ticket_id && p.ticket_number == ticketNumber);
-                
-                // Debug logging
-                console.log('Generating form for ticket:', {
-                    ticketNumber,
-                    ticketId: item.ticket_id,
-                    ticketName: item.ticket_name,
-                    participant: participant
-                });
-                
-                const formDiv = document.createElement('div');
-                formDiv.className = 'participant-form mb-4 p-3 border rounded';
-                formDiv.innerHTML = `
-                    <h6 class="mb-3">Participant ${ticketNumber} - ${item.ticket_name}</h6>
-                    <div class="form-row">
-                        <div class="col-md-6">
-                            <label for="participant_full_name_${ticketNumber}">Full Name <span class="required">*</span></label>
-                            <input type="text" class="form-control" id="participant_full_name_${ticketNumber}" name="participants[${ticketNumber}][full_name]" value="${participant && participant.full_name ? participant.full_name : '-'}" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="participant_phone_${ticketNumber}">Phone <span class="required">*</span></label>
-                            <input type="text" class="form-control" id="participant_phone_${ticketNumber}" name="participants[${ticketNumber}][phone]" value="${participant && participant.phone ? participant.phone : '-'}" placeholder="e.g. 0123456789" required pattern="[0-9]*" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-md-6">
-                            <label for="participant_email_${ticketNumber}">Email Address <span class="required">*</span> <i class="fas fa-info-circle" style="color: #ff9800;" data-bs-toggle="tooltip" data-bs-placement="top" title="Please provide your active email address. This will be used to send your purchase confirmation and can be used to retrieve your purchase information if you register an account later."></i></label>
-                            <input type="email" class="form-control" id="participant_email_${ticketNumber}" name="participants[${ticketNumber}][email]" value="${participant && participant.email ? participant.email : '-'}" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="participant_gender_${ticketNumber}">Gender <span class="required">*</span></label>
-                            <select class="form-control" id="participant_gender_${ticketNumber}" name="participants[${ticketNumber}][gender]" required>
-                                <option value="">Select Gender</option>
-                                <option value="male" ${participant && participant.gender === 'male' ? 'selected' : ''}>Male</option>
-                                <option value="female" ${participant && participant.gender === 'female' ? 'selected' : ''}>Female</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-md-6">
-                            <label for="participant_company_${ticketNumber}">Company Name</label>
-                            <input type="text" class="form-control" id="participant_company_${ticketNumber}" name="participants[${ticketNumber}][company_name]" value="${participant && participant.company_name ? participant.company_name : '-'}">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-md-6">
-                            <label for="participant_identity_${ticketNumber}">Identity Card Number / Passport <span class="required">*</span> <i class="fas fa-info-circle" style="color: #ff9800;" data-bs-toggle="tooltip" data-bs-placement="top" title="For Malaysian citizens, please enter your IC number. For international customers, please enter your passport number."></i></label>
-                            <input type="text" class="form-control" id="participant_identity_${ticketNumber}" name="participants[${ticketNumber}][identity_number]" value="${participant && participant.identity_number ? participant.identity_number : '-'}" placeholder="e.g. 901234567890 or A12345678" required>
-                        </div>
-                    </div>
-                    <input type="hidden" name="participants[${ticketNumber}][ticket_id]" value="${item.ticket_id}">
-                    <input type="hidden" name="participants[${ticketNumber}][ticket_number]" value="${ticketNumber}">
-                    ${participant && participant.id ? `<input type="hidden" name="participants[${ticketNumber}][id]" value="${participant.id}">` : ''}
-                `;
-                container.appendChild(formDiv);
-                ticketNumber++;
+    // Auto-submit form when select dropdowns change
+    const autoSubmitSelects = document.querySelectorAll('#paymentMethod, #ticketFilter, #eventFilter, #paymentCountry');
+    autoSubmitSelects.forEach(select => {
+        select.addEventListener('change', function() {
+            document.getElementById('searchForm').submit();
+        });
+    });
+
+    // Auto-submit form when date inputs change
+    const dateInputs = document.querySelectorAll('#startDate, #endDate');
+    dateInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            // Only submit if both dates are filled or if end date is filled after start date
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            
+            if (this.id === 'startDate' && endDate) {
+                document.getElementById('searchForm').submit();
+            } else if (this.id === 'endDate' && startDate) {
+                document.getElementById('searchForm').submit();
             }
         });
+    });
+
+    // Function to download log file content
+    function downloadLog(content, filename) {
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
     }
 
+    // Download success log
+    document.getElementById('downloadSuccessLog').addEventListener('click', function(e) {
+        e.preventDefault();
+        this.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Generating...';
+        this.disabled = true;
+        
+        fetch('/admin/orders/download-success-log')
+            .then(response => response.text())
+            .then(content => {
+                downloadLog(content, 'successful_transactions_' + new Date().toISOString().split('T')[0] + '.log');
+            })
+            .catch(error => {
+                console.error('Error downloading success log:', error);
+                alert('Error downloading success log. Please try again.');
+            })
+            .finally(() => {
+                this.innerHTML = '<i class="bi bi-check-circle text-success me-2"></i>Successful Transactions';
+                this.disabled = false;
+            });
+    });
 
+    // Download failed log
+    document.getElementById('downloadFailedLog').addEventListener('click', function(e) {
+        e.preventDefault();
+        this.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Generating...';
+        this.disabled = true;
+        
+        fetch('/admin/orders/download-failed-log')
+            .then(response => response.text())
+            .then(content => {
+                downloadLog(content, 'failed_transactions_' + new Date().toISOString().split('T')[0] + '.log');
+            })
+            .catch(error => {
+                console.error('Error downloading failed log:', error);
+                alert('Error downloading failed log. Please try again.');
+            })
+            .finally(() => {
+                this.innerHTML = '<i class="bi bi-x-circle text-danger me-2"></i>Failed Transactions';
+                this.disabled = false;
+            });
+    });
 
     // Function to show Bootstrap alert messages
     function showAlert(message, type = 'success') {

@@ -28,10 +28,122 @@ class OrderController extends Controller
             session()->flash('success', 'Participants updated successfully!');
         }
 
-        $orders = Order::with('billingDetail')
-            ->latest()
-            ->paginate(10)
-            ->through(function ($order) {
+        $query = Order::with('billingDetail');
+
+        // Apply reference number search filter
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where('reference_number', 'like', "%{$search}%");
+        }
+
+        // Apply identity number filter
+        if ($request->has('identity') && !empty($request->identity)) {
+            $identity = $request->identity;
+            $query->where(function($q) use ($identity) {
+                $q->whereHas('billingDetail', function($billingQuery) use ($identity) {
+                    $billingQuery->where('identity_number', 'like', "%{$identity}%");
+                })->orWhereHas('participants', function($participantQuery) use ($identity) {
+                    $participantQuery->where('identity_number', 'like', "%{$identity}%");
+                });
+            });
+        }
+
+        // Apply payment method filter
+        if ($request->has('payment_method') && !empty($request->payment_method)) {
+            $query->where('payment_method', $request->payment_method);
+        }
+
+        // Apply payment country filter
+        if ($request->has('payment_country') && !empty($request->payment_country)) {
+            $query->where('payment_country', $request->payment_country);
+        }
+
+        // Apply date range filters
+        if ($request->has('start_date') && !empty($request->start_date)) {
+            $query->whereDate('created_at', '>=', $request->start_date);
+        }
+
+        if ($request->has('end_date') && !empty($request->end_date)) {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        $orders = $query->latest()->get();
+
+        // Apply event filter
+        if ($request->has('event') && $request->event !== 'all') {
+            $eventFilter = $request->event;
+            
+            $orders = $orders->filter(function($order) use ($eventFilter) {
+                foreach ($order->cart_items as $item) {
+                    $ticket = \App\Models\Ticket::find($item['ticket_id']);
+                    if ($ticket) {
+                        $ticketName = strtolower($ticket->name);
+                        switch ($eventFilter) {
+                            case 'bina':
+                                if (str_contains($ticketName, 'facility management') && !str_contains($ticketName, 'industry') ||
+                                    str_contains($ticketName, 'modular asia') ||
+                                    str_contains($ticketName, 'combo')) {
+                                    return true;
+                                }
+                                break;
+                            case 'industry':
+                                if (str_contains($ticketName, 'industry')) {
+                                    return true;
+                                }
+                                break;
+                        }
+                    }
+                }
+                return false;
+            });
+        }
+
+        // Apply ticket filter
+        if ($request->has('ticket') && !empty($request->ticket)) {
+            $ticketId = $request->ticket;
+            
+            $orders = $orders->filter(function($order) use ($ticketId) {
+                // Convert cart_items to array if it's not already
+                $cartItems = is_array($order->cart_items) ? $order->cart_items : json_decode($order->cart_items, true);
+                
+                if (!is_array($cartItems)) {
+                    return false;
+                }
+                
+                foreach ($cartItems as $item) {
+                    // Handle different possible structures
+                    $itemTicketId = null;
+                    
+                    if (is_array($item)) {
+                        // Direct array access
+                        $itemTicketId = $item['ticket_id'] ?? $item['ticket']['id'] ?? null;
+                    } elseif (is_object($item)) {
+                        // Object access
+                        $itemTicketId = $item->ticket_id ?? $item->ticket->id ?? null;
+                    }
+                    
+                    if ($itemTicketId == $ticketId) {
+                        return true;
+                    }
+                }
+                return false;
+            });
+        }
+
+        // Paginate the filtered results
+        $perPage = 10;
+        $currentPage = $request->get('page', 1);
+        $totalItems = $orders->count();
+        
+        $orders = new \Illuminate\Pagination\LengthAwarePaginator(
+            $orders->forPage($currentPage, $perPage),
+            $totalItems,
+            $perPage,
+            $currentPage,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
+
+        $orders = $orders->through(function ($order) {
                 $order->cart_items_count = count($order->cart_items);
                 $order->ticket_ids = collect($order->cart_items)->pluck('ticket_id')->toArray();
                 return $order;
@@ -39,7 +151,13 @@ class OrderController extends Controller
             
         $tickets = \App\Models\Ticket::select('id', 'name')->get();
             
-        return view('admin.orders.index', compact('orders', 'tickets'));
+        // Debug: Log available tickets
+        \Log::info('Available tickets for filtering', [
+            'tickets' => $tickets->toArray(),
+            'requested_ticket' => $request->get('ticket')
+        ]);
+            
+        return view('admin.orders.index', compact('orders', 'tickets', 'currentPage', 'perPage'));
     }
 
     /**
@@ -261,17 +379,25 @@ class OrderController extends Controller
 
     public function getParticipants(Order $order)
     {
+        // Load all relationships in one query
         $order->load(['participants.ticket', 'billingDetail']);
+        
+        // Get all ticket IDs from cart items to fetch tickets in one query
+        $ticketIds = collect($order->cart_items)->pluck('ticket_id')->unique();
+        $tickets = \App\Models\Ticket::whereIn('id', $ticketIds)->get()->keyBy('id');
         
         $allParticipants = [];
         
         // Process each cart item to generate participant list
         foreach ($order->cart_items as $item) {
-            $ticket = \App\Models\Ticket::find($item['ticket_id']);
+            $ticket = $tickets->get($item['ticket_id']);
+            if (!$ticket) continue;
+            
+            // Get participants for this ticket
             $participants = $order->participants->where('ticket_id', $item['ticket_id']);
             
             for ($i = 1; $i <= $item['quantity']; $i++) {
-                $participant = $participants->skip($i - 1)->first();
+                $participant = $participants->where('ticket_number', $i)->first();
                 
                 // If participant details exist, use them
                 if ($participant) {
