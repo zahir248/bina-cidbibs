@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\BillingDetail;
 use App\Models\Order;
+use App\Models\Participant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -13,6 +14,7 @@ use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\CommunityMembersExport;
 use App\Exports\TicketPurchasersExport;
+use App\Exports\ParticipantsExport;
 
 class UserController extends Controller
 {
@@ -73,7 +75,120 @@ class UserController extends Controller
             ->latest()
             ->paginate(5, ['*'], 'purchaser_page');
 
-        return view('admin.users.index', compact('adminUsers', 'clientUsers', 'ticketPurchasers'));
+        // Get all participants (real + virtual) without pagination first
+        $allParticipants = collect();
+        
+        // Get real participants
+        $realParticipants = Participant::query()
+            ->with(['order.billingDetail', 'ticket'])
+            ->get();
+        $allParticipants = $allParticipants->merge($realParticipants);
+        
+        // Get orders with participants to identify which orders need purchaser fallback
+        $ordersWithParticipants = Order::whereHas('participants')->pluck('id')->toArray();
+        
+        // Get orders without participants but with paid status
+        $ordersWithoutParticipants = Order::where('status', 'paid')
+            ->whereNotIn('id', $ordersWithParticipants)
+            ->with(['billingDetail'])
+            ->get();
+
+        // Create virtual participants from purchaser data for orders without participants
+        foreach ($ordersWithoutParticipants as $order) {
+            foreach ($order->cart_items as $item) {
+                $ticket = \App\Models\Ticket::find($item['ticket_id']);
+                if (!$ticket) continue;
+                
+                $quantity = $item['quantity'];
+                
+                // For each ticket quantity, create a virtual participant
+                for ($i = 0; $i < $quantity; $i++) {
+                    // Only use purchaser data for the first ticket, leave others empty
+                    if ($i === 0) {
+                        $virtualParticipant = new \App\Models\Participant([
+                            'id' => 'virtual_' . $order->id . '_' . $i,
+                            'full_name' => $order->billingDetail->first_name . ' ' . $order->billingDetail->last_name,
+                            'phone' => $order->billingDetail->phone,
+                            'email' => $order->billingDetail->email,
+                            'gender' => null,
+                            'company_name' => $order->billingDetail->company_name,
+                            'identity_number' => $order->billingDetail->identity_number,
+                            'ticket_number' => null,
+                        ]);
+                        $virtualParticipant->order = $order;
+                        $virtualParticipant->ticket = $ticket;
+                        $virtualParticipant->is_virtual = true;
+                        $allParticipants->push($virtualParticipant);
+                    } else {
+                        // Empty participant for additional tickets
+                        $virtualParticipant = new \App\Models\Participant([
+                            'id' => 'virtual_' . $order->id . '_' . $i,
+                            'full_name' => '',
+                            'phone' => '',
+                            'email' => '',
+                            'gender' => null,
+                            'company_name' => '',
+                            'identity_number' => '',
+                            'ticket_number' => null,
+                        ]);
+                        $virtualParticipant->order = $order;
+                        $virtualParticipant->ticket = $ticket;
+                        $virtualParticipant->is_virtual = true;
+                        $allParticipants->push($virtualParticipant);
+                    }
+                }
+            }
+        }
+        
+        // Apply search filter if needed
+        if ($request->has('participant_search') && !empty($request->participant_search)) {
+            $search = trim($request->participant_search);
+            $beforeSearchCount = $allParticipants->count();
+            
+            $allParticipants = $allParticipants->filter(function($participant) use ($search) {
+                // Handle null values safely
+                $fullName = $participant->full_name ?? '';
+                $email = $participant->email ?? '';
+                $phone = $participant->phone ?? '';
+                $companyName = $participant->company_name ?? '';
+                $identityNumber = $participant->identity_number ?? '';
+                
+                $matches = stripos($fullName, $search) !== false ||
+                          stripos($email, $search) !== false ||
+                          stripos($phone, $search) !== false ||
+                          stripos($companyName, $search) !== false ||
+                          stripos($identityNumber, $search) !== false;
+                
+                return $matches;
+            });
+            
+            $afterSearchCount = $allParticipants->count();
+            \Log::info("Participant search: '{$search}' - Before: {$beforeSearchCount}, After: {$afterSearchCount}");
+        }
+
+        // Sort by latest (most recent orders first)
+        $allParticipants = $allParticipants->sortByDesc(function($participant) {
+            return $participant->order->created_at;
+        });
+
+        // Create pagination manually
+        $perPage = 5;
+        $currentPage = $request->get('participant_page', 1);
+        $currentPageItems = $allParticipants->forPage($currentPage, $perPage);
+        
+        $participants = new \Illuminate\Pagination\LengthAwarePaginator(
+            $currentPageItems,
+            $allParticipants->count(),
+            $perPage,
+            $currentPage,
+            [
+                'path' => $request->url(),
+                'pageName' => 'participant_page',
+                'query' => $request->query()
+            ]
+        );
+
+        return view('admin.users.index', compact('adminUsers', 'clientUsers', 'ticketPurchasers', 'participants'));
     }
 
     public function create()
@@ -167,5 +282,10 @@ class UserController extends Controller
     public function downloadTicketPurchasers()
     {
         return Excel::download(new TicketPurchasersExport, 'ticket-purchasers-' . now()->format('Y-m-d') . '.xlsx');
+    }
+
+    public function downloadParticipants()
+    {
+        return Excel::download(new ParticipantsExport, 'participants-' . now()->format('Y-m-d') . '.xlsx');
     }
 } 

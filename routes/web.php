@@ -204,6 +204,7 @@ Route::middleware('auth')->group(function () {
         // Users Management Routes
         Route::get('users/download-community', [UserController::class, 'downloadCommunityMembers'])->name('users.download-community');
         Route::get('users/download-purchasers', [UserController::class, 'downloadTicketPurchasers'])->name('users.download-purchasers');
+        Route::get('users/download-participants', [UserController::class, 'downloadParticipants'])->name('users.download-participants');
         Route::resource('users', UserController::class)->except(['show']);
         
         // Orders Management Routes

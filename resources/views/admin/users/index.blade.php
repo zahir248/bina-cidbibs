@@ -43,9 +43,9 @@
                                     <i class="bi bi-search"></i>
                                 </button>
                                 @if(request('admin_search'))
-                                    <a href="{{ route('admin.users.index', ['admin_page' => request('admin_page')]) }}" class="btn btn-outline-secondary">
+                                    <button type="button" class="btn btn-outline-secondary clear-search-btn" data-section="admin">
                                         <i class="bi bi-x"></i>
-                                    </a>
+                                    </button>
                                 @endif
                             </div>
                         </form>
@@ -124,9 +124,9 @@
                                     <i class="bi bi-search"></i>
                                 </button>
                                 @if(request('client_search'))
-                                    <a href="{{ route('admin.users.index', ['client_page' => request('client_page')]) }}" class="btn btn-outline-secondary">
+                                    <button type="button" class="btn btn-outline-secondary clear-search-btn" data-section="community">
                                         <i class="bi bi-x"></i>
-                                    </a>
+                                    </button>
                                 @endif
                             </div>
                         </form>
@@ -219,9 +219,9 @@
                                     <i class="bi bi-search"></i>
                                 </button>
                                 @if(request('purchaser_search'))
-                                    <a href="{{ route('admin.users.index', ['purchaser_page' => request('purchaser_page')]) }}" class="btn btn-outline-secondary">
+                                    <button type="button" class="btn btn-outline-secondary clear-search-btn" data-section="purchasers">
                                         <i class="bi bi-x"></i>
-                                    </a>
+                                    </button>
                                 @endif
                             </div>
                         </form>
@@ -311,6 +311,99 @@
                             </div>
                         </div>
                     </div>
+
+                    <hr class="my-4 border border-secondary border-1 opacity-25">
+
+                    <div class="table-responsive mt-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h4 class="mb-0">Participants</h4>
+                                <small class="text-muted">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    Rows with <span class="badge bg-warning text-dark">P</span> badge use purchaser data (no participant details provided)
+                                    @if(request('participant_search'))
+                                        <br><span class="text-info"><i class="bi bi-search me-1"></i>Searching for: "{{ request('participant_search') }}"</span>
+                                    @endif
+                                </small>
+                            </div>
+                            <a href="{{ route('admin.users.download-participants') }}" class="btn btn-success">
+                                <i class="bi bi-download me-1"></i> Download Excel
+                            </a>
+                        </div>
+                        <form action="{{ route('admin.users.index') }}" method="GET" class="mb-4">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search by name, email, phone, company or identity number..." 
+                                       name="participant_search" value="{{ request('participant_search') }}" id="participantSearchInput">
+                                <button class="btn btn-outline-secondary" type="submit">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                                @if(request('participant_search'))
+                                    <button type="button" class="btn btn-outline-secondary clear-search-btn" data-section="participants">
+                                        <i class="bi bi-x"></i>
+                                    </button>
+                                @endif
+                            </div>
+                        </form>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px">No.</th>
+                                    <th>Full Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Gender</th>
+                                    <th>Company Name</th>
+                                    <th>Identity Number</th>
+                                    <th>Ticket Name</th>
+                                    <th>Ticket Price</th>
+                                    <th>Order Reference</th>
+                                    <th>Order Date</th>
+                                    <th>Order Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($participants as $index => $participant)
+                                    <tr class="{{ isset($participant->is_virtual) && $participant->is_virtual ? 'table-warning' : '' }}">
+                                        <td>{{ $participants->firstItem() + $index }}</td>
+                                        <td>
+                                            {{ $participant->full_name }}
+                                            @if(isset($participant->is_virtual) && $participant->is_virtual)
+                                                <span class="badge bg-warning text-dark ms-1" title="Uses purchaser data">P</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $participant->phone ?? '-' }}</td>
+                                        <td>{{ $participant->email ?? '-' }}</td>
+                                        <td>{{ ucfirst($participant->gender ?? '-') }}</td>
+                                        <td>{{ $participant->company_name ?? '-' }}</td>
+                                        <td>{{ $participant->identity_number ?? '-' }}</td>
+                                        <td>{{ $participant->ticket->name ?? '-' }}</td>
+                                        <td>{{ $participant->ticket->price ? 'RM ' . number_format($participant->ticket->price, 2) : '-' }}</td>
+                                        <td>{{ $participant->order->reference_number ?? '-' }}</td>
+                                        <td>{{ $participant->order->created_at ? $participant->order->created_at->format('d M Y H:i') : '-' }}</td>
+                                        <td>{{ $participant->order->total_amount ? 'RM ' . number_format($participant->order->total_amount, 2) : '-' }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="11" class="text-center py-4">
+                                            <i class="bi bi-people fs-1 text-muted"></i>
+                                            <p class="mt-2 mb-0">No participants found</p>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-3">
+                        <div class="d-flex justify-content-between align-items-center w-100">
+                            <div>
+                                Showing {{ $participants->firstItem() }} to {{ $participants->lastItem() }} of {{ $participants->total() }} results
+                            </div>
+                            <div>
+                                {{ $participants->appends(['participant_search' => request('participant_search')])->links('pagination::bootstrap-5') }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -370,19 +463,9 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Function to handle search form
-        function setupSearchForm(formSelector, inputId, pageParam) {
+        function setupSearchForm(formSelector, inputId, pageParam, sectionName) {
             const searchForm = document.querySelector(formSelector);
             const searchInput = document.getElementById(inputId);
-            const clearButton = searchForm.querySelector(`a[href*="${pageParam}"]`);
-
-            // Clear search when clicking the clear button
-            if (clearButton) {
-                clearButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    searchInput.value = '';
-                    searchForm.submit();
-                });
-            }
 
             // Submit form when pressing Enter in search input
             searchInput.addEventListener('keypress', function(e) {
@@ -391,12 +474,116 @@
                     searchForm.submit();
                 }
             });
+
+            // Add submit event listener to scroll to the section
+            searchForm.addEventListener('submit', function() {
+                // Store the section name in sessionStorage to check after page reload
+                sessionStorage.setItem('scrollToSection', sectionName);
+            });
         }
 
+        // Handle clear search buttons
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.clear-search-btn')) {
+                e.preventDefault();
+                const clearBtn = e.target.closest('.clear-search-btn');
+                const section = clearBtn.getAttribute('data-section');
+                
+                // Store the section name for scrolling after clear
+                sessionStorage.setItem('scrollToSection', section);
+                
+                // Build the URL to clear the specific search parameter
+                const url = new URL(window.location);
+                const searchParams = {
+                    'admin': 'admin_search',
+                    'community': 'client_search', 
+                    'purchasers': 'purchaser_search',
+                    'participants': 'participant_search'
+                };
+                
+                // Remove the specific search parameter
+                const paramToRemove = searchParams[section];
+                if (paramToRemove) {
+                    url.searchParams.delete(paramToRemove);
+                }
+                
+                // Navigate to the cleared URL
+                window.location.href = url.toString();
+            }
+        });
+
         // Setup search for each table
-        setupSearchForm('form:has(#adminSearchInput)', 'adminSearchInput', 'admin_page');
-        setupSearchForm('form:has(#clientSearchInput)', 'clientSearchInput', 'client_page');
-        setupSearchForm('form:has(#purchaserSearchInput)', 'purchaserSearchInput', 'purchaser_page');
+        setupSearchForm('form:has(#adminSearchInput)', 'adminSearchInput', 'admin_page', 'admin');
+        setupSearchForm('form:has(#clientSearchInput)', 'clientSearchInput', 'client_page', 'community');
+        setupSearchForm('form:has(#purchaserSearchInput)', 'purchaserSearchInput', 'purchaser_page', 'purchasers');
+        setupSearchForm('form:has(#participantSearchInput)', 'participantSearchInput', 'participant_page', 'participants');
+
+        // Check if we should scroll to a specific section after page load
+        const scrollToSection = sessionStorage.getItem('scrollToSection');
+        if (scrollToSection) {
+            // Clear the flag
+            sessionStorage.removeItem('scrollToSection');
+            
+            // Find the appropriate section and scroll to it
+            let targetSection = null;
+            switch (scrollToSection) {
+                case 'admin':
+                    targetSection = document.querySelector('.table-responsive:has(#adminSearchInput)');
+                    break;
+                case 'community':
+                    targetSection = document.querySelector('.table-responsive:has(#clientSearchInput)');
+                    break;
+                case 'purchasers':
+                    targetSection = document.querySelector('.table-responsive:has(#purchaserSearchInput)');
+                    break;
+                case 'participants':
+                    targetSection = document.querySelector('.table-responsive:has(#participantSearchInput)');
+                    break;
+            }
+            
+            if (targetSection) {
+                setTimeout(function() {
+                    targetSection.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }, 100);
+            }
+        }
+
+        // Also scroll to appropriate section if there's a search term in the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchParams = ['admin_search', 'client_search', 'purchaser_search', 'participant_search'];
+        
+        for (const param of searchParams) {
+            if (urlParams.has(param) && urlParams.get(param).trim() !== '') {
+                let targetSection = null;
+                switch (param) {
+                    case 'admin_search':
+                        targetSection = document.querySelector('.table-responsive:has(#adminSearchInput)');
+                        break;
+                    case 'client_search':
+                        targetSection = document.querySelector('.table-responsive:has(#clientSearchInput)');
+                        break;
+                    case 'purchaser_search':
+                        targetSection = document.querySelector('.table-responsive:has(#purchaserSearchInput)');
+                        break;
+                    case 'participant_search':
+                        targetSection = document.querySelector('.table-responsive:has(#participantSearchInput)');
+                        break;
+                }
+                
+                if (targetSection) {
+                    setTimeout(function() {
+                        targetSection.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                    }, 100);
+                }
+                break; // Only scroll to the first found search parameter
+            }
+        }
     });
 </script>
 @endpush
