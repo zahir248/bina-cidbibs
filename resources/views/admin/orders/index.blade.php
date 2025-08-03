@@ -41,11 +41,6 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="downloadAttendanceDropdown">
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('admin.orders.attendance-form.compiled', ['event' => 'all']) }}">
-                                        <i class="bi bi-file-earmark-text text-primary me-2"></i>All Events
-                                    </a>
-                                </li>
-                                <li>
                                     <a class="dropdown-item" href="{{ route('admin.orders.attendance-form.compiled', ['event' => 'facility']) }}">
                                         <i class="bi bi-file-earmark-text text-primary me-2"></i>Facility Management Engagement Day
                                     </a>
