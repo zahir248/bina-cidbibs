@@ -33,7 +33,7 @@
                 <div class="order-lookup-card">
                     <div class="order-lookup-header">
                         <h1>Order Lookup</h1>
-                        <p>Enter your Identity Card Number/Passport and email address to access your order confirmation and tickets.</p>
+                        <p>Enter your Identity Card Number/Passport and email address to access your order confirmation and tickets. You can search as either a purchaser or a participant.</p>
                     </div>
 
                     @if($errors->any())
@@ -94,6 +94,7 @@
                         <h4>Need Help?</h4>
                         <ul>
                             <li>Use the same Identity Card Number/Passport you provided during checkout</li>
+                            <li>You can search as either a purchaser or a participant</li>
                             <li>If you used a company email, you can still access your order here</li>
                             <li>Make sure to use the exact email address you provided during checkout</li>
                             <li>Only paid orders can be accessed through this lookup</li>

@@ -27,22 +27,33 @@ class OrderLookupController extends Controller
             'email.email' => 'Please enter a valid email address.',
         ]);
 
-        $orders = Order::whereHas('billingDetail', function($query) use ($request) {
+        // Search for orders where the user is the purchaser (billing detail)
+        $purchaserOrders = Order::whereHas('billingDetail', function($query) use ($request) {
                 $query->where('email', $request->email)
                       ->where('identity_number', $request->identity_number);
             })
             ->with(['billingDetail'])
-            ->orderBy('created_at', 'desc')
             ->get();
 
-        if ($orders->isEmpty()) {
+        // Search for orders where the user is a participant
+        $participantOrders = Order::whereHas('participants', function($query) use ($request) {
+                $query->where('email', $request->email)
+                      ->where('identity_number', $request->identity_number);
+            })
+            ->with(['billingDetail', 'participants'])
+            ->get();
+
+        // Merge and deduplicate orders
+        $allOrders = $purchaserOrders->merge($participantOrders)->unique('id');
+
+        if ($allOrders->isEmpty()) {
             return back()->withErrors([
                 'identity_number' => 'No orders found with the provided Identity Card Number/Passport and email address. Please check your details and try again.'
             ])->withInput();
         }
 
         // Filter only paid orders
-        $paidOrders = $orders->where('status', 'paid');
+        $paidOrders = $allOrders->where('status', 'paid');
         
         if ($paidOrders->isEmpty()) {
             return back()->withErrors([
@@ -55,8 +66,11 @@ class OrderLookupController extends Controller
 
     public function downloadPdf(Order $order, Request $request)
     {
-        // Verify the order belongs to the provided email
-        if ($order->billingDetail->email !== $request->query('email')) {
+        // Verify the order belongs to the provided email (either as purchaser or participant)
+        $isPurchaser = $order->billingDetail->email === $request->query('email');
+        $isParticipant = $order->participants()->where('email', $request->query('email'))->exists();
+        
+        if (!$isPurchaser && !$isParticipant) {
             abort(403, 'Unauthorized access to this order.');
         }
 
@@ -130,8 +144,11 @@ class OrderLookupController extends Controller
 
     public function downloadQrCodes(Order $order, Request $request)
     {
-        // Verify the order belongs to the provided email
-        if ($order->billingDetail->email !== $request->query('email')) {
+        // Verify the order belongs to the provided email (either as purchaser or participant)
+        $isPurchaser = $order->billingDetail->email === $request->query('email');
+        $isParticipant = $order->participants()->where('email', $request->query('email'))->exists();
+        
+        if (!$isPurchaser && !$isParticipant) {
             abort(403, 'Unauthorized access to this order.');
         }
 

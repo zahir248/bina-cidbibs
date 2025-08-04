@@ -80,11 +80,17 @@
                                             </td>
                                             <td>
                                                 <div class="action-buttons">
-                                                    <a href="{{ route('client.order-lookup.download-pdf', $order) }}?email={{ urlencode($order->billingDetail->email) }}" 
+                                                    @php
+                                                        // Determine the email to use for downloads
+                                                        $searchEmail = request('email');
+                                                        $downloadEmail = $order->billingDetail->email === $searchEmail ? 
+                                                            $order->billingDetail->email : $searchEmail;
+                                                    @endphp
+                                                    <a href="{{ route('client.order-lookup.download-pdf', $order) }}?email={{ urlencode($downloadEmail) }}" 
                                                        class="btn-action btn-pdf" title="Download PDF">
                                                         <i class="fas fa-file-pdf"></i>
                                                     </a>
-                                                    <a href="{{ route('client.order-lookup.download-qr-codes', $order) }}?email={{ urlencode($order->billingDetail->email) }}" 
+                                                    <a href="{{ route('client.order-lookup.download-qr-codes', $order) }}?email={{ urlencode($downloadEmail) }}" 
                                                        class="btn-action btn-qr" title="Download QR Codes">
                                                         <i class="fas fa-qrcode"></i>
                                                     </a>
@@ -145,9 +151,9 @@
                                                     $discountedPrice = $ticket->getDiscountedPrice($quantity);
                                                 @endphp
                                                 <div class="ticket-item">
-                                                                                                    <div class="ticket-info">
-                                                    <h5>{{ $ticket->name }}</h5>
-                                                    <div class="ticket-description">{!! $ticket->description !!}</div>
+                                                    <div class="ticket-info">
+                                                        <h5>{{ $ticket->name }}</h5>
+                                                        <div class="ticket-description">{!! $ticket->description !!}</div>
                                                         <div class="ticket-details">
                                                             <span class="quantity">Quantity: {{ $quantity }}</span>
                                                             <span class="price">Price: RM {{ number_format($originalPrice, 2) }}</span>
@@ -161,13 +167,45 @@
                                         </div>
                                     </div>
 
+                                    @if($order->participants->isNotEmpty())
+                                        <div class="participants-section">
+                                            <h4>Participants</h4>
+                                            <div class="participants-list">
+                                                @foreach($order->participants as $participant)
+                                                    <div class="participant-item">
+                                                        <div class="participant-info">
+                                                            <h5>{{ $participant->full_name }}</h5>
+                                                            <div class="participant-details">
+                                                                <span class="email">Email: {{ $participant->email }}</span>
+                                                                <span class="phone">Phone: {{ $participant->phone }}</span>
+                                                                <span class="identity">ID: {{ $participant->identity_number }}</span>
+                                                                @if($participant->company_name)
+                                                                    <span class="company">Company: {{ $participant->company_name }}</span>
+                                                                @endif
+                                                                @if($participant->ticket_number)
+                                                                    <span class="ticket-number">Ticket #: {{ $participant->ticket_number }}</span>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endif
+
                                     <div class="modal-actions">
-                                        <a href="{{ route('client.order-lookup.download-pdf', $order) }}?email={{ urlencode($order->billingDetail->email) }}" 
+                                        @php
+                                            // Determine the email to use for downloads
+                                            $searchEmail = request('email');
+                                            $downloadEmail = $order->billingDetail->email === $searchEmail ? 
+                                                $order->billingDetail->email : $searchEmail;
+                                        @endphp
+                                        <a href="{{ route('client.order-lookup.download-pdf', $order) }}?email={{ urlencode($downloadEmail) }}" 
                                            class="btn-download btn-primary">
                                             <i class="fas fa-file-pdf"></i>
                                             Download PDF
                                         </a>
-                                        <a href="{{ route('client.order-lookup.download-qr-codes', $order) }}?email={{ urlencode($order->billingDetail->email) }}" 
+                                        <a href="{{ route('client.order-lookup.download-qr-codes', $order) }}?email={{ urlencode($downloadEmail) }}" 
                                            class="btn-download btn-secondary">
                                             <i class="fas fa-qrcode"></i>
                                             Download QR Codes
@@ -622,6 +660,47 @@ h5 {
     border: 1px solid #ecf0f1;
 }
 
+.participants-section {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    border-left: 3px solid #e67e22;
+}
+
+.participants-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.participant-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    border: 1px solid #ecf0f1;
+}
+
+.participant-info h5 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.participant-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 0.9rem;
+}
+
+.participant-details span {
+    background: #ecf0f1;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: #5a6c7d;
+}
+
 .ticket-item h4 {
     color: #2c3e50;
     margin-bottom: 8px;
@@ -854,6 +933,11 @@ h5 {
     }
     
     .ticket-details {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .participant-details {
         flex-direction: column;
         gap: 8px;
     }
