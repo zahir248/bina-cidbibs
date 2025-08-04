@@ -179,6 +179,7 @@
         function formatResultHTML(data) {
             const order = data.order;
             const billing = data.billing;
+            const participants = data.participants || [];
             
             const getStatusClass = (status) => {
                 switch(status.toLowerCase()) {
@@ -346,6 +347,51 @@
                             </div>
                         ` : ''}
                     </div>
+                    
+                    ${participants.length > 0 ? `
+                        <div class="section">
+                            <div class="section-title">Participant Details</div>
+                            ${participants.map((participant, index) => `
+                                <div class="participant-details" style="margin-top: ${index > 0 ? '24px' : '0'}; padding-top: ${index > 0 ? '24px' : '0'}; border-top: ${index > 0 ? '1px solid #e2e8f0' : 'none'};">
+                                    <div class="subsection-title">Participant ${index + 1}</div>
+                                    <div class="detail-grid">
+                                        <div class="detail-item">
+                                            <div class="detail-label">Full Name</div>
+                                            <div class="detail-value">${participant.full_name}</div>
+                                        </div>
+                                        <div class="detail-item">
+                                            <div class="detail-label">Phone</div>
+                                            <div class="detail-value">${participant.phone}</div>
+                                        </div>
+                                        <div class="detail-item">
+                                            <div class="detail-label">Email</div>
+                                            <div class="detail-value">${participant.email}</div>
+                                        </div>
+                                        <div class="detail-item">
+                                            <div class="detail-label">Gender</div>
+                                            <div class="detail-value">${participant.gender}</div>
+                                        </div>
+                                        <div class="detail-item">
+                                            <div class="detail-label">Company Name</div>
+                                            <div class="detail-value">${participant.company_name}</div>
+                                        </div>
+                                        <div class="detail-item">
+                                            <div class="detail-label">Identity Number</div>
+                                            <div class="detail-value">${participant.identity_number}</div>
+                                        </div>
+                                                                            <div class="detail-item">
+                                        <div class="detail-label">Ticket Number</div>
+                                        <div class="detail-value">${participant.ticket_number}</div>
+                                    </div>
+                                    <div class="detail-item">
+                                        <div class="detail-label">Ticket Name</div>
+                                        <div class="detail-value">${participant.ticket_name}</div>
+                                    </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
                 </div>
             `;
         }

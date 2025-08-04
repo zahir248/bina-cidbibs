@@ -25,7 +25,7 @@ class ScannerController extends Controller
                 ]);
             }
 
-            $order = Order::with('billingDetail')->where('reference_number', $data['ref'])->first();
+            $order = Order::with(['billingDetail', 'participants'])->where('reference_number', $data['ref'])->first();
 
             if (!$order) {
                 return response()->json([
@@ -94,6 +94,66 @@ class ScannerController extends Controller
                 ];
             }
 
+            // Format participant details - same logic as admin side
+            $participants = [];
+            
+            // Get all ticket IDs from cart items to fetch tickets in one query
+            $ticketIds = collect($order->cart_items)->pluck('ticket_id')->unique();
+            $tickets = \App\Models\Ticket::whereIn('id', $ticketIds)->get()->keyBy('id');
+            
+            // Process each cart item to generate participant list
+            foreach ($order->cart_items as $item) {
+                $ticket = $tickets->get($item['ticket_id']);
+                if (!$ticket) continue;
+                
+                // Get participants for this ticket
+                $ticketParticipants = $order->participants->where('ticket_id', $item['ticket_id']);
+                
+                for ($i = 1; $i <= $item['quantity']; $i++) {
+                    $participant = $ticketParticipants->where('ticket_number', $i)->first();
+                    
+                    // If participant details exist, use them
+                    if ($participant) {
+                        $participants[] = [
+                            'full_name' => $participant->full_name ?? 'N/A',
+                            'phone' => $participant->phone ?? 'N/A',
+                            'email' => $participant->email ?? 'N/A',
+                            'gender' => $participant->gender ?? 'N/A',
+                            'company_name' => $participant->company_name ?? 'N/A',
+                            'identity_number' => $participant->identity_number ?? 'N/A',
+                            'ticket_number' => $participant->ticket_number ?? 'N/A',
+                            'ticket_name' => $ticket->name
+                        ];
+                    } else {
+                        // If no participant details, use purchaser info for first ticket only
+                        if ($i === 1) {
+                            $participants[] = [
+                                'full_name' => trim($billingDetail->first_name . ' ' . $billingDetail->last_name),
+                                'phone' => $billingDetail->phone ?? 'N/A',
+                                'email' => $billingDetail->email ?? 'N/A',
+                                'gender' => $billingDetail->gender ?? 'N/A',
+                                'company_name' => $billingDetail->company_name ?? 'N/A',
+                                'identity_number' => $billingDetail->identity_number ?? 'N/A',
+                                'ticket_number' => $i,
+                                'ticket_name' => $ticket->name
+                            ];
+                        } else {
+                            // For additional tickets, leave empty
+                            $participants[] = [
+                                'full_name' => 'N/A',
+                                'phone' => 'N/A',
+                                'email' => 'N/A',
+                                'gender' => 'N/A',
+                                'company_name' => 'N/A',
+                                'identity_number' => 'N/A',
+                                'ticket_number' => $i,
+                                'ticket_name' => $ticket->name
+                            ];
+                        }
+                    }
+                }
+            }
+
             // Format order details
             $orderInfo = [
                 'reference' => $data['ref'],
@@ -113,7 +173,8 @@ class ScannerController extends Controller
                 'message' => 'Valid ticket',
                 'data' => [
                     'order' => $orderInfo,
-                    'billing' => $billingInfo
+                    'billing' => $billingInfo,
+                    'participants' => $participants
                 ]
             ]);
         } catch (\Exception $e) {
