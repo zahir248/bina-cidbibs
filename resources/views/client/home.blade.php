@@ -1733,9 +1733,21 @@
 .speaker-position {
     font-size: 1rem;
     color: #ff9800; /* Orange color */
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     text-align: center;
     text-transform: uppercase;
+}
+
+.speaker-title-badge {
+    background: #1B1F31;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.2rem 0.8rem;
+    border-radius: 1rem;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    text-align: center;
 }
 
 .speaker-social {
@@ -2502,67 +2514,6 @@
             </div>
         </div>
         
-        <div class="event-speakers-container">
-            <!-- Facility Management Card -->
-            <div class="event-speakers-card">
-                <div class="event-speakers-header">
-                    <h3 class="event-speakers-title">FACILITY MANAGEMENT ENGAGEMENT DAY</h3>
-                </div>
-                <div class="event-speakers-grid">
-                    <div class="speaker-card">
-                        <div class="speaker-image-container">
-                            <img src="{{ asset('images/dr-azrin-ahmad.jpg') }}" alt="Dr. Azrin Bin Ahmad">
-                        </div>
-                        <div class="speaker-name">Dr. Azrin Bin Ahmad</div>
-                        <div class="speaker-position">Project Director<br>Maltimur Aktif Unggul Jv Sdn Bhd</div>
-                        <div class="speaker-social">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modular Asia Card -->
-            <div class="event-speakers-card">
-                <div class="event-speakers-header">
-                    <h3 class="event-speakers-title">MODULAR ASIA FORUM & EXHIBITION</h3>
-                </div>
-                <div class="event-speakers-grid">
-                    <div class="speaker-card">
-                        <div class="speaker-image-container">
-                            <img src="{{ asset('images/erlend-spets.jpg') }}" alt="Erlend Spets" style="object-position: top">
-                        </div>
-                        <div class="speaker-name">Erlend Spets</div>
-                        <div class="speaker-position">Associate Partner<br>McKinsey & Company</div>
-                        <div class="speaker-social">
-                            <a href="https://www.linkedin.com/in/erlend-spets-b533106a/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <div class="speaker-card">
-                        <div class="speaker-image-container">
-                            <img src="{{ asset('images/tobias-schaefer.jpg') }}" alt="Tobias Schaefer">
-                        </div>
-                        <div class="speaker-name">Tobias Schaefer</div>
-                        <div class="speaker-position">Global Head of Prefab<br>ARDEX Group</div>
-                        <div class="speaker-social">
-                            <a href="https://www.linkedin.com/in/tobias1schaefer/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <div class="speaker-card">
-                        <div class="speaker-image-container">
-                            <img src="{{ asset('images/martins-motivans.jpg') }}" alt="Martins Motivans" style="object-position: top">
-                        </div>
-                        <div class="speaker-name">Martins Motivans</div>
-                        <div class="speaker-position">CEO<br>LAMOD</div>
-                        <div class="speaker-social">
-                            <a href="https://www.linkedin.com/in/martins-motivans-75b15724/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="https://www.lamod.eu/" target="_blank" rel="noopener noreferrer"><i class="fas fa-globe"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 </style>
 @endpush
 
@@ -2768,7 +2719,7 @@
     <div class="container">
         <div class="counters-container">
             <div class="counter-card">
-                <div class="counter-number">16<span class="plus">+</span></div>
+                <div class="counter-number">18<span class="plus">+</span></div>
                 <div class="counter-label">Our Speaker</div>
             </div>
             <div class="counter-card">
@@ -3018,9 +2969,30 @@
                 <div class="event-speakers-grid">
                     <div class="speaker-card">
                         <div class="speaker-image-container">
+                            <img src="{{ asset('images/majed-ghamdi.jpg') }}" alt="Eng. Majed Al Ghamdi">
+                        </div>
+                        <div class="speaker-name">Eng. Majed Al Ghamdi</div>
+                        <div class="speaker-title-badge">BEST PRACTICES SHARING 2</div>
+                        <div class="speaker-position">General Manager<br>Alborj Facility Management, Saudi Arabia</div>
+                        <div class="speaker-social">
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/fazly-izwan.jpg') }}" alt="Fazly Izwan Bin A. Jalil">
+                        </div>
+                        <div class="speaker-name">Fazly Izwan Bin A. Jalil</div>
+                        <div class="speaker-title-badge">BEST PRACTICES SHARING 3</div>
+                        <div class="speaker-position">General Manager<br>Technology & Contract, Chulia Middle East, Dubai, UAE</div>
+                        <div class="speaker-social">
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
                             <img src="{{ asset('images/dr-azrin-ahmad.jpg') }}" alt="Dr. Azrin Bin Ahmad">
                         </div>
                         <div class="speaker-name">Dr. Azrin Bin Ahmad</div>
+                        <div class="speaker-title-badge">BEST PRACTICES SHARING 6</div>
                         <div class="speaker-position">Project Director<br>Maltimur Aktif Unggul Jv Sdn Bhd</div>
                         <div class="speaker-social">
                         </div>
@@ -3039,6 +3011,7 @@
                             <img src="{{ asset('images/erlend-spets.jpg') }}" alt="Erlend Spets" style="object-position: top">
                         </div>
                         <div class="speaker-name">Erlend Spets</div>
+                        <div class="speaker-title-badge">KEYNOTE SPEECH</div>
                         <div class="speaker-position">Associate Partner<br>McKinsey & Company</div>
                         <div class="speaker-social">
                             <a href="https://www.linkedin.com/in/erlend-spets-b533106a/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
@@ -3049,6 +3022,7 @@
                             <img src="{{ asset('images/tobias-schaefer.jpg') }}" alt="Tobias Schaefer">
                         </div>
                         <div class="speaker-name">Tobias Schaefer</div>
+                        <div class="speaker-title-badge">DIALOGUE SESSION 1</div>
                         <div class="speaker-position">Global Head of Prefab<br>ARDEX Group</div>
                         <div class="speaker-social">
                             <a href="https://www.linkedin.com/in/tobias1schaefer/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
@@ -3059,6 +3033,7 @@
                             <img src="{{ asset('images/martins-motivans.jpg') }}" alt="Martins Motivans" style="object-position: top">
                         </div>
                         <div class="speaker-name">Martins Motivans</div>
+                        <div class="speaker-title-badge">DIALOGUE SESSION 2</div>
                         <div class="speaker-position">CEO<br>LAMOD</div>
                         <div class="speaker-social">
                             <a href="https://www.linkedin.com/in/martins-motivans-75b15724/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
