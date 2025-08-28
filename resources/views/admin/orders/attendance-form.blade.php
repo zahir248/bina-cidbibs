@@ -8,9 +8,11 @@
             font-family: Arial, sans-serif;
             font-size: 12px;
             line-height: 1.4;
+            margin: 0;
+            padding: 0;
         }
         .order-info {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .order-info table {
             width: 100%;
@@ -20,12 +22,14 @@
             padding: 5px;
         }
         .ticket-section {
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+            page-break-after: auto;
         }
         .ticket-title {
             font-size: 14px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             background-color: #f0f0f0;
             padding: 5px;
             page-break-after: avoid;
@@ -33,7 +37,7 @@
         .attendance-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             page-break-inside: auto;
         }
         .attendance-table thead {
@@ -59,6 +63,22 @@
         .attendance-table th {
             background-color: #f0f0f0;
             font-weight: bold;
+            text-align: center;
+        }
+        .no-column {
+            font-size: 8px;
+        }
+        .signature-header {
+            background-color: #90EE90;
+            text-align: center;
+            font-weight: bold;
+            font-size: 11px;
+        }
+        .signature-subheader {
+            background-color: #90EE90;
+            text-align: center;
+            font-weight: bold;
+            font-size: 9px;
         }
         .footer {
             margin-top: 20px;
@@ -93,7 +113,8 @@
         .attendance-table td.name-cell,
         .attendance-table td.company-cell,
         .attendance-table td.reference-cell,
-        .attendance-table td.date-cell {
+        .attendance-table td.date-cell,
+        .attendance-table td.datetime-cell {
             white-space: normal !important;
             word-wrap: break-word !important;
             word-break: break-all !important;
@@ -142,6 +163,35 @@
             .attendance-table tr {
                 page-break-inside: avoid;
             }
+            /* Force page breaks to respect table structure */
+            .attendance-table {
+                page-break-inside: auto;
+            }
+            .attendance-table tbody tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            /* Ensure merged cells don't break across pages */
+            .merged-cell {
+                page-break-inside: avoid;
+            }
+            /* Force page breaks when needed */
+            tr[style*="page-break-before: always"] {
+                page-break-before: always !important;
+            }
+        }
+        
+        /* Ensure table rows don't break inappropriately */
+        .attendance-table tbody tr {
+            break-inside: avoid;
+        }
+        
+        /* Hidden row for page breaks */
+        .page-break-row {
+            height: 0 !important;
+            padding: 0 !important;
+            border: none !important;
+            page-break-before: always;
         }
     </style>
 </head>
@@ -168,13 +218,13 @@
             </table>
         </div>
     @else
-        <div style="text-align: center; margin-bottom: 20px;">
-            <h2 style="margin: 0;">{{ $eventName }}</h2>
-            <p style="margin: 5px 0;">Attendance Form</p>
-        </div>
+        {{-- Title and subtitle removed --}}
     @endif
 
     @foreach($ticketGroups as $group)
+        @if(!$loop->first)
+            <div style="page-break-before: always;"></div>
+        @endif
         <div class="ticket-section">
             <div class="ticket-title">
                 {{ $group['ticket_name'] }}
@@ -183,18 +233,22 @@
             <table class="attendance-table">
                 <thead>
                     <tr>
-                        <th width="5%">No.</th>
+                        <th rowspan="2" width="4%" class="no-column">No</th>
                         @if(!$isSingleOrder)
-                            <th width="12%">Reference Number</th>
-                            <th width="10%">Order Date</th>
-                            <th width="18%">Purchaser Info</th>
+                            <th rowspan="2" width="8%">Reference Number</th>
+                            <th rowspan="2" width="6%">Order Date</th>
+                            <th rowspan="2" width="14%">Purchaser Info</th>
                         @endif
-                        <th width="{{ $isSingleOrder ? '20%' : '14%' }}">Attendee Name</th>
-                        <th width="{{ $isSingleOrder ? '20%' : '14%' }}">Email</th>
-                        <th width="{{ $isSingleOrder ? '15%' : '10%' }}">Phone</th>
-                        <th width="{{ $isSingleOrder ? '15%' : '12%' }}">Company</th>
-                        <th width="{{ $isSingleOrder ? '15%' : '10%' }}">Date/Time</th>
-                        <th width="{{ $isSingleOrder ? '15%' : '10%' }}">Signature</th>
+                        <th rowspan="2" width="{{ $isSingleOrder ? '18%' : '12%' }}">Attendee Name</th>
+                        <th rowspan="2" width="{{ $isSingleOrder ? '18%' : '12%' }}">Email</th>
+                        <th rowspan="2" width="{{ $isSingleOrder ? '12%' : '8%' }}">Phone</th>
+                        <th rowspan="2" width="{{ $isSingleOrder ? '12%' : '10%' }}">Company</th>
+                        <th rowspan="2" width="{{ $isSingleOrder ? '8%' : '6%' }}">Date/Time</th>
+                        <th colspan="2" class="signature-header">Signature</th>
+                    </tr>
+                    <tr>
+                        <th class="signature-subheader">AM</th>
+                        <th class="signature-subheader">PM</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -206,7 +260,8 @@
                                 <td class="email-cell">{{ $attendee['email'] }}</td>
                                 <td class="phone-cell">{{ $attendee['phone'] }}</td>
                                 <td class="company-cell">{{ $attendee['company'] ?? '' }}</td>
-                                <td>{{ $attendee['datetime'] ?? '' }}</td>
+                                <td class="datetime-cell">{{ $attendee['datetime'] ?? '' }}</td>
+                                <td></td>
                                 <td></td>
                             </tr>
                         @endforeach
@@ -216,25 +271,24 @@
                             @foreach($order['attendees'] as $index => $attendee)
                                 <tr>
                                     <td>{{ $rowNumber++ }}</td>
-                                    @if($index === 0)
-                                        <td class="merged-cell reference-cell" rowspan="{{ count($order['attendees']) }}">
-                                            <div style="word-break: break-all; font-size: 8px; line-height: 1.1;">
-                                                {{ $order['order_ref'] }}
-                                            </div>
-                                        </td>
-                                        <td class="merged-cell date-cell" rowspan="{{ count($order['attendees']) }}">{{ $order['order_date'] }}</td>
-                                        <td class="merged-cell" rowspan="{{ count($order['attendees']) }}">
-                                            <div class="purchaser-info"><strong>{{ $order['purchaser_name'] }}</strong></div>
-                                            <div class="small-text">{{ Str::limit($order['purchaser_email'], 25) }}</div>
-                                            <div class="small-text">{{ $order['purchaser_phone'] }}</div>
-                                            <div class="small-text">{{ $order['purchaser_identity_number'] }}</div>
-                                        </td>
-                                    @endif
+                                    <td class="reference-cell">
+                                        <div style="word-break: break-all; font-size: 8px; line-height: 1.1;">
+                                            {{ $order['order_ref'] }}
+                                        </div>
+                                    </td>
+                                    <td class="date-cell">{{ $order['order_date'] }}</td>
+                                    <td class="purchaser-info-cell">
+                                        <div class="purchaser-info"><strong>{{ $order['purchaser_name'] }}</strong></div>
+                                        <div class="small-text">{{ Str::limit($order['purchaser_email'], 25) }}</div>
+                                        <div class="small-text">{{ $order['purchaser_phone'] }}</div>
+                                        <div class="small-text">{{ $order['purchaser_identity_number'] }}</div>
+                                    </td>
                                     <td class="name-cell">{{ $attendee['name'] }}</td>
                                     <td class="email-cell">{{ $attendee['email'] }}</td>
                                     <td class="phone-cell">{{ $attendee['phone'] }}</td>
                                     <td class="company-cell">{{ $attendee['company'] ?? '' }}</td>
-                                    <td>{{ $attendee['datetime'] ?? '' }}</td>
+                                    <td class="datetime-cell">{{ $attendee['datetime'] ?? '' }}</td>
+                                    <td></td>
                                     <td></td>
                                 </tr>
                             @endforeach

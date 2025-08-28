@@ -654,10 +654,10 @@ class OrderController extends Controller
         ]);
 
         $pdf->setPaper('a4');
-        $pdf->setOption('margin-top', 10);
-        $pdf->setOption('margin-right', 10);
-        $pdf->setOption('margin-bottom', 10);
-        $pdf->setOption('margin-left', 10);
+        $pdf->setOption('margin-top', 0);
+        $pdf->setOption('margin-right', 0);
+        $pdf->setOption('margin-bottom', 0);
+        $pdf->setOption('margin-left', 0);
         $pdf->setOption('enable-local-file-access', true);
         $pdf->setOption('isHtml5ParserEnabled', true);
         $pdf->setOption('isRemoteEnabled', true);
@@ -978,10 +978,10 @@ class OrderController extends Controller
         ]);
 
         $pdf->setPaper('a4');
-        $pdf->setOption('margin-top', 10);
-        $pdf->setOption('margin-right', 10);
-        $pdf->setOption('margin-bottom', 10);
-        $pdf->setOption('margin-left', 10);
+        $pdf->setOption('margin-top', 0);
+        $pdf->setOption('margin-right', 0);
+        $pdf->setOption('margin-bottom', 0);
+        $pdf->setOption('margin-left', 0);
         $pdf->setOption('enable-local-file-access', true);
         $pdf->setOption('isHtml5ParserEnabled', true);
         $pdf->setOption('isRemoteEnabled', true);
