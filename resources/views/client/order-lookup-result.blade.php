@@ -34,6 +34,11 @@
                     <div class="order-result-header">
                         <h1>Orders Found!</h1>
                         <p>Here are your order details ({{ $paidOrders->count() }} order{{ $paidOrders->count() > 1 ? 's' : '' }})</p>
+                        <div class="mt-3">
+                            <a href="{{ route('client.order-lookup') }}" class="btn btn-outline-primary">
+                                <i class="fas fa-search"></i> Search Another Order
+                            </a>
+                        </div>
                     </div>
 
                     <div class="orders-table-section">
@@ -81,16 +86,21 @@
                                             <td>
                                                 <div class="action-buttons">
                                                     @php
-                                                        // Determine the email to use for downloads
-                                                        $searchEmail = request('email');
-                                                        $downloadEmail = $order->billingDetail->email === $searchEmail ? 
-                                                            $order->billingDetail->email : $searchEmail;
+                                                        // Build download parameters based on what was used for search
+                                                        $downloadParams = [];
+                                                        if (!empty($request->identity_number)) {
+                                                            $downloadParams['identity_number'] = $request->identity_number;
+                                                        }
+                                                        if (!empty($request->email)) {
+                                                            $downloadParams['email'] = $request->email;
+                                                        }
+                                                        $queryString = http_build_query($downloadParams);
                                                     @endphp
-                                                    <a href="{{ route('client.order-lookup.download-pdf', $order) }}?email={{ urlencode($downloadEmail) }}" 
+                                                    <a href="{{ route('client.order-lookup.download-pdf', $order) }}?{{ $queryString }}" 
                                                        class="btn-action btn-pdf" title="Download PDF">
                                                         <i class="fas fa-file-pdf"></i>
                                                     </a>
-                                                    <a href="{{ route('client.order-lookup.download-qr-codes', $order) }}?email={{ urlencode($downloadEmail) }}" 
+                                                    <a href="{{ route('client.order-lookup.download-qr-codes', $order) }}?{{ $queryString }}" 
                                                        class="btn-action btn-qr" title="Download QR Codes">
                                                         <i class="fas fa-qrcode"></i>
                                                     </a>

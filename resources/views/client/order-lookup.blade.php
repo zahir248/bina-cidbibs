@@ -33,7 +33,7 @@
                 <div class="order-lookup-card">
                     <div class="order-lookup-header">
                         <h1>Order Lookup</h1>
-                        <p>Enter your Identity Card Number/Passport and email address to access your order confirmation and tickets. You can search as either a purchaser or a participant.</p>
+                        <p>Enter your Identity Card Number/Passport OR email address to access your order confirmation and tickets. You can search as either a purchaser or a participant.</p>
                     </div>
 
                     @if($errors->any())
@@ -50,14 +50,13 @@
                         @csrf
                         
                         <div class="form-group">
-                            <label for="identity_number">Identity Card Number / Passport <span class="required">*</span></label>
+                            <label for="identity_number">Identity Card Number / Passport</label>
                             <input type="text" 
                                    class="form-control @error('identity_number') is-invalid @enderror" 
                                    id="identity_number" 
                                    name="identity_number" 
                                    value="{{ old('identity_number') }}" 
-                                   placeholder="e.g. 880101015432" 
-                                   required>
+                                   placeholder="e.g. 880101015432">
                             <small class="form-text text-muted">
                                 Use the same Identity Card Number/Passport you provided during checkout
                             </small>
@@ -67,14 +66,13 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="email">Email Address <span class="required">*</span></label>
+                            <label for="email">Email Address</label>
                             <input type="email" 
                                    class="form-control @error('email') is-invalid @enderror" 
                                    id="email" 
                                    name="email" 
                                    value="{{ old('email') }}" 
-                                   placeholder="e.g. john@company.com" 
-                                   required>
+                                   placeholder="e.g. john@company.com">
                             <small class="form-text text-muted">
                                 Use the same email address you provided during checkout
                             </small>
@@ -93,10 +91,10 @@
                     <div class="order-lookup-info">
                         <h4>Need Help?</h4>
                         <ul>
-                            <li>Use the same Identity Card Number/Passport you provided during checkout</li>
+                            <li>You can search using either your Identity Card Number/Passport OR your email address</li>
+                            <li>Use the same details you provided during checkout</li>
                             <li>You can search as either a purchaser or a participant</li>
                             <li>If you used a company email, you can still access your order here</li>
-                            <li>Make sure to use the exact email address you provided during checkout</li>
                             <li>Only paid orders can be accessed through this lookup</li>
                         </ul>
                         

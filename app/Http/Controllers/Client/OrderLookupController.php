@@ -19,26 +19,55 @@ class OrderLookupController extends Controller
     public function lookup(Request $request)
     {
         $request->validate([
-            'identity_number' => 'required|string|max:20',
-            'email' => 'required|email',
+            'identity_number' => 'nullable|string|max:20',
+            'email' => 'nullable|email',
         ], [
-            'identity_number.required' => 'Please enter your Identity Card Number or Passport.',
-            'email.required' => 'Please enter the email address used during checkout.',
+            'identity_number.max' => 'Identity Card Number/Passport must not exceed 20 characters.',
             'email.email' => 'Please enter a valid email address.',
         ]);
 
+        // Check if at least one field is provided
+        if (empty($request->identity_number) && empty($request->email)) {
+            return back()->withErrors([
+                'identity_number' => 'Please provide either your Identity Card Number/Passport OR email address.',
+                'email' => 'Please provide either your Identity Card Number/Passport OR email address.'
+            ])->withInput();
+        }
+
         // Search for orders where the user is the purchaser (billing detail)
         $purchaserOrders = Order::whereHas('billingDetail', function($query) use ($request) {
-                $query->where('email', $request->email)
-                      ->where('identity_number', $request->identity_number);
+                if (!empty($request->identity_number) && !empty($request->email)) {
+                    // Both fields provided - search with OR logic
+                    $query->where(function($q) use ($request) {
+                        $q->where('email', $request->email)
+                          ->orWhere('identity_number', $request->identity_number);
+                    });
+                } elseif (!empty($request->identity_number)) {
+                    // Only identity number provided
+                    $query->where('identity_number', $request->identity_number);
+                } else {
+                    // Only email provided
+                    $query->where('email', $request->email);
+                }
             })
             ->with(['billingDetail'])
             ->get();
 
         // Search for orders where the user is a participant
         $participantOrders = Order::whereHas('participants', function($query) use ($request) {
-                $query->where('email', $request->email)
-                      ->where('identity_number', $request->identity_number);
+                if (!empty($request->identity_number) && !empty($request->email)) {
+                    // Both fields provided - search with OR logic
+                    $query->where(function($q) use ($request) {
+                        $q->where('email', $request->email)
+                          ->orWhere('identity_number', $request->identity_number);
+                    });
+                } elseif (!empty($request->identity_number)) {
+                    // Only identity number provided
+                    $query->where('identity_number', $request->identity_number);
+                } else {
+                    // Only email provided
+                    $query->where('email', $request->email);
+                }
             })
             ->with(['billingDetail', 'participants'])
             ->get();
@@ -47,8 +76,17 @@ class OrderLookupController extends Controller
         $allOrders = $purchaserOrders->merge($participantOrders)->unique('id');
 
         if ($allOrders->isEmpty()) {
+            $errorMessage = 'No orders found. ';
+            if (!empty($request->identity_number) && !empty($request->email)) {
+                $errorMessage .= 'Please check your Identity Card Number/Passport and email address and try again.';
+            } elseif (!empty($request->identity_number)) {
+                $errorMessage .= 'Please check your Identity Card Number/Passport and try again.';
+            } else {
+                $errorMessage .= 'Please check your email address and try again.';
+            }
+            
             return back()->withErrors([
-                'identity_number' => 'No orders found with the provided Identity Card Number/Passport and email address. Please check your details and try again.'
+                'identity_number' => $errorMessage
             ])->withInput();
         }
 
@@ -61,14 +99,28 @@ class OrderLookupController extends Controller
             ])->withInput();
         }
 
-        return view('client.order-lookup-result', compact('paidOrders'));
+        return view('client.order-lookup-result', compact('paidOrders', 'request'));
     }
 
     public function downloadPdf(Order $order, Request $request)
     {
-        // Verify the order belongs to the provided email (either as purchaser or participant)
-        $isPurchaser = $order->billingDetail->email === $request->query('email');
-        $isParticipant = $order->participants()->where('email', $request->query('email'))->exists();
+        // Verify the order belongs to the provided email or identity number (either as purchaser or participant)
+        $isPurchaser = false;
+        $isParticipant = false;
+        
+        if ($request->has('email') && !empty($request->query('email'))) {
+            $isPurchaser = $order->billingDetail->email === $request->query('email');
+            $isParticipant = $order->participants()->where('email', $request->query('email'))->exists();
+        }
+        
+        if ($request->has('identity_number') && !empty($request->query('identity_number'))) {
+            if (!$isPurchaser) {
+                $isPurchaser = $order->billingDetail->identity_number === $request->query('identity_number');
+            }
+            if (!$isParticipant) {
+                $isParticipant = $order->participants()->where('identity_number', $request->query('identity_number'))->exists();
+            }
+        }
         
         if (!$isPurchaser && !$isParticipant) {
             abort(403, 'Unauthorized access to this order.');
@@ -144,9 +196,23 @@ class OrderLookupController extends Controller
 
     public function downloadQrCodes(Order $order, Request $request)
     {
-        // Verify the order belongs to the provided email (either as purchaser or participant)
-        $isPurchaser = $order->billingDetail->email === $request->query('email');
-        $isParticipant = $order->participants()->where('email', $request->query('email'))->exists();
+        // Verify the order belongs to the provided email or identity number (either as purchaser or participant)
+        $isPurchaser = false;
+        $isParticipant = false;
+        
+        if ($request->has('email') && !empty($request->query('email'))) {
+            $isPurchaser = $order->billingDetail->email === $request->query('email');
+            $isParticipant = $order->participants()->where('email', $request->query('email'))->exists();
+        }
+        
+        if ($request->has('identity_number') && !empty($request->query('identity_number'))) {
+            if (!$isPurchaser) {
+                $isPurchaser = $order->billingDetail->identity_number === $request->query('identity_number');
+            }
+            if (!$isParticipant) {
+                $isParticipant = $order->participants()->where('identity_number', $request->query('identity_number'))->exists();
+            }
+        }
         
         if (!$isPurchaser && !$isParticipant) {
             abort(403, 'Unauthorized access to this order.');
