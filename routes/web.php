@@ -227,6 +227,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/orders/attendance-form/compiled', [OrderController::class, 'downloadCompiledAttendanceForm'])->name('orders.attendance-form.compiled');
         Route::get('/orders/download-success-log', [OrderController::class, 'downloadSuccessLog'])->name('orders.download-success-log');
         Route::get('/orders/download-failed-log', [OrderController::class, 'downloadFailedLog'])->name('orders.download-failed-log');
+        Route::get('/orders/download-pending-log', [OrderController::class, 'downloadPendingLog'])->name('orders.download-pending-log');
 
         // Reports Routes
         Route::get('/reports', [ReportsController::class, 'index'])->name('reports.index');

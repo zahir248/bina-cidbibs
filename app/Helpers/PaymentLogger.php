@@ -10,6 +10,7 @@ class PaymentLogger
     private const LOG_PATH = 'storage/logs/payments/';
     private const FAILED_LOG_FILE = 'payment_failures.log';
     private const SUCCESS_LOG_FILE = 'payment_success.log';
+    private const PENDING_LOG_FILE = 'payment_pending.log';
 
     public static function logFailedPayment(
         string $paymentMethod,
@@ -89,6 +90,90 @@ class PaymentLogger
         $comprehensiveData['session_id'] = session()->getId();
         
         self::logPayment(self::FAILED_LOG_FILE, $paymentMethod, $status, $reason, $comprehensiveData);
+    }
+
+    public static function logPendingPayment(
+        string $paymentMethod,
+        string $referenceNumber,
+        float $amount,
+        array $additionalData = [],
+        array $billingData = null,
+        array $cartItems = null,
+        array $participants = null
+    ): void {
+        // Add comprehensive transaction data to additionalData
+        $comprehensiveData = array_merge([
+            'reference_number' => $referenceNumber,
+            'amount' => number_format($amount, 2)
+        ], $additionalData);
+        
+        if ($billingData) {
+            $comprehensiveData['billing_details'] = [
+                'first_name' => $billingData['first_name'] ?? 'N/A',
+                'last_name' => $billingData['last_name'] ?? 'N/A',
+                'email' => $billingData['email'] ?? 'N/A',
+                'phone' => $billingData['phone'] ?? 'N/A',
+                'gender' => $billingData['gender'] ?? 'N/A',
+                'category' => $billingData['category'] ?? 'N/A',
+                'country' => $billingData['country'] ?? 'N/A',
+                'address1' => $billingData['address1'] ?? 'N/A',
+                'address2' => $billingData['address2'] ?? 'N/A',
+                'city' => $billingData['city'] ?? 'N/A',
+                'state' => $billingData['state'] ?? 'N/A',
+                'postcode' => $billingData['postcode'] ?? 'N/A',
+                'identity_number' => $billingData['identity_number'] ?? 'N/A',
+                'company_name' => $billingData['company_name'] ?? 'N/A',
+                'business_registration_number' => $billingData['business_registration_number'] ?? 'N/A',
+                'tax_number' => $billingData['tax_number'] ?? 'N/A',
+                'student_id' => $billingData['student_id'] ?? 'N/A',
+                'academic_institution' => $billingData['academic_institution'] ?? 'N/A',
+            ];
+        }
+        
+        if ($cartItems) {
+            $comprehensiveData['cart_items'] = [];
+            foreach ($cartItems as $index => $item) {
+                $ticket = \App\Models\Ticket::find($item['ticket_id']);
+                $comprehensiveData['cart_items'][] = [
+                    'item_number' => $index + 1,
+                    'ticket_id' => $item['ticket_id'],
+                    'ticket_name' => $ticket ? $ticket->name : 'Unknown Ticket',
+                    'quantity' => $item['quantity'],
+                    'price' => $ticket ? $ticket->price : 0,
+                    'discounted_price' => $ticket ? $ticket->getDiscountedPrice($item['quantity']) : 0,
+                    'subtotal' => $ticket ? ($ticket->getDiscountedPrice($item['quantity']) * $item['quantity']) : 0,
+                ];
+            }
+        }
+        
+        // Add cart total information
+        if (isset($amount)) {
+            $comprehensiveData['cart_total'] = $amount;
+            $comprehensiveData['cart_total_formatted'] = 'RM ' . number_format($amount, 2);
+        }
+        
+        if ($participants) {
+            $comprehensiveData['participants'] = [];
+            foreach ($participants as $index => $participant) {
+                $comprehensiveData['participants'][] = [
+                    'participant_number' => $index + 1,
+                    'full_name' => $participant['full_name'] ?? 'N/A',
+                    'phone' => $participant['phone'] ?? 'N/A',
+                    'email' => $participant['email'] ?? 'N/A',
+                    'gender' => $participant['gender'] ?? 'N/A',
+                    'company_name' => $participant['company_name'] ?? 'N/A',
+                    'identity_number' => $participant['identity_number'] ?? 'N/A',
+                    'ticket_id' => $participant['ticket_id'] ?? 'N/A',
+                    'ticket_number' => $participant['ticket_number'] ?? 'N/A',
+                ];
+            }
+        }
+        
+        // Add timestamp for tracking
+        $comprehensiveData['initiated_at'] = now()->format('Y-m-d H:i:s');
+        $comprehensiveData['session_id'] = session()->getId();
+        
+        self::logPayment(self::PENDING_LOG_FILE, $paymentMethod, 'PENDING', 'Payment process initiated', $comprehensiveData);
     }
 
     public static function logSuccessfulPayment(
@@ -178,6 +263,11 @@ class PaymentLogger
     public static function getSuccessfulPaymentLogs(): string
     {
         return self::getLogs(self::SUCCESS_LOG_FILE);
+    }
+
+    public static function getPendingPaymentLogs(): string
+    {
+        return self::getLogs(self::PENDING_LOG_FILE);
     }
 
     private static function getLogs(string $logFile): string

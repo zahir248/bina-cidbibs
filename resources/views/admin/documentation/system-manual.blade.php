@@ -490,6 +490,7 @@
                         <ul>
                             <li>payment_success.log - Successful transactions</li>
                             <li>payment_failures.log - Failed transactions</li>
+                            <li>payment_pending.log - Pending transactions (payment initiated but not completed)</li>
                         </ul>
                     </li>
                     <li>Log Entry Format:

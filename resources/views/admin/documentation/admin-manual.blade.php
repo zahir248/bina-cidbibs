@@ -979,6 +979,23 @@
                     </li>
                 </ul>
 
+                <div class="block-title">Steps to Download Pending Transaction Logs:</div>
+                <ul class="info-list">
+                    <li>Navigate to Orders section</li>
+                    <li>Click "Download Pending Log" button</li>
+                    <li>Log file will contain:
+                        <ul>
+                            <li>Timestamp (Y-m-d H:i:s format)</li>
+                            <li>Payment method details</li>
+                            <li>Reference numbers (Bill Code or Payment Intent ID)</li>
+                            <li>Transaction amounts</li>
+                            <li>Customer billing information</li>
+                            <li>Cart items and participants data</li>
+                            <li>Session ID for tracking</li>
+                        </ul>
+                    </li>
+                </ul>
+
                 <div class="note-box">
                     <div class="note-title">Important Notes</div>
                     <ul class="info-list">

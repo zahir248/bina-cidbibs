@@ -240,6 +240,21 @@ class CheckoutController extends Controller
 
             if (isset($result[0]['BillCode'])) {
                 $billCode = $result[0]['BillCode'];
+                
+                // Log pending payment before redirecting to payment gateway
+                PaymentLogger::logPendingPayment(
+                    'toyyibpay',
+                    $billCode,
+                    $cartTotal,
+                    [
+                        'bill_code' => $billCode,
+                        'toyyibpay_response' => $result[0] ?? null
+                    ],
+                    $validated,
+                    session('pending_cart'),
+                    session('pending_participants')
+                );
+                
                 \Log::info('Redirecting to ToyyibPay', ['bill_code' => $billCode]);
                 return redirect('https://toyyibpay.com/' . $billCode);
             } else {
@@ -314,8 +329,30 @@ class CheckoutController extends Controller
                 ],
             ]);
 
-            // Store the payment intent ID in session
-            session(['stripe_payment_intent_id' => $paymentIntent->id]);
+            // Generate reference number for consistency with success logs
+            $referenceNumber = 'STR-' . strtoupper(uniqid());
+            
+            // Store the payment intent ID and reference number in session
+            session([
+                'stripe_payment_intent_id' => $paymentIntent->id,
+                'stripe_reference_number' => $referenceNumber
+            ]);
+            
+            // Log pending payment before redirecting to Stripe payment page
+            PaymentLogger::logPendingPayment(
+                'stripe',
+                $referenceNumber,
+                $totalWithFees,
+                [
+                    'payment_intent_id' => $paymentIntent->id,
+                    'processing_fee' => $processingFee,
+                    'country' => $country,
+                    'currency' => 'myr'
+                ],
+                $validated,
+                session('pending_cart'),
+                session('pending_participants')
+            );
 
             return view('client.store.stripe-payment', [
                 'clientSecret' => $paymentIntent->client_secret,
@@ -391,7 +428,7 @@ class CheckoutController extends Controller
                     // Create order
                     $order = Order::create([
                         'billing_detail_id' => $billing->id,
-                        'reference_number' => 'STR-' . strtoupper(uniqid()),
+                        'reference_number' => session('stripe_reference_number', 'STR-' . strtoupper(uniqid())),
                         'total_amount' => $calculatedTotal,
                         'status' => 'paid',
                         'cart_items' => $cartItems,

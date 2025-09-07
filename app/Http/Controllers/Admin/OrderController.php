@@ -578,6 +578,17 @@ class OrderController extends Controller
     }
 
     /**
+     * Download pending transactions log
+     */
+    public function downloadPendingLog()
+    {
+        $content = PaymentLogger::getPendingPaymentLogs();
+        return response($content)
+            ->header('Content-Type', 'text/plain')
+            ->header('Content-Disposition', 'attachment; filename="pending_transactions_' . date('Y-m-d') . '.log"');
+    }
+
+    /**
      * Generate attendance form PDF for an order
      */
     public function downloadSingleAttendanceForm(Order $order)

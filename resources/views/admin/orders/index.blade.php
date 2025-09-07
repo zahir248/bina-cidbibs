@@ -72,6 +72,11 @@
                                         <i class="bi bi-x-circle text-danger me-2"></i>Failed Transactions
                                     </a>
                                 </li>
+                                <li>
+                                    <a class="dropdown-item" href="#" id="downloadPendingLog">
+                                        <i class="bi bi-clock text-warning me-2"></i>Pending Transactions
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -875,6 +880,27 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .finally(() => {
                 this.innerHTML = '<i class="bi bi-x-circle text-danger me-2"></i>Failed Transactions';
+                this.disabled = false;
+            });
+    });
+
+    // Download pending transactions log
+    document.getElementById('downloadPendingLog').addEventListener('click', function(e) {
+        e.preventDefault();
+        this.innerHTML = '<i class="bi bi-clock text-warning me-2"></i>Downloading...';
+        this.disabled = true;
+        
+        fetch('/admin/orders/download-pending-log')
+            .then(response => response.text())
+            .then(content => {
+                downloadLog(content, 'pending_transactions_' + new Date().toISOString().split('T')[0] + '.log');
+            })
+            .catch(error => {
+                console.error('Error downloading pending log:', error);
+                alert('Error downloading pending log. Please try again.');
+            })
+            .finally(() => {
+                this.innerHTML = '<i class="bi bi-clock text-warning me-2"></i>Pending Transactions';
                 this.disabled = false;
             });
     });
