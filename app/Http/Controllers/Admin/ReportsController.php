@@ -275,6 +275,11 @@ class ReportsController extends Controller
             $salesByDate[$date]['total'] += $totalAmount;
         }
 
+        // Exclude days with RM 0 total
+        $salesByDate = array_filter($salesByDate, function ($entry) {
+            return isset($entry['total']) && (float)$entry['total'] > 0;
+        });
+
         // Sort by date in reverse chronological order
         krsort($salesByDate);
 
