@@ -162,40 +162,41 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Search functionality
     const searchForm = document.getElementById('searchForm');
     const searchInput = document.getElementById('search');
-    const tableRows = document.querySelectorAll('tbody tr');
+    const statusSelect = document.querySelector('select[name="status"]');
+    const startDateInput = document.querySelector('input[name="start_date"]');
+    const endDateInput = document.querySelector('input[name="end_date"]');
 
-    searchForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const searchTerm = searchInput.value.toLowerCase().trim();
-
-        tableRows.forEach(row => {
-            const userCell = row.querySelector('td:nth-child(2)');
-            const codeCell = row.querySelector('td:nth-child(3)');
-            const nameCell = row.querySelector('td:nth-child(4)');
-            
-            if (userCell && codeCell && nameCell) {
-                const userText = userCell.textContent.toLowerCase();
-                const codeText = codeCell.textContent.toLowerCase();
-                const nameText = nameCell.textContent.toLowerCase();
-
-                if (userText.includes(searchTerm) || codeText.includes(searchTerm) || nameText.includes(searchTerm)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            }
-        });
+    // Auto-submit form when status or date filters change
+    statusSelect.addEventListener('change', function() {
+        searchForm.submit();
     });
 
-    // Clear search when input is cleared
+    startDateInput.addEventListener('change', function() {
+        searchForm.submit();
+    });
+
+    endDateInput.addEventListener('change', function() {
+        searchForm.submit();
+    });
+
+    // Handle search input with debouncing
+    let searchTimeout;
     searchInput.addEventListener('input', function() {
-        if (this.value === '') {
-            tableRows.forEach(row => {
-                row.style.display = '';
-            });
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(function() {
+            if (searchInput.value.trim().length > 0) {
+                searchForm.submit();
+            }
+        }, 500);
+    });
+
+    // Submit immediately on Enter key
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            clearTimeout(searchTimeout);
+            searchForm.submit();
         }
     });
 });
