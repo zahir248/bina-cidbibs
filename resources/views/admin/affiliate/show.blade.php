@@ -1,155 +1,32 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Affiliate Details')
-
-@push('styles')
-<style>
-    .order-row {
-        transition: all 0.2s ease;
-    }
-    
-    .order-row:hover {
-        background-color: #f8f9fa !important;
-        transform: translateX(2px);
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .order-row:hover td {
-        color: #0d6efd !important;
-    }
-    
-    .order-row:hover .text-primary {
-        color: #0a58ca !important;
-    }
-    
-    .order-row:hover .text-muted {
-        color: #6c757d !important;
-    }
-    
-    .order-row:hover .fa-external-link-alt {
-        color: #0d6efd !important;
-        transform: scale(1.1);
-    }
-    
-    /* Total Amount Card Styling */
-    .card.text-center .h2.text-info {
-        font-weight: 700;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.1);
-    }
-    
-    .card.text-center .text-info {
-        color: #0dcaf0 !important;
-    }
-    
-    .card.text-center .fa-dollar-sign {
-        font-size: 0.9em;
-        opacity: 0.8;
-    }
-    
-    /* Ensure all cards have equal height */
-    .card.h-100 {
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .card.h-100 .card-body {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-    
-    /* Affiliate Link Styling */
-    .affiliate-link-input {
-        font-family: 'Courier New', monospace;
-        font-size: 0.9rem;
-        background-color: #f8f9fa;
-        border: 2px solid #e9ecef;
-    }
-    
-    .affiliate-link-input:focus {
-        border-color: #0d6efd;
-        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-    }
-    
-    .copy-btn {
-        transition: all 0.2s ease;
-        min-width: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .copy-btn:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    /* Ensure copy buttons are visible */
-    .input-group .btn {
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        min-width: 40px;
-        z-index: 2;
-        background-color: #0d6efd !important;
-        border-color: #0d6efd !important;
-        color: white !important;
-    }
-    
-    .input-group .btn:hover {
-        background-color: #0b5ed7 !important;
-        border-color: #0a58ca !important;
-        color: white !important;
-    }
-    
-    .input-group .btn i {
-        font-size: 0.9rem;
-        color: white !important;
-    }
-    
-    .affiliate-link-section {
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        border-radius: 0.5rem;
-        padding: 1rem;
-        margin-bottom: 1rem;
-        border-left: 4px solid #0d6efd;
-    }
-    
-    .affiliate-link-section .form-label {
-        color: #0d6efd;
-        font-weight: 700;
-    }
-</style>
-@endpush
+@section('title', 'ADMIN | Affiliate Details')
 
 @section('content')
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2>Affiliate Details</h2>
-                <a href="{{ route('admin.affiliates.index') }}" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left"></i> Back to List
-                </a>
-            </div>
-
-            @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title">Affiliate Details</h3>
+                    <a href="{{ route('admin.affiliates.index') }}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left me-1"></i>
+                        Back to List
+                    </a>
                 </div>
-            @endif
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card h-100">
-                        <div class="card-header">
-                            <h5 class="mb-0">Affiliate Information</h5>
+                <div class="card-body">
+                    @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="bi bi-check-circle me-2"></i>
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
-                        <div class="card-body">
+                    @endif
+
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label fw-bold">User:</label>
+                                <label class="form-label fw-bold">User</label>
                                 <p class="form-control-plaintext">
                                     <strong>{{ $affiliate->user->name ?? 'N/A' }}</strong><br>
                                     <small class="text-muted">{{ $affiliate->user->email ?? 'N/A' }}</small>
@@ -157,7 +34,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label fw-bold">Affiliate Code:</label>
+                                <label class="form-label fw-bold">Affiliate Code</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" value="{{ $affiliate->affiliate_code }}" readonly>
                                     <button class="btn btn-primary" type="button" onclick="copyToClipboard('{{ $affiliate->affiliate_code }}')">
@@ -166,36 +43,34 @@
                                 </div>
                             </div>
 
-                            <div class="affiliate-link-section">
-                                <label class="form-label fw-bold">Affiliate Link:</label>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Affiliate Link</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control affiliate-link-input" value="{{ $affiliate->affiliate_link }}" readonly id="affiliateLink">
-                                    <button class="btn btn-primary copy-btn" type="button" onclick="copyToClipboard('{{ $affiliate->affiliate_link }}')" title="Copy Link">
+                                    <input type="text" class="form-control" value="{{ $affiliate->affiliate_link }}" readonly>
+                                    <button class="btn btn-primary" type="button" onclick="copyToClipboard('{{ $affiliate->affiliate_link }}')">
                                         <i class="bi bi-copy"></i>
                                     </button>
                                 </div>
-                                <div class="form-text">
-                                    <small class="text-muted">
-                                        <i class="bi bi-info-circle me-1"></i>
-                                        Share this link to track referrals
-                                    </small>
-                                </div>
+                                <small class="form-text text-muted">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    Share this link to track referrals
+                                </small>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label fw-bold">Name:</label>
+                                <label class="form-label fw-bold">Name</label>
                                 <p class="form-control-plaintext">{{ $affiliate->name ?: 'N/A' }}</p>
                             </div>
 
                             @if($affiliate->description)
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold">Description:</label>
+                                    <label class="form-label fw-bold">Description</label>
                                     <p class="form-control-plaintext">{{ $affiliate->description }}</p>
                                 </div>
                             @endif
 
                             <div class="mb-3">
-                                <label class="form-label fw-bold">Status:</label>
+                                <label class="form-label fw-bold">Status</label>
                                 <form action="{{ route('admin.affiliates.update-status', $affiliate) }}" method="POST" class="d-inline">
                                     @csrf
                                     <div class="form-check form-switch">
@@ -205,136 +80,152 @@
                                                {{ $affiliate->is_active ? 'checked' : '' }}
                                                onchange="this.form.submit()">
                                         <label class="form-check-label">
-                                            {{ $affiliate->is_active ? 'Active' : 'Inactive' }}
+                                            @if($affiliate->is_active)
+                                                <span class="badge bg-success">Active</span>
+                                            @else
+                                                <span class="badge bg-warning">Inactive</span>
+                                            @endif
                                         </label>
                                     </div>
                                 </form>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label fw-bold">Created:</label>
-                                <p class="form-control-plaintext">{{ $affiliate->created_at->format('F j, Y \a\t g:i A') }}</p>
+                                <label class="form-label fw-bold">Created</label>
+                                <p class="form-control-plaintext">{{ $affiliate->created_at->format('M j, Y g:i A') }}</p>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label fw-bold">Last Updated:</label>
-                                <p class="form-control-plaintext">{{ $affiliate->updated_at->format('F j, Y \a\t g:i A') }}</p>
+                                <label class="form-label fw-bold">Last Updated</label>
+                                <p class="form-control-plaintext">{{ $affiliate->updated_at->format('M j, Y g:i A') }}</p>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-3 mb-3">
-                            <div class="card text-center h-100">
-                                <div class="card-body">
-                                    <div class="h2 text-primary mb-0">{{ $affiliate->total_clicks }}</div>
-                                    <small class="text-muted">Total Clicks</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="card text-center h-100">
-                                <div class="card-body">
-                                    <div class="h2 text-success mb-0">{{ $affiliate->total_conversions }}</div>
-                                    <small class="text-muted">Conversions</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="card text-center h-100">
-                                <div class="card-body">
-                                    <div class="h2 text-info mb-0">
-                                        <i class="fas fa-dollar-sign me-1"></i>
-                                        RM {{ number_format($totalAmount, 2) }}
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <h2 class="text-primary">{{ $affiliate->total_clicks }}</h2>
+                                            <p class="text-muted mb-0">Total Clicks</p>
+                                        </div>
                                     </div>
-                                    <small class="text-muted">Total Amount</small>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="card text-center h-100">
-                                <div class="card-body">
-                                    <div class="h2 text-warning mb-0">{{ $recentOrders->count() }}</div>
-                                    <small class="text-muted">Recent Orders</small>
+
+                                <div class="col-md-6 mb-3">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <h2 class="text-success">{{ $affiliate->total_conversions }}</h2>
+                                            <p class="text-muted mb-0">Conversions</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <h2 class="text-info">{{ $ordersCount }}</h2>
+                                            <p class="text-muted mb-0">Total Orders</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <h2 class="text-info">RM {{ number_format($totalAmount, 2) }}</h2>
+                                            <p class="text-muted mb-0">Total Amount</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
 
-                    <div class="card">
-                        <div class="card-header">
-                            <h6 class="mb-0">Recent Orders</h6>
-                            <small class="text-muted">
-                                <i class="fas fa-info-circle me-1"></i>
-                                Click on any order row to view details in the orders page
-                            </small>
-                        </div>
-                        <div class="card-body">
-                            @if($recentOrders->count() > 0)
-                                <div class="table-responsive">
-                                    <table class="table table-sm">
-                                        <thead>
-                                            <tr>
-                                                <th>Order #</th>
-                                                <th>Customer</th>
-                                                <th>Amount</th>
-                                                <th>Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($recentOrders as $order)
-                                                <tr class="order-row" style="cursor: pointer;" onclick="viewOrder('{{ $order->reference_number }}')" title="Click to view order details">
-                                                    <td>
-                                                        <strong class="text-primary">{{ $order->reference_number }}</strong>
-                                                        <i class="fas fa-external-link-alt ms-1 text-muted" style="font-size: 0.8em;"></i>
-                                                    </td>
-                                                    <td>
-                                                        {{ $order->billingDetail->first_name }} {{ $order->billingDetail->last_name }}
-                                                        <br>
-                                                        <small class="text-muted">{{ $order->billingDetail->email }}</small>
-                                                    </td>
-                                                    <td>RM {{ number_format($order->total_amount, 2) }}</td>
-                                                    <td>{{ $order->created_at->format('M j, Y') }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+
+                    <div class="mt-4" id="orders-section">
+                        <h5 class="mb-3">All Orders</h5>
+                        @if($recentOrders->count() > 0)
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 50px">No</th>
+                                            <th>Order #</th>
+                                            <th>Customer</th>
+                                            <th>Amount</th>
+                                            <th>Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($recentOrders as $order)
+                                        <tr>
+                                            <td class="text-center">{{ $recentOrders->firstItem() + $loop->index }}</td>
+                                            <td class="text-primary">{{ $order->reference_number }}</td>
+                                            <td>
+                                                <div>
+                                                    <strong>{{ $order->billingDetail->first_name }} {{ $order->billingDetail->last_name }}</strong>
+                                                    <br>
+                                                    <small class="text-muted">{{ $order->billingDetail->email }}</small>
+                                                </div>
+                                            </td>
+                                            <td class="text-success">RM {{ number_format($order->total_amount, 2) }}</td>
+                                            <td>{{ $order->created_at->format('d M Y') }}</td>
+                                            <td>
+                                                <a href="{{ route('admin.orders.index') }}?search={{ $order->reference_number }}" 
+                                                   class="btn btn-sm btn-warning" target="_blank">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- Pagination -->
+                            <div class="mt-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        Showing {{ $recentOrders->firstItem() }} to {{ $recentOrders->lastItem() }} of {{ $recentOrders->total() }} results
+                                    </div>
+                                    <div>
+                                        {{ $recentOrders->appends(['scroll' => 'orders'])->links('pagination::bootstrap-5') }}
+                                    </div>
                                 </div>
-                            @else
-                                <p class="text-muted text-center py-3">No orders found for this affiliate.</p>
-                            @endif
-                        </div>
+                            </div>
+                        @else
+                            <div class="text-center py-4">
+                                <i class="bi bi-cart-x fa-2x text-muted mb-2"></i>
+                                <p class="text-muted mb-0">No orders found for this affiliate</p>
+                            </div>
+                        @endif
                     </div>
 
                     @if($monthlyStats->count() > 0)
-                        <div class="card mt-4">
-                            <div class="card-header">
-                                <h6 class="mb-0">Monthly Statistics</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-sm">
-                                        <thead>
-                                            <tr>
-                                                <th>Month</th>
-                                                <th>Orders</th>
-                                                <th>Revenue</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($monthlyStats as $stat)
-                                                <tr>
-                                                    <td>{{ $stat->month }}</td>
-                                                    <td>{{ $stat->orders_count }}</td>
-                                                    <td>RM {{ number_format($stat->total_revenue, 2) }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                        <div class="mt-4">
+                            <h5 class="mb-3">Monthly Statistics</h5>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Month</th>
+                                            <th>Orders</th>
+                                            <th>Revenue</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($monthlyStats as $stat)
+                                        <tr>
+                                            <td>{{ $stat->month }}</td>
+                                            <td>{{ $stat->orders_count }}</td>
+                                            <td>RM {{ number_format($stat->total_revenue, 2) }}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     @endif
@@ -344,6 +235,9 @@
     </div>
 </div>
 
+@endsection
+
+@push('scripts')
 <script>
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(function() {
@@ -387,11 +281,23 @@ function copyToClipboard(text) {
     });
 }
 
-function viewOrder(referenceNumber) {
-    // Redirect to orders page with the specific order reference number as search filter
-    const ordersUrl = '{{ route("admin.orders.index") }}?search=' + encodeURIComponent(referenceNumber);
-    window.open(ordersUrl, '_blank');
-}
-
+// Auto-scroll to orders table when pagination is clicked
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if we should scroll to orders section
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // If there's a scroll parameter, scroll to orders section
+    if (urlParams.get('scroll') === 'orders') {
+        setTimeout(function() {
+            const ordersSection = document.getElementById('orders-section');
+            if (ordersSection) {
+                ordersSection.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }, 300);
+    }
+});
 </script>
-@endsection
+@endpush

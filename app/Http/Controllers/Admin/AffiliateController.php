@@ -58,12 +58,11 @@ class AffiliateController extends Controller
     {
         $affiliate->load('user');
         
-        // Get recent orders from this affiliate
+        // Get all orders from this affiliate with pagination
         $recentOrders = Order::where('affiliate_id', $affiliate->id)
             ->with('billingDetail')
             ->orderBy('created_at', 'desc')
-            ->limit(10)
-            ->get();
+            ->paginate(5);
 
         // Get monthly statistics
         $monthlyStats = Order::where('affiliate_id', $affiliate->id)
@@ -81,7 +80,10 @@ class AffiliateController extends Controller
         $totalAmount = Order::where('affiliate_id', $affiliate->id)
             ->sum('total_amount');
 
-        return view('admin.affiliate.show', compact('affiliate', 'recentOrders', 'monthlyStats', 'totalAmount'));
+        // Calculate orders count for this affiliate
+        $ordersCount = Order::where('affiliate_id', $affiliate->id)->count();
+
+        return view('admin.affiliate.show', compact('affiliate', 'recentOrders', 'monthlyStats', 'totalAmount', 'ordersCount'));
     }
 
     /**
