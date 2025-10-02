@@ -74,11 +74,38 @@
     
     .copy-btn {
         transition: all 0.2s ease;
+        min-width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
     .copy-btn:hover {
         transform: translateY(-1px);
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    /* Ensure copy buttons are visible */
+    .input-group .btn {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        min-width: 40px;
+        z-index: 2;
+        background-color: #0d6efd !important;
+        border-color: #0d6efd !important;
+        color: white !important;
+    }
+    
+    .input-group .btn:hover {
+        background-color: #0b5ed7 !important;
+        border-color: #0a58ca !important;
+        color: white !important;
+    }
+    
+    .input-group .btn i {
+        font-size: 0.9rem;
+        color: white !important;
     }
     
     .affiliate-link-section {
@@ -133,8 +160,8 @@
                                 <label class="form-label fw-bold">Affiliate Code:</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" value="{{ $affiliate->affiliate_code }}" readonly>
-                                    <button class="btn btn-outline-secondary" type="button" onclick="copyToClipboard('{{ $affiliate->affiliate_code }}')">
-                                        <i class="fas fa-copy"></i>
+                                    <button class="btn btn-primary" type="button" onclick="copyToClipboard('{{ $affiliate->affiliate_code }}')">
+                                        <i class="bi bi-copy"></i>
                                     </button>
                                 </div>
                             </div>
@@ -143,13 +170,13 @@
                                 <label class="form-label fw-bold">Affiliate Link:</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control affiliate-link-input" value="{{ $affiliate->affiliate_link }}" readonly id="affiliateLink">
-                                    <button class="btn btn-outline-secondary copy-btn" type="button" onclick="copyToClipboard('{{ $affiliate->affiliate_link }}')" title="Copy Link">
-                                        <i class="fas fa-copy"></i>
+                                    <button class="btn btn-primary copy-btn" type="button" onclick="copyToClipboard('{{ $affiliate->affiliate_link }}')" title="Copy Link">
+                                        <i class="bi bi-copy"></i>
                                     </button>
                                 </div>
                                 <div class="form-text">
                                     <small class="text-muted">
-                                        <i class="fas fa-info-circle me-1"></i>
+                                        <i class="bi bi-info-circle me-1"></i>
                                         Share this link to track referrals
                                     </small>
                                 </div>
@@ -236,21 +263,6 @@
                         </div>
                     </div>
 
-                    @if($affiliate->total_clicks > 0)
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h6 class="mb-0">Conversion Rate</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="progress" style="height: 25px;">
-                                    <div class="progress-bar" role="progressbar" 
-                                         style="width: {{ ($affiliate->total_conversions / $affiliate->total_clicks) * 100 }}%">
-                                        {{ number_format(($affiliate->total_conversions / $affiliate->total_clicks) * 100, 1) }}%
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
 
                     <div class="card">
                         <div class="card-header">
@@ -338,15 +350,40 @@ function copyToClipboard(text) {
         // Show a temporary success message
         const button = event.target.closest('button');
         const originalHTML = button.innerHTML;
-        button.innerHTML = '<i class="fas fa-check"></i>';
+        button.innerHTML = '<i class="bi bi-check"></i>';
         button.classList.add('btn-success');
-        button.classList.remove('btn-outline-secondary');
+        button.classList.remove('btn-primary');
         
         setTimeout(() => {
             button.innerHTML = originalHTML;
             button.classList.remove('btn-success');
-            button.classList.add('btn-outline-secondary');
+            button.classList.add('btn-primary');
         }, 2000);
+    }).catch(function(err) {
+        console.error('Could not copy text: ', err);
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            // Show success message even with fallback
+            const button = event.target.closest('button');
+            const originalHTML = button.innerHTML;
+            button.innerHTML = '<i class="bi bi-check"></i>';
+            button.classList.add('btn-success');
+            button.classList.remove('btn-primary');
+            
+            setTimeout(() => {
+                button.innerHTML = originalHTML;
+                button.classList.remove('btn-success');
+                button.classList.add('btn-primary');
+            }, 2000);
+        } catch (fallbackErr) {
+            console.error('Fallback copy failed: ', fallbackErr);
+        }
+        document.body.removeChild(textArea);
     });
 }
 
