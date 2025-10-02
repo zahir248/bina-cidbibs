@@ -13,6 +13,7 @@ use App\Models\ConnectionRequest;
 use App\Models\Message;
 use App\Models\CartItem;
 use App\Models\BillingDetail;
+use App\Models\Affiliate;
 
 class User extends Authenticatable
 {
@@ -111,5 +112,13 @@ class User extends Authenticatable
     public function billingDetails()
     {
         return $this->hasMany(BillingDetail::class);
+    }
+
+    /**
+     * Get the user's affiliate links.
+     */
+    public function affiliates()
+    {
+        return $this->hasMany(Affiliate::class);
     }
 }

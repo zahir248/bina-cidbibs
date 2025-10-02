@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\BillingDetail;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Models\Affiliate;
 use App\Helpers\PaymentLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,7 +29,7 @@ class OrderController extends Controller
             session()->flash('success', 'Participants updated successfully!');
         }
 
-        $query = Order::with('billingDetail');
+        $query = Order::with(['billingDetail', 'affiliate']);
 
         // Apply reference number search filter
         if ($request->has('search') && !empty($request->search)) {
@@ -295,8 +296,8 @@ class OrderController extends Controller
             // Combine date and time for order creation timestamp
             $orderDateTime = $request->order_date . ' ' . $request->order_time . ':00';
 
-            // Create order with manual timestamp
-            $order = Order::create([
+            // Prepare order data
+            $orderData = [
                 'billing_detail_id' => $billingDetail->id,
                 'reference_number' => $referenceNumber,
                 'total_amount' => $totalAmount,
@@ -308,7 +309,25 @@ class OrderController extends Controller
                 'payment_id' => 'MANUAL-' . time(), // Manual payment ID
                 'created_at' => $orderDateTime,
                 'updated_at' => $orderDateTime,
-            ]);
+            ];
+
+            // Handle affiliate tracking if affiliate code is provided
+            if ($request->has('affiliate_code') && $request->affiliate_code) {
+                $affiliate = Affiliate::where('affiliate_code', $request->affiliate_code)
+                    ->where('is_active', true)
+                    ->first();
+                
+                if ($affiliate) {
+                    $orderData['affiliate_id'] = $affiliate->id;
+                    $orderData['affiliate_code'] = $request->affiliate_code;
+                    
+                    // Update affiliate statistics
+                    $affiliate->addConversion();
+                }
+            }
+
+            // Create order with manual timestamp
+            $order = Order::create($orderData);
 
             // Create participant records if provided
             if ($request->has('participants') && is_array($request->participants)) {

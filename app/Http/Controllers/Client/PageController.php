@@ -9,11 +9,41 @@ use Illuminate\Support\Facades\Http;
 use App\Models\Event;
 use App\Models\Schedule;
 use App\Models\Podcast;
+use App\Models\Affiliate;
 
 class PageController extends Controller
 {
-    public function home()
+    public function home(Request $request)
     {
+        // Handle affiliate tracking
+        $affiliateCode = $request->get('ref');
+        
+        if ($affiliateCode) {
+            $affiliate = Affiliate::where('affiliate_code', $affiliateCode)
+                ->where('is_active', true)
+                ->first();
+            
+            if ($affiliate) {
+                $affiliate->incrementClicks();
+                
+                // Store affiliate code in session for order tracking
+                session(['affiliate_code' => $affiliateCode]);
+                
+                // Log the affiliate click for debugging
+                \Log::info('Affiliate click tracked', [
+                    'affiliate_code' => $affiliateCode,
+                    'affiliate_id' => $affiliate->id,
+                    'affiliate_name' => $affiliate->name,
+                    'user_ip' => $request->ip(),
+                    'user_agent' => $request->userAgent()
+                ]);
+                
+                // Redirect to store page so users can immediately see and purchase tickets
+                $affiliateName = $affiliate->name ?: 'one of our valued partners';
+                return redirect()->route('client.store')->with('affiliate_success', 'You were referred by ' . $affiliateName . '!');
+            }
+        }
+
         return view('client.home');
     }
 

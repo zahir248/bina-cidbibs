@@ -21,5 +21,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(\Database\Seeders\TicketSeeder::class);
+        $this->call(\Database\Seeders\AffiliateSeeder::class);
+        $this->call(\Database\Seeders\AdminUserSeeder::class);
     }
 }

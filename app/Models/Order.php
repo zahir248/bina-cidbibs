@@ -24,7 +24,9 @@ class Order extends Model
         'payment_id',
         'payment_method',
         'payment_country',
-        'processing_fee'
+        'processing_fee',
+        'affiliate_id',
+        'affiliate_code'
     ];
 
     protected $casts = [
@@ -41,6 +43,11 @@ class Order extends Model
     public function participants(): HasMany
     {
         return $this->hasMany(Participant::class);
+    }
+
+    public function affiliate(): BelongsTo
+    {
+        return $this->belongsTo(Affiliate::class);
     }
 
     public function generateTicketQRCodes()

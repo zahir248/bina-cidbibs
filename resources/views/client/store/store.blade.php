@@ -1229,10 +1229,100 @@
             margin-bottom: 1rem;
         }
     }
+
+    /* Affiliate Welcome Modal Styles */
+    #affiliateWelcomeModal .modal-content {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    #affiliateWelcomeModal .modal-header {
+        border-radius: 15px 15px 0 0;
+        border-bottom: none;
+        padding: 1.5rem;
+    }
+
+    #affiliateWelcomeModal .modal-body {
+        padding: 2rem 1.5rem;
+    }
+
+    #affiliateWelcomeModal .modal-footer {
+        border-top: none;
+        padding: 1rem 1.5rem 1.5rem;
+    }
+
+    #affiliateWelcomeModal .btn-success {
+        border-radius: 25px;
+        font-weight: 600;
+        padding: 0.75rem 2rem;
+        transition: all 0.3s ease;
+    }
+
+    #affiliateWelcomeModal .btn-success:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+    }
+
+    #affiliateWelcomeModal .fa-handshake {
+        animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(-10px);
+        }
+        60% {
+            transform: translateY(-5px);
+        }
+    }
 </style>
 @endpush
 
 @section('content')
+<!-- Affiliate Welcome Modal -->
+@if(session('affiliate_success'))
+    <div class="modal fade" id="affiliateWelcomeModal" tabindex="-1" aria-labelledby="affiliateWelcomeModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="affiliateWelcomeModalLabel">
+                        <i class="fas fa-gift me-2"></i>
+                        Welcome to BINA 2025!
+                    </h5>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <div class="mb-3">
+                        <i class="fas fa-handshake text-success" style="font-size: 3rem;"></i>
+                    </div>
+                    <h6 class="text-success mb-3">{{ session('affiliate_success') }}</h6>
+                    <p class="text-muted mb-0">You've been referred by one of our valued partners. Browse our amazing ticket selection below and join us for an unforgettable experience!</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-success btn-lg px-4" data-bs-dismiss="modal">
+                        <i class="fas fa-ticket-alt me-2"></i>
+                        Browse Tickets
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+
+<!-- Success Messages -->
+@if(session('success'))
+    <div class="container mt-3">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+@endif
+
 <!-- Hero Section -->
 <div class="hero-section-store" id="heroSection">
     <h1 class="hero-title-store">STORE</h1>
@@ -2046,6 +2136,13 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Show affiliate welcome modal if it exists
+    const affiliateModal = document.getElementById('affiliateWelcomeModal');
+    if (affiliateModal) {
+        const modal = new bootstrap.Modal(affiliateModal);
+        modal.show();
+    }
+    
     // Scroll to store content
     const storeContent = document.getElementById('storeContent');
     if (storeContent) {

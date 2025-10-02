@@ -6,6 +6,7 @@ use App\Http\Controllers\Client\PageController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\CheckoutController;
 use App\Http\Controllers\Client\AuthController;
+use App\Http\Controllers\AffiliateController;
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\UserController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\DocumentationController;
 use App\Http\Controllers\Admin\PodcastController;
 use App\Http\Controllers\Admin\ScannerController;
+use App\Http\Controllers\Admin\AffiliateController as AdminAffiliateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +63,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/purchased-tickets', [App\Http\Controllers\Client\ProfileController::class, 'purchasedTickets'])->name('client.profile.purchased-tickets');
     Route::get('/profile/orders/{order}/download-pdf', [App\Http\Controllers\Client\ProfileController::class, 'downloadOrderPdf'])->name('client.profile.orders.download-pdf');
     Route::get('/profile/orders/{order}/download-qr-codes', [App\Http\Controllers\Client\ProfileController::class, 'downloadQrCodes'])->name('client.profile.orders.download-qr-codes');
+    
+    // Affiliate Routes
+    Route::resource('affiliate', AffiliateController::class);
 });
 
 // Route to serve avatar images
@@ -77,6 +82,30 @@ Route::get('avatar/{filename}', function ($filename) {
     
     abort(404);
 })->name('avatar.show');
+
+// Affiliate tracking route (no auth required)
+Route::get('/ref', [AffiliateController::class, 'trackClick'])->name('affiliate.track');
+
+// Clear affiliate tracking route
+Route::get('/clear-affiliate', function() {
+    session()->forget('affiliate_code');
+    return redirect()->back()->with('success', 'Affiliate tracking cleared successfully!');
+})->name('affiliate.clear');
+
+// Test route to check affiliate codes
+Route::get('/test-affiliates', function() {
+    $affiliates = \App\Models\Affiliate::with('user')->select('affiliate_code', 'name', 'is_active', 'total_clicks', 'user_id')->get();
+    $data = $affiliates->map(function($affiliate) {
+        return [
+            'code' => $affiliate->affiliate_code,
+            'name' => $affiliate->name,
+            'user_name' => $affiliate->user ? $affiliate->user->name : 'No User',
+            'user_email' => $affiliate->user ? $affiliate->user->email : 'No Email',
+            'is_active' => $affiliate->is_active
+        ];
+    });
+    return response()->json($data);
+});
 
 // client 
 Route::get('/', [PageController::class, 'home'])->name('client.home');
@@ -247,6 +276,12 @@ Route::middleware('auth')->group(function () {
         // Podcast Management
         Route::resource('podcasts', PodcastController::class);
         Route::post('podcasts/update-order', [PodcastController::class, 'updateOrder'])->name('podcasts.updateOrder');
+        
+        // Affiliate Management
+        Route::get('affiliates', [AdminAffiliateController::class, 'index'])->name('affiliates.index');
+        Route::get('affiliates/export', [AdminAffiliateController::class, 'export'])->name('affiliates.export');
+        Route::get('affiliates/{affiliate}', [AdminAffiliateController::class, 'show'])->name('affiliates.show');
+        Route::post('affiliates/{affiliate}/status', [AdminAffiliateController::class, 'updateStatus'])->name('affiliates.update-status');
     });
 });
 

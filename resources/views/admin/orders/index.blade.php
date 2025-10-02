@@ -261,6 +261,7 @@
                                     <th>Payment Country</th>
                                     <th>Processing Fee</th>
                                     <th>Payment ID</th>
+                                    <th>Under Affiliate</th>
                                     <th>Created At</th>
                                     <th>Status</th>
                                     <th>Actions</th>
@@ -311,6 +312,13 @@
                                     <td>{{ $order->payment_country ?? 'N/A' }}</td>
                                     <td>RM {{ number_format($order->processing_fee ?? 0, 2) }}</td>
                                     <td>{{ $order->payment_id ?? 'N/A' }}</td>
+                                    <td>
+                                        @if($order->affiliate)
+                                            <span class="badge bg-info">{{ $order->affiliate->affiliate_code }}</span>
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
                                     <td>{{ $order->created_at->format('d M Y H:i:s') }}</td>
                                     <td>
                                         <span class="badge bg-{{ $order->status === 'paid' ? 'success' : 'warning' }}">

@@ -20,7 +20,8 @@ class PaymentLogger
         array $billingData = null,
         array $cartItems = null,
         float $cartTotal = null,
-        array $participants = null
+        array $participants = null,
+        array $affiliateData = null
     ): void {
         // Add comprehensive transaction data to additionalData
         $comprehensiveData = $additionalData;
@@ -85,6 +86,26 @@ class PaymentLogger
             }
         }
         
+        if ($affiliateData) {
+            $comprehensiveData['affiliate_details'] = [
+                'affiliate_id' => $affiliateData['affiliate_id'] ?? 'N/A',
+                'affiliate_code' => $affiliateData['affiliate_code'] ?? 'N/A',
+                'affiliate_name' => $affiliateData['affiliate_name'] ?? 'N/A',
+                'affiliate_user_name' => $affiliateData['affiliate_user_name'] ?? 'N/A',
+                'affiliate_user_email' => $affiliateData['affiliate_user_email'] ?? 'N/A',
+                'is_affiliate_referral' => true,
+            ];
+        } else {
+            $comprehensiveData['affiliate_details'] = [
+                'is_affiliate_referral' => false,
+                'affiliate_id' => 'N/A',
+                'affiliate_code' => 'N/A',
+                'affiliate_name' => 'N/A',
+                'affiliate_user_name' => 'N/A',
+                'affiliate_user_email' => 'N/A',
+            ];
+        }
+        
         // Add timestamp for tracking
         $comprehensiveData['failed_at'] = now()->format('Y-m-d H:i:s');
         $comprehensiveData['session_id'] = session()->getId();
@@ -99,7 +120,8 @@ class PaymentLogger
         array $additionalData = [],
         array $billingData = null,
         array $cartItems = null,
-        array $participants = null
+        array $participants = null,
+        array $affiliateData = null
     ): void {
         // Add comprehensive transaction data to additionalData
         $comprehensiveData = array_merge([
@@ -169,6 +191,26 @@ class PaymentLogger
             }
         }
         
+        if ($affiliateData) {
+            $comprehensiveData['affiliate_details'] = [
+                'affiliate_id' => $affiliateData['affiliate_id'] ?? 'N/A',
+                'affiliate_code' => $affiliateData['affiliate_code'] ?? 'N/A',
+                'affiliate_name' => $affiliateData['affiliate_name'] ?? 'N/A',
+                'affiliate_user_name' => $affiliateData['affiliate_user_name'] ?? 'N/A',
+                'affiliate_user_email' => $affiliateData['affiliate_user_email'] ?? 'N/A',
+                'is_affiliate_referral' => true,
+            ];
+        } else {
+            $comprehensiveData['affiliate_details'] = [
+                'is_affiliate_referral' => false,
+                'affiliate_id' => 'N/A',
+                'affiliate_code' => 'N/A',
+                'affiliate_name' => 'N/A',
+                'affiliate_user_name' => 'N/A',
+                'affiliate_user_email' => 'N/A',
+            ];
+        }
+        
         // Add timestamp for tracking
         $comprehensiveData['initiated_at'] = now()->format('Y-m-d H:i:s');
         $comprehensiveData['session_id'] = session()->getId();
@@ -181,7 +223,8 @@ class PaymentLogger
         string $referenceNumber,
         float $amount,
         array $additionalData = [],
-        array $participants = null
+        array $participants = null,
+        array $affiliateData = null
     ): void {
         $additionalData = array_merge([
             'reference_number' => $referenceNumber,
@@ -203,6 +246,26 @@ class PaymentLogger
                     'ticket_number' => $participant['ticket_number'] ?? 'N/A',
                 ];
             }
+        }
+
+        if ($affiliateData) {
+            $additionalData['affiliate_details'] = [
+                'affiliate_id' => $affiliateData['affiliate_id'] ?? 'N/A',
+                'affiliate_code' => $affiliateData['affiliate_code'] ?? 'N/A',
+                'affiliate_name' => $affiliateData['affiliate_name'] ?? 'N/A',
+                'affiliate_user_name' => $affiliateData['affiliate_user_name'] ?? 'N/A',
+                'affiliate_user_email' => $affiliateData['affiliate_user_email'] ?? 'N/A',
+                'is_affiliate_referral' => true,
+            ];
+        } else {
+            $additionalData['affiliate_details'] = [
+                'is_affiliate_referral' => false,
+                'affiliate_id' => 'N/A',
+                'affiliate_code' => 'N/A',
+                'affiliate_name' => 'N/A',
+                'affiliate_user_name' => 'N/A',
+                'affiliate_user_email' => 'N/A',
+            ];
         }
 
         self::logPayment(

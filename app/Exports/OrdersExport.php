@@ -20,7 +20,7 @@ class OrdersExport implements FromCollection, WithHeadings, WithMapping, ShouldA
 
     public function collection()
     {
-        $orders = Order::with(['billingDetail', 'participants.ticket'])->get();
+        $orders = Order::with(['billingDetail', 'participants.ticket', 'affiliate'])->get();
 
         if ($this->event !== 'all') {
             $orders = $orders->filter(function ($order) {
@@ -61,6 +61,7 @@ class OrdersExport implements FromCollection, WithHeadings, WithMapping, ShouldA
             'Payment Method',
             'Payment ID',
             'Payment Country',
+            'Under Affiliate',
             'Status',
             'Created At',
 
@@ -181,6 +182,7 @@ class OrdersExport implements FromCollection, WithHeadings, WithMapping, ShouldA
             ucfirst($order->payment_method ?? 'N/A'),
             $order->payment_id ?? 'N/A',
             $order->payment_country ?? 'N/A',
+            $order->affiliate ? $order->affiliate->affiliate_code : '-',
             ucfirst($order->status),
             $order->created_at->format('d M Y H:i:s'),
 

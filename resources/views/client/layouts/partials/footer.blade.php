@@ -59,6 +59,15 @@
                         <a href="{{ route('client.order-lookup') }}" class="quick-link">Order Lookup</a>
                         <a href="{{ route('client.store') }}" class="quick-link">Buy Tickets</a>
                         <a href="{{ route('client.about') }}" class="quick-link">About Us</a>
+                        @auth
+                            <a href="{{ route('affiliate.index') }}" class="quick-link affiliate-link">
+                                <i class="fas fa-link me-1"></i>My Affiliate Links
+                            </a>
+                        @else
+                            <a href="{{ route('client.login') }}" class="quick-link affiliate-link" title="Login to access affiliate links">
+                                <i class="fas fa-link me-1"></i>Affiliate Program
+                            </a>
+                        @endauth
                     </div>
                 </div>
 
@@ -134,6 +143,24 @@
     background: rgba(255, 255, 255, 0.2);
     color: #ffffff;
     text-decoration: none;
+}
+
+.affiliate-link {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-weight: 600;
+    position: relative;
+}
+
+.affiliate-link:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.affiliate-link i {
+    color: #FFD700;
 }
 
 .footer-tagline {

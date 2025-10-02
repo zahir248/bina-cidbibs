@@ -7,6 +7,7 @@ use App\Models\BillingDetail;
 use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\Ticket;
+use App\Models\Affiliate;
 use App\Helpers\PaymentLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -241,6 +242,9 @@ class CheckoutController extends Controller
             if (isset($result[0]['BillCode'])) {
                 $billCode = $result[0]['BillCode'];
                 
+                // Prepare affiliate data for pending payment logging
+                $affiliateData = $this->prepareAffiliateDataForLogging();
+                
                 // Log pending payment before redirecting to payment gateway
                 PaymentLogger::logPendingPayment(
                     'toyyibpay',
@@ -252,7 +256,8 @@ class CheckoutController extends Controller
                     ],
                     $validated,
                     session('pending_cart'),
-                    session('pending_participants')
+                    session('pending_participants'),
+                    $affiliateData
                 );
                 
                 \Log::info('Redirecting to ToyyibPay', ['bill_code' => $billCode]);
@@ -338,6 +343,9 @@ class CheckoutController extends Controller
                 'stripe_reference_number' => $referenceNumber
             ]);
             
+            // Prepare affiliate data for pending payment logging
+            $affiliateData = $this->prepareAffiliateDataForLogging();
+
             // Log pending payment before redirecting to Stripe payment page
             PaymentLogger::logPendingPayment(
                 'stripe',
@@ -351,7 +359,8 @@ class CheckoutController extends Controller
                 ],
                 $validated,
                 session('pending_cart'),
-                session('pending_participants')
+                session('pending_participants'),
+                $affiliateData
             );
 
             return view('client.store.stripe-payment', [
@@ -425,8 +434,8 @@ class CheckoutController extends Controller
                     // Save billing details
                     $billing = BillingDetail::create($billingData);
 
-                    // Create order
-                    $order = Order::create([
+                    // Prepare order data
+                    $orderData = [
                         'billing_detail_id' => $billing->id,
                         'reference_number' => session('stripe_reference_number', 'STR-' . strtoupper(uniqid())),
                         'total_amount' => $calculatedTotal,
@@ -436,7 +445,13 @@ class CheckoutController extends Controller
                         'payment_method' => 'stripe',
                         'payment_country' => $country,
                         'processing_fee' => $calculatedTotal - $cartTotal
-                    ]);
+                    ];
+
+                    // Handle affiliate tracking
+                    $orderData = $this->handleAffiliateTracking($orderData);
+
+                    // Create order
+                    $order = Order::create($orderData);
 
                     // Create participant records if provided
                     $participants = session('pending_participants');
@@ -446,6 +461,19 @@ class CheckoutController extends Controller
                             \App\Models\Participant::create($participantData);
                         }
                         \Log::info('Created participant records in Stripe callback', ['participants_count' => count($participants)]);
+                    }
+
+                    // Prepare affiliate data for logging
+                    $affiliateData = null;
+                    if ($order->affiliate_id) {
+                        $affiliate = $order->affiliate;
+                        $affiliateData = [
+                            'affiliate_id' => $affiliate->id,
+                            'affiliate_code' => $affiliate->affiliate_code,
+                            'affiliate_name' => $affiliate->name,
+                            'affiliate_user_name' => $affiliate->user ? $affiliate->user->name : 'N/A',
+                            'affiliate_user_email' => $affiliate->user ? $affiliate->user->email : 'N/A',
+                        ];
                     }
 
                     // Log successful payment
@@ -462,7 +490,8 @@ class CheckoutController extends Controller
                             'items_count' => count($cartItems),
                             'order_id' => $order->id
                         ],
-                        session('pending_participants')
+                        session('pending_participants'),
+                        $affiliateData
                     );
 
                     // Update ticket stock
@@ -512,7 +541,7 @@ class CheckoutController extends Controller
                     }
 
                     // Clear session data
-                    session()->forget(['pending_billing', 'pending_cart', 'pending_cart_total', 'pending_participants', 'stripe_payment_intent_id']);
+                    session()->forget(['pending_billing', 'pending_cart', 'pending_cart_total', 'pending_participants', 'stripe_payment_intent_id', 'affiliate_code']);
                     
                     // Clear cart items
                     if (auth()->check()) {
@@ -639,6 +668,9 @@ class CheckoutController extends Controller
                     'processing_fee' => 0.00
                 ];
 
+                // Handle affiliate tracking
+                $orderData = $this->handleAffiliateTracking($orderData);
+
                 // Create order
                 $order = Order::create($orderData);
 
@@ -650,6 +682,19 @@ class CheckoutController extends Controller
                         \App\Models\Participant::create($participantData);
                     }
                     \Log::info('Created participant records', ['participants_count' => count($participants)]);
+                }
+
+                // Prepare affiliate data for logging
+                $affiliateData = null;
+                if ($order->affiliate_id) {
+                    $affiliate = $order->affiliate;
+                    $affiliateData = [
+                        'affiliate_id' => $affiliate->id,
+                        'affiliate_code' => $affiliate->affiliate_code,
+                        'affiliate_name' => $affiliate->name,
+                        'affiliate_user_name' => $affiliate->user ? $affiliate->user->name : 'N/A',
+                        'affiliate_user_email' => $affiliate->user ? $affiliate->user->email : 'N/A',
+                    ];
                 }
 
                 // Log successful payment
@@ -664,7 +709,8 @@ class CheckoutController extends Controller
                         'items_count' => count($cartItems),
                         'order_id' => $order->id
                     ],
-                    session('pending_participants')
+                    session('pending_participants'),
+                    $affiliateData
                 );
 
                 // Reduce stock for each item
@@ -722,7 +768,7 @@ class CheckoutController extends Controller
                 }
 
                 // Clear session and cart
-                session()->forget(['pending_billing', 'pending_cart', 'pending_cart_total', 'pending_participants']);
+                session()->forget(['pending_billing', 'pending_cart', 'pending_cart_total', 'pending_participants', 'affiliate_code']);
 
                 DB::commit();
 
@@ -888,5 +934,63 @@ class CheckoutController extends Controller
             ]);
             throw $e;
         }
+    }
+
+    /**
+     * Prepare affiliate data for logging.
+     */
+    private function prepareAffiliateDataForLogging()
+    {
+        $affiliateData = null;
+        $affiliateCode = session('affiliate_code');
+        
+        if ($affiliateCode) {
+            $affiliate = \App\Models\Affiliate::where('affiliate_code', $affiliateCode)
+                ->where('is_active', true)
+                ->with('user')
+                ->first();
+            
+            if ($affiliate) {
+                $affiliateData = [
+                    'affiliate_id' => $affiliate->id,
+                    'affiliate_code' => $affiliate->affiliate_code,
+                    'affiliate_name' => $affiliate->name,
+                    'affiliate_user_name' => $affiliate->user ? $affiliate->user->name : 'N/A',
+                    'affiliate_user_email' => $affiliate->user ? $affiliate->user->email : 'N/A',
+                ];
+            }
+        }
+        
+        return $affiliateData;
+    }
+
+    /**
+     * Handle affiliate tracking for order creation.
+     */
+    private function handleAffiliateTracking($orderData)
+    {
+        $affiliateCode = session('affiliate_code');
+        
+        if ($affiliateCode) {
+            $affiliate = Affiliate::where('affiliate_code', $affiliateCode)
+                ->where('is_active', true)
+                ->first();
+            
+            if ($affiliate) {
+                $orderData['affiliate_id'] = $affiliate->id;
+                $orderData['affiliate_code'] = $affiliateCode;
+                
+                // Update affiliate statistics
+                $affiliate->addConversion();
+                
+                Log::info('Affiliate tracking applied', [
+                    'affiliate_id' => $affiliate->id,
+                    'affiliate_code' => $affiliateCode,
+                    'order_total' => $orderData['total_amount']
+                ]);
+            }
+        }
+        
+        return $orderData;
     }
 }
