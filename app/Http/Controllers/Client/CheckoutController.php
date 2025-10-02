@@ -101,6 +101,7 @@ class CheckoutController extends Controller
             'phone' => 'required|string|max:30',
             'email' => 'required|email|max:255',
             'payment_method' => 'required|in:toyyibpay,stripe',
+            'referral_code' => 'nullable|string|max:20',
         ];
 
         // Add B2B validation rules if organization is selected
@@ -185,16 +186,45 @@ class CheckoutController extends Controller
             $sessionData['pending_participants'] = $request->input('participants');
         }
 
+        // Process manual referral code if provided
+        if ($request->has('referral_code') && !empty($request->referral_code)) {
+            $referralCode = strtoupper(trim($request->referral_code));
+            
+            \Log::info('Processing manual referral code', [
+                'referral_code' => $referralCode,
+                'has_existing_session_code' => !empty(session('affiliate_code'))
+            ]);
+            
+            // Validate the referral code
+            $affiliate = \App\Models\Affiliate::where('affiliate_code', $referralCode)
+                ->where('is_active', true)
+                ->first();
+            
+            if ($affiliate) {
+                // Store the manual referral code in session
+                $sessionData['affiliate_code'] = $referralCode;
+                \Log::info('Manual referral code processed and stored in session', [
+                    'referral_code' => $referralCode,
+                    'affiliate_id' => $affiliate->id,
+                    'affiliate_name' => $affiliate->name
+                ]);
+            } else {
+                \Log::warning('Invalid manual referral code provided', [
+                    'referral_code' => $referralCode
+                ]);
+            }
+        }
+
         session($sessionData);
 
         if ($validated['payment_method'] === 'toyyibpay') {
-            return $this->processToyyibPay($validated, $cartTotal);
+            return $this->processToyyibPay($validated, $cartTotal, $request);
         } else {
-            return $this->processStripe($validated, $cartTotal);
+            return $this->processStripe($validated, $cartTotal, $request);
         }
     }
 
-    private function processToyyibPay($validated, $cartTotal)
+    private function processToyyibPay($validated, $cartTotal, $request = null)
     {
         // Format phone number for ToyyibPay
         $phone = preg_replace('/[^0-9]/', '', $validated['phone']);
@@ -243,7 +273,7 @@ class CheckoutController extends Controller
                 $billCode = $result[0]['BillCode'];
                 
                 // Prepare affiliate data for pending payment logging
-                $affiliateData = $this->prepareAffiliateDataForLogging();
+                $affiliateData = $this->prepareAffiliateDataForLogging($request);
                 
                 // Log pending payment before redirecting to payment gateway
                 PaymentLogger::logPendingPayment(
@@ -295,7 +325,7 @@ class CheckoutController extends Controller
         }
     }
 
-    private function processStripe($validated, $cartTotal)
+    private function processStripe($validated, $cartTotal, $request = null)
     {
         try {
             Stripe::setApiKey(config('services.stripe.secret'));
@@ -344,7 +374,7 @@ class CheckoutController extends Controller
             ]);
             
             // Prepare affiliate data for pending payment logging
-            $affiliateData = $this->prepareAffiliateDataForLogging();
+            $affiliateData = $this->prepareAffiliateDataForLogging($request);
 
             // Log pending payment before redirecting to Stripe payment page
             PaymentLogger::logPendingPayment(
@@ -448,7 +478,7 @@ class CheckoutController extends Controller
                     ];
 
                     // Handle affiliate tracking
-                    $orderData = $this->handleAffiliateTracking($orderData);
+                    $orderData = $this->handleAffiliateTracking($orderData, $request);
 
                     // Create order
                     $order = Order::create($orderData);
@@ -669,7 +699,7 @@ class CheckoutController extends Controller
                 ];
 
                 // Handle affiliate tracking
-                $orderData = $this->handleAffiliateTracking($orderData);
+                $orderData = $this->handleAffiliateTracking($orderData, $request);
 
                 // Create order
                 $order = Order::create($orderData);
@@ -939,10 +969,16 @@ class CheckoutController extends Controller
     /**
      * Prepare affiliate data for logging.
      */
-    private function prepareAffiliateDataForLogging()
+    private function prepareAffiliateDataForLogging($request = null)
     {
         $affiliateData = null;
         $affiliateCode = session('affiliate_code');
+        
+        \Log::info('Preparing affiliate data for logging', [
+            'affiliate_code_from_session' => $affiliateCode,
+            'has_request' => !is_null($request),
+            'request_referral_code' => $request ? $request->input('referral_code') : 'N/A'
+        ]);
         
         if ($affiliateCode) {
             $affiliate = \App\Models\Affiliate::where('affiliate_code', $affiliateCode)
@@ -958,7 +994,13 @@ class CheckoutController extends Controller
                     'affiliate_user_name' => $affiliate->user ? $affiliate->user->name : 'N/A',
                     'affiliate_user_email' => $affiliate->user ? $affiliate->user->email : 'N/A',
                 ];
+                
+                \Log::info('Affiliate data prepared for logging', $affiliateData);
+            } else {
+                \Log::warning('Affiliate not found for code', ['affiliate_code' => $affiliateCode]);
             }
+        } else {
+            \Log::info('No affiliate code found in session');
         }
         
         return $affiliateData;
@@ -967,7 +1009,7 @@ class CheckoutController extends Controller
     /**
      * Handle affiliate tracking for order creation.
      */
-    private function handleAffiliateTracking($orderData)
+    private function handleAffiliateTracking($orderData, $request = null)
     {
         $affiliateCode = session('affiliate_code');
         
@@ -986,7 +1028,12 @@ class CheckoutController extends Controller
                 Log::info('Affiliate tracking applied', [
                     'affiliate_id' => $affiliate->id,
                     'affiliate_code' => $affiliateCode,
-                    'order_total' => $orderData['total_amount']
+                    'order_total' => $orderData['total_amount'],
+                    'source' => 'session_or_manual'
+                ]);
+            } else {
+                Log::warning('Invalid or inactive affiliate code in session', [
+                    'affiliate_code' => $affiliateCode
                 ]);
             }
         }

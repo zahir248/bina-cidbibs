@@ -87,10 +87,50 @@ Route::get('avatar/{filename}', function ($filename) {
 Route::get('/ref', [AffiliateController::class, 'trackClick'])->name('affiliate.track');
 
 // Clear affiliate tracking route
-Route::get('/clear-affiliate', function() {
+Route::get('/clear-affiliate', function(\Illuminate\Http\Request $request) {
     session()->forget('affiliate_code');
+    
+    // Return JSON for AJAX requests
+    if ($request->ajax() || $request->wantsJson()) {
+        return response()->json([
+            'success' => true,
+            'message' => 'Affiliate tracking cleared successfully!'
+        ]);
+    }
+    
+    // Return redirect for regular requests
     return redirect()->back()->with('success', 'Affiliate tracking cleared successfully!');
 })->name('affiliate.clear');
+
+// Validate referral code route
+Route::post('/validate-referral-code', function(\Illuminate\Http\Request $request) {
+    $code = strtoupper(trim($request->input('code', '')));
+    
+    if (empty($code)) {
+        return response()->json([
+            'valid' => false,
+            'message' => 'Please enter a referral code'
+        ]);
+    }
+    
+    $affiliate = \App\Models\Affiliate::where('affiliate_code', $code)
+        ->where('is_active', true)
+        ->with('user')
+        ->first();
+    
+    if ($affiliate) {
+        return response()->json([
+            'valid' => true,
+            'message' => 'Valid referral code! You will be credited to ' . ($affiliate->name ?: $affiliate->user->name),
+            'affiliate_name' => $affiliate->name ?: $affiliate->user->name
+        ]);
+    } else {
+        return response()->json([
+            'valid' => false,
+            'message' => 'Invalid or inactive referral code'
+        ]);
+    }
+})->name('affiliate.validate');
 
 // Test route to check affiliate codes
 Route::get('/test-affiliates', function() {

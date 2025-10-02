@@ -473,6 +473,103 @@
     .required {
         color: #dc3545;
     }
+
+    /* Referral Code Section Styling */
+    .referral-code-section {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border: 2px solid #e2e8f0;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        margin: 1rem 0;
+        transition: all 0.3s ease;
+    }
+
+    .referral-code-section:hover {
+        border-color: #2563eb;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+    }
+
+    .referral-code-section .form-label {
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+    }
+
+    .referral-code-section .form-control {
+        border: 2px solid #e2e8f0;
+        transition: all 0.3s ease;
+    }
+
+    .referral-code-section .form-control:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
+    }
+
+    .referral-code-section .form-control.valid {
+        border-color: #00b894;
+        background-color: #f8fff9;
+    }
+
+    .referral-code-section .form-control.invalid {
+        border-color: #e17055;
+        background-color: #fff8f5;
+    }
+
+    .referral-code-section .form-control.loading {
+        border-color: #2196f3;
+        background-color: #f8fbff;
+    }
+
+    .referral-code-section .btn-outline-secondary {
+        border: 2px solid #e2e8f0;
+        border-left: none;
+        transition: all 0.3s ease;
+    }
+
+    .referral-code-section .btn-outline-secondary:hover {
+        background-color: #f8f9fa;
+        border-color: #2563eb;
+        color: #2563eb;
+    }
+
+    .referral-code-section .form-text {
+        font-size: 0.85rem;
+        color: #64748b;
+        margin-top: 0.5rem;
+    }
+
+    /* Referral Code Validation Status */
+    #referralCodeStatus {
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.5rem;
+        margin-top: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    #referralCodeStatus.valid {
+        background-color: #d1f2eb;
+        border: 1px solid #00b894;
+        color: #00b894;
+    }
+
+    #referralCodeStatus.invalid {
+        background-color: #ffeaa7;
+        border: 1px solid #fdcb6e;
+        color: #e17055;
+    }
+
+    #referralCodeStatus.loading {
+        background-color: #e3f2fd;
+        border: 1px solid #2196f3;
+        color: #1976d2;
+    }
+
+    #referralCodeIcon {
+        font-size: 0.9rem;
+    }
+
+    #referralCodeMessage {
+        font-weight: 500;
+    }
 </style>
 @endpush
 
@@ -634,6 +731,41 @@
                         <!-- Participant forms will be dynamically generated here -->
                     </div>
                 </div>
+
+                <!-- Referral Code Field -->
+                <div class="referral-code-section mt-3 mb-3">
+                    <label for="referral_code" class="form-label" style="font-weight: 600; color: #1e293b; margin-bottom: 0.5rem;">
+                        Referral Code (Optional)
+                    </label>
+                    <div class="input-group">
+                        <input type="text" 
+                               class="form-control" 
+                               id="referral_code" 
+                               name="referral_code" 
+                               placeholder="Enter referral code if you have one"
+                               value="{{ old('referral_code', session('affiliate_code')) }}"
+                               style="border-radius: 0.5rem 0 0 0.5rem; border: 2px solid #e2e8f0; padding: 0.75rem 1rem; font-size: 0.95rem;">
+                        <button class="btn btn-outline-secondary" 
+                                type="button" 
+                                id="clearReferralCode"
+                                style="border-radius: 0 0.5rem 0.5rem 0; border: 2px solid #e2e8f0; border-left: none; padding: 0.75rem 1rem;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Validation Status Indicator -->
+                    <div id="referralCodeStatus" class="mt-2" style="display: none;">
+                        <div class="d-flex align-items-center">
+                            <i id="referralCodeIcon" class="fas me-2"></i>
+                            <span id="referralCodeMessage" class="small"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-text" style="font-size: 0.85rem; color: #64748b; margin-top: 0.25rem;">
+                        <i class="fas fa-info-circle me-1"></i>
+                        If you have a referral code, enter it here to support your referrer
+                    </div>
+                </div>
             </form>
         </div>
 
@@ -708,6 +840,7 @@
                         <div class="ms-4 text-muted">Pay securely with Stripe.</div>
                     </div>
                 </div>
+
                 <div class="text-muted mt-3" style="font-size:0.97rem;">
                     Your personal data will be used to process your order, support your experience, and for other purposes described in our privacy policy.
                 </div>
@@ -1357,6 +1490,142 @@ document.addEventListener('DOMContentLoaded', function() {
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
+
+    // Referral Code Functionality
+    const referralCodeInput = document.getElementById('referral_code');
+    const clearReferralCodeBtn = document.getElementById('clearReferralCode');
+    const statusDiv = document.getElementById('referralCodeStatus');
+    const statusIcon = document.getElementById('referralCodeIcon');
+    const statusMessage = document.getElementById('referralCodeMessage');
+    
+    let validationTimeout;
+    let clearSessionTimeout;
+
+    // Clear referral code from session function
+    function clearReferralCodeFromSession() {
+        // Show clearing status
+        showStatus('loading', 'fas fa-spinner fa-spin', 'Clearing referral code...');
+        
+        fetch('{{ route("affiliate.clear") }}', {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Referral code cleared from session');
+            // Hide status after successful clear
+            setTimeout(() => {
+                hideStatus();
+            }, 1000);
+        })
+        .catch(error => {
+            console.error('Error clearing referral code from session:', error);
+            showStatus('invalid', 'fas fa-exclamation-circle', 'Error clearing referral code');
+        });
+    }
+
+    // Debounced clear function to avoid too many AJAX calls
+    function debouncedClearFromSession() {
+        clearTimeout(clearSessionTimeout);
+        clearSessionTimeout = setTimeout(() => {
+            // Double-check that the field is still empty before clearing
+            if (!referralCodeInput.value.trim()) {
+                clearReferralCodeFromSession();
+            }
+        }, 300); // Wait 300ms after user stops typing
+    }
+
+    // Clear referral code button functionality
+    if (clearReferralCodeBtn) {
+        clearReferralCodeBtn.addEventListener('click', function() {
+            referralCodeInput.value = '';
+            referralCodeInput.focus();
+            clearReferralCodeFromSession();
+            hideStatus();
+        });
+    }
+
+    // Auto-format referral code (uppercase) and validate
+    if (referralCodeInput) {
+        referralCodeInput.addEventListener('input', function() {
+            this.value = this.value.toUpperCase();
+            
+            // If field is empty, clear from session (debounced)
+            if (!this.value.trim()) {
+                debouncedClearFromSession();
+                hideStatus();
+                return;
+            }
+            
+            // If field has value, validate it
+            validateReferralCode(this.value);
+        });
+    }
+
+    // Validate referral code function
+    function validateReferralCode(code) {
+        // Clear previous timeout
+        clearTimeout(validationTimeout);
+        
+        // Hide status if empty
+        if (!code.trim()) {
+            hideStatus();
+            return;
+        }
+        
+        // Show loading status
+        showStatus('loading', 'fas fa-spinner fa-spin', 'Validating referral code...');
+        
+        // Debounce validation (wait 500ms after user stops typing)
+        validationTimeout = setTimeout(() => {
+            fetch('{{ route("affiliate.validate") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ code: code })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.valid) {
+                    showStatus('valid', 'fas fa-check-circle', data.message);
+                } else {
+                    showStatus('invalid', 'fas fa-exclamation-circle', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Validation error:', error);
+                showStatus('invalid', 'fas fa-exclamation-circle', 'Error validating referral code');
+            });
+        }, 500);
+    }
+
+    // Show status function
+    function showStatus(type, iconClass, message) {
+        statusDiv.className = `mt-2 ${type}`;
+        statusIcon.className = `fas me-2 ${iconClass}`;
+        statusMessage.textContent = message;
+        statusDiv.style.display = 'block';
+        
+        // Update input field styling
+        referralCodeInput.className = `form-control ${type}`;
+    }
+
+    // Hide status function
+    function hideStatus() {
+        statusDiv.style.display = 'none';
+        // Reset input field styling
+        referralCodeInput.className = 'form-control';
+    }
+
+    // Validate on page load if there's already a value
+    if (referralCodeInput && referralCodeInput.value.trim()) {
+        validateReferralCode(referralCodeInput.value);
+    }
 });
 </script>
 @endpush
