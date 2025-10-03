@@ -689,7 +689,39 @@
                 </div>
                 <div class="ma-detail-row">
                     <span class="ma-icon"><i class="fas fa-clock"></i></span>
-                    <span>08:30 AM – 05:00 PM</span>
+                    <span>08:00 AM - 05:00 PM</span>
+                </div>
+            </div>
+            <!-- Event Host Card -->
+            <div class="speaker-card-upgraded" style="background:#fff; border-radius:1.5rem; box-shadow:0 8px 32px rgba(80,80,120,0.08); border:0px solid #1B1F31; padding:0 0 2rem 0; margin-top:2.2rem; max-width:340px; min-width:270px; width:100%; text-align:center; position:relative; overflow:hidden; margin-left:auto; margin-right:auto;">
+                <div style="width:100%; background:#1B1F31; color:#fff; font-weight:700; font-size:1.1rem; padding:1.1rem 0 0.9rem 0; border-top-left-radius:1.5rem; border-top-right-radius:1.5rem; letter-spacing:0.5px;">
+                    EVENT HOST
+                </div>
+                <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
+                    <img src="{{ asset('images/yb-ahmad-maslan.jpg') }}" alt="YB Datuk Seri Haji Ahmad bin Maslan"
+                         style="width:80px; height:80px; object-fit:cover; object-position:top; border-radius:50%; border:0px solid #1B1F31; box-shadow:0 2px 12px rgba(27,31,49,0.15); margin-bottom:1rem; cursor:pointer;" id="emceeImage">
+                    <div class="speaker-name-container" style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem; line-height:1.3;">YB Datuk Seri Haji Ahmad bin Maslan</div>
+                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">OFFICIATING</span>
+                    </div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Deputy Minister of Works Malaysia</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;"></div>
+                </div>
+            </div>
+            <!-- Event Moderator Card -->
+            <div class="speaker-card-upgraded" style="background:#fff; border-radius:1.5rem; box-shadow:0 8px 32px rgba(80,80,120,0.08); border:0px solid #1B1F31; padding:0 0 2rem 0; margin-top:2.2rem; max-width:340px; min-width:270px; width:100%; text-align:center; position:relative; overflow:hidden; margin-left:auto; margin-right:auto;">
+                <div style="width:100%; background:#1B1F31; color:#fff; font-weight:700; font-size:1.1rem; padding:1.1rem 0 0.9rem 0; border-top-left-radius:1.5rem; border-top-right-radius:1.5rem; letter-spacing:0.5px;">
+                    EVENT MODERATOR
+                </div>
+                <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
+                    <img src="{{ asset('images/ts-zuraihi.jpg') }}" alt="Ir. Ts. Zuraihi"
+                         style="width:80px; height:80px; object-fit:cover; object-position:top; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="moderatorImage">
+                    <div class="speaker-name-container" style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem; line-height:1.3;">Ir. Ts. Zuraihi</div>
+                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">DIALOGUE SESSION 2</span>
+                    </div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Chief Executive Officer</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;">CIDB IBS Sdn Bhd</div>
                 </div>
             </div>
             <!-- Unified Speakers Card -->
@@ -735,6 +767,42 @@
 
                 <!-- Third Speaker -->
                 <div style="display:flex; flex-direction:column; align-items:center; padding:0 1.5rem;">
+                    <img src="{{ asset('images/lee-wei-thiam.jpg') }}" alt='Ir. Lee Wei Thiam'
+                         style="width:80px; height:80px; object-fit:cover; object-position: center 15%; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage4">
+                    <div style="display:flex; flex-direction:column; align-items:center; gap:0.3rem; justify-content:center;">
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0;">Ir. Lee Wei Thiam</div>
+                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block; margin-bottom:0.2rem;">DIALOGUE SESSION 1</span>
+                    </div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Assistant General Manager, Marketing</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1rem;">Eastern Pretech</div>
+                    <div style="display:flex; gap:0.7rem;">
+                        <!-- Social links can be added here if available -->
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div style="width:80%; height:1px; background:rgba(27,31,49,0.1); margin:2rem auto;"></div>
+
+                <!-- Fourth Speaker -->
+                <div style="display:flex; flex-direction:column; align-items:center; padding:0 1.5rem;">
+                    <img src="{{ asset('images/idr-rien-tan.jpg') }}" alt='Ar. Ts. IDr Rien Tan'
+                         style="width:80px; height:80px; object-fit:cover; object-position: center 15%; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage5">
+                    <div style="display:flex; flex-direction:column; align-items:center; gap:0.3rem; justify-content:center;">
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0;">Ar. Ts. IDr Rien Tan</div>
+                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block; margin-bottom:0.2rem;">DIALOGUE SESSION 1</span>
+                    </div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Director</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1rem;">TKCA Architects Sdn Bhd</div>
+                    <div style="display:flex; gap:0.7rem;">
+                        <!-- Social links can be added here if available -->
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div style="width:80%; height:1px; background:rgba(27,31,49,0.1); margin:2rem auto;"></div>
+
+                <!-- Fifth Speaker -->
+                <div style="display:flex; flex-direction:column; align-items:center; padding:0 1.5rem;">
                     <img src="{{ asset('images/martins-motivans.jpg') }}" alt='Martins Motivans'
                          style="width:80px; height:80px; object-fit:cover; object-position: center 15%; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage3">
                     <div style="display:flex; flex-direction:column; align-items:center; gap:0.3rem; justify-content:center;">
@@ -746,6 +814,24 @@
                     <div style="display:flex; gap:0.7rem;">
                         <a href="https://www.linkedin.com/in/martins-motivans-75b15724/" target="_blank" rel="noopener noreferrer" class="social-icon" style="display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; background:#1B1F31; border-radius:50%; color:#fff; font-size:1.2rem; text-decoration:none; transition:all 0.3s ease;"><i class="fab fa-linkedin-in"></i></a>
                         <a href="https://www.lamod.eu/" target="_blank" rel="noopener noreferrer" class="social-icon" style="display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; background:#1B1F31; border-radius:50%; color:#fff; font-size:1.2rem; text-decoration:none; transition:all 0.3s ease;"><i class="fas fa-globe"></i></a>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div style="width:80%; height:1px; background:rgba(27,31,49,0.1); margin:2rem auto;"></div>
+
+                <!-- Sixth Speaker -->
+                <div style="display:flex; flex-direction:column; align-items:center; padding:0 1.5rem;">
+                    <img src="{{ asset('images/john-woo.jpg') }}" alt='John Woo'
+                         style="width:80px; height:80px; object-fit:cover; object-position: center 15%; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage6">
+                    <div style="display:flex; flex-direction:column; align-items:center; gap:0.3rem; justify-content:center;">
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0;">John Woo</div>
+                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block; margin-bottom:0.2rem;">DIALOGUE SESSION 2</span>
+                    </div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Chief Technical Officer</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1rem;">Nimova Intersales (Malaysia) Sdn Bhd</div>
+                    <div style="display:flex; gap:0.7rem;">
+                        <!-- Social links can be added here if available -->
                     </div>
                 </div>
             </div>
@@ -764,6 +850,31 @@
             <div id="speakerImageModal3" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
                 <span id="closeSpeakerModal3" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
                 <img src="{{ asset('images/martins-motivans.jpg') }}" alt='Martins Motivans' style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff; object-fit: contain;">
+            </div>
+
+            <div id="speakerImageModal4" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
+                <span id="closeSpeakerModal4" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
+                <img src="{{ asset('images/lee-wei-thiam.jpg') }}" alt='Ir. Lee Wei Thiam' style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff; object-fit: contain;">
+            </div>
+
+            <div id="speakerImageModal5" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
+                <span id="closeSpeakerModal5" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
+                <img src="{{ asset('images/idr-rien-tan.jpg') }}" alt='Ar. Ts. IDr Rien Tan' style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff; object-fit: contain;">
+            </div>
+
+            <div id="speakerImageModal6" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
+                <span id="closeSpeakerModal6" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
+                <img src="{{ asset('images/john-woo.jpg') }}" alt='John Woo' style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff; object-fit: contain;">
+            </div>
+            <!-- Event Host Image Modal -->
+            <div id="emceeImageModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
+                <span id="closeEmceeModal" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
+                <img src="{{ asset('images/yb-ahmad-maslan.jpg') }}" alt="YB Datuk Seri Haji Ahmad bin Maslan" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
+            </div>
+            <!-- Event Moderator Image Modal -->
+            <div id="moderatorImageModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
+                <span id="closeModeratorModal" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
+                <img src="{{ asset('images/ts-zuraihi.jpg') }}" alt="Ir. Ts. Zuraihi" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
             </div>
         </div>
     </div>
@@ -855,6 +966,111 @@ document.addEventListener('DOMContentLoaded', function() {
         speakerModal3.addEventListener('click', function(e) {
             if (e.target === speakerModal3) {
                 speakerModal3.style.display = 'none';
+            }
+        });
+    }
+
+    // Fourth Speaker Image Modal
+    const speakerImage4 = document.getElementById('speakerImage4');
+    const speakerModal4 = document.getElementById('speakerImageModal4');
+    const closeSpeakerModal4 = document.getElementById('closeSpeakerModal4');
+
+    if (speakerImage4 && speakerModal4 && closeSpeakerModal4) {
+        speakerImage4.addEventListener('click', function() {
+            speakerModal4.style.display = 'flex';
+        });
+
+        closeSpeakerModal4.addEventListener('click', function() {
+            speakerModal4.style.display = 'none';
+        });
+
+        speakerModal4.addEventListener('click', function(e) {
+            if (e.target === speakerModal4) {
+                speakerModal4.style.display = 'none';
+            }
+        });
+    }
+
+    // Fifth Speaker Image Modal
+    const speakerImage5 = document.getElementById('speakerImage5');
+    const speakerModal5 = document.getElementById('speakerImageModal5');
+    const closeSpeakerModal5 = document.getElementById('closeSpeakerModal5');
+
+    if (speakerImage5 && speakerModal5 && closeSpeakerModal5) {
+        speakerImage5.addEventListener('click', function() {
+            speakerModal5.style.display = 'flex';
+        });
+
+        closeSpeakerModal5.addEventListener('click', function() {
+            speakerModal5.style.display = 'none';
+        });
+
+        speakerModal5.addEventListener('click', function(e) {
+            if (e.target === speakerModal5) {
+                speakerModal5.style.display = 'none';
+            }
+        });
+    }
+
+    // Sixth Speaker Image Modal
+    const speakerImage6 = document.getElementById('speakerImage6');
+    const speakerModal6 = document.getElementById('speakerImageModal6');
+    const closeSpeakerModal6 = document.getElementById('closeSpeakerModal6');
+
+    if (speakerImage6 && speakerModal6 && closeSpeakerModal6) {
+        speakerImage6.addEventListener('click', function() {
+            speakerModal6.style.display = 'flex';
+        });
+
+        closeSpeakerModal6.addEventListener('click', function() {
+            speakerModal6.style.display = 'none';
+        });
+
+        speakerModal6.addEventListener('click', function(e) {
+            if (e.target === speakerModal6) {
+                speakerModal6.style.display = 'none';
+            }
+        });
+    }
+
+    // Event Host Image Modal
+    const emceeImg = document.getElementById('emceeImage');
+    const emceeModal = document.getElementById('emceeImageModal');
+    const closeEmceeModal = document.getElementById('closeEmceeModal');
+
+    if (emceeImg && emceeModal && closeEmceeModal) {
+        emceeImg.addEventListener('click', function() {
+            emceeModal.style.display = 'flex';
+        });
+
+        closeEmceeModal.addEventListener('click', function() {
+            emceeModal.style.display = 'none';
+        });
+
+        emceeModal.addEventListener('click', function(e) {
+            if (e.target === emceeModal) {
+                emceeModal.style.display = 'none';
+            }
+        });
+    }
+
+    // Event Moderator Image Modal
+    const moderatorImg = document.getElementById('moderatorImage');
+    const moderatorModal = document.getElementById('moderatorImageModal');
+    const closeModeratorModal = document.getElementById('closeModeratorModal');
+
+    if (moderatorImg && moderatorModal && closeModeratorModal) {
+        moderatorImg.addEventListener('click', function() {
+            moderatorModal.style.display = 'flex';
+        });
+
+        closeModeratorModal.addEventListener('click', function() {
+            moderatorModal.style.display = 'none';
+        });
+
+        moderatorModal.addEventListener('click', function(e) {
+            if (e.target === moderatorModal) {
+                moderatorModal.style.display = 'none';
             }
         });
     }
