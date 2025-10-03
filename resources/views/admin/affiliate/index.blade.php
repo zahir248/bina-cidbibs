@@ -138,10 +138,18 @@
                                     </td>
                                     <td>{{ $affiliate->created_at->format('d M Y') }}</td>
                                     <td>
-                                        <a href="{{ route('admin.affiliates.show', $affiliate) }}" 
-                                           class="btn btn-sm btn-warning">
-                                            <i class="bi bi-eye"></i>
-                                        </a>
+                                        <div class="btn-group" role="group" style="width: 100%;">
+                                            <a href="{{ route('admin.affiliates.show', $affiliate) }}" 
+                                               class="btn btn-sm btn-warning" 
+                                               style="width: 50%;">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a href="{{ route('admin.affiliates.edit', $affiliate) }}" 
+                                               class="btn btn-sm btn-primary"
+                                               style="width: 50%;">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                                 @empty

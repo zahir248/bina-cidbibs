@@ -120,6 +120,36 @@ class AffiliateController extends Controller
     }
 
     /**
+     * Show the form for editing the specified affiliate.
+     */
+    public function edit(Affiliate $affiliate)
+    {
+        $affiliate->load('user');
+        return view('admin.affiliate.edit', compact('affiliate'));
+    }
+
+    /**
+     * Update the specified affiliate.
+     */
+    public function update(Request $request, Affiliate $affiliate)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
+            'is_active' => 'boolean'
+        ]);
+
+        $affiliate->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'is_active' => $request->has('is_active') ? (bool) $request->is_active : false,
+        ]);
+
+        return redirect()->route('admin.affiliates.index')
+            ->with('success', 'Affiliate updated successfully!');
+    }
+
+    /**
      * Update affiliate status.
      */
     public function updateStatus(Request $request, Affiliate $affiliate)

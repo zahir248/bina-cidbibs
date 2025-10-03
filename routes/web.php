@@ -323,6 +323,8 @@ Route::middleware('auth')->group(function () {
         Route::post('affiliates', [AdminAffiliateController::class, 'store'])->name('affiliates.store');
         Route::get('affiliates/export', [AdminAffiliateController::class, 'export'])->name('affiliates.export');
         Route::get('affiliates/{affiliate}', [AdminAffiliateController::class, 'show'])->name('affiliates.show');
+        Route::get('affiliates/{affiliate}/edit', [AdminAffiliateController::class, 'edit'])->name('affiliates.edit');
+        Route::put('affiliates/{affiliate}', [AdminAffiliateController::class, 'update'])->name('affiliates.update');
         Route::post('affiliates/{affiliate}/status', [AdminAffiliateController::class, 'updateStatus'])->name('affiliates.update-status');
     });
 });
