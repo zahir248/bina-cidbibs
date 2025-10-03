@@ -3128,22 +3128,22 @@
             </div>
             <div class="partners-logo-grid">
                 <div class="partner-logo-item">
-                    <img src="{{ asset('images/partners.png') }}" alt="Partner Logo">
+                    <img src="{{ asset('images/partner1.png') }}" alt="Partner 1">
                 </div>
                 <div class="partner-logo-item">
-                    <img src="{{ asset('images/partners.png') }}" alt="Partner Logo">
+                    <img src="{{ asset('images/partner2.png') }}" alt="Partner 2">
                 </div>
                 <div class="partner-logo-item">
-                    <img src="{{ asset('images/partners.png') }}" alt="Partner Logo">
+                    <img src="{{ asset('images/partner3.png') }}" alt="Partner 3">
                 </div>
                 <div class="partner-logo-item">
-                    <img src="{{ asset('images/partners.png') }}" alt="Partner Logo">
+                    <img src="{{ asset('images/partner4.png') }}" alt="Partner 4">
                 </div>
                 <div class="partner-logo-item">
-                    <img src="{{ asset('images/partners.png') }}" alt="Partner Logo">
+                    <img src="{{ asset('images/partner5.png') }}" alt="Partner 5">
                 </div>
                 <div class="partner-logo-item">
-                    <img src="{{ asset('images/partners.png') }}" alt="Partner Logo">
+                    <img src="{{ asset('images/partner6.png') }}" alt="Partner 6">
                 </div>
             </div>
         </div>
