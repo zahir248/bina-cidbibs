@@ -10,7 +10,11 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="card-title">Affiliates</h3>
                     <div>
-                        <a href="{{ route('admin.affiliates.export') }}" class="btn btn-success me-2">
+                        <a href="{{ route('admin.affiliates.create') }}" class="btn btn-primary me-2">
+                            <i class="bi bi-plus-circle me-1"></i>
+                            Create Affiliate
+                        </a>
+                        <a href="{{ route('admin.affiliates.export') }}" class="btn btn-success">
                             <i class="bi bi-download me-1"></i>
                             Export Data
                         </a>

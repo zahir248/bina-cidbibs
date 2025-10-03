@@ -87,6 +87,39 @@ class AffiliateController extends Controller
     }
 
     /**
+     * Show the form for creating a new affiliate.
+     */
+    public function create()
+    {
+        return view('admin.affiliate.create');
+    }
+
+    /**
+     * Store a newly created affiliate.
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
+        ]);
+
+        // Create affiliate for the logged-in admin user
+        $affiliate = Affiliate::create([
+            'user_id' => auth()->id(),
+            'affiliate_code' => Affiliate::generateAffiliateCode(),
+            'name' => $request->name,
+            'description' => $request->description,
+            'is_active' => true,
+            'total_clicks' => 0,
+            'total_conversions' => 0,
+        ]);
+
+        return redirect()->route('admin.affiliates.index')
+            ->with('success', 'Affiliate created successfully!');
+    }
+
+    /**
      * Update affiliate status.
      */
     public function updateStatus(Request $request, Affiliate $affiliate)

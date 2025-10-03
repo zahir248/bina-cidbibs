@@ -319,6 +319,8 @@ Route::middleware('auth')->group(function () {
         
         // Affiliate Management
         Route::get('affiliates', [AdminAffiliateController::class, 'index'])->name('affiliates.index');
+        Route::get('affiliates/create', [AdminAffiliateController::class, 'create'])->name('affiliates.create');
+        Route::post('affiliates', [AdminAffiliateController::class, 'store'])->name('affiliates.store');
         Route::get('affiliates/export', [AdminAffiliateController::class, 'export'])->name('affiliates.export');
         Route::get('affiliates/{affiliate}', [AdminAffiliateController::class, 'show'])->name('affiliates.show');
         Route::post('affiliates/{affiliate}/status', [AdminAffiliateController::class, 'updateStatus'])->name('affiliates.update-status');
