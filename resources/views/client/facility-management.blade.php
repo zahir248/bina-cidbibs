@@ -491,14 +491,14 @@
                     EVENT HOST
                 </div>
                 <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
-                    <img src="{{ asset('images/haji-yusuf.jpg') }}" alt="Ir. Haji Yusuf bin Haji Abd. Wahab"
+                    <img src="{{ asset('images/en-farrin.jpg') }}" alt="YBrs. Sr. Ahmad Farrin Mokhtar"
                          style="width:80px; height:80px; object-fit:cover; object-position:top; border-radius:50%; border:0px solid #1B1F31; box-shadow:0 2px 12px rgba(27,31,49,0.15); margin-bottom:1rem; cursor:pointer;" id="emceeImage">
                     <div class="speaker-name-container" style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
-                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem; line-height:1.3;">Ir. Haji Yusuf Bin Haji<br>Abd. Wahab</div>
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem; line-height:1.3;">YBrs. Sr. Ahmad Farrin Mokhtar</div>
                         <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">WELCOMING SPEECH</span>
                     </div>
-                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Chairman</div>
-                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;">CIDB Malaysia</div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Senior General Manager, Contractor and Construction</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;">Personnel Development Sector,<br>CIDB Malaysia</div>
                 </div>
             </div>
             <!-- Moderator Card -->
@@ -515,6 +515,17 @@
                     </div>
                     <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Managing Director</div>
                     <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;">HTS Engineering and<br>Consultancy Services Sdn. Bhd.</div>
+                </div>
+                <hr style="margin: 1.5rem 2rem; border: none; border-top: 1px solid #e5e7eb;">
+                <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
+                    <img src="{{ asset('images/en-rizuan.jpg') }}" alt="Pmr. Br. Muhammad Rizuan B Hamzah"
+                         style="width:80px; height:80px; object-fit:cover; object-position:top; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="moderatorImage2">
+                    <div class="speaker-name-container" style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem;">Pmr. Br. Muhammad Rizuan B Hamzah</div>
+                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">Q&A SESSION</span>
+                    </div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">General Manager</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;"></div>
                 </div>
             </div>
             <!-- Speaker Card -->
@@ -545,6 +556,17 @@
                 </div>
                 <hr style="margin: 1.5rem 2rem; border: none; border-top: 1px solid #e5e7eb;">
                 <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
+                    <img src="{{ asset('images/en-mahput.jpg') }}" alt="En. Mahput Sairan"
+                         style="width:80px; height:80px; object-fit:cover; object-position: center 10%; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage4">
+                    <div class="speaker-name-container" style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem;">En. Mahput Sairan</div>
+                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">BEST PRACTICES SHARING 4</span>
+                    </div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Pengarah Strategi & Inovasi</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;">GFM Solutions Sdn. Bhd.</div>
+                </div>
+                <hr style="margin: 1.5rem 2rem; border: none; border-top: 1px solid #e5e7eb;">
+                <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
                     <img src="{{ asset('images/dr-azrin-ahmad.jpg') }}" alt="Br. Dr. Hj. Azrin Bin Ahmad"
                          style="width:80px; height:80px; object-fit:cover; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage">
                     <div class="speaker-name-container" style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
@@ -558,7 +580,7 @@
             <!-- Emcee Image Modal -->
             <div id="emceeImageModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
                 <span id="closeEmceeModal" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
-                <img src="{{ asset('images/haji-yusuf.jpg') }}" alt="Ir. Haji Yusuf bin Haji Abd. Wahab" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
+                <img src="{{ asset('images/en-farrin.jpg') }}" alt="YBrs. Sr. Ahmad Farrin Mokhtar" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
             </div>
             <!-- Speaker Image Modal -->
             <div id="speakerImageModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
@@ -575,10 +597,20 @@
                 <span id="closeSpeakerModal3" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
                 <img src="{{ asset('images/fazly-izwan.jpg') }}" alt="Fazly Izwan Bin A. Jalil" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
             </div>
+            <!-- Speaker 4 Image Modal -->
+            <div id="speakerImageModal4" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
+                <span id="closeSpeakerModal4" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
+                <img src="{{ asset('images/en-mahput.jpg') }}" alt="En. Mahput Sairan" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
+            </div>
             <!-- Moderator Image Modal -->
             <div id="moderatorImageModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
                 <span id="closeModeratorModal" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
                 <img src="{{ asset('images/dr-yahya.jpg') }}" alt="Dr. Ir. Ts. Yahya Hassan" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
+            </div>
+            <!-- Moderator 2 Image Modal -->
+            <div id="moderatorImageModal2" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
+                <span id="closeModeratorModal2" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
+                <img src="{{ asset('images/en-rizuan.jpg') }}" alt="Pmr. Br. Muhammad Rizuan B Hamzah" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
             </div>
         </div>
     </div>
@@ -689,6 +721,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Speaker 4 image modal logic
+    const speakerImg4 = document.getElementById('speakerImage4');
+    const modal4 = document.getElementById('speakerImageModal4');
+    const closeModal4 = document.getElementById('closeSpeakerModal4');
+    if (speakerImg4 && modal4 && closeModal4) {
+        speakerImg4.addEventListener('click', function() {
+            modal4.style.display = 'flex';
+        });
+        closeModal4.addEventListener('click', function() {
+            modal4.style.display = 'none';
+        });
+        modal4.addEventListener('click', function(e) {
+            if (e.target === modal4) {
+                modal4.style.display = 'none';
+            }
+        });
+    }
+
     // Moderator image modal logic
     const moderatorImg = document.getElementById('moderatorImage');
     const moderatorModal = document.getElementById('moderatorImageModal');
@@ -703,6 +753,24 @@ document.addEventListener('DOMContentLoaded', function() {
         moderatorModal.addEventListener('click', function(e) {
             if (e.target === moderatorModal) {
                 moderatorModal.style.display = 'none';
+            }
+        });
+    }
+
+    // Moderator 2 image modal logic
+    const moderatorImg2 = document.getElementById('moderatorImage2');
+    const moderatorModal2 = document.getElementById('moderatorImageModal2');
+    const closeModeratorModal2 = document.getElementById('closeModeratorModal2');
+    if (moderatorImg2 && moderatorModal2 && closeModeratorModal2) {
+        moderatorImg2.addEventListener('click', function() {
+            moderatorModal2.style.display = 'flex';
+        });
+        closeModeratorModal2.addEventListener('click', function() {
+            moderatorModal2.style.display = 'none';
+        });
+        moderatorModal2.addEventListener('click', function(e) {
+            if (e.target === moderatorModal2) {
+                moderatorModal2.style.display = 'none';
             }
         });
     }
