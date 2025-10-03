@@ -524,8 +524,8 @@
                         <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem;">Pmr. Br. Muhammad Rizuan B Hamzah</div>
                         <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">Q&A SESSION</span>
                     </div>
-                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">General Manager</div>
-                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;"></div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">General Manager of Contractor and Construction</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;">Personnel Development Sector,<br>CIDB MALAYSIA</div>
                 </div>
             </div>
             <!-- Speaker Card -->
