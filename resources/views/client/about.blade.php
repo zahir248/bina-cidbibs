@@ -1777,22 +1777,20 @@
     <div class="sponsorship-title" style="text-align:center;font-size:2.3rem;font-weight:900;color:#0a102f;letter-spacing:1px;margin-bottom:2.2rem;">
         SPONSORSHIP
     </div>
-    <div id="sponsorshipCarousel" class="carousel slide" data-bs-ride="carousel" style="max-width:900px;margin:0 auto;">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap">
-                    <img src="{{ asset('images/about-sponsor.png') }}" alt="Sponsor 1" class="sponsor-logo">
-                    <img src="{{ asset('images/about-sponsor.png') }}" alt="Sponsor 2" class="sponsor-logo">
-                    <img src="{{ asset('images/about-sponsor.png') }}" alt="Sponsor 3" class="sponsor-logo">
-                    <img src="{{ asset('images/about-sponsor.png') }}" alt="Sponsor 4" class="sponsor-logo">
+    <div id="sponsorshipCarousel" class="carousel slide" data-bs-ride="carousel" style="max-width:900px;margin:0 auto;height:200px;">
+        <div class="carousel-inner" style="height:100%;">
+            <div class="carousel-item active" style="height:100%;">
+                <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap" style="height:100%;">
+                    <img src="{{ asset('images/partner1.png') }}" alt="Partner 1" class="sponsor-logo">
+                    <img src="{{ asset('images/partner2.png') }}" alt="Partner 2" class="sponsor-logo">
+                    <img src="{{ asset('images/partner3.png') }}" alt="Partner 3" class="sponsor-logo">
                 </div>
             </div>
-            <div class="carousel-item">
-                <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap">
-                    <img src="{{ asset('images/about-sponsor.png') }}" alt="Sponsor 2" class="sponsor-logo">
-                    <img src="{{ asset('images/about-sponsor.png') }}" alt="Sponsor 3" class="sponsor-logo">
-                    <img src="{{ asset('images/about-sponsor.png') }}" alt="Sponsor 4" class="sponsor-logo">
-                    <img src="{{ asset('images/about-sponsor.png') }}" alt="Sponsor 1" class="sponsor-logo">
+            <div class="carousel-item" style="height:100%;">
+                <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap" style="height:100%;">
+                    <img src="{{ asset('images/partner4.png') }}" alt="Partner 4" class="sponsor-logo">
+                    <img src="{{ asset('images/partner5.png') }}" alt="Partner 5" class="sponsor-logo">
+                    <img src="{{ asset('images/partner6.png') }}" alt="Partner 6" class="sponsor-logo">
                 </div>
             </div>
         </div>
@@ -1880,6 +1878,33 @@
                 <div class="event-speakers-grid">
                     <div class="speaker-card">
                         <div class="speaker-image-container">
+                            <img src="{{ asset('images/majed-ghamdi.jpg') }}" alt="Eng. Majed Al Ghamdi">
+                        </div>
+                        <div class="speaker-name">Eng. Majed Al Ghamdi</div>
+                        <div class="speaker-position">General Manager<br>Alborj Facility Management, Saudi Arabia</div>
+                        <div class="speaker-social">
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/fazly-izwan.jpg') }}" alt="Fazly Izwan Bin A. Jalil">
+                        </div>
+                        <div class="speaker-name">Fazly Izwan Bin A. Jalil</div>
+                        <div class="speaker-position">General Manager<br>Technology & Contract, Chulia Middle East, Dubai, UAE</div>
+                        <div class="speaker-social">
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/en-mahput.jpg') }}" alt="En. Mahput Sairan" style="object-position: center 10%">
+                        </div>
+                        <div class="speaker-name">En. Mahput Sairan</div>
+                        <div class="speaker-position">Pengarah Strategi & Inovasi<br>GFM Solutions Sdn. Bhd.</div>
+                        <div class="speaker-social">
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
                             <img src="{{ asset('images/dr-azrin-ahmad.jpg') }}" alt="Dr. Azrin Bin Ahmad">
                         </div>
                         <div class="speaker-name">Dr. Azrin Bin Ahmad</div>
@@ -1911,9 +1936,27 @@
                             <img src="{{ asset('images/tobias-schaefer.jpg') }}" alt="Tobias Schaefer">
                         </div>
                         <div class="speaker-name">Tobias Schaefer</div>
-                        <div class="speaker-position">Head of Digital Innovation<br>ARDEX Group</div>
+                        <div class="speaker-position">Global Head of Prefab<br>ARDEX Group</div>
                         <div class="speaker-social">
-                            <a href="https://www.linkedin.com/in/tobias-schaefer-digital/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://www.linkedin.com/in/tobias1schaefer/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/lee-wei-thiam.jpg') }}" alt="Ir. Lee Wei Thiam" style="object-position: center 15%">
+                        </div>
+                        <div class="speaker-name">Ir. Lee Wei Thiam</div>
+                        <div class="speaker-position">Assistant General Manager, Marketing<br>Eastern Pretech</div>
+                        <div class="speaker-social">
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/idr-rien-tan.jpg') }}" alt="Ar. Ts. IDr Rien Tan" style="object-position: center 20%">
+                        </div>
+                        <div class="speaker-name">Ar. Ts. IDr Rien Tan</div>
+                        <div class="speaker-position">Director<br>TKCA Architects Sdn Bhd</div>
+                        <div class="speaker-social">
                         </div>
                     </div>
                     <div class="speaker-card">
@@ -1923,8 +1966,17 @@
                         <div class="speaker-name">Martins Motivans</div>
                         <div class="speaker-position">CEO<br>LAMOD</div>
                         <div class="speaker-social">
-                            <a href="https://www.linkedin.com/in/martins-motivans/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="https://lamod.eu" target="_blank" rel="noopener noreferrer"><i class="fas fa-globe"></i></a>
+                            <a href="https://www.linkedin.com/in/martins-motivans-75b15724/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://www.lamod.eu/" target="_blank" rel="noopener noreferrer"><i class="fas fa-globe"></i></a>
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/john-woo.jpg') }}" alt="John Woo" style="object-position: center 15%">
+                        </div>
+                        <div class="speaker-name">John Woo</div>
+                        <div class="speaker-position">Chief Technical Officer<br>Nimova Intersales (Malaysia) Sdn Bhd</div>
+                        <div class="speaker-social">
                         </div>
                     </div>
                 </div>
@@ -1973,7 +2025,7 @@
 .speaker-image-container {
     width: 120px;
     height: 120px;
-    margin: -60px auto 1.5rem; /* Adjusted margin-top from -40px to -60px and bottom margin from 1.2rem to 1.5rem */
+    margin: 2rem auto 1.5rem; /* Added top margin to create space from card top */
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
@@ -2044,7 +2096,7 @@
     .speaker-image-container {
         width: 100px;
         height: 100px;
-        margin-top: -50px; /* Adjusted from -30px */
+        margin: 1.5rem auto 1.5rem; /* Added top margin for mobile too */
     }
     
     .event-speakers-header {
