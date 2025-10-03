@@ -2989,6 +2989,16 @@
                     </div>
                     <div class="speaker-card">
                         <div class="speaker-image-container">
+                            <img src="{{ asset('images/en-mahput.jpg') }}" alt="En. Mahput Sairan" style="object-position: center 10%">
+                        </div>
+                        <div class="speaker-name">En. Mahput Sairan</div>
+                        <div class="speaker-title-badge">BEST PRACTICES SHARING 4</div>
+                        <div class="speaker-position">Pengarah Strategi & Inovasi<br>GFM Solutions Sdn. Bhd.</div>
+                        <div class="speaker-social">
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
                             <img src="{{ asset('images/dr-azrin-ahmad.jpg') }}" alt="Dr. Azrin Bin Ahmad">
                         </div>
                         <div class="speaker-name">Dr. Azrin Bin Ahmad</div>
@@ -3030,6 +3040,26 @@
                     </div>
                     <div class="speaker-card">
                         <div class="speaker-image-container">
+                            <img src="{{ asset('images/lee-wei-thiam.jpg') }}" alt="Ir. Lee Wei Thiam" style="object-position: center 15%">
+                        </div>
+                        <div class="speaker-name">Ir. Lee Wei Thiam</div>
+                        <div class="speaker-title-badge">DIALOGUE SESSION 1</div>
+                        <div class="speaker-position">Assistant General Manager, Marketing<br>Eastern Pretech</div>
+                        <div class="speaker-social">
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/idr-rien-tan.jpg') }}" alt="Ar. Ts. IDr Rien Tan" style="object-position: center 20%">
+                        </div>
+                        <div class="speaker-name">Ar. Ts. IDr Rien Tan</div>
+                        <div class="speaker-title-badge">DIALOGUE SESSION 1</div>
+                        <div class="speaker-position">Director<br>TKCA Architects Sdn Bhd</div>
+                        <div class="speaker-social">
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
                             <img src="{{ asset('images/martins-motivans.jpg') }}" alt="Martins Motivans" style="object-position: top">
                         </div>
                         <div class="speaker-name">Martins Motivans</div>
@@ -3038,6 +3068,16 @@
                         <div class="speaker-social">
                             <a href="https://www.linkedin.com/in/martins-motivans-75b15724/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
                             <a href="https://www.lamod.eu/" target="_blank" rel="noopener noreferrer"><i class="fas fa-globe"></i></a>
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/john-woo.jpg') }}" alt="John Woo" style="object-position: center 15%">
+                        </div>
+                        <div class="speaker-name">John Woo</div>
+                        <div class="speaker-title-badge">DIALOGUE SESSION 2</div>
+                        <div class="speaker-position">Chief Technical Officer<br>Nimova Intersales (Malaysia) Sdn Bhd</div>
+                        <div class="speaker-social">
                         </div>
                     </div>
                 </div>
