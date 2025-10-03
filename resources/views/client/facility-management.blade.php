@@ -482,7 +482,7 @@
                 </div>
                 <div class="ma-detail-row">
                     <span class="ma-icon"><i class="fas fa-clock"></i></span>
-                    <span>08:00 AM – 05.00 PM</span>
+                    <span>07:45 AM - 05:00 PM</span>
                 </div>
             </div>
             <!-- Emcee Card -->
@@ -499,6 +499,17 @@
                     </div>
                     <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Senior General Manager, Contractor and Construction</div>
                     <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;">Personnel Development Sector,<br>CIDB Malaysia</div>
+                </div>
+                <hr style="margin: 1.5rem 2rem; border: none; border-top: 1px solid #e5e7eb;">
+                <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
+                    <img src="{{ asset('images/haji-yusuf.jpg') }}" alt="YB Ir. Haji Yusuf bin Haji Abd. Wahab"
+                         style="width:80px; height:80px; object-fit:cover; object-position:top; border-radius:50%; border:0px solid #1B1F31; box-shadow:0 2px 12px rgba(27,31,49,0.15); margin-bottom:1rem; cursor:pointer;" id="emceeImage2">
+                    <div class="speaker-name-container" style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem; line-height:1.3;">YB Ir. Haji Yusuf bin Haji<br>Abd. Wahab</div>
+                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">OFFICIATING SPEECH</span>
+                    </div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Chairman</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;">CIDB Malaysia</div>
                 </div>
             </div>
             <!-- Moderator Card -->
@@ -582,6 +593,11 @@
                 <span id="closeEmceeModal" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
                 <img src="{{ asset('images/en-farrin.jpg') }}" alt="YBrs. Sr. Ahmad Farrin Mokhtar" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
             </div>
+            <!-- Emcee 2 Image Modal -->
+            <div id="emceeImageModal2" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
+                <span id="closeEmceeModal2" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
+                <img src="{{ asset('images/haji-yusuf.jpg') }}" alt="YB Ir. Haji Yusuf bin Haji Abd. Wahab" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
+            </div>
             <!-- Speaker Image Modal -->
             <div id="speakerImageModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
                 <span id="closeSpeakerModal" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
@@ -663,6 +679,24 @@ document.addEventListener('DOMContentLoaded', function() {
         emceeModal.addEventListener('click', function(e) {
             if (e.target === emceeModal) {
                 emceeModal.style.display = 'none';
+            }
+        });
+    }
+
+    // Emcee 2 image modal logic
+    const emceeImg2 = document.getElementById('emceeImage2');
+    const emceeModal2 = document.getElementById('emceeImageModal2');
+    const closeEmceeModal2 = document.getElementById('closeEmceeModal2');
+    if (emceeImg2 && emceeModal2 && closeEmceeModal2) {
+        emceeImg2.addEventListener('click', function() {
+            emceeModal2.style.display = 'flex';
+        });
+        closeEmceeModal2.addEventListener('click', function() {
+            emceeModal2.style.display = 'none';
+        });
+        emceeModal2.addEventListener('click', function(e) {
+            if (e.target === emceeModal2) {
+                emceeModal2.style.display = 'none';
             }
         });
     }
