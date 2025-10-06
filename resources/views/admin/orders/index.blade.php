@@ -84,6 +84,7 @@
                 <div class="card-body">
                     @if(session('success'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="bi bi-check-circle me-2"></i>
                             {{ session('success') }}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
@@ -335,6 +336,14 @@
                                             <a href="{{ route('admin.orders.download-individual-excel', $order) }}" 
                                                class="text-primary text-decoration-underline">
                                                 Download Excel
+                                            </a>
+                                            <hr class="my-1" style="border-color: #dee2e6;">
+                                            <a href="#" 
+                                               class="text-primary text-decoration-underline resend-email-btn" 
+                                               data-order-id="{{ $order->id }}"
+                                               data-reference="{{ $order->reference_number }}"
+                                               title="Resend confirmation email">
+                                                Resend Email
                                             </a>
                                         </div>
                                     </td>
@@ -919,19 +928,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const existingAlerts = document.querySelectorAll('.alert');
         existingAlerts.forEach(alert => alert.remove());
         
-        // Create new alert
+        // Create new alert with same design as existing success messages
         const alertDiv = document.createElement('div');
         alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
         alertDiv.setAttribute('role', 'alert');
         alertDiv.innerHTML = `
+            <i class="bi bi-check-circle me-2"></i>
             ${message}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         `;
         
-        // Insert alert at the top of the main content area
-        const mainContent = document.querySelector('.container-fluid');
-        if (mainContent) {
-            mainContent.insertBefore(alertDiv, mainContent.firstChild);
+        // Insert alert in the card-body section (same as existing success messages)
+        const cardBody = document.querySelector('.card-body');
+        if (cardBody) {
+            cardBody.insertBefore(alertDiv, cardBody.firstChild);
         }
         
         // Auto-hide after 5 seconds
@@ -1005,6 +1015,53 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
         });
+    });
+
+    // Handle resend email button clicks
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('resend-email-btn') || e.target.closest('.resend-email-btn')) {
+            e.preventDefault();
+            
+            const button = e.target.classList.contains('resend-email-btn') ? e.target : e.target.closest('.resend-email-btn');
+            const orderId = button.getAttribute('data-order-id');
+            const reference = button.getAttribute('data-reference');
+            
+            // Show confirmation dialog
+            if (!confirm(`Are you sure you want to resend the confirmation email for order ${reference}?`)) {
+                return;
+            }
+            
+            // Show loading state
+            const originalContent = button.innerHTML;
+            button.innerHTML = '<i class="bi bi-hourglass-split me-1"></i>Sending...';
+            button.disabled = true;
+            
+            // Send AJAX request
+            fetch(`/admin/orders/${orderId}/resend-email`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showAlert(`Email resent successfully! Sent to ${data.recipients.length} recipient(s): ${data.recipients.join(', ')}`, 'success');
+                } else {
+                    showAlert('Error resending email: ' + (data.message || 'Unknown error'), 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Error resending email:', error);
+                showAlert('Error resending email. Please try again.', 'danger');
+            })
+            .finally(() => {
+                // Restore button state
+                button.innerHTML = originalContent;
+                button.disabled = false;
+            });
+        }
     });
 });
 </script>

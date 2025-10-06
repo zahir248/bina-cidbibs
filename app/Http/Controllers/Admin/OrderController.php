@@ -16,6 +16,9 @@ use App\Exports\OrdersExport;
 use App\Exports\IndividualOrderExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -1086,6 +1089,129 @@ class OrderController extends Controller
         $filename = 'order-' . $order->reference_number . '-' . now()->format('Y-m-d') . '.xlsx';
         
         return Excel::download(new IndividualOrderExport($order), $filename);
+    }
+
+    /**
+     * Resend order confirmation email
+     */
+    public function resendOrderConfirmationEmail(Request $request, Order $order)
+    {
+        try {
+            $order->load('billingDetail', 'participants');
+            
+            // Prepare billing data
+            $billingData = [
+                'first_name' => $order->billingDetail->first_name,
+                'last_name' => $order->billingDetail->last_name,
+                'gender' => $order->billingDetail->gender,
+                'category' => $order->billingDetail->category,
+                'identity_number' => $order->billingDetail->identity_number,
+                'company_name' => $order->billingDetail->company_name,
+                'business_registration_number' => $order->billingDetail->business_registration_number,
+                'tax_number' => $order->billingDetail->tax_number,
+                'email' => $order->billingDetail->email,
+                'phone' => $order->billingDetail->phone,
+                'address1' => $order->billingDetail->address1,
+                'address2' => $order->billingDetail->address2,
+                'city' => $order->billingDetail->city,
+                'state' => $order->billingDetail->state,
+                'postcode' => $order->billingDetail->postcode,
+                'country' => $order->billingDetail->country,
+            ];
+
+            // Generate QR codes
+            $qrCodes = $order->generateTicketQRCodes();
+            
+            // Add absolute paths for PDF generation
+            $qrCodesWithPaths = array_map(function($qrCode) {
+                $qrCode['qr_code_path'] = public_path('storage/' . $qrCode['filename']);
+                return $qrCode;
+            }, $qrCodes);
+
+            // Generate PDF
+            $pdf = PDF::loadView('emails.order-confirmation-pdf', [
+                'billingData' => $billingData,
+                'referenceNo' => $order->reference_number,
+                'cartItems' => $order->cart_items,
+                'qrCodes' => $qrCodesWithPaths,
+                'orderDate' => $order->created_at,
+                'order' => $order
+            ]);
+
+            // Configure PDF options
+            $pdf->setOption(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
+            
+            // Save PDF temporarily
+            $pdfPath = 'pdfs/order_' . $order->reference_number . '_resend_' . time() . '.pdf';
+            Storage::disk('public')->put($pdfPath, $pdf->output());
+            
+            // Collect all email addresses to send to
+            $emailAddresses = [];
+            
+            // Add billing email
+            $emailAddresses[] = $billingData['email'];
+            
+            // Add participant emails
+            $participants = $order->participants;
+            foreach ($participants as $participant) {
+                if (!empty($participant->email) && !in_array($participant->email, $emailAddresses)) {
+                    $emailAddresses[] = $participant->email;
+                }
+            }
+            
+            // Send email to all addresses
+            Mail::send('emails.order-confirmation', [
+                'billingData' => $billingData,
+                'referenceNo' => $order->reference_number,
+                'cartItems' => $order->cart_items,
+                'orderDate' => $order->created_at,
+                'order' => $order
+            ], function($message) use ($emailAddresses, $order, $pdfPath) {
+                $message->to($emailAddresses)
+                        ->subject('Order Confirmation - ' . config('app.name') . ' (Resent)');
+
+                // Attach PDF only
+                $message->attach(Storage::disk('public')->path($pdfPath), [
+                    'as' => 'Order_Confirmation_' . $order->reference_number . '.pdf',
+                    'mime' => 'application/pdf'
+                ]);
+            });
+
+            // Clean up temporary PDF file
+            Storage::disk('public')->delete($pdfPath);
+
+            // Clean up QR code files after sending email
+            foreach ($qrCodes as $qrCode) {
+                Storage::disk('public')->delete($qrCode['filename']);
+            }
+
+            Log::info('Order confirmation email resent successfully by admin', [
+                'order_id' => $order->id,
+                'reference_number' => $order->reference_number,
+                'emails' => $emailAddresses,
+                'admin_user' => auth()->user()->email ?? 'Unknown'
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Order confirmation email has been resent successfully to ' . count($emailAddresses) . ' recipient(s).',
+                'recipients' => $emailAddresses
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Failed to resend order confirmation email', [
+                'error' => $e->getMessage(),
+                'order_id' => $order->id,
+                'reference_number' => $order->reference_number,
+                'admin_user' => auth()->user()->email ?? 'Unknown',
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to resend email: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
