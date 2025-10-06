@@ -111,6 +111,7 @@
         .attendance-table td.email-cell,
         .attendance-table td.phone-cell,
         .attendance-table td.name-cell,
+        .attendance-table td.identity-cell,
         .attendance-table td.company-cell,
         .attendance-table td.reference-cell,
         .attendance-table td.date-cell,
@@ -239,10 +240,11 @@
                             <th rowspan="2" width="6%">Order Date</th>
                             <th rowspan="2" width="14%">Purchaser Info</th>
                         @endif
-                        <th rowspan="2" width="{{ $isSingleOrder ? '18%' : '12%' }}">Attendee Name</th>
-                        <th rowspan="2" width="{{ $isSingleOrder ? '18%' : '12%' }}">Email</th>
-                        <th rowspan="2" width="{{ $isSingleOrder ? '12%' : '8%' }}">Phone</th>
-                        <th rowspan="2" width="{{ $isSingleOrder ? '12%' : '10%' }}">Company</th>
+                        <th rowspan="2" width="{{ $isSingleOrder ? '15%' : '10%' }}">Attendee Name</th>
+                        <th rowspan="2" width="{{ $isSingleOrder ? '12%' : '8%' }}">Identity Number</th>
+                        <th rowspan="2" width="{{ $isSingleOrder ? '15%' : '10%' }}">Email</th>
+                        <th rowspan="2" width="{{ $isSingleOrder ? '10%' : '7%' }}">Phone</th>
+                        <th rowspan="2" width="{{ $isSingleOrder ? '10%' : '8%' }}">Company</th>
                         <th rowspan="2" width="{{ $isSingleOrder ? '8%' : '6%' }}">Date/Time</th>
                         <th colspan="2" class="signature-header">Signature</th>
                     </tr>
@@ -257,6 +259,7 @@
                             <tr>
                                 <td>{{ $attendee['no'] }}</td>
                                 <td class="name-cell">{{ $attendee['name'] }}</td>
+                                <td class="identity-cell">{{ $attendee['identity_number'] ?? '' }}</td>
                                 <td class="email-cell">{{ $attendee['email'] }}</td>
                                 <td class="phone-cell">{{ $attendee['phone'] }}</td>
                                 <td class="company-cell">{{ $attendee['company'] ?? '' }}</td>
@@ -284,6 +287,7 @@
                                         <div class="small-text">{{ $order['purchaser_identity_number'] }}</div>
                                     </td>
                                     <td class="name-cell">{{ $attendee['name'] }}</td>
+                                    <td class="identity-cell">{{ $attendee['identity_number'] ?? '' }}</td>
                                     <td class="email-cell">{{ $attendee['email'] }}</td>
                                     <td class="phone-cell">{{ $attendee['phone'] }}</td>
                                     <td class="company-cell">{{ $attendee['company'] ?? '' }}</td>

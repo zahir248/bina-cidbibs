@@ -635,6 +635,7 @@ class OrderController extends Controller
                     $attendeeRows[] = [
                         'no' => $i + 1,
                         'name' => $participant->full_name,
+                        'identity_number' => $participant->identity_number,
                         'email' => $participant->email,
                         'phone' => $participant->phone,
                         'company' => $participant->company_name,
@@ -648,6 +649,7 @@ class OrderController extends Controller
                         $attendeeRows[] = [
                             'no' => $i + 1,
                             'name' => $order->billingDetail->first_name . ' ' . $order->billingDetail->last_name,
+                            'identity_number' => $order->billingDetail->identity_number,
                             'email' => $order->billingDetail->email,
                             'phone' => $order->billingDetail->phone,
                             'company' => $order->billingDetail->company_name ?? '',
@@ -660,6 +662,7 @@ class OrderController extends Controller
                         $attendeeRows[] = [
                             'no' => $i + 1,
                             'name' => '',
+                            'identity_number' => '',
                             'email' => '',
                             'phone' => '',
                             'company' => '',
@@ -838,6 +841,7 @@ class OrderController extends Controller
                     if ($participant) {
                         $orderGroups[$orderRef]['attendees'][] = [
                             'name' => $participant->full_name,
+                            'identity_number' => $participant->identity_number,
                             'email' => $participant->email,
                             'phone' => $participant->phone,
                             'company' => $participant->company_name,
@@ -850,6 +854,7 @@ class OrderController extends Controller
                         if ($i === 1) {
                             $orderGroups[$orderRef]['attendees'][] = [
                                 'name' => $order->billingDetail->first_name . ' ' . $order->billingDetail->last_name,
+                                'identity_number' => $order->billingDetail->identity_number,
                                 'email' => $order->billingDetail->email,
                                 'phone' => $order->billingDetail->phone,
                                 'company' => $order->billingDetail->company_name ?? '',
@@ -861,6 +866,7 @@ class OrderController extends Controller
                             // For additional tickets, leave empty
                             $orderGroups[$orderRef]['attendees'][] = [
                                 'name' => '',
+                                'identity_number' => '',
                                 'email' => '',
                                 'phone' => '',
                                 'company' => '',
