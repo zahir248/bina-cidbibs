@@ -638,7 +638,7 @@ class CheckoutController extends Controller
         $reference_no = $request->billcode ?? $request->order_id;
 
         if ($status == '1') {
-            return $this->processSuccessfulPayment($reference_no);
+            return $this->processSuccessfulPayment($reference_no, $request);
         } else {
             // Log the failed payment
             $billingData = session('pending_billing');
@@ -665,7 +665,7 @@ class CheckoutController extends Controller
         }
     }
 
-    private function processSuccessfulPayment($reference_no, $additionalData = [])
+    private function processSuccessfulPayment($reference_no, $request = null, $additionalData = [])
     {
         $billingData = session('pending_billing');
         $cartItems = session('pending_cart');
