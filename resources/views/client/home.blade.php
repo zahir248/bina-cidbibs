@@ -2969,6 +2969,16 @@
                 <div class="event-speakers-grid">
                     <div class="speaker-card">
                         <div class="speaker-image-container">
+                            <img src="{{ asset('images/wataru.png') }}" alt="Mr. Wataru Matsumoto" style="object-position: center 20%">
+                        </div>
+                        <div class="speaker-name">Mr. Wataru Matsumoto</div>
+                        <div class="speaker-title-badge">BEST PRACTICES SHARING 1</div>
+                        <div class="speaker-position">Vice President<br>Glodon Company Limited</div>
+                        <div class="speaker-social">
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
                             <img src="{{ asset('images/majed-ghamdi.jpg') }}" alt="Eng. Majed Al Ghamdi">
                         </div>
                         <div class="speaker-name">Eng. Majed Al Ghamdi</div>
@@ -2999,11 +3009,41 @@
                     </div>
                     <div class="speaker-card">
                         <div class="speaker-image-container">
+                            <img src="{{ asset('images/han-liang-kwang.png') }}" alt="Ir Ts Edward Han" style="object-position: center 20%">
+                        </div>
+                        <div class="speaker-name">Ir Ts Edward Han</div>
+                        <div class="speaker-title-badge">BEST PRACTICES SHARING 5</div>
+                        <div class="speaker-position">Chief Sustainability Officer<br>PLYTEC IBS System MFG SDN BHD</div>
+                        <div class="speaker-social">
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
                             <img src="{{ asset('images/dr-azrin-ahmad.jpg') }}" alt="Dr. Azrin Bin Ahmad">
                         </div>
                         <div class="speaker-name">Dr. Azrin Bin Ahmad</div>
                         <div class="speaker-title-badge">BEST PRACTICES SHARING 6</div>
                         <div class="speaker-position">Project Director<br>Maltimur Aktif Unggul Jv Sdn Bhd</div>
+                        <div class="speaker-social">
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/dr-yahya.jpg') }}" alt="Dr. Ir. Ts. Yahya Hassan" style="object-position: center 20%">
+                        </div>
+                        <div class="speaker-name">Dr. Ir. Ts. Yahya Hassan</div>
+                        <div class="speaker-title-badge">Q&A SESSION</div>
+                        <div class="speaker-position">Managing Director<br>HTS Engineering and Consultancy Services Sdn. Bhd.</div>
+                        <div class="speaker-social">
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/en-rizuan.jpg') }}" alt="Pmr. Br. Muhammad Rizuan B Hamzah" style="object-position: center 15%">
+                        </div>
+                        <div class="speaker-name">Pmr. Br. Muhammad Rizuan B Hamzah</div>
+                        <div class="speaker-title-badge">Q&A SESSION</div>
+                        <div class="speaker-position">General Manager of Contractor and Construction<br>Personnel Development Sector, CIDB MALAYSIA</div>
                         <div class="speaker-social">
                         </div>
                     </div>
@@ -3077,6 +3117,16 @@
                         <div class="speaker-name">John Woo</div>
                         <div class="speaker-title-badge">DIALOGUE SESSION 2</div>
                         <div class="speaker-position">Chief Technical Officer<br>Nimova Intersales (Malaysia) Sdn Bhd</div>
+                        <div class="speaker-social">
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/ts-zuraihi.jpg') }}" alt="Ir. Ts. Zuraihi">
+                        </div>
+                        <div class="speaker-name">Ir. Ts. Zuraihi</div>
+                        <div class="speaker-title-badge">DIALOGUE SESSION 2</div>
+                        <div class="speaker-position">Chief Executive Officer<br>CIDB IBS Sdn Bhd</div>
                         <div class="speaker-social">
                         </div>
                     </div>
