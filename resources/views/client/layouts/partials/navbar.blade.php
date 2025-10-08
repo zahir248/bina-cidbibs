@@ -55,14 +55,8 @@
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('client.calendar') ? 'active' : '' }}" href="{{ route('client.calendar') }}">Calendar</a>
                 </li>
-                <li class="nav-item dropdown position-relative">
-                    <a class="nav-link {{ request()->routeIs('client.facility-management') || request()->routeIs('client.facility-industry-management') ? 'active' : '' }} d-inline-flex align-items-center" href="#" id="facilityDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Facility Management Engagement Day <i class="fas fa-angle-down" style="margin-left:3px;"></i>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="facilityDropdown">
-                        <li><a class="dropdown-item {{ request()->routeIs('client.facility-industry-management') ? 'active' : '' }}" href="{{ route('client.facility-industry-management') }}">Sarawak Facility Management Industry Engagement Day</a></li>
-                        <li><a class="dropdown-item {{ request()->routeIs('client.facility-management') ? 'active' : '' }}" href="{{ route('client.facility-management') }}">BINA-ICW Kuala Lumpur Facility Management Engagement Day</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('client.facility-management') ? 'active' : '' }}" href="{{ route('client.facility-management') }}">Facility Management Engagement Day</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('client.modular-asia') ? 'active' : '' }}" href="{{ route('client.modular-asia') }}">Modular Asia Forum & Exhibition</a>
@@ -145,14 +139,7 @@
                 <a class="sidebar-link {{ request()->routeIs('client.calendar') ? 'active' : '' }}" href="{{ route('client.calendar') }}">Calendar</a>
             </li>
             <li class="sidebar-item">
-                <a class="sidebar-link d-flex justify-content-between align-items-center {{ request()->routeIs('client.facility-management') || request()->routeIs('client.facility-industry-management') ? 'active' : '' }}" data-bs-toggle="collapse" href="#facilitySidebarSubmenu" role="button" aria-expanded="false" aria-controls="facilitySidebarSubmenu">
-                    <span>Facility Management Engagement Day</span>
-                    <span class="chevron"><i class="fas fa-chevron-down"></i></span>
-                </a>
-                <ul class="collapse sidebar-submenu" id="facilitySidebarSubmenu">
-                    <li><a class="sidebar-link {{ request()->routeIs('client.facility-industry-management') ? 'active' : '' }}" href="{{ route('client.facility-industry-management') }}">Sarawak Facility Management Industry Engagement Day</a></li>
-                    <li><a class="sidebar-link" href="{{ route('client.facility-management') }}">BINA-ICW Kuala Lumpur Facility Management Engagement Day</a></li>
-                </ul>
+                <a class="sidebar-link {{ request()->routeIs('client.facility-management') ? 'active' : '' }}" href="{{ route('client.facility-management') }}">Facility Management Engagement Day</a>
             </li>
             <li class="sidebar-item">
                 <a class="sidebar-link {{ request()->routeIs('client.modular-asia') ? 'active' : '' }}" href="{{ route('client.modular-asia') }}">Modular Asia Forum & Exhibition</a>

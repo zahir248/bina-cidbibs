@@ -309,7 +309,7 @@
             <h2>OUR SCHEDULE PLAN</h2>
         </div>
         
-        <!-- Facility Management Event -->
+        {{-- <!-- Facility Management Event -->
         <div class="schedule-card d-flex flex-column flex-lg-row align-items-stretch p-3 p-md-4" style="background:#fff;border:1.5px solid #d1d5db;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);gap:2rem;max-width:1200px;margin:0 auto;margin-bottom:2rem;">
             <!-- Left: Event Image -->
             <div class="event-image-container flex-shrink-0 d-flex align-items-center justify-content-center" style="max-width:240px;width:100%;">
@@ -335,7 +335,7 @@
                 <a href="{{ route('client.facility-industry-management') }}" class="btn view-more-btn" style="background:linear-gradient(90deg,#11749e 0%,#1a8fc1 100%);color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">VIEW MORE</a>
                 <a href="{{ route('client.store') }}" class="btn get-ticket-btn" style="background:#181b2c;color:#fff;font-weight:700;font-size:1.1rem;border-radius:2rem;padding:0.7rem 2.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);letter-spacing:0.08em;">GET TICKET</a>
             </div>
-        </div>
+        </div> --}}
         
         @foreach($events as $event)
         <div class="schedule-card d-flex flex-column flex-lg-row align-items-stretch p-3 p-md-4" style="background:#fff;border:1.5px solid #d1d5db;border-radius:1.25rem;box-shadow:0 2px 12px rgba(80,80,120,0.04);gap:2rem;max-width:1200px;margin:0 auto;margin-bottom:2rem;">

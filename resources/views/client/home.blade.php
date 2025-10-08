@@ -2659,7 +2659,7 @@
                     
                     <!-- Feature Blocks -->
                     <div class="intro-features">
-                        <div class="intro-feature-block">
+                        {{-- <div class="intro-feature-block">
                             <div class="intro-feature-icon">
                                 <i class="fas fa-star"></i>
                             </div>
@@ -2671,7 +2671,7 @@
                                     in East Malaysia's premier event.
                                 </p>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="intro-feature-block">
                             <div class="intro-feature-icon">
@@ -2741,7 +2741,7 @@
             <h2 class="event-section-title">OUR EVENTS</h2>
             <p class="event-section-subtitle">THIS YEAR WE BRINGS YOU INDUSTRY LEADERS, INNOVATORS AND DECISION-MAKERS AT THE PREMIER EVENT OF THE YEAR!</p>
         </div>
-        <div class="event-detail-card" style="display: flex; align-items: stretch;">
+        {{-- <div class="event-detail-card" style="display: flex; align-items: stretch;">
             <div class="event-image-container">
                 <img src="{{ asset('images/gallery-8.jpg') }}" alt="Sarawak FME Day 2025">
             </div>
@@ -2772,7 +2772,7 @@
                     <a href="{{ route('client.store') }}" class="btn-get-ticket">GET TICKET</a>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 
     <!-- Duplicate the event-detail-card structure -->
