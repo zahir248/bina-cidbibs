@@ -545,6 +545,17 @@
                     EVENT SPEAKERS
                 </div>
                 <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
+                    <img src="{{ asset('images/wataru.png') }}" alt="Mr. Wataru Matsumoto"
+                         style="width:80px; height:80px; object-fit:cover; object-position: center 20%; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage5">
+                    <div class="speaker-name-container" style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem;">Mr. Wataru Matsumoto</div>
+                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">BEST PRACTICES SHARING 1</span>
+                    </div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Vice President</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;">Glodon Company Limited</div>
+                </div>
+                <hr style="margin: 1.5rem 2rem; border: none; border-top: 1px solid #e5e7eb;">
+                <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
                     <img src="{{ asset('images/majed-ghamdi.jpg') }}" alt="Eng. Majed Al Ghamdi"
                          style="width:80px; height:80px; object-fit:cover; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage2">
                     <div class="speaker-name-container" style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
@@ -575,6 +586,17 @@
                     </div>
                     <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Pengarah Strategi & Inovasi</div>
                     <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;">GFM Solutions Sdn. Bhd.</div>
+                </div>
+                <hr style="margin: 1.5rem 2rem; border: none; border-top: 1px solid #e5e7eb;">
+                <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
+                    <img src="{{ asset('images/han-liang-kwang.png') }}" alt="Ir Ts Edward Han"
+                         style="width:80px; height:80px; object-fit:cover; object-position: center 20%; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage6">
+                    <div class="speaker-name-container" style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem;">Ir Ts Edward Han</div>
+                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">BEST PRACTICES SHARING 5</span>
+                    </div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Chief Sustainability Officer</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;">PLYTEC IBS System MFG SDN BHD</div>
                 </div>
                 <hr style="margin: 1.5rem 2rem; border: none; border-top: 1px solid #e5e7eb;">
                 <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
@@ -627,6 +649,16 @@
             <div id="moderatorImageModal2" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
                 <span id="closeModeratorModal2" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
                 <img src="{{ asset('images/en-rizuan.jpg') }}" alt="Pmr. Br. Muhammad Rizuan B Hamzah" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
+            </div>
+            <!-- Speaker 5 Image Modal -->
+            <div id="speakerImageModal5" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
+                <span id="closeSpeakerModal5" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
+                <img src="{{ asset('images/wataru.png') }}" alt="Mr. Wataru Matsumoto" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
+            </div>
+            <!-- Speaker 6 Image Modal -->
+            <div id="speakerImageModal6" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
+                <span id="closeSpeakerModal6" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
+                <img src="{{ asset('images/han-liang-kwang.png') }}" alt="Ir Ts Edward Han" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
             </div>
         </div>
     </div>
@@ -805,6 +837,42 @@ document.addEventListener('DOMContentLoaded', function() {
         moderatorModal2.addEventListener('click', function(e) {
             if (e.target === moderatorModal2) {
                 moderatorModal2.style.display = 'none';
+            }
+        });
+    }
+
+    // Speaker 5 image modal logic
+    const speakerImg5 = document.getElementById('speakerImage5');
+    const modal5 = document.getElementById('speakerImageModal5');
+    const closeModal5 = document.getElementById('closeSpeakerModal5');
+    if (speakerImg5 && modal5 && closeModal5) {
+        speakerImg5.addEventListener('click', function() {
+            modal5.style.display = 'flex';
+        });
+        closeModal5.addEventListener('click', function() {
+            modal5.style.display = 'none';
+        });
+        modal5.addEventListener('click', function(e) {
+            if (e.target === modal5) {
+                modal5.style.display = 'none';
+            }
+        });
+    }
+
+    // Speaker 6 image modal logic
+    const speakerImg6 = document.getElementById('speakerImage6');
+    const modal6 = document.getElementById('speakerImageModal6');
+    const closeModal6 = document.getElementById('closeSpeakerModal6');
+    if (speakerImg6 && modal6 && closeModal6) {
+        speakerImg6.addEventListener('click', function() {
+            modal6.style.display = 'flex';
+        });
+        closeModal6.addEventListener('click', function() {
+            modal6.style.display = 'none';
+        });
+        modal6.addEventListener('click', function(e) {
+            if (e.target === modal6) {
+                modal6.style.display = 'none';
             }
         });
     }
