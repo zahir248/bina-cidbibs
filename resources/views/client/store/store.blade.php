@@ -1361,9 +1361,9 @@
         </div>
     </div>
 
-    <hr class="announcement-divider">
+    {{-- <hr class="announcement-divider"> --}}
 
-    <!-- Event Banner Section 1: Sarawak Facility Management Industry Engagement Day -->
+    {{-- <!-- Event Banner Section 1: Sarawak Facility Management Industry Engagement Day -->
     <div class="event-banner-section">
         <div class="event-banner" style="background: linear-gradient(135deg, #11749e 0%, #1e40af 100%);">
             <div class="banner-icon">
@@ -1386,9 +1386,9 @@
                 </p>
             </div>
         </div>
-    </div>
+    </div> --}}
 
-    <!-- First Container: Facility Management Only -->
+    {{-- <!-- First Container: Facility Management Only -->
     <div class="store-container">
         <section class="store-products">
             @php
@@ -1522,7 +1522,7 @@
                 </div>
             </div>
         </section>
-    </div>
+    </div> --}}
 
     <hr class="announcement-divider">
 
