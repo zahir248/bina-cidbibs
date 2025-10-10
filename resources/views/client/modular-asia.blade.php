@@ -711,18 +711,35 @@
             <!-- Event Moderator Card -->
             <div class="speaker-card-upgraded" style="background:#fff; border-radius:1.5rem; box-shadow:0 8px 32px rgba(80,80,120,0.08); border:0px solid #1B1F31; padding:0 0 2rem 0; margin-top:2.2rem; max-width:340px; min-width:270px; width:100%; text-align:center; position:relative; overflow:hidden; margin-left:auto; margin-right:auto;">
                 <div style="width:100%; background:#1B1F31; color:#fff; font-weight:700; font-size:1.1rem; padding:1.1rem 0 0.9rem 0; border-top-left-radius:1.5rem; border-top-right-radius:1.5rem; letter-spacing:0.5px;">
-                    EVENT MODERATOR
+                    EVENT MODERATORS
                 </div>
-                <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
+                <!-- First Moderator -->
+                <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem; padding:0 1.5rem;">
+                    <img src="{{ asset('images/alan-milne.jpg') }}" alt="Alan Milne"
+                         style="width:80px; height:80px; object-fit:cover; object-position:top; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="moderatorImage1">
+                    <div class="speaker-name-container" style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem; line-height:1.3;">Alan Milne</div>
+                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">DIALOGUE SESSION 1</span>
+                    </div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">European Membership Director</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1rem;">Modular Building Institute (MBI)</div>
+                </div>
+
+                <!-- Divider -->
+                <div style="width:80%; height:1px; background:rgba(27,31,49,0.1); margin:2rem auto;"></div>
+
+                <!-- Second Moderator -->
+                <div style="display:flex; flex-direction:column; align-items:center; padding:0 1.5rem;">
                     <img src="{{ asset('images/ts-zuraihi.jpg') }}" alt="Ir. Ts. Zuraihi"
-                         style="width:80px; height:80px; object-fit:cover; object-position:top; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="moderatorImage">
+                         style="width:80px; height:80px; object-fit:cover; object-position:top; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="moderatorImage2">
                     <div class="speaker-name-container" style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
                         <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem; line-height:1.3;">Ir. Ts. Zuraihi</div>
                         <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">DIALOGUE SESSION 2</span>
                     </div>
                     <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Chief Executive Officer</div>
-                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;">CIDB IBS Sdn Bhd</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1rem;">CIDB IBS Sdn Bhd</div>
                 </div>
+
             </div>
             <!-- Unified Speakers Card -->
             <div class="speaker-card-upgraded" style="background:#fff; border-radius:1.5rem; box-shadow:0 8px 32px rgba(80,80,120,0.08); border:0px solid #1B1F31; padding:0 0 2rem 0; margin-top:2.2rem; max-width:340px; min-width:270px; width:100%; text-align:center; position:relative; overflow:hidden; margin-left:auto; margin-right:auto;">
@@ -834,6 +851,24 @@
                         <!-- Social links can be added here if available -->
                     </div>
                 </div>
+
+                <!-- Divider -->
+                <div style="width:80%; height:1px; background:rgba(27,31,49,0.1); margin:2rem auto;"></div>
+
+                <!-- Seventh Speaker -->
+                <div style="display:flex; flex-direction:column; align-items:center; padding:0 1.5rem;">
+                    <img src="{{ asset('images/patrick-jensen.png') }}" alt='Dr. Patrik Jensen'
+                         style="width:80px; height:80px; object-fit:cover; object-position: center 15%; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage7">
+                    <div style="display:flex; flex-direction:column; align-items:center; gap:0.3rem; justify-content:center;">
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0;">Dr. Patrik Jensen</div>
+                        <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block; margin-bottom:0.2rem;">DIALOGUE SESSION 2</span>
+                    </div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Head of Design Team</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1rem;">Scandinavian Industrialized Building System (SIBS)</div>
+                    <div style="display:flex; gap:0.7rem;">
+                        <!-- Social links can be added here if available -->
+                    </div>
+                </div>
             </div>
 
             <!-- Speaker Image Modals -->
@@ -865,6 +900,11 @@
             <div id="speakerImageModal6" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
                 <span id="closeSpeakerModal6" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
                 <img src="{{ asset('images/john-woo.jpg') }}" alt='John Woo' style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff; object-fit: contain;">
+            </div>
+
+            <div id="speakerImageModal7" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
+                <span id="closeSpeakerModal7" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
+                <img src="{{ asset('images/patrick-jensen.png') }}" alt='Dr. Patrik Jensen' style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff; object-fit: contain;">
             </div>
             <!-- Event Host Image Modal -->
             <div id="emceeImageModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
@@ -1033,6 +1073,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Seventh Speaker Image Modal
+    const speakerImage7 = document.getElementById('speakerImage7');
+    const speakerModal7 = document.getElementById('speakerImageModal7');
+    const closeSpeakerModal7 = document.getElementById('closeSpeakerModal7');
+
+    if (speakerImage7 && speakerModal7 && closeSpeakerModal7) {
+        speakerImage7.addEventListener('click', function() {
+            speakerModal7.style.display = 'flex';
+        });
+
+        closeSpeakerModal7.addEventListener('click', function() {
+            speakerModal7.style.display = 'none';
+        });
+
+        speakerModal7.addEventListener('click', function(e) {
+            if (e.target === speakerModal7) {
+                speakerModal7.style.display = 'none';
+            }
+        });
+    }
+
     // Event Host Image Modal
     const emceeImg = document.getElementById('emceeImage');
     const emceeModal = document.getElementById('emceeImageModal');
@@ -1054,16 +1115,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Event Moderator Image Modal
-    const moderatorImg = document.getElementById('moderatorImage');
+    // Event Moderator Image Modals
+    const moderatorImg1 = document.getElementById('moderatorImage1');
+    const moderatorImg2 = document.getElementById('moderatorImage2');
     const moderatorModal = document.getElementById('moderatorImageModal');
     const closeModeratorModal = document.getElementById('closeModeratorModal');
+    const modalImage = moderatorModal.querySelector('img');
 
-    if (moderatorImg && moderatorModal && closeModeratorModal) {
-        moderatorImg.addEventListener('click', function() {
+    if (moderatorImg1 && moderatorModal && closeModeratorModal) {
+        moderatorImg1.addEventListener('click', function() {
+            modalImage.src = "{{ asset('images/alan-milne.jpg') }}";
+            modalImage.alt = "Alan Milne";
             moderatorModal.style.display = 'flex';
         });
+    }
 
+    if (moderatorImg2 && moderatorModal && closeModeratorModal) {
+        moderatorImg2.addEventListener('click', function() {
+            modalImage.src = "{{ asset('images/ts-zuraihi.jpg') }}";
+            modalImage.alt = "Ir. Ts. Zuraihi";
+            moderatorModal.style.display = 'flex';
+        });
+    }
+
+    if (moderatorModal && closeModeratorModal) {
         closeModeratorModal.addEventListener('click', function() {
             moderatorModal.style.display = 'none';
         });
