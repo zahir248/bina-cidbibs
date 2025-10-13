@@ -3122,6 +3122,26 @@
                     </div>
                     <div class="speaker-card">
                         <div class="speaker-image-container">
+                            <img src="{{ asset('images/patrick-jensen.png') }}" alt="Dr. Patrik Jensen" style="object-position: center 15%">
+                        </div>
+                        <div class="speaker-name">Dr. Patrik Jensen</div>
+                        <div class="speaker-title-badge">DIALOGUE SESSION 2</div>
+                        <div class="speaker-position">Head of Design Team<br>Scandinavian Industrialized Building System (SIBS)</div>
+                        <div class="speaker-social">
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/alan-milne.jpg') }}" alt="Alan Milne" style="object-position: top">
+                        </div>
+                        <div class="speaker-name">Alan Milne</div>
+                        <div class="speaker-title-badge">DIALOGUE SESSION 1</div>
+                        <div class="speaker-position">European Membership Director<br>Modular Building Institute (MBI)</div>
+                        <div class="speaker-social">
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
                             <img src="{{ asset('images/ts-zuraihi.jpg') }}" alt="Ir. Ts. Zuraihi">
                         </div>
                         <div class="speaker-name">Ir. Ts. Zuraihi</div>
