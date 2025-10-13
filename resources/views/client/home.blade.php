@@ -3136,7 +3136,7 @@
                         </div>
                         <div class="speaker-name">Alan Milne</div>
                         <div class="speaker-title-badge">DIALOGUE SESSION 1</div>
-                        <div class="speaker-position">European Membership Director<br>Modular Building Institute (MBI)</div>
+                        <div class="speaker-position">Director of<br>Modular Building Consultants Ltd and European Membership Director of MBI</div>
                         <div class="speaker-social">
                         </div>
                     </div>
