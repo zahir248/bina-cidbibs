@@ -373,6 +373,16 @@
     .speaker-card:nth-child(4) { animation: fadeInUp 0.5s ease 0.8s forwards; }
     .speaker-card:nth-child(5) { animation: fadeInUp 0.5s ease 1.0s forwards; }
     .speaker-card:nth-child(6) { animation: fadeInUp 0.5s ease 1.2s forwards; }
+    .speaker-card:nth-child(7) { animation: fadeInUp 0.5s ease 1.4s forwards; }
+    .speaker-card:nth-child(8) { animation: fadeInUp 0.5s ease 1.6s forwards; }
+    .speaker-card:nth-child(9) { animation: fadeInUp 0.5s ease 1.8s forwards; }
+    .speaker-card:nth-child(10) { animation: fadeInUp 0.5s ease 2.0s forwards; }
+    .speaker-card:nth-child(11) { animation: fadeInUp 0.5s ease 2.2s forwards; }
+    .speaker-card:nth-child(12) { animation: fadeInUp 0.5s ease 2.4s forwards; }
+    .speaker-card:nth-child(13) { animation: fadeInUp 0.5s ease 2.6s forwards; }
+    .speaker-card:nth-child(14) { animation: fadeInUp 0.5s ease 2.8s forwards; }
+    .speaker-card:nth-child(15) { animation: fadeInUp 0.5s ease 3.0s forwards; }
+    .speaker-card:nth-child(16) { animation: fadeInUp 0.5s ease 3.2s forwards; }
 
     /* Keep existing responsive styles */
     .breadcrumb-store {
@@ -2017,6 +2027,24 @@
                     </div>
                     <div class="speaker-card">
                         <div class="speaker-image-container">
+                            <img src="{{ asset('images/patrick-jensen.png') }}" alt="Dr. Patrik Jensen" style="object-position: center 15%">
+                        </div>
+                        <div class="speaker-name">Dr. Patrik Jensen</div>
+                        <div class="speaker-position">Head of Design Team<br>Scandinavian Industrialized Building System (SIBS)</div>
+                        <div class="speaker-social">
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
+                            <img src="{{ asset('images/alan-milne.jpg') }}" alt="Alan Milne" style="object-position: top">
+                        </div>
+                        <div class="speaker-name">Alan Milne</div>
+                        <div class="speaker-position">European Membership Director<br>Modular Building Institute (MBI)</div>
+                        <div class="speaker-social">
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-image-container">
                             <img src="{{ asset('images/ts-zuraihi.jpg') }}" alt="Ir. Ts. Zuraihi">
                         </div>
                         <div class="speaker-name">Ir. Ts. Zuraihi</div>
@@ -2148,6 +2176,19 @@
         margin-bottom: 3rem; /* Slightly reduced for mobile */
         padding-bottom: 1.2rem;
     }
+}
+
+.speaker-title-badge {
+    background: #1B1F31;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.2rem 0.8rem;
+    border-radius: 1rem;
+    display: inline-block;
+    margin-bottom: 0.2rem;
+    text-align: center;
+    text-transform: uppercase;
 }
 </style>
 
