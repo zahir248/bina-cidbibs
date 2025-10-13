@@ -109,7 +109,7 @@ Route::post('/validate-referral-code', function(\Illuminate\Http\Request $reques
     if (empty($code)) {
         return response()->json([
             'valid' => false,
-            'message' => 'Please enter a referral code'
+            'message' => 'Please enter an affiliate code'
         ]);
     }
     
@@ -121,13 +121,13 @@ Route::post('/validate-referral-code', function(\Illuminate\Http\Request $reques
     if ($affiliate) {
         return response()->json([
             'valid' => true,
-            'message' => 'Valid referral code! You will be credited to ' . ($affiliate->name ?: $affiliate->user->name),
+            'message' => 'Valid affiliate code! You will be credited to ' . ($affiliate->name ?: $affiliate->user->name),
             'affiliate_name' => $affiliate->name ?: $affiliate->user->name
         ]);
     } else {
         return response()->json([
             'valid' => false,
-            'message' => 'Invalid or inactive referral code'
+            'message' => 'Invalid or inactive affiliate code'
         ]);
     }
 })->name('affiliate.validate');

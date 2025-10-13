@@ -732,17 +732,17 @@
                     </div>
                 </div>
 
-                <!-- Referral Code Field -->
+                <!-- Affiliate Code Field -->
                 <div class="referral-code-section mt-3 mb-3">
                     <label for="referral_code" class="form-label" style="font-weight: 600; color: #1e293b; margin-bottom: 0.5rem;">
-                        Referral Code (Optional)
+                        Affiliate Code (Optional)
                     </label>
                     <div class="input-group">
                         <input type="text" 
                                class="form-control" 
                                id="referral_code" 
                                name="referral_code" 
-                               placeholder="Enter referral code if you have one"
+                               placeholder="Enter affiliate code if you have one"
                                value="{{ old('referral_code', session('affiliate_code')) }}"
                                style="border-radius: 0.5rem 0 0 0.5rem; border: 2px solid #e2e8f0; padding: 0.75rem 1rem; font-size: 0.95rem;">
                         <button class="btn btn-outline-secondary" 
@@ -763,7 +763,7 @@
                     
                     <div class="form-text" style="font-size: 0.85rem; color: #64748b; margin-top: 0.25rem;">
                         <i class="fas fa-info-circle me-1"></i>
-                        If you have a referral code, enter it here to support your referrer
+                        If you have an affiliate code, enter it here to support your affiliate
                     </div>
                 </div>
             </form>
@@ -1501,10 +1501,10 @@ document.addEventListener('DOMContentLoaded', function() {
     let validationTimeout;
     let clearSessionTimeout;
 
-    // Clear referral code from session function
+    // Clear affiliate code from session function
     function clearReferralCodeFromSession() {
         // Show clearing status
-        showStatus('loading', 'fas fa-spinner fa-spin', 'Clearing referral code...');
+        showStatus('loading', 'fas fa-spinner fa-spin', 'Clearing affiliate code...');
         
         fetch('{{ route("affiliate.clear") }}', {
             method: 'GET',
@@ -1515,15 +1515,15 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Referral code cleared from session');
+            console.log('Affiliate code cleared from session');
             // Hide status after successful clear
             setTimeout(() => {
                 hideStatus();
             }, 1000);
         })
         .catch(error => {
-            console.error('Error clearing referral code from session:', error);
-            showStatus('invalid', 'fas fa-exclamation-circle', 'Error clearing referral code');
+            console.error('Error clearing affiliate code from session:', error);
+            showStatus('invalid', 'fas fa-exclamation-circle', 'Error clearing affiliate code');
         });
     }
 
@@ -1548,7 +1548,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Auto-format referral code (uppercase) and validate
+    // Auto-format affiliate code (uppercase) and validate
     if (referralCodeInput) {
         referralCodeInput.addEventListener('input', function() {
             this.value = this.value.toUpperCase();
@@ -1565,7 +1565,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Validate referral code function
+    // Validate affiliate code function
     function validateReferralCode(code) {
         // Clear previous timeout
         clearTimeout(validationTimeout);
@@ -1577,7 +1577,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Show loading status
-        showStatus('loading', 'fas fa-spinner fa-spin', 'Validating referral code...');
+        showStatus('loading', 'fas fa-spinner fa-spin', 'Validating affiliate code...');
         
         // Debounce validation (wait 500ms after user stops typing)
         validationTimeout = setTimeout(() => {
@@ -1599,7 +1599,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.error('Validation error:', error);
-                showStatus('invalid', 'fas fa-exclamation-circle', 'Error validating referral code');
+                showStatus('invalid', 'fas fa-exclamation-circle', 'Error validating affiliate code');
             });
         }, 500);
     }
