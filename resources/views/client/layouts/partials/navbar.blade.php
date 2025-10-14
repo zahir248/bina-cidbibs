@@ -32,7 +32,7 @@
                                 @auth
                                     <li><a class="dropdown-item" href="{{ route('client.profile') }}">Profile</a></li>
                                     <li><a class="dropdown-item" href="{{ route('client.purchased-tickets') }}">Purchased Tickets</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('affiliate.index') }}">Affiliate Links</a></li>
+                                    {{-- <li><a class="dropdown-item" href="{{ route('affiliate.index') }}">Affiliate Links</a></li> --}}
                                     <li>
                                         <form method="POST" action="{{ route('client.logout') }}">
                                             @csrf
@@ -115,7 +115,7 @@
                             @auth
                                 <li><a class="sidebar-link" href="{{ route('client.profile') }}">Profile</a></li>
                                 <li><a class="sidebar-link" href="{{ route('client.purchased-tickets') }}">Purchased Tickets</a></li>
-                                <li><a class="sidebar-link" href="{{ route('affiliate.index') }}">Affiliate Links</a></li>
+                                {{-- <li><a class="sidebar-link" href="{{ route('affiliate.index') }}">Affiliate Links</a></li> --}}
                                 <li>
                                     <form method="POST" action="{{ route('client.logout') }}">
                                         @csrf

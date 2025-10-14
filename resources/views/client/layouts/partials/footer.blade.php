@@ -59,7 +59,7 @@
                         <a href="{{ route('client.order-lookup') }}" class="quick-link">Order Lookup</a>
                         <a href="{{ route('client.store') }}" class="quick-link">Buy Tickets</a>
                         <a href="{{ route('client.about') }}" class="quick-link">About Us</a>
-                        @auth
+                        {{-- @auth
                             <a href="{{ route('affiliate.index') }}" class="quick-link affiliate-link">
                                 <i class="fas fa-link me-1"></i>My Affiliate Links
                             </a>
@@ -67,7 +67,7 @@
                             <a href="{{ route('client.login') }}" class="quick-link affiliate-link" title="Login to access affiliate links">
                                 <i class="fas fa-link me-1"></i>Affiliate Program
                             </a>
-                        @endauth
+                        @endauth --}}
                     </div>
                 </div>
 
