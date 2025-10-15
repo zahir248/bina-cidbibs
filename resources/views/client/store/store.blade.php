@@ -1640,7 +1640,20 @@
             @foreach($categories as $categoryName => $categoryTickets)
                 @if(count($categoryTickets) > 0)
                     <div class="category-section">
-                        <div class="category-header">{{ $categoryName }}</div>
+                        <div class="category-header">
+                            {{ $categoryName }}
+                            @if($categoryName === 'Facility Management Engagement Day 2025')
+                                <div class="event-datetime" style="font-size: 1rem; color: #64748b; font-weight: 400; margin-top: 0.25rem;">
+                                    <i class="fas fa-calendar-alt me-2" style="color: #ffa000;"></i>29 Oct 2025
+                                    <i class="fas fa-clock ms-3 me-2" style="color: #ffa000;"></i>07:45 AM - 05:00 PM
+                                </div>
+                            @elseif($categoryName === 'Modular Asia Forum & Exhibition 2025')
+                                <div class="event-datetime" style="font-size: 1rem; color: #64748b; font-weight: 400; margin-top: 0.25rem;">
+                                    <i class="fas fa-calendar-alt me-2" style="color: #ffa000;"></i>30 Oct 2025
+                                    <i class="fas fa-clock ms-3 me-2" style="color: #ffa000;"></i>08:00 AM - 05:00 PM
+                                </div>
+                            @endif
+                        </div>
                         
                         <!-- Desktop Table View -->
                         <div class="d-none d-md-block">
