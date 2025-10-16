@@ -863,8 +863,8 @@
                         <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0;">Dr. Patrik Jensen</div>
                         <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block; margin-bottom:0.2rem;">DIALOGUE SESSION 2</span>
                     </div>
-                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Head of Design Team</div>
-                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1rem;">Scandinavian Industrialized Building System (SIBS)</div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Chief Technology Officer</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1rem;">SIBS Sdn. Bhd.</div>
                     <div style="display:flex; gap:0.7rem;">
                         <!-- Social links can be added here if available -->
                     </div>

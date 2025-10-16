@@ -2030,7 +2030,7 @@
                             <img src="{{ asset('images/patrick-jensen.png') }}" alt="Dr. Patrik Jensen" style="object-position: center 15%">
                         </div>
                         <div class="speaker-name">Dr. Patrik Jensen</div>
-                        <div class="speaker-position">Head of Design Team<br>Scandinavian Industrialized Building System (SIBS)</div>
+                        <div class="speaker-position">Chief Technology Officer<br>SIBS Sdn. Bhd.</div>
                         <div class="speaker-social">
                         </div>
                     </div>

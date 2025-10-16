@@ -3126,7 +3126,7 @@
                         </div>
                         <div class="speaker-name">Dr. Patrik Jensen</div>
                         <div class="speaker-title-badge">DIALOGUE SESSION 2</div>
-                        <div class="speaker-position">Head of Design Team<br>Scandinavian Industrialized Building System (SIBS)</div>
+                        <div class="speaker-position">Chief Technology Officer<br>SIBS Sdn. Bhd.</div>
                         <div class="speaker-social">
                         </div>
                     </div>
