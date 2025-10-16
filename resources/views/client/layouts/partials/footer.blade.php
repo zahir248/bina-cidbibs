@@ -58,6 +58,7 @@
                     <div class="quick-links-list">
                         <a href="{{ route('client.order-lookup') }}" class="quick-link">Order Lookup</a>
                         <a href="{{ route('client.store') }}" class="quick-link">Buy Tickets</a>
+                        <a href="{{ route('client.business-matching.index') }}" class="quick-link">Business Matching</a>
                         <a href="{{ route('client.about') }}" class="quick-link">About Us</a>
                         {{-- @auth
                             <a href="{{ route('affiliate.index') }}" class="quick-link affiliate-link">

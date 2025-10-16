@@ -247,6 +247,15 @@ Route::post('/order-lookup', [App\Http\Controllers\Client\OrderLookupController:
 Route::get('/order-lookup/{order}/download-pdf', [App\Http\Controllers\Client\OrderLookupController::class, 'downloadPdf'])->name('client.order-lookup.download-pdf');
 Route::get('/order-lookup/{order}/download-qr-codes', [App\Http\Controllers\Client\OrderLookupController::class, 'downloadQrCodes'])->name('client.order-lookup.download-qr-codes');
 
+// Business Matching Routes (no auth required)
+Route::get('/business-matching', [App\Http\Controllers\Client\BusinessMatchingController::class, 'index'])->name('client.business-matching.index');
+Route::get('/business-matching/my-bookings', [App\Http\Controllers\Client\BusinessMatchingController::class, 'myBookings'])->name('client.business-matching.my-bookings');
+Route::get('/business-matching/booking/{booking}/success', [App\Http\Controllers\Client\BusinessMatchingController::class, 'bookingSuccess'])->name('client.business-matching.booking.success');
+Route::get('/business-matching/booking/{booking}/download', [App\Http\Controllers\Client\BusinessMatchingController::class, 'download'])->name('client.business-matching.download');
+Route::delete('/business-matching/booking/{booking}/cancel', [App\Http\Controllers\Client\BusinessMatchingController::class, 'cancelBooking'])->name('client.business-matching.cancel');
+Route::get('/business-matching/{businessMatching}', [App\Http\Controllers\Client\BusinessMatchingController::class, 'show'])->name('client.business-matching.show');
+Route::post('/business-matching/{businessMatching}', [App\Http\Controllers\Client\BusinessMatchingController::class, 'store'])->name('client.business-matching.store');
+
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
@@ -327,6 +336,21 @@ Route::middleware('auth')->group(function () {
         Route::get('affiliates/{affiliate}/edit', [AdminAffiliateController::class, 'edit'])->name('affiliates.edit');
         Route::put('affiliates/{affiliate}', [AdminAffiliateController::class, 'update'])->name('affiliates.update');
         Route::post('affiliates/{affiliate}/status', [AdminAffiliateController::class, 'updateStatus'])->name('affiliates.update-status');
+
+        // Business Matching Management
+        Route::resource('business-matching', \App\Http\Controllers\Admin\BusinessMatchingController::class);
+        Route::post('business-matching/{businessMatching}/toggle-status', [\App\Http\Controllers\Admin\BusinessMatchingController::class, 'toggleStatus'])->name('business-matching.toggle-status');
+        Route::get('business-matching/{businessMatching}/panels', [\App\Http\Controllers\Admin\BusinessMatchingController::class, 'panels'])->name('business-matching.panels');
+        Route::post('business-matching/{businessMatching}/panels', [\App\Http\Controllers\Admin\BusinessMatchingController::class, 'storePanel'])->name('business-matching.panels.store');
+        Route::put('business-matching/panels/{panel}', [\App\Http\Controllers\Admin\BusinessMatchingController::class, 'updatePanel'])->name('business-matching.panels.update');
+        Route::delete('business-matching/panels/{panel}', [\App\Http\Controllers\Admin\BusinessMatchingController::class, 'deletePanel'])->name('business-matching.panels.delete');
+        Route::get('business-matching/{businessMatching}/time-slots', [\App\Http\Controllers\Admin\BusinessMatchingController::class, 'timeSlots'])->name('business-matching.time-slots');
+        Route::post('business-matching/{businessMatching}/time-slots', [\App\Http\Controllers\Admin\BusinessMatchingController::class, 'storeTimeSlot'])->name('business-matching.time-slots.store');
+        Route::put('business-matching/time-slots/{timeSlot}', [\App\Http\Controllers\Admin\BusinessMatchingController::class, 'updateTimeSlot'])->name('business-matching.time-slots.update');
+        Route::delete('business-matching/time-slots/{timeSlot}', [\App\Http\Controllers\Admin\BusinessMatchingController::class, 'deleteTimeSlot'])->name('business-matching.time-slots.delete');
+        Route::get('business-matching/{businessMatching}/bookings', [\App\Http\Controllers\Admin\BusinessMatchingController::class, 'bookings'])->name('business-matching.bookings');
+        Route::get('business-matching/{businessMatching}/export-bookings', [\App\Http\Controllers\Admin\BusinessMatchingController::class, 'exportBookings'])->name('business-matching.export-bookings');
+        Route::get('business-matching/{businessMatching}/time-slot/{timeSlot}/export-bookings', [\App\Http\Controllers\Admin\BusinessMatchingController::class, 'exportTimeSlotBookings'])->name('business-matching.export-time-slot-bookings');
     });
 });
 

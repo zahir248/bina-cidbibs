@@ -62,6 +62,12 @@
                     Affiliates
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.business-matching.*') ? 'active' : '' }}" href="{{ route('admin.business-matching.index') }}">
+                    <i class="bi bi-people-fill"></i>
+                    Business Matching
+                </a>
+            </li>
         </ul>
     </div>
 </div>
