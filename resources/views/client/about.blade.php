@@ -1918,7 +1918,7 @@
                             <img src="{{ asset('images/en-mahput.jpg') }}" alt="En. Mahput Sairan" style="object-position: center 10%">
                         </div>
                         <div class="speaker-name">En. Mahput Sairan</div>
-                        <div class="speaker-position">Pengarah Strategi & Inovasi<br>GFM Solutions Sdn. Bhd.</div>
+                        <div class="speaker-position">Director Strategy & Innovation<br>GFM Solutions Sdn. Bhd</div>
                         <div class="speaker-social">
                         </div>
                     </div>

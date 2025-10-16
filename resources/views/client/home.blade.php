@@ -3003,7 +3003,7 @@
                         </div>
                         <div class="speaker-name">En. Mahput Sairan</div>
                         <div class="speaker-title-badge">BEST PRACTICES SHARING 4</div>
-                        <div class="speaker-position">Pengarah Strategi & Inovasi<br>GFM Solutions Sdn. Bhd.</div>
+                        <div class="speaker-position">Director Strategy & Innovation<br>GFM Solutions Sdn. Bhd</div>
                         <div class="speaker-social">
                         </div>
                     </div>
