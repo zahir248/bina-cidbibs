@@ -599,6 +599,32 @@
                     <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;">Maltimur Aktif Unggul Jv Sdn Bhd</div>
                 </div>
             </div>
+            <!-- Business Matching Card -->
+            <div class="ma-card" style="min-width:270px;max-width:340px;width:100%;margin-left:auto;margin-right:auto;margin-top:2rem;">
+                <div class="mb-3" style="font-weight:700;font-size:1.1rem;text-align:center;">
+                    <span style="font-weight:900;">BUSINESS MATCHING</span>
+                </div>
+                <div class="mb-3">
+                    <img src="https://www.orissa-international.com/wp-content/uploads/2020/05/handshake-agreement.jpg" 
+                         alt="Business Matching Handshake" 
+                         style="width:100%;height:120px;object-fit:cover;border-radius:8px;display:block;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                </div>
+                <div class="ma-detail-row">
+                    <span class="ma-icon"><i class="fas fa-map-marker-alt"></i></span>
+                    <span>BINA Business Connect Lounge, Exhibition Hall</span>
+                </div>
+                <div class="ma-detail-row">
+                    <span class="ma-icon"><i class="fas fa-calendar-alt"></i></span>
+                    <span>29 Okt 2025</span>
+                </div>
+                <div class="ma-detail-row">
+                    <span class="ma-icon"><i class="fas fa-clock"></i></span>
+                    <span>2.30 PM - 3.50 PM</span>
+                </div>
+                <div class="ticket-btn-wrapper" style="margin-top:1.5rem;">
+                    <a href="{{ route('client.business-matching.index') }}" class="ticket-btn" style="width:100%;text-align:center;display:block;padding:0.6rem 1.5rem;font-size:0.9rem;">REGISTER HERE</a>
+                </div>
+            </div>
             <!-- Emcee 2 Image Modal -->
             <div id="emceeImageModal2" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
                 <span id="closeEmceeModal2" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
