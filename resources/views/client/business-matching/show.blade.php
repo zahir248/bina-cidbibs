@@ -294,16 +294,6 @@
 
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label for="identity_number" class="form-label">Identity Card Number / Passport <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control @error('identity_number') is-invalid @enderror" 
-                                               id="identity_number" name="identity_number" 
-                                               value="{{ old('identity_number') }}" required>
-                                        @error('identity_number')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    
-                                    <div class="col-md-6 mb-3">
                                         <label for="business_type" class="form-label">Business Type</label>
                                         <select class="form-select @error('business_type') is-invalid @enderror" 
                                                 id="business_type" name="business_type">
@@ -327,7 +317,7 @@
                                         @foreach($businessMatching->timeSlots->sortBy('order') as $index => $timeSlot)
                                             @php
                                                 $bookingsInSlot = $businessMatching->bookings()->where('time_slot_id', $timeSlot->id)->count();
-                                                $isFull = $bookingsInSlot >= 2;
+                                                $isFull = $bookingsInSlot >= 3;
                                             @endphp
                                             <div class="col-md-6 col-lg-4 mb-2">
                                                 <div class="form-check">
@@ -346,7 +336,7 @@
                                                                 @if($isFull)
                                                                     <span class="badge bg-danger">Full</span>
                                                                 @else
-                                                                    <span class="badge bg-success">{{ 2 - $bookingsInSlot }} spots left</span>
+                                                                    <span class="badge bg-success">{{ 3 - $bookingsInSlot }} spots left</span>
                                                                 @endif
                                                             </div>
                                                         </div>
@@ -404,7 +394,7 @@
                             <h5 class="card-title mb-0">Session Details</h5>
                         </div>
                         <div class="card-body">
-                            <p class="text-muted">{{ $businessMatching->description }}</p>
+                            <p class="text-muted text-justify" style="text-align: justify; line-height: 1.6;">{{ $businessMatching->description }}</p>
                             
                             <div class="mb-3">
                                 <h6 class="fw-bold">Schedule</h6>
@@ -415,17 +405,6 @@
                                 @endforeach
                             </div>
 
-                            <div class="mb-3">
-                                <h6 class="fw-bold">Available Panels</h6>
-                                <small>{{ $businessMatching->panels->count() }} panels available</small>
-                                <div class="mt-2">
-                                    @foreach($businessMatching->panels->sortBy('order') as $panel)
-                                        <div class="mb-1">
-                                            <small class="text-muted">{{ $panel->name }}</small>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
 
                             <div class="mb-3">
                                 <h6 class="fw-bold">Capacity</h6>
@@ -437,7 +416,7 @@
                                     </div>
                                 </div>
                                 <small class="text-muted">
-                                    {{ $businessMatching->getTotalParticipants() }}/{{ $businessMatching->timeSlots->count() * 2 }} participants
+                                    {{ $businessMatching->getTotalParticipants() }}/{{ $businessMatching->timeSlots->count() * 3 }} participants
                                 </small>
                             </div>
                         </div>

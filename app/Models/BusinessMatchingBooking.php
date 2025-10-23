@@ -16,7 +16,6 @@ class BusinessMatchingBooking extends Model
         'participant_email',
         'participant_phone',
         'company_name',
-        'identity_number',
         'business_type',
         'interests',
         'notes'

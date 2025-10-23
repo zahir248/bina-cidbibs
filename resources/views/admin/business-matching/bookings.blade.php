@@ -60,7 +60,7 @@
                                                     <option value="{{ $timeSlot->id }}" 
                                                             {{ request('time_slot') == $timeSlot->id ? 'selected' : '' }}>
                                                         {{ $timeSlot->getFormattedTimeRange() }}
-                                                        ({{ $timeSlot->getCurrentParticipantsCount() }}/2 participants)
+                                                        ({{ $timeSlot->getCurrentParticipantsCount() }}/3 participants)
                                                     </option>
                                                 @endforeach
                                             </select>

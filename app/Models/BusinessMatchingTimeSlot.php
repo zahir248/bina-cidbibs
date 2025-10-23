@@ -60,8 +60,8 @@ class BusinessMatchingTimeSlot extends Model
      */
     public function isFull(): bool
     {
-        // Max 2 people per time slot
-        return $this->getCurrentParticipantsCount() >= 2;
+        // Max 3 people per time slot
+        return $this->getCurrentParticipantsCount() >= 3;
     }
 
     /**

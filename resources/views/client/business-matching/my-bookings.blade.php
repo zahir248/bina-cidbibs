@@ -150,14 +150,14 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Find Your Bookings</h5>
-                    <p class="text-muted">Enter your identity card number or passport to view your business matching bookings.</p>
+                    <p class="text-muted">Enter your email address to view your business matching bookings.</p>
                     <form method="GET" action="{{ route('client.business-matching.my-bookings') }}">
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="mb-3">
-                                    <label for="identity_number" class="form-label">Identity Card Number / Passport</label>
-                                    <input type="text" class="form-control" id="identity_number" name="identity_number" 
-                                           value="{{ $identityNumber }}" placeholder="Enter your identity card number or passport" required>
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="email" name="email" 
+                                           value="{{ old('email') }}" placeholder="Enter your email address" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -208,11 +208,6 @@
                                             <i class="fas fa-clock me-2"></i>
                                             <span class="fw-bold">Time:</span>
                                             <span class="ms-2">{{ $booking->timeSlot->getFormattedTimeRange() }}</span>
-                                        </div>
-                                        <div class="d-flex align-items-center mb-2">
-                                            <i class="fas fa-users me-2"></i>
-                                            <span class="fw-bold">Panel:</span>
-                                            <span class="ms-2 text-muted">Panel will be assigned automatically</span>
                                         </div>
                                         <div class="d-flex align-items-center">
                                             <i class="fas fa-hashtag me-2"></i>
@@ -317,7 +312,6 @@
                                             <div class="col-md-6">
                                                 <h6 class="fw-bold">Assignment</h6>
                                                 <p><strong>Time Slot:</strong> {{ $booking->timeSlot->getFormattedTimeRange() }}</p>
-                                                <p><strong>Panel:</strong> <span class="text-muted">Panel will be assigned automatically</span></p>
                                             </div>
                                             <div class="col-md-6">
                                                 <h6 class="fw-bold">Status & Reference</h6>
@@ -354,12 +348,12 @@
                     @endforeach
                 </div>
             @else
-                @if($identityNumber)
+                @if($email)
                     <div class="text-center py-5">
                         <i class="fas fa-search fa-3x text-muted mb-3"></i>
                         <h4 class="text-muted">No Bookings Found</h4>
-                        <p class="text-muted">No business matching bookings found for identity number: <strong>{{ $identityNumber }}</strong></p>
-                        <p class="text-muted">Please check your identity number or register for a business matching session.</p>
+                        <p class="text-muted">No business matching bookings found for: <strong>{{ $email }}</strong></p>
+                        <p class="text-muted">Please check your search term or register for a business matching session.</p>
                         <a href="{{ route('client.business-matching.index') }}" class="btn btn-warning">
                             <i class="fas fa-calendar-plus me-2"></i>Register for Business Matching
                         </a>
@@ -367,8 +361,8 @@
                 @else
                     <div class="text-center py-5">
                         <i class="fas fa-id-card fa-3x text-muted mb-3"></i>
-                        <h4 class="text-muted">Enter Your Identity Number</h4>
-                        <p class="text-muted">Please enter your identity card number or passport above to view your business matching bookings.</p>
+                        <h4 class="text-muted">Enter Your Email or Name</h4>
+                        <p class="text-muted">Please enter your email address or name above to view your business matching bookings.</p>
                     </div>
                 @endif
             @endif

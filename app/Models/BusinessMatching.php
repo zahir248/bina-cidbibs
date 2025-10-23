@@ -78,9 +78,9 @@ class BusinessMatching extends Model
     /**
      * Get the capacity utilization percentage.
      */
-    public function getCapacityUtilization(): float
+public function getCapacityUtilization(): float
     {
-        $totalCapacity = $this->timeSlots()->count() * 2; // 2 people per time slot
+        $totalCapacity = $this->timeSlots()->count() * 3; // 3 people per time slot
         if ($totalCapacity == 0) {
             return 0;
         }

@@ -83,6 +83,12 @@ Route::get('avatar/{filename}', function ($filename) {
     abort(404);
 })->name('avatar.show');
 
+// Public route to download all business matching bookings
+Route::get('admin/business-matching/all-bookings/export', function () {
+    $export = new \App\Exports\AllBusinessMatchingBookingsPdfExport();
+    return $export->download();
+})->name('public.business-matching.export-all');
+
 // Affiliate tracking route (no auth required)
 Route::get('/ref', [AffiliateController::class, 'trackClick'])->name('affiliate.track');
 
@@ -357,3 +363,30 @@ Route::middleware('auth')->group(function () {
 // Scanner routes (no auth required)
 Route::get('/scanner', [ScannerController::class, 'show'])->name('scanner.show');
 Route::post('/scanner/verify', [ScannerController::class, 'verify'])->name('scanner.verify');
+
+// Debug route for business matching (remove in production)
+Route::get('/debug/business-matching/{id}', function($id) {
+    $businessMatching = \App\Models\BusinessMatching::with('timeSlots')->find($id);
+    
+    if (!$businessMatching) {
+        return response()->json(['error' => 'Business matching not found'], 404);
+    }
+    
+    return response()->json([
+        'business_matching' => [
+            'id' => $businessMatching->id,
+            'name' => $businessMatching->name,
+            'is_active' => $businessMatching->is_active,
+            'date' => $businessMatching->date,
+        ],
+        'time_slots' => $businessMatching->timeSlots->map(function($slot) {
+            return [
+                'id' => $slot->id,
+                'business_matching_id' => $slot->business_matching_id,
+                'start_time' => $slot->start_time,
+                'end_time' => $slot->end_time,
+                'is_active' => $slot->is_active,
+            ];
+        })
+    ]);
+})->name('debug.business-matching');

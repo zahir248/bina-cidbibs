@@ -26,7 +26,13 @@ class BusinessMatchingController extends Controller
             ->orderBy('start_time')
             ->get();
 
-        return view('client.business-matching.index', compact('businessMatchings'));
+        // Check if user already has a booking
+        $hasExistingBooking = false;
+        if (Auth::check()) {
+            $hasExistingBooking = BusinessMatchingBooking::where('user_id', Auth::id())->exists();
+        }
+
+        return view('client.business-matching.index', compact('businessMatchings', 'hasExistingBooking'));
     }
 
     /**
@@ -56,12 +62,22 @@ class BusinessMatchingController extends Controller
                 ->with('error', 'This business matching session is not currently open for registration.');
         }
 
+        // Check if business matching has time slots
+        if ($businessMatching->timeSlots->count() === 0) {
+            \Log::error('Business matching has no time slots', [
+                'business_matching_id' => $businessMatching->id
+            ]);
+            
+            return redirect()->back()
+                ->with('error', 'No time slots available for this session. Please contact support.')
+                ->withInput();
+        }
+
         $validator = Validator::make($request->all(), [
             'participant_name' => 'required|string|max:255',
             'participant_email' => 'required|email|max:255',
             'participant_phone' => 'required|string|max:20',
             'company_name' => 'nullable|string|max:255',
-            'identity_number' => 'required|string|max:50',
             'business_type' => 'nullable|string|max:255',
             'time_slot_id' => 'required|exists:business_matching_time_slots,id',
             'interests' => 'nullable|array',
@@ -77,60 +93,96 @@ class BusinessMatchingController extends Controller
         // Get the selected time slot
         $timeSlot = BusinessMatchingTimeSlot::find($request->time_slot_id);
 
+        // Debug logging for deployed environment
+        \Log::info('Time slot validation debug', [
+            'requested_time_slot_id' => $request->time_slot_id,
+            'business_matching_id' => $businessMatching->id,
+            'time_slot_found' => $timeSlot ? true : false,
+            'time_slot_business_matching_id' => $timeSlot ? $timeSlot->business_matching_id : null,
+            'available_time_slots' => $businessMatching->timeSlots->pluck('id')->toArray()
+        ]);
+
         // Validate that the time slot belongs to this business matching
-        if (!$timeSlot || $timeSlot->business_matching_id !== $businessMatching->id) {
+        if (!$timeSlot) {
+            \Log::error('Time slot not found', [
+                'time_slot_id' => $request->time_slot_id,
+                'business_matching_id' => $businessMatching->id
+            ]);
+            
             return redirect()->back()
-                ->with('error', 'Invalid time slot selected.')
+                ->with('error', 'Selected time slot not found. Please refresh the page and try again.')
+                ->withInput();
+        }
+        
+        // Check if the time slot belongs to this business matching using a more robust method
+        $isValidTimeSlot = $businessMatching->timeSlots->contains('id', $timeSlot->id);
+        
+        if (!$isValidTimeSlot) {
+            \Log::error('Time slot not found in business matching time slots', [
+                'time_slot_id' => $request->time_slot_id,
+                'time_slot_business_matching_id' => $timeSlot->business_matching_id,
+                'requested_business_matching_id' => $businessMatching->id,
+                'available_time_slot_ids' => $businessMatching->timeSlots->pluck('id')->toArray()
+            ]);
+            
+            return redirect()->back()
+                ->with('error', 'Selected time slot is not available for this session. Please refresh the page and try again.')
                 ->withInput();
         }
 
 
-        // Check if the selected time slot has available capacity (max 2 people per time slot)
+        // Check if the selected time slot has available capacity (max 3 people per time slot)
         $bookingsInSlot = BusinessMatchingBooking::where('business_matching_id', $businessMatching->id)
             ->where('time_slot_id', $timeSlot->id)
             ->count();
 
-        if ($bookingsInSlot >= 2) {
+        if ($bookingsInSlot >= 3) {
             return redirect()->back()
                 ->with('error', 'The selected time slot is full. Please choose another time slot.')
                 ->withInput();
         }
 
-        // Check if user already has a booking for this business matching (only if authenticated)
+        // Check if user already has a booking for ANY business matching session (only if authenticated)
         if (Auth::check()) {
-            $existingBooking = BusinessMatchingBooking::where('business_matching_id', $businessMatching->id)
-                ->where('user_id', Auth::id())
+            $existingBooking = BusinessMatchingBooking::where('user_id', Auth::id())
                 ->first();
 
             if ($existingBooking) {
                 return redirect()->back()
-                    ->with('error', 'You already have a registration for this business matching session.')
+                    ->with('error', 'You already have a business matching registration. Each person can only register for one business matching session.')
                     ->withInput();
             }
         }
 
-        // Check if identity number is already registered for this business matching session
-        $existingIdentityBooking = BusinessMatchingBooking::where('business_matching_id', $businessMatching->id)
-            ->where('identity_number', $request->identity_number)
+        // Check if email is already registered for ANY business matching session
+        $existingEmailBooking = BusinessMatchingBooking::where('participant_email', $request->participant_email)
             ->first();
 
-        if ($existingIdentityBooking) {
+        if ($existingEmailBooking) {
             return redirect()->back()
-                ->with('error', 'This identity number is already registered for this business matching session. Each person can only register once per session.')
+                ->with('error', 'This email is already registered for a business matching session. Each person can only register for one business matching session.')
                 ->withInput();
         }
 
+
         // Create the booking
         try {
+            $userId = Auth::id();
+            \Log::info('Creating business matching booking', [
+                'user_id' => $userId,
+                'user_authenticated' => Auth::check(),
+                'business_matching_id' => $businessMatching->id,
+                'time_slot_id' => $timeSlot->id
+            ]);
+            
             $booking = BusinessMatchingBooking::create([
                 'business_matching_id' => $businessMatching->id,
                 'time_slot_id' => $timeSlot->id,
-                'user_id' => Auth::id(), // Will be null for guest users
+                'user_id' => $userId, // Will be null for guest users
                 'participant_name' => $request->participant_name,
                 'participant_email' => $request->participant_email,
                 'participant_phone' => $request->participant_phone,
                 'company_name' => $request->company_name,
-                'identity_number' => $request->identity_number,
                 'business_type' => $request->business_type,
                 'interests' => $request->interests,
             ]);
@@ -141,7 +193,7 @@ class BusinessMatchingController extends Controller
             // Handle unique constraint violation
             if ($e->getCode() == 23000) { // Integrity constraint violation
                 return redirect()->back()
-                    ->with('error', 'This identity number is already registered for this business matching session. Each person can only register once per session.')
+                    ->with('error', 'This email is already registered for this business matching session. Each person can only register once per session.')
                     ->withInput();
             }
             
@@ -155,10 +207,32 @@ class BusinessMatchingController extends Controller
      */
     public function bookingSuccess(BusinessMatchingBooking $booking)
     {
-        // Ensure the booking belongs to the authenticated user
-        if ($booking->user_id !== Auth::id()) {
-            abort(403);
+        \Log::info('Accessing booking success page', [
+            'booking_id' => $booking->id,
+            'booking_user_id' => $booking->user_id,
+            'current_user_id' => Auth::id(),
+            'user_authenticated' => Auth::check()
+        ]);
+        
+        // For authenticated users, ensure the booking belongs to them
+        if (Auth::check()) {
+            // Convert both IDs to integers for proper comparison
+            $bookingUserId = (int) $booking->user_id;
+            $currentUserId = (int) Auth::id();
+            
+            if ($bookingUserId !== $currentUserId) {
+                \Log::error('Booking access denied', [
+                    'booking_id' => $booking->id,
+                    'booking_user_id' => $booking->user_id,
+                    'booking_user_id_int' => $bookingUserId,
+                    'current_user_id' => Auth::id(),
+                    'current_user_id_int' => $currentUserId,
+                    'user_authenticated' => Auth::check()
+                ]);
+                abort(403);
+            }
         }
+        // For guest users, we allow access since they don't have user_id
 
         $booking->load(['businessMatching', 'timeSlot']);
 
@@ -171,16 +245,17 @@ class BusinessMatchingController extends Controller
     public function myBookings(Request $request)
     {
         $bookings = collect();
-        $identityNumber = $request->input('identity_number');
+        $email = $request->input('email');
 
-        if ($identityNumber) {
-            $bookings = BusinessMatchingBooking::where('identity_number', $identityNumber)
+        // If email is provided, search for bookings
+        if ($email) {
+            $bookings = BusinessMatchingBooking::where('participant_email', 'like', '%' . $email . '%')
                 ->with(['businessMatching', 'timeSlot'])
                 ->orderBy('created_at', 'desc')
                 ->get();
         }
 
-        return view('client.business-matching.my-bookings', compact('bookings', 'identityNumber'));
+        return view('client.business-matching.my-bookings', compact('bookings', 'email'));
     }
 
     /**

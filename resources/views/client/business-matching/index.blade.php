@@ -230,13 +230,25 @@
             @if($businessMatchings->count() > 0)
                 <div class="row">
                     @foreach($businessMatchings as $businessMatching)
-                        <div class="col-lg-6 col-xl-4 mb-4">
+                        <div class="col-lg-6 mb-4">
                             <div class="card h-100 shadow-sm">
-                                <div class="card-header bg-warning text-dark">
+                                <div class="card-header bg-secondary text-white">
                                     <h5 class="card-title mb-0">{{ $businessMatching->name }}</h5>
                                 </div>
                                 <div class="card-body">
-                                    <p class="card-text text-muted">{{ $businessMatching->description }}</p>
+                                    @if($businessMatching->panels->count() > 0)
+                                        <h6 class="fw-bold mb-3"><i class="fas fa-user-tie me-2" style="color: #e67e00;"></i>Panel:</h6>
+                                        @foreach($businessMatching->panels->sortBy('order') as $panel)
+                                            <div class="mb-3">
+                                                <h6 class="mb-0">{{ $panel->name }}</h6>
+                                                @if($panel->description)
+                                                    <p class="text-muted mb-0" style="line-height: 1.6;">{{ $panel->description }}</p>
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                    
+                                    <p class="card-text text-muted text-justify" style="text-align: justify; line-height: 1.6;">{{ $businessMatching->description }}</p>
                                     
                                     <div class="mb-3">
                                         <div class="d-flex align-items-center mb-2">
@@ -252,7 +264,7 @@
                                         <div class="d-flex align-items-center">
                                             <i class="fas fa-users me-2"></i>
                                             <span class="fw-bold">Capacity:</span>
-                                            <span class="ms-2">{{ $businessMatching->getTotalParticipants() }}/{{ $businessMatching->timeSlots->count() * 2 }}</span>
+                                            <span class="ms-2">{{ $businessMatching->getTotalParticipants() }}/{{ $businessMatching->timeSlots->count() * 3 }}</span>
                                         </div>
                                     </div>
 
@@ -267,13 +279,13 @@
                                         <small class="text-muted">{{ number_format($businessMatching->getCapacityUtilization(), 1) }}% capacity utilized</small>
                                     </div>
 
-                                    <div class="mb-3">
-                                        <h6 class="fw-bold mb-2">Available Panels:</h6>
-                                        <small class="text-muted">{{ $businessMatching->panels->count() }} panels available</small>
-                                    </div>
                                 </div>
                                 <div class="card-footer bg-transparent">
-                                    @if($businessMatching->isOpenForRegistration())
+                                    @if($hasExistingBooking)
+                                        <button class="btn btn-secondary w-100" disabled>
+                                            <i class="fas fa-check-circle me-2"></i>Already Registered
+                                        </button>
+                                    @elseif($businessMatching->isOpenForRegistration())
                                         <a href="{{ route('client.business-matching.show', $businessMatching) }}" 
                                            class="btn btn-warning w-100">
                                             <i class="fas fa-calendar-plus me-2"></i>Register Now

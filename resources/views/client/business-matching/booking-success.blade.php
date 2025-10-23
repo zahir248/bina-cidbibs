@@ -16,6 +16,90 @@
     html { scroll-behavior: smooth; }
     body { margin: 0; padding: 0; }
 
+    .important-reminder {
+        background: linear-gradient(135deg, #ff6b35, #f7931e);
+        border: 3px solid #ff4757;
+        border-radius: 15px;
+        padding: 25px;
+        margin: 25px 0;
+        box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+        position: relative;
+        overflow: hidden;
+        animation: pulse-glow 2s ease-in-out infinite alternate;
+    }
+    
+    .important-reminder::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        animation: shimmer 3s infinite;
+    }
+    
+    @keyframes pulse-glow {
+        0% { box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4); }
+        100% { box-shadow: 0 12px 35px rgba(255, 107, 53, 0.6); }
+    }
+    
+    @keyframes shimmer {
+        0% { transform: translateX(-100%) translateY(-100%); }
+        100% { transform: translateX(100%) translateY(100%); }
+    }
+    
+    .reminder-content {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .reminder-icon {
+        background: white;
+        color: #ff6b35;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: bold;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        flex-shrink: 0;
+    }
+    
+    .reminder-text {
+        flex: 1;
+    }
+    
+    .reminder-title {
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        margin: 0 0 10px 0;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .reminder-message {
+        color: white;
+        font-size: 16px;
+        line-height: 1.6;
+        margin: 0;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
+    
+    .highlight {
+        background-color: rgba(255, 255, 255, 0.3);
+        padding: 3px 8px;
+        border-radius: 6px;
+        font-weight: bold;
+        text-shadow: none;
+    }
+
     .hero-section-store {
         min-height: 100vh; min-height: 100svh; min-height: 100dvh;
         height: 100vh; height: 100svh; height: 100dvh;
@@ -170,15 +254,6 @@
                                     <hr>
                                     <div class="row">
                                         <div class="col-sm-4">
-                                            <strong>Panel:</strong>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <span class="text-muted">Panel will be assigned automatically</span>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-4">
                                             <strong>Participant:</strong>
                                         </div>
                                         <div class="col-sm-8">
@@ -202,10 +277,20 @@
                     </div>
 
                     <div class="mt-4">
-                        <div class="alert alert-warning" style="background-color: #e67e00; border-color: #e67e00; color: white;">
-                            <i class="fas fa-info-circle me-2"></i>
-                            <strong>Important:</strong> Please arrive 15 minutes before your scheduled time slot. 
-                            Bring a business card and be prepared to network with other participants.
+                        <div class="important-reminder">
+                            <div class="reminder-content">
+                                <div class="reminder-icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="reminder-text">
+                                    <h4 class="reminder-title">⚠️ IMPORTANT REMINDER</h4>
+                                    <p class="reminder-message">
+                                        <span class="highlight">Please arrive 10 minutes before</span> your scheduled time slot. 
+                                        Bring a <span class="highlight">business card</span> and be prepared to 
+                                        <span class="highlight">network</span> with other participants.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

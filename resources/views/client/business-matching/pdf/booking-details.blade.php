@@ -178,10 +178,6 @@
                         <div class="info-label">Time Slot:</div>
                         <div class="info-value">{{ $booking->timeSlot->getFormattedTimeRange() }}</div>
                     </div>
-                    <div class="info-row">
-                        <div class="info-label">Panel:</div>
-                        <div class="info-value">Auto-assigned</div>
-                    </div>
                 </div>
             </div>
 

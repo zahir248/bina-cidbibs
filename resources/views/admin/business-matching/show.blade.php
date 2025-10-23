@@ -186,7 +186,7 @@
                                                             {{ $timeSlot->getFormattedTimeRange() }}
                                                         </h6>
                                                         <small class="text-muted">
-                                                            Capacity: {{ $timeSlot->getCurrentParticipantsCount() }}/2 participants
+                                                            Capacity: {{ $timeSlot->getCurrentParticipantsCount() }}/3 participants
                                                         </small>
                                                         @if($timeSlot->getCurrentParticipantsCount() > 0)
                                                             <br><small class="text-success">
@@ -293,9 +293,9 @@
                     <div class="col-md-6">
                         <h6 class="fw-bold">Time Slot Details</h6>
                         <p class="mb-1"><strong>Time:</strong> {{ $timeSlot->getFormattedTimeRange() }}</p>
-                        <p class="mb-1"><strong>Capacity:</strong> {{ $timeSlot->getCurrentParticipantsCount() }}/2 participants</p>
+                        <p class="mb-1"><strong>Capacity:</strong> {{ $timeSlot->getCurrentParticipantsCount() }}/3 participants</p>
                         <p class="mb-0"><strong>Status:</strong> 
-                            @if($timeSlot->getCurrentParticipantsCount() >= 2)
+                            @if($timeSlot->getCurrentParticipantsCount() >= 3)
                                 <span class="badge bg-danger">Full</span>
                             @elseif($timeSlot->getCurrentParticipantsCount() > 0)
                                 <span class="badge bg-warning">Partially Filled</span>
@@ -308,11 +308,11 @@
                         <h6 class="fw-bold">Registration Progress</h6>
                         <div class="progress mb-2">
                             <div class="progress-bar" role="progressbar" 
-                                 style="width: {{ ($timeSlot->getCurrentParticipantsCount() / 2) * 100 }}%"
+                                 style="width: {{ ($timeSlot->getCurrentParticipantsCount() / 3) * 100 }}%"
                                  aria-valuenow="{{ $timeSlot->getCurrentParticipantsCount() }}" 
                                  aria-valuemin="0" 
-                                 aria-valuemax="2">
-                                {{ $timeSlot->getCurrentParticipantsCount() }}/2
+                                 aria-valuemax="3">
+                                {{ $timeSlot->getCurrentParticipantsCount() }}/3
                             </div>
                         </div>
                     </div>
