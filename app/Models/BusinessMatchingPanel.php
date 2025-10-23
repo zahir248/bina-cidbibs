@@ -12,6 +12,7 @@ class BusinessMatchingPanel extends Model
         'business_matching_id',
         'name',
         'description',
+        'image',
         'order',
         'is_active'
     ];

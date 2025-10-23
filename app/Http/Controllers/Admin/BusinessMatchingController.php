@@ -9,6 +9,7 @@ use App\Models\BusinessMatchingTimeSlot;
 use App\Models\BusinessMatchingBooking;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -209,7 +210,8 @@ class BusinessMatchingController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'order' => 'required|integer|min:1',
-            'is_active' => 'sometimes'
+            'is_active' => 'sometimes',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120'
         ]);
 
         if ($validator->fails()) {
@@ -218,10 +220,16 @@ class BusinessMatchingController extends Controller
                 ->withInput();
         }
 
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('panel-images', 'public');
+        }
+
         BusinessMatchingPanel::create([
             'business_matching_id' => $businessMatching->id,
             'name' => $request->name,
             'description' => $request->description,
+            'image' => $imagePath,
             'order' => $request->order,
             'is_active' => $request->boolean('is_active', true)
         ]);
@@ -239,7 +247,8 @@ class BusinessMatchingController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'order' => 'required|integer|min:1',
-            'is_active' => 'sometimes'
+            'is_active' => 'sometimes',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120'
         ]);
 
         if ($validator->fails()) {
@@ -248,12 +257,23 @@ class BusinessMatchingController extends Controller
                 ->withInput();
         }
 
-        $panel->update([
+        $updateData = [
             'name' => $request->name,
             'description' => $request->description,
             'order' => $request->order,
             'is_active' => $request->boolean('is_active')
-        ]);
+        ];
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($panel->image && Storage::disk('public')->exists($panel->image)) {
+                Storage::disk('public')->delete($panel->image);
+            }
+            $updateData['image'] = $request->file('image')->store('panel-images', 'public');
+        }
+
+        $panel->update($updateData);
 
         return redirect()->back()
             ->with('success', 'Panel updated successfully!');

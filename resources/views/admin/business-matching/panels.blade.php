@@ -52,7 +52,7 @@
                             <h5 class="card-title mb-0">Add New Panel</h5>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('admin.business-matching.panels.store', $businessMatching) }}" method="POST">
+                            <form action="{{ route('admin.business-matching.panels.store', $businessMatching) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-6">
@@ -85,6 +85,15 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3">
+                                    <label for="image" class="form-label">Panel Image</label>
+                                    <input type="file" class="form-control @error('image') is-invalid @enderror" 
+                                           id="image" name="image" accept="image/*">
+                                    <div class="form-text">Upload a panel image (JPEG, PNG, JPG, GIF - Max 5MB)</div>
+                                    @error('image')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="1" 
                                                {{ old('is_active', true) ? 'checked' : '' }}>
@@ -111,6 +120,7 @@
                                             <tr>
                                                 <th>Order</th>
                                                 <th>Name</th>
+                                                <th>Image</th>
                                                 <th>Description</th>
                                                 <th>Status</th>
                                                 <th>Actions</th>
@@ -121,6 +131,17 @@
                                                 <tr>
                                                     <td>{{ $panel->order }}</td>
                                                     <td>{{ $panel->name }}</td>
+                                                    <td>
+                                                        @if($panel->image)
+                                                            <a href="{{ route('panel-image.show', basename($panel->image)) }}" 
+                                                               target="_blank" 
+                                                               class="text-primary text-decoration-none">
+                                                                <i class="bi bi-image me-1"></i>View Image
+                                                            </a>
+                                                        @else
+                                                            <span class="text-muted">No image</span>
+                                                        @endif
+                                                    </td>
                                                     <td>{{ $panel->description ?: 'No description' }}</td>
                                                     <td>
                                                         @if($panel->is_active)
@@ -168,7 +189,7 @@
                 <h5 class="modal-title">Edit Panel</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="{{ route('admin.business-matching.panels.update', $panel) }}" method="POST">
+            <form action="{{ route('admin.business-matching.panels.update', $panel) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="modal-body">
@@ -186,6 +207,22 @@
                         <label for="edit_description_{{ $panel->id }}" class="form-label">Description</label>
                         <textarea class="form-control" id="edit_description_{{ $panel->id }}" 
                                   name="description" rows="3">{{ $panel->description }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_image_{{ $panel->id }}" class="form-label">Panel Image</label>
+                        @if($panel->image)
+                            <div class="mb-2">
+                                <a href="{{ route('panel-image.show', basename($panel->image)) }}" 
+                                   target="_blank" 
+                                   class="text-primary text-decoration-none">
+                                    <i class="bi bi-image me-1"></i>View Current Image
+                                </a>
+                                <div class="form-text">Click to view current image in new tab</div>
+                            </div>
+                        @endif
+                        <input type="file" class="form-control" id="edit_image_{{ $panel->id }}" 
+                               name="image" accept="image/*">
+                        <div class="form-text">Upload a new image to replace the current one (JPEG, PNG, JPG, GIF - Max 5MB)</div>
                     </div>
                     <div class="mb-3">
                         <div class="form-check form-switch">
@@ -228,6 +265,14 @@
     </div>
 </div>
 @endforeach
+@endsection
+
+@section('styles')
+<style>
+    .table td {
+        vertical-align: middle;
+    }
+</style>
 @endsection
 
 @section('scripts')

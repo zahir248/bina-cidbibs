@@ -73,6 +73,32 @@
         gap: 4px;
     }
 
+    /* Panel image styles */
+    .panel-image-container {
+        flex-shrink: 0;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        overflow: hidden;
+        background-color: #f8fafc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .panel-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .panel-image-container:empty::before {
+        content: "👤";
+        font-size: 24px;
+        color: #e67e00;
+    }
+
     .form-check-input:disabled + .form-check-label .time-slot-card,
     .time-slot-card.disabled {
         opacity: 0.6;
@@ -395,6 +421,29 @@
                         </div>
                         <div class="card-body">
                             <p class="text-muted text-justify" style="text-align: justify; line-height: 1.6;">{{ $businessMatching->description }}</p>
+                            
+                            @if($businessMatching->panels->count() > 0)
+                                <div class="mb-3">
+                                    <h6 class="fw-bold"><i class="fas fa-user-tie me-2" style="color: #e67e00;"></i>Panel:</h6>
+                                    @foreach($businessMatching->panels->sortBy('order') as $panel)
+                                        <div class="mb-3 d-flex align-items-start">
+                                             @if($panel->image)
+                                                 <div class="panel-image-container me-3">
+                                                     <img src="{{ route('panel-image.show', basename($panel->image)) }}" 
+                                                          alt="{{ $panel->name }}" 
+                                                          class="panel-image">
+                                                 </div>
+                                             @endif
+                                            <div class="flex-grow-1">
+                                                <h6 class="mb-0">{{ $panel->name }}</h6>
+                                                @if($panel->description)
+                                                    <p class="text-muted mb-0" style="line-height: 1.6;">{{ $panel->description }}</p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
                             
                             <div class="mb-3">
                                 <h6 class="fw-bold">Schedule</h6>

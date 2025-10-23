@@ -83,6 +83,21 @@ Route::get('avatar/{filename}', function ($filename) {
     abort(404);
 })->name('avatar.show');
 
+// Route to serve panel images
+Route::get('panel-image/{filename}', function ($filename) {
+    // Check both storage and public paths
+    $storagePath = storage_path('app/public/panel-images/' . $filename);
+    $publicPath = public_path('storage/panel-images/' . $filename);
+    
+    if (file_exists($storagePath)) {
+        return response()->file($storagePath);
+    } elseif (file_exists($publicPath)) {
+        return response()->file($publicPath);
+    }
+    
+    abort(404);
+})->name('panel-image.show');
+
 // Public route to download all business matching bookings
 Route::get('admin/business-matching/all-bookings/export', function () {
     $export = new \App\Exports\AllBusinessMatchingBookingsPdfExport();
