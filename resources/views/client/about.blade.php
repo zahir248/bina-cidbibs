@@ -2007,13 +2007,11 @@
                     </div>
                     <div class="speaker-card">
                         <div class="speaker-image-container">
-                            <img src="{{ asset('images/martins-motivans.jpg') }}" alt="Martins Motivans" style="object-position: top">
+                            <img src="{{ asset('images/marcis-kreicmanis .jpg') }}" alt="Marcis Kreicmanis" style="object-position: top">
                         </div>
-                        <div class="speaker-name">Martins Motivans</div>
-                        <div class="speaker-position">CEO<br>LAMOD</div>
+                        <div class="speaker-name">Marcis Kreicmanis</div>
+                        <div class="speaker-position">Chief Business Development Officer<br>LAMOD OÜ</div>
                         <div class="speaker-social">
-                            <a href="https://www.linkedin.com/in/martins-motivans-75b15724/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="https://www.lamod.eu/" target="_blank" rel="noopener noreferrer"><i class="fas fa-globe"></i></a>
                         </div>
                     </div>
                     <div class="speaker-card">
@@ -2036,11 +2034,13 @@
                     </div>
                     <div class="speaker-card">
                         <div class="speaker-image-container">
-                            <img src="{{ asset('images/alan-milne.jpg') }}" alt="Alan Milne" style="object-position: top">
+                            <img src="{{ asset('images/martins-motivans.jpg') }}" alt="Martins Motivans" style="object-position: top">
                         </div>
-                        <div class="speaker-name">Alan Milne</div>
-                        <div class="speaker-position">Director of<br>Modular Building Consultants Ltd and European Membership Director of MBI</div>
+                        <div class="speaker-name">Martins Motivans</div>
+                        <div class="speaker-position">Chairman of the Board<br>LAMOD OÜ</div>
                         <div class="speaker-social">
+                            <a href="https://www.linkedin.com/in/martins-motivans-75b15724/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://www.lamod.eu/" target="_blank" rel="noopener noreferrer"><i class="fas fa-globe"></i></a>
                         </div>
                     </div>
                     <div class="speaker-card">

@@ -824,7 +824,7 @@
 
                 <!-- Fifth Speaker -->
                 <div style="display:flex; flex-direction:column; align-items:center; padding:0 1.5rem;">
-                    <img src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg" alt='Marcis Kreicmanis'
+                    <img src="{{ asset('images/marcis-kreicmanis .jpg') }}" alt='Marcis Kreicmanis'
                          style="width:80px; height:80px; object-fit:cover; object-position: center 15%; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage3">
                     <div style="display:flex; flex-direction:column; align-items:center; gap:0.3rem; justify-content:center;">
                         <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0;">Marcis Kreicmanis</div>
@@ -884,7 +884,7 @@
 
             <div id="speakerImageModal3" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
                 <span id="closeSpeakerModal3" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
-                <img src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg" alt='Marcis Kreicmanis' style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff; object-fit: contain;">
+                <img src="{{ asset('images/marcis-kreicmanis .jpg') }}" alt='Marcis Kreicmanis' style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff; object-fit: contain;">
             </div>
 
             <div id="speakerImageModal4" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
