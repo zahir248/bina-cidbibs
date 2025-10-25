@@ -1971,6 +1971,35 @@
     .location-map iframe {
         height: 250px;
     }
+    
+    .platinum-partner-section {
+        margin: 1.5rem 0;
+    }
+    
+    .platinum-partner-title {
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+    
+    .platinum-partner-logo {
+        max-width: 150px;
+        padding: 0.6rem;
+    }
+    
+    .partners-ranking-grid {
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .partner-ranking-item {
+        min-width: 80px;
+        max-width: 120px;
+        padding: 0.6rem;
+    }
+    
+    .regular-partners-title {
+        font-size: 1rem;
+    }
 }
 
 /* New Partners Section */
@@ -2002,13 +2031,13 @@
 
 .partners-content {
     display: flex;
+    flex-direction: column;
     gap: 3rem;
-    flex-wrap: wrap;
 }
 
 .partners-text-container {
-    flex: 1;
-    min-width: 300px;
+    width: 100%;
+    text-align: center;
 }
 
 .partners-description {
@@ -2048,11 +2077,119 @@
     object-fit: contain;
 }
 
+/* Platinum Partner Section */
+.platinum-partner-section {
+    margin: 3rem 0;
+    text-align: center;
+}
+
+.platinum-partner-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #546e7a;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.platinum-partner-logo {
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 1rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.platinum-partner-logo:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.platinum-partner-logo img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Regular Partners Section */
+.regular-partners-section {
+    margin-top: 3rem;
+}
+
+.regular-partners-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #546e7a;
+    margin-bottom: 2rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Partners Ranking Section */
+.partners-ranking-section {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    align-items: center;
+}
+
+/* Updated partners-logo-grid for regular partners */
+.regular-partners-section .partners-logo-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    align-items: center;
+    justify-items: center;
+}
+
+/* New ranking grid for partners */
+.partners-ranking-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.partner-ranking-item {
+    flex: 1;
+    min-width: 120px;
+    max-width: 180px;
+    aspect-ratio: 16/9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    background: white;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.partner-ranking-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.partner-ranking-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
 /* Responsive adjustments for Partners Section */
 @media (max-width: 992px) {
-    .partners-logo-grid {
+    .regular-partners-section .partners-logo-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 2rem;
+    }
+    
+    .platinum-partner-logo {
+        max-width: 250px;
     }
 }
 
@@ -2063,6 +2200,37 @@
 
     .partners-content {
         flex-direction: column;
+    }
+    
+    .platinum-partner-section {
+        margin: 2rem 0;
+    }
+    
+    .platinum-partner-title {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .platinum-partner-logo {
+        max-width: 200px;
+        padding: 0.8rem;
+    }
+    
+    .partners-ranking-grid {
+        gap: 1.5rem;
+        flex-wrap: wrap;
+    }
+    
+    .partner-ranking-item {
+        min-width: 100px;
+        max-width: 150px;
+        padding: 0.8rem;
+    }
+    
+    .regular-partners-title {
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+    }
         gap: 2rem;
     }
 
@@ -3196,24 +3364,37 @@
                     future! Partner with us. Lead the change. Construct the future!
                 </p>
             </div>
-            <div class="partners-logo-grid">
-                <div class="partner-logo-item">
-                    <img src="{{ asset('images/partner1.png') }}" alt="Partner 1">
+            
+            <!-- Partners Ranking Section -->
+            <div class="partners-ranking-section">
+                <!-- Platinum Partner Section -->
+                <div class="platinum-partner-section">
+                    <h3 class="platinum-partner-title">PLATINUM PARTNER</h3>
+                    <div class="platinum-partner-logo">
+                        <img src="{{ asset('images/partner1.png') }}" alt="SIBS - Platinum Partner">
+                    </div>
                 </div>
-                <div class="partner-logo-item">
-                    <img src="{{ asset('images/partner2.png') }}" alt="Partner 2">
-                </div>
-                <div class="partner-logo-item">
-                    <img src="{{ asset('images/partner3.png') }}" alt="Partner 3">
-                </div>
-                <div class="partner-logo-item">
-                    <img src="{{ asset('images/partner4.png') }}" alt="Partner 4">
-                </div>
-                <div class="partner-logo-item">
-                    <img src="{{ asset('images/partner5.png') }}" alt="Partner 5">
-                </div>
-                <div class="partner-logo-item">
-                    <img src="{{ asset('images/partner6.png') }}" alt="Partner 6">
+                
+                <!-- Regular Partners Section -->
+                <div class="regular-partners-section">
+                    <h3 class="regular-partners-title">PARTNERS</h3>
+                    <div class="partners-ranking-grid">
+                        <div class="partner-ranking-item">
+                            <img src="{{ asset('images/partner2.png') }}" alt="Partner 2">
+                        </div>
+                        <div class="partner-ranking-item">
+                            <img src="{{ asset('images/partner3.png') }}" alt="Partner 3">
+                        </div>
+                        <div class="partner-ranking-item">
+                            <img src="{{ asset('images/partner4.png') }}" alt="Partner 4">
+                        </div>
+                        <div class="partner-ranking-item">
+                            <img src="{{ asset('images/partner7.png') }}" alt="Partner 5">
+                        </div>
+                        <div class="partner-ranking-item">
+                            <img src="{{ asset('images/partner6.png') }}" alt="Partner 6">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
