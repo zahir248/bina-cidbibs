@@ -698,13 +698,13 @@
                     EVENT HOST
                 </div>
                 <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem;">
-                    <img src="{{ asset('images/yb-ahmad-maslan.jpg') }}" alt="YB Datuk Seri Haji Ahmad bin Maslan"
+                    <img src="{{ asset('images/haji-yusuf.jpg') }}" alt="YB Dato Ir. Hj Yusuf Bin Hj Abd. Wahab"
                          style="width:80px; height:80px; object-fit:cover; object-position:top; border-radius:50%; border:0px solid #1B1F31; box-shadow:0 2px 12px rgba(27,31,49,0.15); margin-bottom:1rem; cursor:pointer;" id="emceeImage">
                     <div class="speaker-name-container" style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
-                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem; line-height:1.3;">YB Datuk Seri Haji Ahmad bin Maslan</div>
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem; line-height:1.3;">YB Dato Ir. Hj Yusuf Bin Hj Abd. Wahab</div>
                         <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">OFFICIATING</span>
                     </div>
-                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Deputy Minister of Works Malaysia</div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Chairman of CIDB Malaysia</div>
                     <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1.2rem;"></div>
                 </div>
             </div>
@@ -715,14 +715,18 @@
                 </div>
                 <!-- First Moderator -->
                 <div style="display:flex; flex-direction:column; align-items:center; margin-top:1.2rem; padding:0 1.5rem;">
-                    <img src="{{ asset('images/alan-milne.jpg') }}" alt="Alan Milne"
+                    <img src="{{ asset('images/martins-motivans.jpg') }}" alt="Martins Motivans"
                          style="width:80px; height:80px; object-fit:cover; object-position:top; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="moderatorImage1">
                     <div class="speaker-name-container" style="display:flex; align-items:center; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
-                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem; line-height:1.3;">Alan Milne</div>
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0.2rem; margin-top:0.2rem; line-height:1.3;">Martins Motivans</div>
                         <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block;">DIALOGUE SESSION 1</span>
                     </div>
-                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Director</div>
-                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1rem;">Modular Building Consultants Ltd and European Membership Director of MBI</div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Chairman of the Board</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1rem;">LAMOD OÜ</div>
+                    <div style="display:flex; gap:0.7rem; margin-top:0.5rem;">
+                        <a href="https://www.linkedin.com/in/martins-motivans-75b15724/" target="_blank" rel="noopener noreferrer" class="social-icon" style="display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; background:#1B1F31; border-radius:50%; color:#fff; font-size:1.2rem; text-decoration:none; transition:all 0.3s ease;"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.lamod.eu/" target="_blank" rel="noopener noreferrer" class="social-icon" style="display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; background:#1B1F31; border-radius:50%; color:#fff; font-size:1.2rem; text-decoration:none; transition:all 0.3s ease;"><i class="fas fa-globe"></i></a>
+                    </div>
                 </div>
 
                 <!-- Divider -->
@@ -820,18 +824,14 @@
 
                 <!-- Fifth Speaker -->
                 <div style="display:flex; flex-direction:column; align-items:center; padding:0 1.5rem;">
-                    <img src="{{ asset('images/martins-motivans.jpg') }}" alt='Martins Motivans'
+                    <img src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg" alt='Marcis Kreicmanis'
                          style="width:80px; height:80px; object-fit:cover; object-position: center 15%; border-radius:50%; border:0px solid #ff9800; box-shadow:0 2px 12px rgba(255,152,0,0.15); margin-bottom:1rem; cursor:pointer;" id="speakerImage3">
                     <div style="display:flex; flex-direction:column; align-items:center; gap:0.3rem; justify-content:center;">
-                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0;">Martins Motivans</div>
+                        <div class="speaker-name" style="font-weight:900; font-size:1.25rem; color:#181b2c; margin-bottom:0;">Marcis Kreicmanis</div>
                         <span style="background:#1B1F31; color:#fff; font-weight:700; font-size:0.85rem; padding:0.2rem 0.8rem; border-radius:1rem; display:inline-block; margin-bottom:0.2rem;">DIALOGUE SESSION 2</span>
                     </div>
-                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">CEO</div>
-                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1rem;">LAMOD</div>
-                    <div style="display:flex; gap:0.7rem;">
-                        <a href="https://www.linkedin.com/in/martins-motivans-75b15724/" target="_blank" rel="noopener noreferrer" class="social-icon" style="display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; background:#1B1F31; border-radius:50%; color:#fff; font-size:1.2rem; text-decoration:none; transition:all 0.3s ease;"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://www.lamod.eu/" target="_blank" rel="noopener noreferrer" class="social-icon" style="display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; background:#1B1F31; border-radius:50%; color:#fff; font-size:1.2rem; text-decoration:none; transition:all 0.3s ease;"><i class="fas fa-globe"></i></a>
-                    </div>
+                    <div style="color:#1B1F31; font-size:1.05rem; font-weight:600; margin-bottom:0.2rem;">Chief Business Development Officer</div>
+                    <div style="color:#6b7280; font-size:0.98rem; margin-bottom:1rem;">LAMOD OÜ</div>
                 </div>
 
                 <!-- Divider -->
@@ -884,7 +884,7 @@
 
             <div id="speakerImageModal3" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
                 <span id="closeSpeakerModal3" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
-                <img src="{{ asset('images/martins-motivans.jpg') }}" alt='Martins Motivans' style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff; object-fit: contain;">
+                <img src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg" alt='Marcis Kreicmanis' style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff; object-fit: contain;">
             </div>
 
             <div id="speakerImageModal4" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
@@ -909,7 +909,7 @@
             <!-- Event Host Image Modal -->
             <div id="emceeImageModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
                 <span id="closeEmceeModal" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5rem; font-weight:700; cursor:pointer; z-index:10001;">&times;</span>
-                <img src="{{ asset('images/yb-ahmad-maslan.jpg') }}" alt="YB Datuk Seri Haji Ahmad bin Maslan" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
+                <img src="{{ asset('images/haji-yusuf.jpg') }}" alt="YB Dato Ir. Hj Yusuf Bin Hj Abd. Wahab" style="max-width:90vw; max-height:90vh; border-radius:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); border:6px solid #fff;">
             </div>
             <!-- Event Moderator Image Modal -->
             <div id="moderatorImageModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center;">
@@ -1124,8 +1124,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (moderatorImg1 && moderatorModal && closeModeratorModal) {
         moderatorImg1.addEventListener('click', function() {
-            modalImage.src = "{{ asset('images/alan-milne.jpg') }}";
-            modalImage.alt = "Alan Milne";
+            modalImage.src = "{{ asset('images/martins-motivans.jpg') }}";
+            modalImage.alt = "Martins Motivans";
             moderatorModal.style.display = 'flex';
         });
     }
