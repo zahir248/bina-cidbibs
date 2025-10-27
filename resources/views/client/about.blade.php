@@ -1789,18 +1789,76 @@
     </div>
     <div id="sponsorshipCarousel" class="carousel slide" data-bs-ride="carousel" style="max-width:900px;margin:0 auto;height:200px;">
         <div class="carousel-inner" style="height:100%;">
+            <!-- Support By Section -->
             <div class="carousel-item active" style="height:100%;">
                 <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap" style="height:100%;">
-                    <img src="{{ asset('images/partner1.png') }}" alt="Partner 1" class="sponsor-logo">
-                    <img src="{{ asset('images/partner2.png') }}" alt="Partner 2" class="sponsor-logo">
-                    <img src="{{ asset('images/partner3.png') }}" alt="Partner 3" class="sponsor-logo">
+                    <img src="{{ asset('images/partner2.png') }}" alt="PERKESO" class="sponsor-logo">
+                    <img src="{{ asset('images/partner3.png') }}" alt="MYFUTUREJOBS" class="sponsor-logo">
+                    <img src="{{ asset('images/partner7.png') }}" alt="KESUMA" class="sponsor-logo">
+                    <img src="{{ asset('images/partner4.png') }}" alt="MIDA" class="sponsor-logo">
                 </div>
             </div>
+            <!-- Platinum Partner Section -->
             <div class="carousel-item" style="height:100%;">
                 <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap" style="height:100%;">
-                    <img src="{{ asset('images/partner4.png') }}" alt="Partner 4" class="sponsor-logo">
-                    <img src="{{ asset('images/partner5.png') }}" alt="Partner 5" class="sponsor-logo">
-                    <img src="{{ asset('images/partner6.png') }}" alt="Partner 6" class="sponsor-logo">
+                    <img src="{{ asset('images/partner100.png') }}" alt="Platinum Partner" class="sponsor-logo">
+                </div>
+            </div>
+            <!-- Community Partners Section -->
+            <div class="carousel-item" style="height:100%;">
+                <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap" style="height:100%;">
+                    <img src="{{ asset('images/partner6.png') }}" alt="MGB" class="sponsor-logo">
+                </div>
+            </div>
+            <!-- Impact Partners - Part 1 -->
+            <div class="carousel-item" style="height:100%;">
+                <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap" style="height:100%;">
+                    <img src="{{ asset('images/partner13.png') }}" alt="NIMOVA" class="sponsor-logo">
+                    <img src="{{ asset('images/partner14.png') }}" alt="EASTERN PRETECT" class="sponsor-logo">
+                    <img src="{{ asset('images/partner15.png') }}" alt="SFERA" class="sponsor-logo">
+                    <img src="{{ asset('images/partner16.png') }}" alt="MBI" class="sponsor-logo">
+                </div>
+            </div>
+            <!-- Impact Partners - Part 2 -->
+            <div class="carousel-item" style="height:100%;">
+                <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap" style="height:100%;">
+                    <img src="{{ asset('images/partner17.png') }}" alt="ARDEX GROUP" class="sponsor-logo">
+                    <img src="{{ asset('images/partner18.png') }}" alt="MCKINSEY" class="sponsor-logo">
+                    <img src="{{ asset('images/partner19.png') }}" alt="TKCA" class="sponsor-logo">
+                    <img src="{{ asset('images/partner20.png') }}" alt="LAMOD" class="sponsor-logo">
+                </div>
+            </div>
+            <!-- Impact Partners - Part 3 -->
+            <div class="carousel-item" style="height:100%;">
+                <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap" style="height:100%;">
+                    <img src="{{ asset('images/partner21.jpeg') }}" alt="ALBORJ" class="sponsor-logo">
+                    <img src="{{ asset('images/partner22.jpeg') }}" alt="PLYTECH" class="sponsor-logo">
+                    <img src="{{ asset('images/partner23.png') }}" alt="GLODON" class="sponsor-logo">
+                    <img src="{{ asset('images/partner24.png') }}" alt="CHULIA" class="sponsor-logo">
+                </div>
+            </div>
+            <!-- Impact Partners - Part 4 -->
+            <div class="carousel-item" style="height:100%;">
+                <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap" style="height:100%;">
+                    <img src="{{ asset('images/partner25.png') }}" alt="ALAMCON" class="sponsor-logo">
+                </div>
+            </div>
+            <!-- Event Partner Section -->
+            <div class="carousel-item" style="height:100%;">
+                <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap" style="height:100%;">
+                    <img src="{{ asset('images/partner10.png') }}" alt="REDCHERRY" class="sponsor-logo">
+                </div>
+            </div>
+            <!-- Media & Logistic Partner Section -->
+            <div class="carousel-item" style="height:100%;">
+                <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap" style="height:100%;">
+                    <img src="{{ asset('images/partner11.png') }}" alt="DORSETT" class="sponsor-logo">
+                </div>
+            </div>
+            <!-- Affiliate Partner Section -->
+            <div class="carousel-item" style="height:100%;">
+                <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap" style="height:100%;">
+                    <img src="{{ asset('images/partner12.png') }}" alt="KELAB CIDB N9" class="sponsor-logo">
                 </div>
             </div>
         </div>
