@@ -1971,35 +1971,6 @@
     .location-map iframe {
         height: 250px;
     }
-    
-    .platinum-partner-section {
-        margin: 1.5rem 0;
-    }
-    
-    .platinum-partner-title {
-        font-size: 1rem;
-        letter-spacing: 1px;
-    }
-    
-    .platinum-partner-logo {
-        max-width: 150px;
-        padding: 0.6rem;
-    }
-    
-    .partners-ranking-grid {
-        gap: 1rem;
-        flex-wrap: wrap;
-    }
-    
-    .partner-ranking-item {
-        min-width: 80px;
-        max-width: 120px;
-        padding: 0.6rem;
-    }
-    
-    .regular-partners-title {
-        font-size: 1rem;
-    }
 }
 
 /* New Partners Section */
@@ -2048,84 +2019,52 @@
     text-align: justify;
 }
 
-.partners-logo-grid {
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    align-items: center;
-    justify-items: center;
-    min-width: 300px;
-}
-
-.partner-logo-item {
-    width: 100%;
-    aspect-ratio: 16/9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s ease;
-}
-
-.partner-logo-item:hover {
-    transform: translateY(-5px);
-}
-
-.partner-logo-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-/* Platinum Partner Section */
-.platinum-partner-section {
-    margin: 3rem 0;
+/* Partner Category Section */
+.partner-category-section {
+    margin: 2.5rem 0;
     text-align: center;
 }
 
-.platinum-partner-title {
-    font-size: 1.5rem;
+.partner-category-title {
+    font-size: 1.4rem;
     font-weight: 700;
     color: #546e7a;
-    margin-bottom: 1.5rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-.platinum-partner-logo {
-    max-width: 300px;
-    margin: 0 auto;
-    padding: 1rem;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.platinum-partner-logo:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-}
-
-.platinum-partner-logo img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-}
-
-/* Regular Partners Section */
-.regular-partners-section {
-    margin-top: 3rem;
-}
-
-.regular-partners-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #546e7a;
     margin-bottom: 2rem;
-    text-align: center;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
+}
+
+/* Partner Row Container - Desktop: Display Event, Media & Logistic, and Affiliate in one row */
+.partner-row-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+/* Desktop: Display in one row */
+@media (min-width: 992px) {
+    .partner-row-container {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 2rem;
+    }
+    
+    .partner-row-item {
+        flex: 1;
+        margin: 0;
+    }
+    
+    .partner-row-item .partner-category-title {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .partner-title-nowrap {
+        white-space: nowrap;
+        font-size: 1.1rem;
+        letter-spacing: 0.5px;
+    }
 }
 
 /* Partners Ranking Section */
@@ -2136,29 +2075,26 @@
     align-items: center;
 }
 
-/* Updated partners-logo-grid for regular partners */
-.regular-partners-section .partners-logo-grid {
-    grid-template-columns: repeat(3, 1fr);
+/* Grid for partner logos */
+.partners-ranking-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
     align-items: center;
     justify-items: center;
 }
 
-/* New ranking grid for partners */
-.partners-ranking-grid {
-    display: flex;
-    flex-direction: row;
-    gap: 2rem;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    flex-wrap: wrap;
+/* Center single image */
+.partners-ranking-grid:has(.partner-ranking-item:only-child) {
+    grid-template-columns: 1fr;
+    justify-items: center;
 }
 
 .partner-ranking-item {
-    flex: 1;
-    min-width: 120px;
-    max-width: 180px;
+    width: 100%;
+    max-width: 200px;
     aspect-ratio: 16/9;
     display: flex;
     align-items: center;
@@ -2181,15 +2117,43 @@
     object-fit: contain;
 }
 
+/* Special styling for Platinum (singular large logo) */
+.platinum-category-logo {
+    max-width: 350px;
+    margin: 0 auto;
+    padding: 1rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+}
+
+.platinum-category-logo:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+.platinum-category-logo img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
 /* Responsive adjustments for Partners Section */
 @media (max-width: 992px) {
-    .regular-partners-section .partners-logo-grid {
+    .partners-ranking-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 2rem;
+        gap: 1.5rem;
     }
     
-    .platinum-partner-logo {
-        max-width: 250px;
+    .platinum-category-logo {
+        max-width: 280px;
+        padding: 0.8rem;
+    }
+    
+    .partner-category-title {
+        font-size: 1.3rem;
     }
 }
 
@@ -2202,57 +2166,42 @@
         flex-direction: column;
     }
     
-    .platinum-partner-section {
+    .partner-category-section {
         margin: 2rem 0;
     }
     
-    .platinum-partner-title {
+    .partner-category-title {
         font-size: 1.2rem;
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
     }
     
-    .platinum-partner-logo {
-        max-width: 200px;
-        padding: 0.8rem;
+    .platinum-category-logo {
+        max-width: 240px;
+        padding: 0.7rem;
     }
     
     .partners-ranking-grid {
+        grid-template-columns: repeat(2, 1fr);
         gap: 1.5rem;
-        flex-wrap: wrap;
+    }
+    
+    /* Center single image on tablet */
+    .partners-ranking-grid:has(.partner-ranking-item:only-child) {
+        grid-template-columns: 1fr;
+        justify-items: center;
     }
     
     .partner-ranking-item {
-        min-width: 100px;
-        max-width: 150px;
+        max-width: 160px;
         padding: 0.8rem;
     }
     
-    .regular-partners-title {
-        font-size: 1.1rem;
-        margin-bottom: 1.5rem;
-    }
-        gap: 2rem;
-    }
-
     .partners-header {
         text-align: center;
     }
 
     .partners-text-container {
-        min-width: unset;
         text-align: center;
-    }
-
-    .partners-logo-grid {
-        grid-template-columns: 1fr;
-        max-width: 300px;
-        margin: 0 auto;
-        gap: 2rem;
-    }
-
-    .partner-logo-item {
-        width: 100%;
-        aspect-ratio: 3/2;
     }
 }
 
@@ -2272,14 +2221,29 @@
     .partners-description {
         font-size: 1rem;
     }
-
-    .partners-logo-grid {
-        max-width: 250px;
-        gap: 1.5rem;
+    
+    .partner-category-title {
+        font-size: 1.1rem;
     }
-
-    .partner-logo-item {
-        aspect-ratio: 4/3;
+    
+    .partners-ranking-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    /* Center single image on mobile */
+    .partners-ranking-grid:has(.partner-ranking-item:only-child) {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+    
+    .partner-ranking-item {
+        max-width: none;
+    }
+    
+    .platinum-category-logo {
+        max-width: 200px;
+        padding: 0.6rem;
     }
 }
 
@@ -3367,32 +3331,120 @@
             
             <!-- Partners Ranking Section -->
             <div class="partners-ranking-section">
-                <!-- Platinum Partner Section -->
-                <div class="platinum-partner-section">
-                    <h3 class="platinum-partner-title">PLATINUM PARTNER</h3>
-                    <div class="platinum-partner-logo">
-                        <img src="{{ asset('images/partner1.png') }}" alt="SIBS - Platinum Partner">
+                <!-- Support By Section -->
+                <div class="partner-category-section">
+                    <h3 class="partner-category-title">SUPPORT BY</h3>
+                    <div class="partners-ranking-grid">
+                        <div class="partner-ranking-item">
+                            <img src="{{ asset('images/partner2.png') }}" alt="PERKESO">
+                        </div>
+                        <div class="partner-ranking-item">
+                            <img src="{{ asset('images/partner3.png') }}" alt="MYFUTUREJOBS">
+                        </div>
+                        <div class="partner-ranking-item">
+                            <img src="{{ asset('images/partner7.png') }}" alt="KESUMA">
+                        </div>
+                        <div class="partner-ranking-item">
+                            <img src="{{ asset('images/partner4.png') }}" alt="MIDA">
+                        </div>
                     </div>
                 </div>
                 
-                <!-- Regular Partners Section -->
-                <div class="regular-partners-section">
-                    <h3 class="regular-partners-title">PARTNERS</h3>
+                <!-- Platinum Partner Section -->
+                <div class="partner-category-section">
+                    <h3 class="partner-category-title">PLATINUM PARTNER</h3>
                     <div class="partners-ranking-grid">
                         <div class="partner-ranking-item">
-                            <img src="{{ asset('images/partner2.png') }}" alt="Partner 2">
+                            <img src="{{ asset('images/partner100.png') }}" alt="Platinum Partner">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Community Partners Section -->
+                <div class="partner-category-section">
+                    <h3 class="partner-category-title">COMMUNITY PARTNERS</h3>
+                    <div class="partners-ranking-grid">
+                        <div class="partner-ranking-item">
+                            <img src="{{ asset('images/partner6.png') }}" alt="MGB">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Impact Partner Section -->
+                <div class="partner-category-section">
+                    <h3 class="partner-category-title">IMPACT PARTNER</h3>
+                    <div class="partners-ranking-grid">
+                        <div class="partner-ranking-item">
+                            <img src="{{ asset('images/partner13.png') }}" alt="NIMOVA">
                         </div>
                         <div class="partner-ranking-item">
-                            <img src="{{ asset('images/partner3.png') }}" alt="Partner 3">
+                            <img src="{{ asset('images/partner14.png') }}" alt="EASTERN PRETECT">
                         </div>
                         <div class="partner-ranking-item">
-                            <img src="{{ asset('images/partner4.png') }}" alt="Partner 4">
+                            <img src="{{ asset('images/partner15.png') }}" alt="SFERA">
                         </div>
                         <div class="partner-ranking-item">
-                            <img src="{{ asset('images/partner7.png') }}" alt="Partner 5">
+                            <img src="{{ asset('images/partner16.png') }}" alt="MBI">
                         </div>
                         <div class="partner-ranking-item">
-                            <img src="{{ asset('images/partner6.png') }}" alt="Partner 6">
+                            <img src="{{ asset('images/partner17.png') }}" alt="ARDEX GROUP">
+                        </div>
+                        <div class="partner-ranking-item">
+                            <img src="{{ asset('images/partner18.png') }}" alt="MCKINSEY">
+                        </div>
+                        <div class="partner-ranking-item">
+                            <img src="{{ asset('images/partner19.png') }}" alt="TKCA">
+                        </div>
+                        <div class="partner-ranking-item">
+                            <img src="{{ asset('images/partner20.png') }}" alt="LAMOD">
+                        </div>
+                        <div class="partner-ranking-item">
+                            <img src="{{ asset('images/partner21.jpeg') }}" alt="ALBORJ">
+                        </div>
+                        <div class="partner-ranking-item">
+                            <img src="{{ asset('images/partner22.jpeg') }}" alt="PLYTECH">
+                        </div>
+                        <div class="partner-ranking-item">
+                            <img src="{{ asset('images/partner23.png') }}" alt="GLODON">
+                        </div>
+                        <div class="partner-ranking-item">
+                            <img src="{{ asset('images/partner24.png') }}" alt="CHULIA">
+                        </div>
+                        <div class="partner-ranking-item">
+                            <img src="{{ asset('images/partner25.png') }}" alt="ALAMCON">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Row for Event, Media & Logistic, and Affiliate Partners -->
+                <div class="partner-row-container">
+                    <!-- Event Partner Section -->
+                    <div class="partner-category-section partner-row-item">
+                        <h3 class="partner-category-title">EVENT PARTNER</h3>
+                        <div class="partners-ranking-grid">
+                            <div class="partner-ranking-item">
+                                <img src="{{ asset('images/partner10.png') }}" alt="REDCHERRY">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Media & Logistic Partner Section -->
+                    <div class="partner-category-section partner-row-item">
+                        <h3 class="partner-category-title partner-title-nowrap">MEDIA & LOGISTIC PARTNER</h3>
+                        <div class="partners-ranking-grid">
+                            <div class="partner-ranking-item">
+                                <img src="{{ asset('images/partner11.png') }}" alt="DORSETT">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Affiliate Partner Section -->
+                    <div class="partner-category-section partner-row-item">
+                        <h3 class="partner-category-title partner-title-nowrap">AFFILIATE PARTNER</h3>
+                        <div class="partners-ranking-grid">
+                            <div class="partner-ranking-item">
+                                <img src="{{ asset('images/partner12.png') }}" alt="KELAB CIDB N9">
+                            </div>
                         </div>
                     </div>
                 </div>
