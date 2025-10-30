@@ -743,6 +743,26 @@
                 </div>
             </div>
 
+            <!-- Program Book Section -->
+            <div class="mt-5" style="padding-top:1rem;">
+                <h2 class="tech-section-title" style="margin-bottom: 0.75rem;">Program Book</h2>
+                <p class="tech-section-subtitle" style="margin-bottom: 1.2rem;">Browse the official program book directly on this page.</p>
+
+                <div id="maProgramCanvasWrapper" style="position:relative; width:100%; aspect-ratio: 16/9; background:#0b1220; border-radius:1rem; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:center;">
+                    <canvas id="maProgramCanvas" style="max-width:100%; max-height:100%;"></canvas>
+                    <!-- Prev/Next overlay controls -->
+                    <button id="maProgramPrev" type="button" aria-label="Previous page"
+                        style="position:absolute; left:12px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.55); color:#fff; border:none; width:54px; height:54px; border-radius:999px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 5L8 12L15 19" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <button id="maProgramNext" type="button" aria-label="Next page"
+                        style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.55); color:#fff; border:none; width:54px; height:54px; border-radius:999px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 5L16 12L9 19" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <a id="maProgramDownload" href="{{ asset('files/program_book.pdf') }}" download class="ma-download-btn">Download PDF</a>
+                </div>
+            </div>
+
             <!-- Presentation Slides Section -->
             <div class="mt-5" style="padding-top:1rem;">
                 <h2 class="tech-section-title" style="margin-bottom: 0.75rem;">Speaker Presentation Decks</h2>
@@ -1423,6 +1443,7 @@ document.addEventListener('DOMContentLoaded', function() {
         initPdfSlideshow('maSlidesCanvasWrapper2', 'maSlidesCanvas2', 'maPrevPage2', 'maNextPage2', '{{ asset('files/slide2.pdf') }}');
         initPdfSlideshow('maSlidesCanvasWrapper3', 'maSlidesCanvas3', 'maPrevPage3', 'maNextPage3', '{{ asset('files/slide3.pdf') }}');
         initPdfSlideshow('maSlidesCanvasWrapper4', 'maSlidesCanvas4', 'maPrevPage4', 'maNextPage4', '{{ asset('files/slide4.pdf') }}');
+        initPdfSlideshow('maProgramCanvasWrapper', 'maProgramCanvas', 'maProgramPrev', 'maProgramNext', '{{ asset('files/program_book.pdf') }}');
     }
 });
 </script>
