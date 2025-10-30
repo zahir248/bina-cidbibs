@@ -174,6 +174,76 @@
         left: 100%;
     }
 
+    /* Slideshow navigation buttons */
+    #maPrevPage, #maNextPage {
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        backdrop-filter: blur(4px);
+    }
+    #maPrevPage:hover, #maNextPage:hover {
+        transform: translateY(-50%) scale(1.07);
+        box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+        background: linear-gradient(135deg, rgba(255,152,0,0.85), rgba(27,31,49,0.85));
+    }
+    #maPrevPage:focus-visible, #maNextPage:focus-visible {
+        outline: 3px solid #ff9800;
+        outline-offset: 2px;
+    }
+
+    /* Presentation header banners */
+    .ma-presentation-banner {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        background: #1B1F31;
+        padding: 0.75rem 1rem;
+        border-radius: 0.75rem;
+        width: 100%;
+        min-height: 84px;
+        box-sizing: border-box;
+    }
+    .ma-presentation-title {
+        color: #fff;
+        font-weight: 900;
+        font-size: 1rem;
+        letter-spacing: 0.04em;
+        line-height: 1.25;
+    }
+    .ma-presentation-speaker {
+        color: #cbd5e1;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    /* Divider between slide sections */
+    .ma-slide-divider {
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(90deg, rgba(27,31,49,0), rgba(27,31,49,0.7), rgba(27,31,49,0));
+        margin: 2rem 0 1.5rem 0;
+    }
+
+    /* Download buttons inside slide wrappers */
+    .ma-download-btn {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        background: linear-gradient(135deg, #ff9800, #f59e0b);
+        color: #fff;
+        font-weight: 800;
+        font-size: 0.85rem;
+        letter-spacing: 0.03em;
+        border: none;
+        border-radius: 999px;
+        padding: 0.5rem 0.9rem;
+        text-decoration: none;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .ma-download-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.28);
+    }
+
     .hero-section-store {
         min-height: 100vh;
         min-height: 100svh;
@@ -672,6 +742,104 @@
                     <a href="{{ route('client.store') }}" class="ticket-btn">GET TICKET</a>
                 </div>
             </div>
+
+            <!-- Presentation Slides Section -->
+            <div class="mt-5" style="padding-top:1rem;">
+                <h2 class="tech-section-title" style="margin-bottom: 0.75rem;">Speaker Presentation Decks</h2>
+                <p class="tech-section-subtitle" style="margin-bottom: 1.2rem;">Browse the decks directly on this page. Use the arrows to navigate.</p>
+
+                <!-- Presentation 1 -->
+                <div style="margin:0 0 0.5rem 0;">
+                    <div class="ma-presentation-banner">
+                        <div class="ma-presentation-title">LAYING THE FOUNDATIONS FOR MODULAR SUCCESS — CREATING THE CONDITIONS FOR SUSTAINABLE GROWTH</div>
+                        <div class="ma-presentation-speaker">by Marcis Kreicmanis</div>
+                    </div>
+                </div>
+                <div id="maSlidesCanvasWrapper" style="position:relative; width:100%; aspect-ratio: 16/9; background:#0b1220; border-radius:1rem; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:center;">
+                    <canvas id="maSlidesCanvas" style="max-width:100%; max-height:100%;"></canvas>
+                    <!-- Prev/Next overlay controls -->
+                    <button id="maPrevPage" type="button" aria-label="Previous slide"
+                        style="position:absolute; left:12px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.55); color:#fff; border:none; width:54px; height:54px; border-radius:999px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 5L8 12L15 19" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <button id="maNextPage" type="button" aria-label="Next slide"
+                        style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.55); color:#fff; border:none; width:54px; height:54px; border-radius:999px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 5L16 12L9 19" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <a id="maDownload1" href="{{ asset('files/slide1.pdf') }}" download class="ma-download-btn">Download PDF</a>
+                </div>
+
+                <div class="ma-slide-divider"></div>
+
+                <!-- Presentation 2 -->
+                <div style="margin:1.25rem 0 0.5rem 0;">
+                    <div class="ma-presentation-banner">
+                        <div class="ma-presentation-title">MODULAR PREFAB SYSTEM: WHERE ARE WE NOW?</div>
+                        <div class="ma-presentation-speaker">by Ir. Lee Wei Thiam</div>
+                    </div>
+                </div>
+                <div id="maSlidesCanvasWrapper2" style="position:relative; width:100%; aspect-ratio: 16/9; background:#0b1220; border-radius:1rem; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:center; margin-bottom: 1rem;">
+                    <canvas id="maSlidesCanvas2" style="max-width:100%; max-height:100%;"></canvas>
+                    <!-- Prev/Next overlay controls -->
+                    <button id="maPrevPage2" type="button" aria-label="Previous slide"
+                        style="position:absolute; left:12px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.55); color:#fff; border:none; width:54px; height:54px; border-radius:999px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 5L8 12L15 19" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <button id="maNextPage2" type="button" aria-label="Next slide"
+                        style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.55); color:#fff; border:none; width:54px; height:54px; border-radius:999px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 5L16 12L9 19" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <a id="maDownload2" href="{{ asset('files/slide2.pdf') }}" download class="ma-download-btn">Download PDF</a>
+                </div>
+
+                <div class="ma-slide-divider"></div>
+
+                <!-- Presentation 3 -->
+                <div style="margin:1.25rem 0 0.5rem 0;">
+                    <div class="ma-presentation-banner">
+                        <div class="ma-presentation-title">BUILDING A RESILIENT BUILDING ECOSYSTEM: MODULAR, SUPPLY CHAINS, STANDARDS & POLICY FRAMEWORKS</div>
+                        <div class="ma-presentation-speaker">by John Woo</div>
+                    </div>
+                </div>
+                <div id="maSlidesCanvasWrapper3" style="position:relative; width:100%; aspect-ratio: 16/9; background:#0b1220; border-radius:1rem; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:center; margin-bottom: 1rem;">
+                    <canvas id="maSlidesCanvas3" style="max-width:100%; max-height:100%;"></canvas>
+                    <!-- Prev/Next overlay controls -->
+                    <button id="maPrevPage3" type="button" aria-label="Previous slide"
+                        style="position:absolute; left:12px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.55); color:#fff; border:none; width:54px; height:54px; border-radius:999px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 5L8 12L15 19" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <button id="maNextPage3" type="button" aria-label="Next slide"
+                        style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.55); color:#fff; border:none; width:54px; height:54px; border-radius:999px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 5L16 12L9 19" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <a id="maDownload3" href="{{ asset('files/slide3.pdf') }}" download class="ma-download-btn">Download PDF</a>
+                </div>
+
+                <div class="ma-slide-divider"></div>
+
+                <!-- Presentation 4 -->
+                <div style="margin:1.25rem 0 0.5rem 0;">
+                    <div class="ma-presentation-banner">
+                        <div class="ma-presentation-title">SCALING MODULAR CONSTRUCTION ACROSS ASIA</div>
+                        <div class="ma-presentation-speaker">by Erland Spets</div>
+                    </div>
+                </div>
+                <div id="maSlidesCanvasWrapper4" style="position:relative; width:100%; aspect-ratio: 16/9; background:#0b1220; border-radius:1rem; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:center; margin-bottom: 1rem;">
+                    <canvas id="maSlidesCanvas4" style="max-width:100%; max-height:100%;"></canvas>
+                    <!-- Prev/Next overlay controls -->
+                    <button id="maPrevPage4" type="button" aria-label="Previous slide"
+                        style="position:absolute; left:12px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.55); color:#fff; border:none; width:54px; height:54px; border-radius:999px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 5L8 12L15 19" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <button id="maNextPage4" type="button" aria-label="Next slide"
+                        style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.55); color:#fff; border:none; width:54px; height:54px; border-radius:999px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 5L16 12L9 19" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <a id="maDownload4" href="{{ asset('files/slide4.pdf') }}" download class="ma-download-btn">Download PDF</a>
+                </div>
+
+                
+            </div>
         </div>
         <!-- Right: Event Details Card -->
         <div class="sticky-sidebar">
@@ -922,6 +1090,7 @@
 @endsection
 
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var playBtn = document.getElementById('maPlayBtn');
@@ -1189,6 +1358,72 @@ document.addEventListener('DOMContentLoaded', function() {
         const scrolled = window.pageYOffset;
         heroSection.style.backgroundPositionY = -(scrolled * 0.5) + 'px';
     });
+
+    // Two independent PDF.js slideshows stacked vertically
+    if (window['pdfjsLib']) {
+        const pdfjsLib = window['pdfjsLib'];
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        function initPdfSlideshow(wrapperId, canvasId, prevBtnId, nextBtnId, url) {
+            const wrapper = document.getElementById(wrapperId);
+            const canvas = document.getElementById(canvasId);
+            if (!wrapper || !canvas) return;
+            const ctx = canvas.getContext('2d');
+            const prevBtn = document.getElementById(prevBtnId);
+            const nextBtn = document.getElementById(nextBtnId);
+
+            let pdfDoc = null;
+            let currentPage = 1;
+            let isRendering = false;
+            let pendingPage = null;
+
+            function getScaleForContainer(page) {
+                const viewport = page.getViewport({ scale: 1 });
+                const widthScale = wrapper.clientWidth / viewport.width;
+                const heightScale = wrapper.clientHeight / viewport.height;
+                return Math.min(widthScale, heightScale);
+            }
+
+            function renderPage(pageNumber) {
+                isRendering = true;
+                pdfDoc.getPage(pageNumber).then(function(page) {
+                    const scale = getScaleForContainer(page);
+                    const viewport = page.getViewport({ scale });
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    const renderTask = page.render({ canvasContext: ctx, viewport });
+                    renderTask.promise.then(function() {
+                        isRendering = false;
+                        if (pendingPage !== null) {
+                            const next = pendingPage; pendingPage = null; renderPage(next);
+                        }
+                    });
+                });
+            }
+
+            function queueRenderPage(pageNumber) {
+                if (isRendering) pendingPage = pageNumber; else renderPage(pageNumber);
+            }
+
+            function loadPdf(pdfUrl) {
+                currentPage = 1;
+                pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) { pdfDoc = pdf; queueRenderPage(currentPage); });
+            }
+
+            // Controls
+            if (prevBtn) prevBtn.addEventListener('click', function() { if (!pdfDoc) return; currentPage = Math.max(1, currentPage - 1); queueRenderPage(currentPage); });
+            if (nextBtn) nextBtn.addEventListener('click', function() { if (!pdfDoc) return; currentPage = Math.min(pdfDoc.numPages, currentPage + 1); queueRenderPage(currentPage); });
+            window.addEventListener('resize', function() { if (!pdfDoc) return; queueRenderPage(currentPage); });
+
+            loadPdf(url);
+        }
+
+        // Initialize viewers
+        initPdfSlideshow('maSlidesCanvasWrapper', 'maSlidesCanvas', 'maPrevPage', 'maNextPage', '{{ asset('files/slide1.pdf') }}');
+        initPdfSlideshow('maSlidesCanvasWrapper2', 'maSlidesCanvas2', 'maPrevPage2', 'maNextPage2', '{{ asset('files/slide2.pdf') }}');
+        initPdfSlideshow('maSlidesCanvasWrapper3', 'maSlidesCanvas3', 'maPrevPage3', 'maNextPage3', '{{ asset('files/slide3.pdf') }}');
+        initPdfSlideshow('maSlidesCanvasWrapper4', 'maSlidesCanvas4', 'maPrevPage4', 'maNextPage4', '{{ asset('files/slide4.pdf') }}');
+    }
 });
 </script>
 @endpush 
